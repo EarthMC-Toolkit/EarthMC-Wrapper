@@ -1,7 +1,3 @@
-.gradle
-**/build/
-!src/**/build/
-
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -11,13 +7,9 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
-# Eclipse Gradle plugin generated files
-# Eclipse Core
-.project
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-# Custom entries
+# Project
 .idea
-.gradlew
-.gradlew.bat
+.gradle
+*.class
+**/build/
+!src/**/build/

@@ -18,6 +18,22 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = findProperty('maven_group')
+            artifactId = findProperty('lib_name')
+            version = findProperty('wrapper_version')
+
+            from components.java
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
 }

@@ -5,21 +5,18 @@ import net.emc.emcw.utils.Pair;
 import java.util.List;
 
 public class Nation {
-    Pair<Integer, Integer> location;
+    Capital capital;
     List<Town> towns;
 
-    String name, capital, leader;
+    String name, leader;
     Integer area;
 
-    Nation(String name, String capital, String leader, Integer area,
-           List<Town> towns, Pair<Integer, Integer> location)
-    {
+    Nation(String name, String leader, Integer area, List<Town> towns, Capital capital) {
         this.name = name;
         this.capital = capital;
         this.leader = leader;
         this.area = area;
         this.towns = towns;
-        this.location = location;
     }
 
     public static Nation fromTowns(List<Town> towns) {

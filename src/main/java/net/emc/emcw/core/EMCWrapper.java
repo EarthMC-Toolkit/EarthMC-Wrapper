@@ -1,6 +1,5 @@
 package net.emc.emcw.core;
 
-
 public class EMCWrapper {
     static EMCWrapper instance;
 
@@ -13,7 +12,7 @@ public class EMCWrapper {
         instance = this;
     }
 
-    public static EMCWrapper getInstance() {
+    public static EMCWrapper instance() {
         return instance;
     }
 }

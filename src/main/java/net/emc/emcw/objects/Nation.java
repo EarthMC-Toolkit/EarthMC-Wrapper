@@ -1,7 +1,5 @@
 package net.emc.emcw.objects;
 
-import net.emc.emcw.utils.Pair;
-
 import java.util.List;
 
 public class Nation {

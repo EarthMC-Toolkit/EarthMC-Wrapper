@@ -1,6 +1,7 @@
 package net.emc.emcw.utils;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.net.URI;
@@ -22,12 +23,8 @@ public class APIHelper {
 
     public static CompletableFuture<JsonArray> getArray() {
         return CompletableFuture.supplyAsync(() -> {
-            try {
-                return (JsonArray) JsonParser.parseString(jsonReq(""));
-            }
-            catch (APIException e) {
-                return new JsonArray();
-            }
+            try { return (JsonArray) JsonParser.parseString(jsonReq("")); }
+            catch (APIException e) { return new JsonArray(); }
         });
     }
 
@@ -49,6 +46,11 @@ public class APIHelper {
 //        return pl;
 //    }
 
+    public static JsonObject fetchEndpoints() {
+
+        return null;
+    }
+
     private static String jsonReq(String urlString) throws APIException {
         try {
             HttpRequest req = HttpRequest.newBuilder()
@@ -57,12 +59,14 @@ public class APIHelper {
                     .GET().build();
 
             final HttpResponse<String> response;
+            String endpointStr = "\nEndpoint: " + urlString;
 
             try { response = client.send(req, BodyHandlers.ofString(StandardCharsets.UTF_8)); }
-            catch (HttpTimeoutException e) { throw new APIException("Request timed out after 5 seconds.\nEndpoint: " + urlString); }
+            catch (HttpTimeoutException e) { throw new APIException("Request timed out after 5 seconds." + endpointStr); }
 
-            if (!codes.contains(response.statusCode()))
-                throw new APIException("API Error! Response code: " + response.statusCode() + "\nEndpoint: " + urlString);
+            int statusCode = response.statusCode();
+            if (!codes.contains(statusCode))
+                throw new APIException("API Error! Response code: " + statusCode + endpointStr);
 
             return response.body();
         } catch (Exception e) { throw new APIException(e.getMessage()); }

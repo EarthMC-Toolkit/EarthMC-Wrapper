@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Towns {
-    Map<String, Town> cache;
+    static Map<String, Town> cache;
 
-    public Town single(String name) {
-        return this.cache.get(name);
+    public static Town single(String name) {
+        return cache.get(name);
     }
 
     public List<Town> all() {
-        return new ArrayList<>(this.cache.values());
+        return new ArrayList<>(cache.values());
     }
 
     void updateCache(JsonObject data) {
@@ -25,6 +25,6 @@ public class Towns {
 
         // Push town objects to cache
         Town t = new Town();
-        this.cache.put("test", t);
+        cache.put("test", t);
     }
 }

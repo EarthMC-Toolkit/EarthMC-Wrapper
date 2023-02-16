@@ -12,7 +12,7 @@ public class Location {
 //        this.y = coords.length > 2 ? coords[2] : 64;
 //    }
 
-    Location(Integer x, Integer z, Integer y) {
+    Location(Integer x, Integer y, Integer z) {
         this.x = x;
         this.y = y;
         this.z = z;

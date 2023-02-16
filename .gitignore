@@ -13,3 +13,4 @@ gradle-app.setting
 *.class
 **/build/
 !src/**/build/
+/src/test/

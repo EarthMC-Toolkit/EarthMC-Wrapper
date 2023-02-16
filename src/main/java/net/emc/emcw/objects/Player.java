@@ -17,4 +17,11 @@ public class Player {
         Location loc = this.location;
         return loc.y == 64 && loc.x == 0 && loc.z == 0;
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + name +
+            "\nNickname: " + nickname +
+            "\nLocation: " + location.x + ", " + location.y + ", " + location.z;
+    }
 }

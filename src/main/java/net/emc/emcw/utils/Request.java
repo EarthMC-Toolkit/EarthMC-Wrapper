@@ -1,8 +1,8 @@
 package net.emc.emcw.utils;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.emc.emcw.exceptions.APIException;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,46 +12,42 @@ import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
-import net.emc.emcw.exceptions.APIException;
-import static java.net.http.HttpResponse.BodyHandlers;
-
-public class APIHelper {
+public class Request {
     private static final HttpClient client = HttpClient.newHttpClient();
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
 
-    public static CompletableFuture<JsonArray> getArray() {
-        return CompletableFuture.supplyAsync(() -> {
-            try { return (JsonArray) JsonParser.parseString(jsonReq("")); }
-            catch (APIException e) { return new JsonArray(); }
-        });
+    static JsonObject endpoints;
+    String url;
+
+    Request(String endpoint) {
+        this.url = endpoint;
+        endpoints = getEndpoints();
     }
 
-//    public static JsonObject getOnlinePlayer(String name) {
-//        JsonArray ops = getOnlinePlayers().join().getAsJsonArray();
-//        JsonObject pl = new JsonObject();
-//
-//        if (!ops.isEmpty()) {
-//            for (JsonElement op : ops) {
-//                JsonObject cur = op.getAsJsonObject();
-//
-//                if (Objects.equals(cur.get("name").getAsString(), name)) {
-//                    pl = cur;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return pl;
-//    }
-
-    public static JsonObject fetchEndpoints() {
-
-        return null;
+    public <T> T body() throws APIException {
+        return Request.bodyOf(this.url);
     }
 
-    private static String jsonReq(String urlString) throws APIException {
+    @SuppressWarnings("unchecked")
+    public static <T> T bodyOf(String url) throws APIException {
+        return (T) JsonParser.parseString(fetch(url));
+    }
+
+    static JsonObject getEndpoints() {
+        if (endpoints == null) endpoints = updateEndpoints();
+        return endpoints;
+    }
+
+    static JsonObject updateEndpoints() {
+        final String url = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
+        try { return Request.bodyOf(url); }
+        catch (APIException e) {
+            return null;
+        }
+    }
+
+    static String fetch(String urlString) throws APIException {
         try {
             HttpRequest req = HttpRequest.newBuilder()
                     .uri(URI.create(urlString))
@@ -61,7 +57,7 @@ public class APIHelper {
             final HttpResponse<String> response;
             String endpointStr = "\nEndpoint: " + urlString;
 
-            try { response = client.send(req, BodyHandlers.ofString(StandardCharsets.UTF_8)); }
+            try { response = client.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)); }
             catch (HttpTimeoutException e) { throw new APIException("Request timed out after 5 seconds." + endpointStr); }
 
             int statusCode = response.statusCode();
@@ -72,4 +68,3 @@ public class APIHelper {
         } catch (Exception e) { throw new APIException(e.getMessage()); }
     }
 }
-

@@ -24,9 +24,17 @@ public class GsonUtil {
         }
     }
 
-    public static @Nullable
-    String keyAsStr(JsonObject obj, String key) {
+    @Nullable
+    public static String keyAsStr(JsonObject obj, String key) {
         try { return member(obj, key).getAsString(); }
+        catch (UnsupportedOperationException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public static Boolean keyAsBool(JsonObject obj, String key) {
+        try { return member(obj, key).getAsBoolean(); }
         catch (UnsupportedOperationException e) {
             return null;
         }

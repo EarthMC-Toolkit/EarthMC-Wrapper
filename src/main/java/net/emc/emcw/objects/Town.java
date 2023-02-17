@@ -9,16 +9,17 @@ import java.util.Objects;
 
 import static net.emc.emcw.utils.GsonUtil.keyAsInt;
 import static net.emc.emcw.utils.GsonUtil.keyAsStr;
+import static net.emc.emcw.utils.GsonUtil.keyAsBool;
 
 public class Town {
     String name, mayor, nation;
     Integer area;
 
     Location location;
-    List<Player> residents;
+    List<Resident> residents;
 
     Color fill, outline;
-    JsonObject flags;
+    Flags flags;
 
     public Town(JsonObject obj) {
         this.name = keyAsStr(obj, "name");
@@ -26,13 +27,28 @@ public class Town {
         this.area = keyAsInt(obj, "area");
 
         this.location = Location.fromObj(obj);
-        this.residents = Players.fromArray(obj.getAsJsonArray("residents"));
+        this.residents = Resident.fromArray(obj.getAsJsonArray("residents"));
 
         String fillHex = keyAsStr(obj, "fillcolor");
         String outlineHex = keyAsStr(obj, "color");
 
         this.fill = getColour(fillHex);
         this.outline = getColour(outlineHex);
+
+        this.flags = new Flags(obj);
+    }
+
+    static class Flags {
+        Boolean PVP, EXPLOSIONS, FIRE, CAPITAL, MOBS, PUBLIC;
+
+        Flags(JsonObject obj) {
+            this.PVP = keyAsBool(obj, "pvp");
+            this.EXPLOSIONS = keyAsBool(obj, "explosion");
+            this.FIRE = keyAsBool(obj, "fire");
+            this.CAPITAL = keyAsBool(obj, "capital");
+            this.MOBS = keyAsBool(obj, "mobs");
+            this.PUBLIC = keyAsBool(obj, "public");
+        }
     }
 
     public Color getColour(String hex) {

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Nullable;
 
 public class GsonUtil {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -23,9 +24,10 @@ public class GsonUtil {
         }
     }
 
-    public static String keyAsStr(JsonObject obj, String key) {
+    public static @Nullable
+    String keyAsStr(JsonObject obj, String key) {
         try { return member(obj, key).getAsString(); }
-        catch (NumberFormatException e) {
+        catch (UnsupportedOperationException e) {
             return null;
         }
     }

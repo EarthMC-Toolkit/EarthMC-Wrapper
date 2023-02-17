@@ -1,9 +1,6 @@
 package net.emc.emcw.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.jetbrains.annotations.Nullable;
 
 public class GsonUtil {
@@ -13,8 +10,12 @@ public class GsonUtil {
         return o.get(k);
     }
 
-    public static String stringify(Object obj) {
+    public static String serialize(Object obj) {
         return GSON.toJson(obj);
+    }
+
+    public static <T> T deserialize(String str, Class<T> c) {
+        return GSON.fromJson(str, c);
     }
 
     public static Integer keyAsInt(JsonObject obj, String key) {

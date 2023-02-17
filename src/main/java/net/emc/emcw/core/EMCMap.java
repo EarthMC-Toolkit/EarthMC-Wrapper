@@ -18,7 +18,7 @@ public class EMCMap {
     }
 
     public JsonArray onlinePlayers() {
-        return API.playerData(this.map).join().getAsJsonArray("players");
+        return API.playerData(this.map).getAsJsonArray("players");
     }
 
     public Player getOnlinePlayer(JsonObject p) {

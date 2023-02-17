@@ -1,6 +1,5 @@
 package net.emc.emcw.utils;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,12 +18,15 @@ public class API {
         });
     }
 
-    public static CompletableFuture<JsonObject> playerData(String mapName) {
-        return get(mapName, "players");
+    public static JsonObject playerData(String mapName) {
+        return get(mapName, "players").join();
     }
 
-    public static CompletableFuture<JsonObject> mapData(String mapName) {
-        return get(mapName, "map");
+    public static JsonObject mapData(String mapName) {
+        return get(mapName, "map").join()
+                .getAsJsonObject("sets")
+                .getAsJsonObject("townyPlugin.markerset")
+                .getAsJsonObject("areas");
     }
 }
 

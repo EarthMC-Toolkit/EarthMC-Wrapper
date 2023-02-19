@@ -2,22 +2,19 @@ package net.emc.emcw.classes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.emc.emcw.interfaces.Collective;
 import net.emc.emcw.objects.Town;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Towns {
-    static Map<String, Town> cache;
+public class Towns implements Collective<Town> {
+    public Map<String, Town> cache = null;
+    String map;
 
-    public static Town single(String name) {
-        return cache.get(name);
-    }
-
-    public List<Town> all() {
-        return new ArrayList<>(cache.values());
+    public Towns(String mapName) {
+        this.map = mapName;
     }
 
     public static List<Town> fromArray(JsonArray arr) {
@@ -26,7 +23,7 @@ public class Towns {
                 .collect(Collectors.toList());
     }
 
-    void updateCache(JsonObject data) {
+    public static void updateCache(JsonObject data) {
         // Send req to /marker_earth.json
 
         // Strip html and parse elements as Town object

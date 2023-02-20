@@ -1,7 +1,6 @@
 package net.emc.emcw.objects;
 
 import com.google.gson.JsonObject;
-import net.emc.emcw.classes.Players;
 
 import java.awt.*;
 import java.util.List;

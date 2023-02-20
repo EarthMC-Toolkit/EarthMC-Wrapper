@@ -28,7 +28,7 @@ public class Players implements Collective<Player> {
                 .collect(Collectors.toList());
     }
 
-    public JsonArray onlinePlayers() {
+    public JsonArray online() {
         return API.playerData(this.map).getAsJsonArray("players");
     }
 
@@ -38,7 +38,7 @@ public class Players implements Collective<Player> {
     }
 
     public Player getOnline(String playerName) {
-        JsonArray ops = onlinePlayers();
+        JsonArray ops = online();
         JsonObject pl = new JsonObject();
 
         if (!ops.isEmpty()) {

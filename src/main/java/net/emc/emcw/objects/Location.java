@@ -6,12 +6,6 @@ import static net.emc.emcw.utils.GsonUtil.keyAsInt;
 public class Location {
     public final Integer x, y, z;
 
-//    Location(Integer... coords) {
-//        this.x = coords[0];
-//        this.z = coords[1];
-//        this.y = coords.length > 2 ? coords[2] : 64;
-//    }
-
     Location(Integer x, Integer y, Integer z) {
         this.x = x;
         this.y = y;

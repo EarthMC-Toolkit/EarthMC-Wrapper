@@ -1,4 +1,4 @@
-package net.emc.emcw.objects;
+package net.emc.emcw.objects.parsed;
 
 import com.google.gson.JsonObject;
 import static net.emc.emcw.utils.GsonUtil.keyAsInt;

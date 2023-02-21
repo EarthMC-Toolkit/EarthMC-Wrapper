@@ -3,8 +3,6 @@ package net.emc.emcw.utils;
 import com.google.gson.*;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Type;
-
 public class GsonUtil {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

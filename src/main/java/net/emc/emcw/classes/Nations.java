@@ -2,7 +2,7 @@ package net.emc.emcw.classes;
 
 import com.google.gson.JsonArray;
 import net.emc.emcw.interfaces.Collective;
-import net.emc.emcw.objects.Nation;
+import net.emc.emcw.objects.parsed.Nation;
 
 import java.util.List;
 import java.util.Map;

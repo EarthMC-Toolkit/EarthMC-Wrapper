@@ -1,16 +1,17 @@
-package net.emc.emcw.objects;
+package net.emc.emcw.objects.parsed;
 
 import com.google.gson.JsonObject;
+
+import static net.emc.emcw.utils.GsonUtil.keyAsStr;
+
 public class Player {
     public final String name, nickname;
     public final Location location;
 
     public Player(JsonObject obj) {
-        this.name = obj.get("account").getAsString();
-        this.nickname = obj.get("name").getAsString();
-
-        Location loc = Location.fromObj(obj);
-        this.location = loc;
+        this.name = keyAsStr(obj, "account");
+        this.nickname = keyAsStr(obj, "name");
+        this.location = Location.fromObj(obj);
     }
 
     boolean hidden() {

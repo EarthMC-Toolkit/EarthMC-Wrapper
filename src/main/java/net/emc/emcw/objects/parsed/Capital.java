@@ -1,4 +1,4 @@
-package net.emc.emcw.objects;
+package net.emc.emcw.objects.parsed;
 
 public class Capital {
     public final String name;

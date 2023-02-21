@@ -1,4 +1,4 @@
-package net.emc.emcw.objects.parsed;
+package net.emc.emcw.objects;
 
 import com.google.gson.JsonObject;
 import net.emc.emcw.classes.Towns;
@@ -24,7 +24,7 @@ public class Nation {
         Location capitalLoc = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
 
         this.capital = new Capital(capitalName, capitalLoc);
-        this.towns = Towns.fromArray(obj.getAsJsonArray("towns"));
+        //this.towns = Towns.fromArray(obj.getAsJsonArray("towns"));
     }
 
 //    public static Nation fromTowns(List<Town> towns) {

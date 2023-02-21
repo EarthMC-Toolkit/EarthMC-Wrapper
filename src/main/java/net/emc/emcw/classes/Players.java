@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.emc.emcw.interfaces.Collective;
-import net.emc.emcw.objects.parsed.Player;
+import net.emc.emcw.objects.Player;
 import net.emc.emcw.utils.API;
 
 import java.util.List;

@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'org.jetbrains:annotations:20.1.0'
 
+    implementation 'org.apache.commons:commons-lang3:3.0'
     implementation 'org.jsoup:jsoup:1.14.3'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'

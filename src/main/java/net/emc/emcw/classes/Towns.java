@@ -1,20 +1,20 @@
 package net.emc.emcw.classes;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.emc.emcw.interfaces.Collective;
-import net.emc.emcw.objects.parsed.Town;
+import net.emc.emcw.objects.Town;
 import net.emc.emcw.utils.API;
+import net.emc.emcw.utils.GsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.emc.emcw.utils.GsonUtil.getGSON;
 import static net.emc.emcw.utils.GsonUtil.keyAsStr;
 
 public class Towns implements Collective<Town> {
@@ -23,39 +23,74 @@ public class Towns implements Collective<Town> {
 
     public Towns(String mapName) {
         this.map = mapName;
+        updateCache();
     }
 
-    public static List<Town> fromArray(JsonArray arr) {
-        return arr.asList().stream()
-                .map(p -> new Town(p.getAsJsonObject()))
-                .collect(Collectors.toList());
+    public Town single(String key) throws NullPointerException {
+        return Collective.super.single(key, this.cache);
     }
 
-    public Map<String, List<String>> getParsed() {
+    public void updateCache() {
+        JsonObject towns = parsedTowns();
+
+        // Convert to Town objects and use as cache.
+        this.cache = toMap(towns);
+    }
+
+    public JsonObject parsedTowns() {
         Map<String, JsonElement> mapData = API.mapData(this.map);
-        Map<String, List<String>> obj = new HashMap<>();
+        JsonObject all = new JsonObject();
 
-        for (JsonElement town : mapData.values()) {
+        var areas = mapData.values();
+        if (areas.size() < 1) return null;
+
+        for (JsonElement town : areas) {
             JsonObject cur = town.getAsJsonObject();
             String desc = keyAsStr(cur, "desc");
+            if (desc == null) continue;
 
             Safelist whitelist = new Safelist().addAttributes("a", "href");
             List<String> raw = Arrays.stream(desc.split("<br />"))
-                    .map(e -> Jsoup.clean(e, whitelist)).collect(Collectors.toList());
+                    .map(e -> Jsoup.clean(e, whitelist))
+                    .collect(Collectors.toList());
 
+            String title = raw.get(0);
             if (raw.get(0).contains("(Shop)")) continue;
-
             raw.remove("Flags");
-            obj.put(keyAsStr(cur, "label"), raw);
+
+            Element link = Jsoup.parse(title).select("a").first();
+
+            String nation = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
+            String wiki = link != null ? link.attr("href") : null;
+
+            String name = keyAsStr(cur, "label");
+
+            JsonObject obj = new JsonObject();
+            obj.addProperty("name", name);
+            obj.addProperty("nation", nation);
+            obj.addProperty("wiki", wiki);
+
+            assert name != null;
+            all.add(name, getGSON().toJsonTree(obj));
         }
 
-        return obj;
+        return all;
     }
 
-    public void updateCache(JsonObject data) {
-        Map<String, List<String>> parsed = getParsed();
+    public static Map<String, Town> toMap(JsonObject towns) {
+        var itr = towns.entrySet().iterator();
+        Map<String, Town> map = new HashMap<>();
 
-        // Push town objects to cache
-        // cache = fromArray();
+        while (itr.hasNext()) {
+            Map.Entry<String, JsonElement> next = null;
+            try { next = itr.next(); }
+            catch (NoSuchElementException e) {
+                continue;
+            }
+
+            map.put(next.getKey(), new Town(next.getValue().getAsJsonObject()));
+        }
+
+        return map;
     }
 }

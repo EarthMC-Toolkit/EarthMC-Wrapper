@@ -1,9 +1,11 @@
 package net.emc.emcw.utils;
 
 import com.google.gson.*;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 public class GsonUtil {
+    @Getter
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     static JsonElement member(JsonObject o, String k) {

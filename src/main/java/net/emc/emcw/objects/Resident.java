@@ -1,4 +1,4 @@
-package net.emc.emcw.objects.parsed;
+package net.emc.emcw.objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

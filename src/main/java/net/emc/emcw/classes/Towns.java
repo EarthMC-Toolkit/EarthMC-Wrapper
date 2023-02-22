@@ -30,6 +30,10 @@ public class Towns implements Collective<Town> {
         return Collective.super.single(key, this.cache);
     }
 
+    public List<Town> all() {
+        return Collective.super.all(this.cache);
+    }
+
     public void updateCache() {
         JsonObject towns = parsedTowns();
 
@@ -67,6 +71,10 @@ public class Towns implements Collective<Town> {
 
             JsonObject obj = new JsonObject();
             obj.addProperty("name", name);
+
+            if (Objects.equals(nation, ""))
+                nation = "No Nation";
+
             obj.addProperty("nation", nation);
             obj.addProperty("wiki", wiki);
 

@@ -3,7 +3,9 @@ package net.emc.emcw.classes;
 import com.google.gson.JsonArray;
 import net.emc.emcw.interfaces.Collective;
 import net.emc.emcw.objects.Nation;
+import net.emc.emcw.objects.Town;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +28,9 @@ public class Nations implements Collective<Nation> {
                 .collect(Collectors.toList());
     }
 
-    public static void updateCache() {
+    public void updateCache(Map<String, Town> towns) {
+        Map<String, Nation> nationList = new HashMap<>();
 
+        this.cache = nationList;
     }
 }

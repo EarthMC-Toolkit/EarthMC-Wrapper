@@ -1,6 +1,7 @@
 package net.emc.emcw.objects;
 
 import com.google.gson.JsonObject;
+import lombok.Getter;
 import net.emc.emcw.classes.Towns;
 
 import java.util.List;
@@ -9,10 +10,14 @@ import static net.emc.emcw.utils.GsonUtil.keyAsInt;
 import static net.emc.emcw.utils.GsonUtil.keyAsStr;
 
 public class Nation {
+    @Getter
     Capital capital;
+    @Getter
     List<Town> towns;
 
+    @Getter
     String name, leader;
+    @Getter
     Integer area;
 
     public Nation(JsonObject obj) {

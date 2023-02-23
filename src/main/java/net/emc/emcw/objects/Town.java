@@ -15,13 +15,18 @@ import static net.emc.emcw.utils.GsonUtil.keyAsBool;
 public class Town {
     @Getter
     String name, mayor, nation;
+
+    @Getter
     Integer area;
 
+    @Getter
     Location location;
-    List<Resident> residents;
+
+    @Getter
+    List<Resident> residentList;
 
     //public Color fill, outline;
-    Flags flags;
+    //Flags flags;
 
     @Override
     public String toString() {
@@ -31,8 +36,8 @@ public class Town {
     public Town(JsonObject obj) {
         this.name = keyAsStr(obj, "name");
         this.nation = keyAsStr(obj, "nation");
+        this.mayor = keyAsStr(obj, "mayor");
 
-//        this.mayor = keyAsStr(obj, "mayor");
 //        this.area = keyAsInt(obj, "area");
 //
 //        this.location = Location.fromObj(obj);
@@ -58,6 +63,10 @@ public class Town {
             this.MOBS = keyAsBool(obj, "mobs");
             this.PUBLIC = keyAsBool(obj, "public");
         }
+    }
+
+    public boolean hasNation() {
+        return this.nation != null;
     }
 
     public Color getColour(String hex) {

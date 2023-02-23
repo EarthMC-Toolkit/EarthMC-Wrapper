@@ -1,10 +1,12 @@
 package net.emc.emcw.classes;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import net.emc.emcw.interfaces.Collective;
 import net.emc.emcw.objects.Town;
 import net.emc.emcw.utils.API;
+import net.emc.emcw.utils.Generics;
 import net.emc.emcw.utils.GsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -12,9 +14,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static net.emc.emcw.utils.GsonUtil.getGSON;
 import static net.emc.emcw.utils.GsonUtil.keyAsStr;
 
 public class Towns implements Collective<Town> {
@@ -41,47 +43,61 @@ public class Towns implements Collective<Town> {
         this.cache = toMap(towns);
     }
 
+    Safelist whitelist = new Safelist().addAttributes("a", "href");
+    List<String> processFlags(String str) {
+        return Arrays.stream(str.split("<br />")).parallel()
+                .map(e -> Jsoup.clean(e, whitelist))
+                .collect(Collectors.toList());
+    }
+
     public JsonObject parsedTowns() {
         Map<String, JsonElement> mapData = API.mapData(this.map);
-        JsonObject all = new JsonObject();
 
-        var areas = mapData.values();
+        Collection<JsonElement> areas = mapData.values();
         if (areas.size() < 1) return null;
 
-        for (JsonElement town : areas) {
-            JsonObject cur = town.getAsJsonObject();
-            String desc = keyAsStr(cur, "desc");
-            if (desc == null) continue;
+        JsonObject all = new JsonObject();
+        ConcurrentHashMap<String, JsonObject> towns = new ConcurrentHashMap<>();
 
-            Safelist whitelist = new Safelist().addAttributes("a", "href");
-            List<String> raw = Arrays.stream(desc.split("<br />"))
-                    .map(e -> Jsoup.clean(e, whitelist))
-                    .collect(Collectors.toList());
+        areas.parallelStream().forEach(town -> {
+            JsonObject cur = town.getAsJsonObject();
+
+            String name = keyAsStr(cur, "label");
+            String desc = keyAsStr(cur, "desc");
+
+            // There is no label or desc, town object is likely broken.
+            if (name == null || desc == null) return;
+
+            List<String> raw = processFlags(desc);
 
             String title = raw.get(0);
-            if (raw.get(0).contains("(Shop)")) continue;
+            if (raw.get(0).contains("(Shop)")) return;
             raw.remove("Flags");
 
             Element link = Jsoup.parse(title).select("a").first();
 
-            String nation = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
-            String wiki = link != null ? link.attr("href") : null;
+            JsonElement nation = null;
+            String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
+            if (!Objects.equals(nationStr, ""))
+                nation = GsonUtil.deserialize(nationStr, JsonElement.class);
 
-            String name = keyAsStr(cur, "label");
+            String wiki = link != null ? link.attr("href") : null;
+            String mayor = raw.get(1).replace("Mayor ", "");
+
+            List<String> members = Arrays.stream(raw.get(2).replace("Members ", "").split(", ")).parallel().toList();
 
             JsonObject obj = new JsonObject();
             obj.addProperty("name", name);
 
-            if (Objects.equals(nation, ""))
-                nation = "No Nation";
-
-            obj.addProperty("nation", nation);
+            obj.add("nation", nation);
             obj.addProperty("wiki", wiki);
+            obj.addProperty("mayor", mayor);
+            obj.add("residents", GsonUtil.listToArr(members));
 
-            assert name != null;
-            all.add(name, getGSON().toJsonTree(obj));
-        }
+            towns.computeIfAbsent(name, k -> obj);
+        });
 
+        towns.forEach(all::add);
         return all;
     }
 
@@ -96,7 +112,8 @@ public class Towns implements Collective<Town> {
                 continue;
             }
 
-            map.put(next.getKey(), new Town(next.getValue().getAsJsonObject()));
+            JsonObject info = next.getValue().getAsJsonObject();
+            map.put(next.getKey(), new Town(info));
         }
 
         return map;

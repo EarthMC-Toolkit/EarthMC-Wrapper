@@ -11,9 +11,8 @@ import static net.emc.emcw.utils.GsonUtil.keyAsStr;
 public class Resident extends Player {
     public final String town, nation, rank;
 
-    Resident(JsonObject obj) {
-        super(obj);
-
+    public Resident(JsonObject obj) {
+        super(obj, true);
         this.town = keyAsStr(obj, "town");
         this.nation = keyAsStr(obj, "nation");
         this.rank = keyAsStr(obj, "rank");

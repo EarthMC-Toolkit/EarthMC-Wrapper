@@ -1,8 +1,11 @@
 package net.emc.emcw.utils;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Type;
 
 public class GsonUtil {
     @Getter
@@ -12,12 +15,17 @@ public class GsonUtil {
         return o.get(k);
     }
 
-    public static String serialize(Object obj) {
-        return GSON.toJson(obj);
+    public static <T> String serialize(Object obj) {
+        Type collectionType = new TypeToken<T>() {}.getType();
+        return GSON.toJson(obj, collectionType);
     }
 
     public static <T> T deserialize(String str, Class<T> c) {
         return GSON.fromJson(str, c);
+    }
+
+    public static <T> JsonElement listToArr(T list) {
+        return getGSON().toJsonTree(list);
     }
 
     public static Integer keyAsInt(JsonObject obj, String key) {

@@ -7,8 +7,11 @@ plugins {
 group = project.maven_group
 version = project.wrapper_version
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' } // last one
+    }
 }
 
 dependencies {
@@ -21,6 +24,8 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation 'com.github.EarthMC-Toolkit:EarthMC-Wrapper:0cece00'
 
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'

@@ -1,12 +1,10 @@
 package net.emc.emcw.classes;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import net.emc.emcw.interfaces.Collective;
 import net.emc.emcw.objects.Town;
 import net.emc.emcw.utils.API;
-import net.emc.emcw.utils.Generics;
 import net.emc.emcw.utils.GsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -25,22 +23,25 @@ public class Towns implements Collective<Town> {
 
     public Towns(String mapName) {
         this.map = mapName;
-        updateCache();
+        tryUpdateCache();
     }
 
     public Town single(String key) throws NullPointerException {
+        tryUpdateCache();
         return Collective.super.single(key, this.cache);
     }
 
     public List<Town> all() {
+        tryUpdateCache();
         return Collective.super.all(this.cache);
     }
 
-    public void updateCache() {
-        JsonObject towns = parsedTowns();
+    public void tryUpdateCache() {
+        if (this.cache != null) return;
 
         // Convert to Town objects and use as cache.
-        this.cache = toMap(towns);
+        JsonObject towns = parsedTowns();
+        this.cache = toMapParallel(towns);
     }
 
     Safelist whitelist = new Safelist().addAttributes("a", "href");
@@ -117,5 +118,15 @@ public class Towns implements Collective<Town> {
         }
 
         return map;
+    }
+
+    public static Map<String, Town> toMapParallel(JsonObject towns) {
+        List<Map.Entry<String, JsonElement>> entries = new ArrayList<>(towns.entrySet());
+        return entries.parallelStream().map(entry -> {
+            try {
+                JsonObject info = entry.getValue().getAsJsonObject();
+                return Map.entry(entry.getKey(), new Town(info));
+            } catch (Exception e) { return null; }
+        }).filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

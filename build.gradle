@@ -10,7 +10,6 @@ version = project.wrapper_version
 allprojects {
     repositories {
         mavenCentral()
-        maven { url 'https://jitpack.io' } // last one
     }
 }
 
@@ -27,8 +26,6 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
-
-    testImplementation 'com.github.EarthMC-Toolkit:EarthMC-Wrapper:main-SNAPSHOT'
 }
 
 java {

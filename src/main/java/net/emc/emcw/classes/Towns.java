@@ -27,12 +27,12 @@ public class Towns implements Collective<Town> {
     }
 
     public Town single(String key) throws NullPointerException {
-        tryUpdateCache();
+        //tryUpdateCache();
         return Collective.super.single(key, this.cache);
     }
 
     public List<Town> all() {
-        tryUpdateCache();
+        //tryUpdateCache();
         return Collective.super.all(this.cache);
     }
 
@@ -40,66 +40,86 @@ public class Towns implements Collective<Town> {
         if (this.cache != null) return;
 
         // Convert to Town objects and use as cache.
-        JsonObject towns = parsedTowns();
-        this.cache = toMapParallel(towns);
+        JsonObject towns = getParsed().getAsJsonObject("towns");
+        this.cache = toMap(towns);
     }
 
     Safelist whitelist = new Safelist().addAttributes("a", "href");
     List<String> processFlags(String str) {
-        return Arrays.stream(str.split("<br />")).parallel()
-                .map(e -> Jsoup.clean(e, whitelist))
+        return Arrays.stream(str.split("<br />"))
+                .parallel().map(e -> Jsoup.clean(e, whitelist))
                 .collect(Collectors.toList());
     }
 
-    public JsonObject parsedTowns() {
+    public JsonObject getParsed() {
         Map<String, JsonElement> mapData = API.mapData(this.map);
-
         Collection<JsonElement> areas = mapData.values();
         if (areas.size() < 1) return null;
 
-        JsonObject all = new JsonObject();
-        ConcurrentHashMap<String, JsonObject> towns = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, JsonObject>
+                towns = new ConcurrentHashMap<>(),
+                nations = new ConcurrentHashMap<>();
 
         areas.parallelStream().forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
 
             String name = keyAsStr(cur, "label");
+            if (name == null) return;
+
             String desc = keyAsStr(cur, "desc");
+            if (desc == null) return;
 
-            // There is no label or desc, town object is likely broken.
-            if (name == null || desc == null) return;
+            List<String> info = processFlags(desc);
+            String title = info.get(0);
 
-            List<String> raw = processFlags(desc);
+            if (title.contains("(Shop)")) return;
+            info.remove("Flags");
 
-            String title = raw.get(0);
-            if (raw.get(0).contains("(Shop)")) return;
-            raw.remove("Flags");
+            //System.out.println(info);
 
             Element link = Jsoup.parse(title).select("a").first();
 
-            JsonElement nation = null;
             String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
-            if (!Objects.equals(nationStr, ""))
-                nation = GsonUtil.deserialize(nationStr, JsonElement.class);
+            JsonElement nation = Objects.equals(nationStr, "")
+                    ? null : GsonUtil.deserialize(nationStr, JsonElement.class);
 
             String wiki = link != null ? link.attr("href") : null;
-            String mayor = raw.get(1).replace("Mayor ", "");
+            String mayor = info.get(1).replace("Mayor ", "");
 
-            List<String> members = Arrays.stream(raw.get(2).replace("Members ", "").split(", ")).parallel().toList();
+            String names = StringUtils.substringBetween(String.join(", ", info), "Members ", ", pvp");
+            String[] members = names.split(", ");
 
-            JsonObject obj = new JsonObject();
-            obj.addProperty("name", name);
+            towns.computeIfAbsent(name, k -> {
+                JsonObject obj = new JsonObject();
 
-            obj.add("nation", nation);
-            obj.addProperty("wiki", wiki);
-            obj.addProperty("mayor", mayor);
-            obj.add("residents", GsonUtil.listToArr(members));
+                obj.addProperty("name", name);
+                obj.addProperty("mayor", mayor);
+                obj.addProperty("wiki", wiki);
+                obj.add("nation", nation);
+                obj.add("residents", GsonUtil.arrFromStrArr(members));
 
-            towns.computeIfAbsent(name, k -> obj);
+                return obj;
+            });
+
+//            nations.computeIfAbsent(nation.getAsString(), k -> {
+//               JsonObject obj = new JsonObject();
+//
+//
+//                return obj;
+//            });
         });
 
-        towns.forEach(all::add);
-        return all;
+        JsonObject result = new JsonObject();
+        result.add("towns", toObj(towns));
+        result.add("nations", toObj(nations));
+
+        return result;
+    }
+
+    public static JsonObject toObj(Map<String, JsonObject> map) {
+        JsonObject obj = new JsonObject();
+        map.forEach(obj::add);
+        return obj;
     }
 
     public static Map<String, Town> toMap(JsonObject towns) {
@@ -107,7 +127,7 @@ public class Towns implements Collective<Town> {
         Map<String, Town> map = new HashMap<>();
 
         while (itr.hasNext()) {
-            Map.Entry<String, JsonElement> next = null;
+            Map.Entry<String, JsonElement> next;
             try { next = itr.next(); }
             catch (NoSuchElementException e) {
                 continue;
@@ -126,7 +146,10 @@ public class Towns implements Collective<Town> {
             try {
                 JsonObject info = entry.getValue().getAsJsonObject();
                 return Map.entry(entry.getKey(), new Town(info));
-            } catch (Exception e) { return null; }
+            } catch (Exception e) {
+                System.out.print(e);
+                return null;
+            }
         }).filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

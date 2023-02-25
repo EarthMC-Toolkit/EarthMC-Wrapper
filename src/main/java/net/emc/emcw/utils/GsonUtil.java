@@ -24,13 +24,22 @@ public class GsonUtil {
         return GSON.fromJson(str, c);
     }
 
-    public static <T> JsonElement listToArr(T list) {
-        return getGSON().toJsonTree(list);
+    public static JsonElement asTree(Object input) {
+        return getGSON().toJsonTree(input);
+    }
+
+    public static JsonElement arrFromStrArr(String[] obj) {
+        JsonArray arr = new JsonArray();
+        for (String value : obj) {
+            arr.add(deserialize(value, JsonElement.class));
+        }
+
+        return arr;
     }
 
     public static Integer keyAsInt(JsonObject obj, String key) {
         try { return member(obj, key).getAsInt(); }
-        catch (NumberFormatException e) {
+        catch (Exception e) {
             return null;
         }
     }
@@ -38,15 +47,26 @@ public class GsonUtil {
     @Nullable
     public static String keyAsStr(JsonObject obj, String key) {
         try { return member(obj, key).getAsString(); }
-        catch (UnsupportedOperationException e) {
+        catch (Exception e) {
             return null;
         }
+    }
+
+    public static JsonArray keyAsArr(JsonObject obj, String key) {
+        JsonArray arr = new JsonArray();
+
+        try { arr = member(obj, key).getAsJsonArray(); }
+        catch (IllegalStateException e) {
+            arr.add(obj.get(key));
+        }
+
+        return arr;
     }
 
     @Nullable
     public static Boolean keyAsBool(JsonObject obj, String key) {
         try { return member(obj, key).getAsBoolean(); }
-        catch (UnsupportedOperationException e) {
+        catch (Exception e) {
             return null;
         }
     }

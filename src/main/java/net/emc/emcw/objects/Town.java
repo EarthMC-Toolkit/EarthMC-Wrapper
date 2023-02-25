@@ -8,9 +8,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
-import static net.emc.emcw.utils.GsonUtil.keyAsInt;
-import static net.emc.emcw.utils.GsonUtil.keyAsStr;
-import static net.emc.emcw.utils.GsonUtil.keyAsBool;
+import static net.emc.emcw.utils.GsonUtil.*;
 
 public class Town {
     @Getter
@@ -23,7 +21,7 @@ public class Town {
     Location location;
 
     @Getter
-    List<Resident> residentList;
+    List<Resident> residents;
 
     //public Color fill, outline;
     //Flags flags;
@@ -38,10 +36,13 @@ public class Town {
         this.nation = keyAsStr(obj, "nation");
         this.mayor = keyAsStr(obj, "mayor");
 
+        System.out.print(serialize(obj));
+        this.residents = Resident.fromArr(obj.getAsJsonArray("residents"));
+
 //        this.area = keyAsInt(obj, "area");
 //
 //        this.location = Location.fromObj(obj);
-//        this.residents = Resident.fromArray(obj.getAsJsonArray("residents"));
+
 //
 //        String fillHex = keyAsStr(obj, "fillcolor");
 //        String outlineHex = keyAsStr(obj, "color");

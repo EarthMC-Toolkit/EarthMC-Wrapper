@@ -17,7 +17,7 @@ public class Towns implements Collective<Town> {
 
     public Towns(String mapName) {
         setMap(mapName);
-        updateCache();
+        updateCache(true);
     }
 
     public Town single(String key) throws NullPointerException {

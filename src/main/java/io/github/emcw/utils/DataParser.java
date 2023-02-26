@@ -11,6 +11,7 @@ import org.jsoup.safety.Safelist;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
@@ -21,7 +22,7 @@ public class DataParser {
     static Safelist whitelist = new Safelist().addAttributes("a", "href");
 
     static List<String> processFlags(String str) {
-        return Arrays.stream(str.split("<br />"))
+        return Stream.of(str.split("<br />"))
                 .parallel().map(e -> Jsoup.clean(e, whitelist))
                 .collect(Collectors.toList());
     }

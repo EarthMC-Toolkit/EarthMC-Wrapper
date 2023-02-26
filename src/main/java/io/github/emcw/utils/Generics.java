@@ -1,4 +1,4 @@
-package net.emc.emcw.utils;
+package io.github.emcw.utils;
 
 import java.util.ArrayList;
 import java.util.List;

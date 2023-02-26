@@ -1,4 +1,4 @@
-package net.emc.emcw.exceptions;
+package io.github.emcw.exceptions;
 
 import java.io.Serial;
 

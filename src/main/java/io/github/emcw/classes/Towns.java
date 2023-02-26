@@ -1,11 +1,11 @@
-package net.emc.emcw.classes;
+package io.github.emcw.classes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.emc.emcw.interfaces.Collective;
-import net.emc.emcw.objects.Town;
-import net.emc.emcw.utils.API;
-import net.emc.emcw.utils.GsonUtil;
+import io.github.emcw.objects.Town;
+import io.github.emcw.utils.API;
+import io.github.emcw.utils.GsonUtil;
+import io.github.emcw.interfaces.Collective;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -15,33 +15,33 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static net.emc.emcw.utils.GsonUtil.keyAsStr;
-
 public class Towns implements Collective<Town> {
     public Map<String, Town> cache = null;
     String map;
 
     public Towns(String mapName) {
         this.map = mapName;
-        tryUpdateCache();
+        updateCache();
     }
 
     public Town single(String key) throws NullPointerException {
-        //tryUpdateCache();
         return Collective.super.single(key, this.cache);
     }
 
     public List<Town> all() {
-        //tryUpdateCache();
         return Collective.super.all(this.cache);
     }
 
-    public void tryUpdateCache() {
-        if (this.cache != null) return;
+    public void updateCache() {
+        updateCache(false);
+    }
+
+    public void updateCache(Boolean force) {
+        if (this.cache != null && !force) return;
 
         // Convert to Town objects and use as cache.
         JsonObject towns = getParsed().getAsJsonObject("towns");
-        this.cache = toMap(towns);
+        this.cache = toMapParallel(towns);
     }
 
     Safelist whitelist = new Safelist().addAttributes("a", "href");
@@ -63,10 +63,10 @@ public class Towns implements Collective<Town> {
         areas.parallelStream().forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
 
-            String name = keyAsStr(cur, "label");
+            String name = GsonUtil.keyAsStr(cur, "label");
             if (name == null) return;
 
-            String desc = keyAsStr(cur, "desc");
+            String desc = GsonUtil.keyAsStr(cur, "desc");
             if (desc == null) return;
 
             List<String> info = processFlags(desc);

@@ -1,18 +1,17 @@
-package net.emc.emcw.classes;
+package io.github.emcw.classes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.emc.emcw.interfaces.Collective;
-import net.emc.emcw.objects.Player;
-import net.emc.emcw.utils.API;
+import io.github.emcw.objects.Player;
+import io.github.emcw.utils.API;
+import io.github.emcw.utils.GsonUtil;
+import io.github.emcw.interfaces.Collective;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static net.emc.emcw.utils.GsonUtil.keyAsStr;
 
 public class Players implements Collective<Player> {
     Map<String, Player> cache;
@@ -33,7 +32,7 @@ public class Players implements Collective<Player> {
     }
 
     public Player getOnline(JsonObject p) {
-        String name = keyAsStr(p, "name");
+        String name = GsonUtil.keyAsStr(p, "name");
         return getOnline(name);
     }
 
@@ -45,7 +44,7 @@ public class Players implements Collective<Player> {
             for (JsonElement op : ops) {
                 JsonObject cur = op.getAsJsonObject();
 
-                if (Objects.equals(keyAsStr(cur, "name"), playerName)) {
+                if (Objects.equals(GsonUtil.keyAsStr(cur, "name"), playerName)) {
                     pl = cur;
                     break;
                 }

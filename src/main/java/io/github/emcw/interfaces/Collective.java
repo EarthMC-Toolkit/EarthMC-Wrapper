@@ -1,6 +1,7 @@
-package net.emc.emcw.interfaces;
+package io.github.emcw.interfaces;
 
-import net.emc.emcw.utils.Generics;
+import io.github.emcw.utils.Generics;
+
 import java.util.*;
 
 public interface Collective<T> {

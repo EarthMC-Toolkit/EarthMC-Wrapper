@@ -1,7 +1,8 @@
-package net.emc.emcw.objects;
+package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
-import static net.emc.emcw.utils.GsonUtil.keyAsInt;
+
+import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location {
     public final Integer x, y, z;

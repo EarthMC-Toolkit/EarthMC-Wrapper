@@ -1,13 +1,11 @@
-package net.emc.emcw.objects;
+package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;
-import net.emc.emcw.classes.Towns;
 
 import java.util.List;
 
-import static net.emc.emcw.utils.GsonUtil.keyAsInt;
-import static net.emc.emcw.utils.GsonUtil.keyAsStr;
+import static io.github.emcw.utils.GsonUtil.*;
 
 public class Nation {
     @Getter

@@ -1,8 +1,8 @@
-package net.emc.emcw.core;
+package io.github.emcw.core;
 
-import net.emc.emcw.classes.Nations;
-import net.emc.emcw.classes.Players;
-import net.emc.emcw.classes.Towns;
+import io.github.emcw.classes.Nations;
+import io.github.emcw.classes.Players;
+import io.github.emcw.classes.Towns;
 
 public class EMCMap {
     public Nations Nations;

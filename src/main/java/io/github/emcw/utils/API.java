@@ -1,11 +1,11 @@
-package net.emc.emcw.utils;
+package io.github.emcw.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import net.emc.emcw.exceptions.APIException;
+import io.github.emcw.exceptions.APIException;
 
 public class API {
     public static CompletableFuture<JsonObject> get(String map, String key) {

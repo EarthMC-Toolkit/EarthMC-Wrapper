@@ -1,4 +1,4 @@
-package net.emc.emcw.objects;
+package io.github.emcw.objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,7 +6,8 @@ import com.google.gson.JsonObject;
 
 import java.util.*;
 
-import static net.emc.emcw.utils.GsonUtil.keyAsStr;
+import static io.github.emcw.utils.GsonUtil.*;
+
 public class Resident extends Player {
     public final String town, nation, rank;
 

@@ -1,4 +1,4 @@
-package net.emc.emcw.utils;
+package io.github.emcw.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -6,11 +6,13 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 public class GsonUtil {
     @Getter
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
+    @Nullable
     static JsonElement member(JsonObject o, String k) {
         return o.get(k);
     }
@@ -37,37 +39,38 @@ public class GsonUtil {
         return arr;
     }
 
-    public static Integer keyAsInt(JsonObject obj, String key) {
-        try { return member(obj, key).getAsInt(); }
-        catch (Exception e) {
-            return null;
-        }
+    @Nullable
+    public static JsonElement getKey(JsonObject obj, String key) {
+        try { return member(obj, key); }
+        catch (Exception e) { return null; }
     }
 
     @Nullable
-    public static String keyAsStr(JsonObject obj, String key) {
-        try { return member(obj, key).getAsString(); }
-        catch (Exception e) {
-            return null;
-        }
+    public static Boolean keyAsBool(JsonObject o, String k) {
+        JsonElement key = getKey(o, k);
+        return key == JsonNull.INSTANCE || key == null ? null : key.getAsBoolean();
+    }
+
+    @Nullable
+    public static Integer keyAsInt(JsonObject o, String k) {
+        JsonElement key = getKey(o, k);
+        return key == JsonNull.INSTANCE || key == null ? null : key.getAsInt();
+    }
+
+    @Nullable
+    public static String keyAsStr(JsonObject o, String k) {
+        JsonElement key = getKey(o, k);
+        return key == JsonNull.INSTANCE || key == null ? null : key.getAsString();
     }
 
     public static JsonArray keyAsArr(JsonObject obj, String key) {
         JsonArray arr = new JsonArray();
 
-        try { arr = member(obj, key).getAsJsonArray(); }
+        try { arr = Objects.requireNonNull(member(obj, key)).getAsJsonArray(); }
         catch (IllegalStateException e) {
             arr.add(obj.get(key));
         }
 
         return arr;
-    }
-
-    @Nullable
-    public static Boolean keyAsBool(JsonObject obj, String key) {
-        try { return member(obj, key).getAsBoolean(); }
-        catch (Exception e) {
-            return null;
-        }
     }
 }

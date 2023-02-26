@@ -1,8 +1,8 @@
-package net.emc.emcw.utils;
+package io.github.emcw.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.emc.emcw.exceptions.APIException;
+import io.github.emcw.exceptions.APIException;
 
 import java.net.URI;
 import java.net.http.HttpClient;

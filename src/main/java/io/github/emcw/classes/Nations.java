@@ -1,9 +1,9 @@
-package net.emc.emcw.classes;
+package io.github.emcw.classes;
 
 import com.google.gson.JsonArray;
-import net.emc.emcw.interfaces.Collective;
-import net.emc.emcw.objects.Nation;
-import net.emc.emcw.objects.Town;
+import io.github.emcw.interfaces.Collective;
+import io.github.emcw.objects.Nation;
+import io.github.emcw.objects.Town;
 
 import java.util.HashMap;
 import java.util.List;

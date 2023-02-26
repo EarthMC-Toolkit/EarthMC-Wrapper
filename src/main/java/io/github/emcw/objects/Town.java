@@ -1,14 +1,13 @@
-package net.emc.emcw.objects;
+package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;
-import net.emc.emcw.utils.GsonUtil;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
-import static net.emc.emcw.utils.GsonUtil.*;
+import static io.github.emcw.utils.GsonUtil.*;
 
 public class Town {
     @Getter
@@ -28,7 +27,7 @@ public class Town {
 
     @Override
     public String toString() {
-        return GsonUtil.serialize(this);
+        return serialize(this);
     }
 
     public Town(JsonObject obj) {
@@ -36,7 +35,7 @@ public class Town {
         this.nation = keyAsStr(obj, "nation");
         this.mayor = keyAsStr(obj, "mayor");
 
-        System.out.print(serialize(obj));
+        //System.out.print(GsonUtil.serialize(obj));
         this.residents = Resident.fromArr(obj.getAsJsonArray("residents"));
 
 //        this.area = keyAsInt(obj, "area");
@@ -70,11 +69,11 @@ public class Town {
         return this.nation != null;
     }
 
-    public Color getColour(String hex) {
+    Color getColour(String hex) {
         return Color.decode(hex == null ? defaultColour() : hex);
     }
 
-    private String defaultColour() {
+    String defaultColour() {
         return Objects.equals(this.nation, "No Nation") ? "#89C500" : "3FB4FF";
     }
 }

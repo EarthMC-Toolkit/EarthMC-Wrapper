@@ -1,4 +1,4 @@
-package net.emc.emcw.core;
+package io.github.emcw.core;
 
 public class EMCWrapper {
     static EMCWrapper instance;

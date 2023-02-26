@@ -1,4 +1,4 @@
-package net.emc.emcw.objects;
+package io.github.emcw.objects;
 
 public class Capital {
     public final String name;

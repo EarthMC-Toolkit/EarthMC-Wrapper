@@ -1,8 +1,8 @@
-package net.emc.emcw.objects;
+package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
 
-import static net.emc.emcw.utils.GsonUtil.keyAsStr;
+import static io.github.emcw.utils.GsonUtil.*;
 
 public class Player {
     public final String name, nickname;
@@ -28,6 +28,6 @@ public class Player {
     public String toString() {
         return "Name: " + name +
             "\nNickname: " + nickname +
-            "\nLocation: " + location.x + ", " + location.y + ", " + location.z;
+            "\nLocation: " + serialize(location);
     }
 }

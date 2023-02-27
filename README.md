@@ -27,7 +27,7 @@ EMCW is built to be intuitive and optimized from the ground up.
     }
     ```
 
-- ### Add the dependency
+- ### Add package dependency to build file
     #### Gradle (build.gradle)
 
     ```gradle
@@ -43,20 +43,8 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      implementation 'io.github.emcw:emc-wrapper:0.3.3'
+      implementation 'io.github.emcw:emc-wrapper:0.3.4'
     }
-    ```
-
-    #### Maven (pom.xml)
-
-    ```xml
-    <dependencies>  
-      <dependency>
-        <groupId>io.github</groupId>
-        <artifactId>emcw</artifactId>
-        <version>main-SNAPSHOT</version> 
-      </dependency>
-    </dependencies>
     ```
 
 - ### Import and Initialize

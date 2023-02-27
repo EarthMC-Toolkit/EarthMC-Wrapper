@@ -1,11 +1,14 @@
 package io.github.emcw.objects;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -34,8 +37,6 @@ public class Town {
         this.name = keyAsStr(obj, "name");
         this.nation = keyAsStr(obj, "nation");
         this.mayor = keyAsStr(obj, "mayor");
-
-        //System.out.print(GsonUtil.serialize(obj));
         this.residents = Resident.fromArr(obj.getAsJsonArray("residents"));
 
 //        this.area = keyAsInt(obj, "area");

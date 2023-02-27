@@ -1,7 +1,9 @@
 package io.github.emcw.utils;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.objects.Nation;
 import io.github.emcw.objects.Town;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -86,7 +88,16 @@ public class DataParser {
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", nation.getAsString());
 
+                    JsonArray townArr = new JsonArray();
+                    townArr.add(towns.get(name));
+                    obj.add("towns", townArr);
+
                     return obj;
+                });
+
+                nations.computeIfPresent(nation.getAsString(), (k, v) -> {
+                    v.getAsJsonArray("towns").add(towns.get(name));
+                    return v;
                 });
             }
         });
@@ -100,30 +111,25 @@ public class DataParser {
         return obj;
     }
 
-    public static Map<String, Town> toMap(JsonObject towns) {
-        var itr = towns.entrySet().iterator();
-        Map<String, Town> map = new HashMap<>();
-
-        while (itr.hasNext()) {
-            Map.Entry<String, JsonElement> next;
-            try { next = itr.next(); }
-            catch (NoSuchElementException e) {
-                continue;
-            }
-
-            JsonObject info = next.getValue().getAsJsonObject();
-            map.put(next.getKey(), new Town(info));
-        }
-
-        return map;
-    }
-
-    public static Map<String, Town> toMapParallel(JsonObject towns) {
+    public static Map<String, Town> townsAsMap(JsonObject towns) {
         List<Map.Entry<String, JsonElement>> entries = new ArrayList<>(towns.entrySet());
         return entries.parallelStream().map(entry -> {
             try {
                 JsonObject info = entry.getValue().getAsJsonObject();
                 return Map.entry(entry.getKey(), new Town(info));
+            } catch (Exception e) {
+                System.out.print(e);
+                return null;
+            }
+        }).filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public static Map<String, Nation> nationsAsMap(JsonObject nations) {
+        List<Map.Entry<String, JsonElement>> entries = new ArrayList<>(nations.entrySet());
+        return entries.parallelStream().map(entry -> {
+            try {
+                JsonObject info = entry.getValue().getAsJsonObject();
+                return Map.entry(entry.getKey(), new Nation(info));
             } catch (Exception e) {
                 System.out.print(e);
                 return null;

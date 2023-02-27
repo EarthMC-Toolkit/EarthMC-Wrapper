@@ -1,12 +1,16 @@
 package io.github.emcw.classes;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.emcw.objects.Nation;
 import io.github.emcw.objects.Town;
 import io.github.emcw.interfaces.Collective;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import io.github.emcw.utils.DataParser;
 
 public class Towns implements Collective<Town> {
@@ -40,6 +44,12 @@ public class Towns implements Collective<Town> {
 
         // Convert to Town objects and use as cache.
         JsonObject towns = DataParser.get().getAsJsonObject("towns");
-        this.cache = DataParser.toMapParallel(towns);
+        this.cache = DataParser.townsAsMap(towns);
+    }
+
+    public static List<Town> fromArray(JsonArray arr) {
+        return arr.asList().stream()
+                .map(p -> new Town(p.getAsJsonObject()))
+                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Objects;
 
 public class GsonUtil {
@@ -28,6 +29,11 @@ public class GsonUtil {
 
     public static JsonElement asTree(Object input) {
         return getGSON().toJsonTree(input);
+    }
+
+    public static <T> List<T> toList(Object obj) {
+       String json = serialize(obj);
+       return GSON.fromJson(json, new TypeToken<List<T>>() {}.getType());
     }
 
     public static JsonElement arrFromStrArr(String[] obj) {

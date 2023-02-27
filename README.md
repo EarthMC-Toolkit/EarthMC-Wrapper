@@ -9,33 +9,65 @@ EMCW is built to be intuitive and optimized from the ground up.
 - Interfaces for generic methods like `.single()` and `.all()`
 - Multithreading via the use of [Parallelism](https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html).
 
-## Installation (Not yet published)
+## Installation
+- ### Authenticate to GitHub Packages
+1. Create a file named `.env` in your project root and include it in your `.gitignore`.
+2. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`
+3. Copy & paste the token and your account name into the `.env` file like so: 
+    ```txt
+    USERNAME=yourGithubUsername
+    TOKEN=yourTokenHere
+    ```
+4. Paste the following code at the top of your `build.gradle` file.
+    ```gradle
+    Properties properties = new Properties()
+    def propertiesFile = project.rootProject.file('.env')
+    if (propertiesFile.exists()) {
+        properties.load(propertiesFile.newDataInputStream())
+    }
+    ```
 
-**Gradle** (build.gradle)
-```gradle
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/EarthMC-Toolkit/EarthMC-Wrapper")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+- ### Add the dependency
+    #### Gradle (build.gradle)
+
+    ```gradle
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
         }
     }
-}
 
-dependencies {
-  // This will use the latest commit. You can also specify a version instead of 'main-SNAPSHOT'.
-  implementation 'io.github.emcw:EMCWrapper:main-SNAPSHOT'
-}
-```
+    dependencies {
+      // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
+      implementation 'io.github.emcw:emc-wrapper:0.3.3'
+    }
+    ```
 
-**Maven** (pom.xml)
-```xml
-<dependencies>  
-  <dependency>
-    <groupId>io.github</groupId>
-    <artifactId>emcw</artifactId>
-    <version>main-SNAPSHOT</version> 
-  </dependency>
-</dependencies>
-```
+    #### Maven (pom.xml)
+
+    ```xml
+    <dependencies>  
+      <dependency>
+        <groupId>io.github</groupId>
+        <artifactId>emcw</artifactId>
+        <version>main-SNAPSHOT</version> 
+      </dependency>
+    </dependencies>
+    ```
+
+- ### Import and Initialize
+
+    ```java
+    import io.github.emcw.core.*;
+    import io.github.emcw.objects.Town;
+    import java.util.List;
+
+    EMCMap Aurora = new EMCWrapper().Aurora;
+    List<Town> all = Aurora.Towns.all()
+
+    System.out.println(all.size());
+    ```

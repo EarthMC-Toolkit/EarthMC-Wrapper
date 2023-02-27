@@ -12,7 +12,7 @@ EMCW is built to be intuitive and optimized from the ground up.
 ## Installation
 - ### Authenticate to GitHub Packages
 1. Create a file named `.env` in your project root and include it in your `.gitignore`.
-2. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`
+2. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`.
 3. Copy & paste the token and your account name into the `.env` file like so: 
     ```txt
     USERNAME=yourGithubUsername
@@ -55,7 +55,7 @@ EMCW is built to be intuitive and optimized from the ground up.
     import java.util.List;
 
     EMCMap Aurora = new EMCWrapper().Aurora;
-    List<Town> all = Aurora.Towns.all()
+    List<Town> all = Aurora.Towns.all();
 
     System.out.println(all.size());
     ```

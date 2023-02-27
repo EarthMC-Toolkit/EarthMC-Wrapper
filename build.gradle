@@ -7,9 +7,25 @@ plugins {
 group = project.maven_group
 version = project.wrapper_version
 
+Properties properties = new Properties()
+def propertiesFile = project.rootProject.file('.env')
+if (propertiesFile.exists()) {
+    properties.load(propertiesFile.newDataInputStream())
+}
+
 allprojects {
     repositories {
         mavenCentral()
+
+        repositories {
+            maven {
+                url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
+                credentials {
+                    username =
+                    password = properties.getProperty('TOKEN') ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
     }
 }
 
@@ -27,6 +43,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
+    testImplementation 'io.github.emcw:emc-wrapper:0.3.3'
+
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
@@ -40,9 +58,9 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/EarthMC-Toolkit/EarthMC-Wrapper")
+            url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
+                username = project.findProperty("gpr.user")
                 password = System.getenv("GITHUB_TOKEN")
             }
         }

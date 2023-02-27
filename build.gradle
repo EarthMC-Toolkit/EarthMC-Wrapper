@@ -21,7 +21,7 @@ allprojects {
             maven {
                 url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
                 credentials {
-                    username =
+                    username = project.findProperty("gpr.user")
                     password = properties.getProperty('TOKEN') ?: System.getenv("GITHUB_TOKEN")
                 }
             }

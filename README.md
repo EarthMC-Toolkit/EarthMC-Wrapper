@@ -1,5 +1,5 @@
 # EarthMC-Wrapper
-An unofficial Java wrapper library letting you interact with the API of the [EarthMC Dynmap](https://earthmc.net/map/aurora/).
+An unofficial Java API wrapper library allowing interaction with the [EarthMC Dynmap](https://earthmc.net/map/aurora/).
 
 EMCW is built to be intuitive and optimized from the ground up.
 <br>This library takes advantage of the following:

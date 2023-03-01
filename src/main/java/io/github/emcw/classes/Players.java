@@ -6,12 +6,14 @@ import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Player;
 import io.github.emcw.utils.API;
-import io.github.emcw.utils.GsonUtil;
+import io.github.emcw.utils.DataParser;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public class Players implements Collective<Player> {
     Map<String, Player> cache;
@@ -19,6 +21,7 @@ public class Players implements Collective<Player> {
 
     public Players(String mapName) {
         this.map = mapName;
+        updateCache(true);
     }
 
     public static List<Player> fromArray(JsonArray arr) {
@@ -27,24 +30,24 @@ public class Players implements Collective<Player> {
                 .collect(Collectors.toList());
     }
 
-    public JsonArray online() {
-        return API.playerData(this.map).getAsJsonArray("players");
+    public List<Player> all() {
+        return Collective.super.all(this.cache);
     }
 
     public Player getOnline(JsonObject p) {
-        String name = GsonUtil.keyAsStr(p, "name");
+        String name = keyAsStr(p, "name");
         return getOnline(name);
     }
 
     public Player getOnline(String playerName) {
-        JsonArray ops = online();
+        JsonArray ops = API.playerData(this.map).getAsJsonArray("players");
         JsonObject pl = new JsonObject();
 
         if (!ops.isEmpty()) {
             for (JsonElement op : ops) {
                 JsonObject cur = op.getAsJsonObject();
 
-                if (Objects.equals(GsonUtil.keyAsStr(cur, "name"), playerName)) {
+                if (Objects.equals(keyAsStr(cur, "name"), playerName)) {
                     pl = cur;
                     break;
                 }
@@ -52,5 +55,22 @@ public class Players implements Collective<Player> {
         }
 
         return new Player(pl);
+    }
+
+    public void updateCache() {
+        updateCache(false);
+    }
+
+    public void updateCache(Boolean force) {
+        if (this.cache != null && !force) return;
+
+        // Parse player data into usable objects.
+        DataParser.parsePlayerData(this.map);
+
+        // Convert to Town objects and use as cache.
+        JsonObject towns = DataParser.get().getAsJsonObject("towns");
+        this.cache = DataParser.playersAsMap(towns);
+
+        return;
     }
 }

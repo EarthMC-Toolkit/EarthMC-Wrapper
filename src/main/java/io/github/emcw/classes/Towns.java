@@ -39,7 +39,7 @@ public class Towns implements Collective<Town> {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable objects.
-        DataParser.parse(map, false);
+        DataParser.parseMapData(map, false);
 
         // Convert to Town objects and use as cache.
         JsonObject towns = DataParser.get().getAsJsonObject("towns");

@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.emcw.objects.Nation;
+import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Town;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -18,14 +19,16 @@ import java.util.stream.Stream;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public class DataParser {
-    static ConcurrentHashMap<String, JsonObject> towns = new ConcurrentHashMap<>();
-    static ConcurrentHashMap<String, JsonObject> nations = new ConcurrentHashMap<>();
+    static ConcurrentHashMap<String, JsonObject>
+            towns   = new ConcurrentHashMap<>(),
+            nations = new ConcurrentHashMap<>(),
+            players = new ConcurrentHashMap<>();
 
     static Safelist whitelist = new Safelist().addAttributes("a", "href");
 
     static List<String> processFlags(String str) {
-        return Stream.of(str.split("<br />"))
-                .parallel().map(e -> Jsoup.clean(e, whitelist))
+        return Stream.of(str.split("<br />")).parallel()
+                .map(e -> Jsoup.clean(e, whitelist))
                 .collect(Collectors.toList());
     }
 
@@ -33,11 +36,16 @@ public class DataParser {
         JsonObject result = new JsonObject();
         result.add("towns", toObj(towns));
         result.add("nations", toObj(nations));
+        result.add("players", toObj(players));
 
         return result;
     }
 
-    public static void parse(String map, Boolean parseNations) {
+    public static void parsePlayerData(String map) {
+    
+    }
+
+    public static void parseMapData(String map, Boolean parseNations) {
         Map<String, JsonElement> mapData = API.mapData(map);
         Collection<JsonElement> areas = mapData.values();
         if (areas.size() < 1) return;
@@ -110,29 +118,38 @@ public class DataParser {
         return obj;
     }
 
+    static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
+        return new ArrayList<>(o.entrySet()).parallelStream();
+    }
+
+    static <T> Map<String, T> collectAsMap(Stream<Map.Entry<String, T>> stream) {
+        return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public static Map<String, Player> playersAsMap(JsonObject players) {
+        return collectAsMap(streamEntries(players).map(entry -> {
+            try {
+                JsonObject info = entry.getValue().getAsJsonObject();
+                return Map.entry(entry.getKey(), new Player(info));
+            } catch (Exception e) { return null; }
+        }));
+    }
+
     public static Map<String, Town> townsAsMap(JsonObject towns) {
-        List<Map.Entry<String, JsonElement>> entries = new ArrayList<>(towns.entrySet());
-        return entries.parallelStream().map(entry -> {
+        return collectAsMap(streamEntries(towns).map(entry -> {
             try {
                 JsonObject info = entry.getValue().getAsJsonObject();
                 return Map.entry(entry.getKey(), new Town(info));
-            } catch (Exception e) {
-                System.out.print(e);
-                return null;
-            }
-        }).filter(Objects::nonNull).distinct().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            } catch (Exception e) { return null; }
+        }));
     }
 
     public static Map<String, Nation> nationsAsMap(JsonObject nations) {
-        List<Map.Entry<String, JsonElement>> entries = new ArrayList<>(nations.entrySet());
-        return entries.parallelStream().map(entry -> {
+        return collectAsMap(streamEntries(nations).map(entry -> {
             try {
                 JsonObject info = entry.getValue().getAsJsonObject();
                 return Map.entry(entry.getKey(), new Nation(info));
-            } catch (Exception e) {
-                System.out.print(e);
-                return null;
-            }
-        }).filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            } catch (Exception e) { return null; }
+        }));
     }
 }

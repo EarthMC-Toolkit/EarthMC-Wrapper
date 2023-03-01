@@ -37,7 +37,7 @@ public class Nations implements Collective<Nation> {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable objects.
-        DataParser.parse(map, true);
+        DataParser.parseMapData(map, true);
 
         // Convert to Town objects and use as cache.
         JsonObject towns = DataParser.get().getAsJsonObject("nations");

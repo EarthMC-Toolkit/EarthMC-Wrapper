@@ -37,7 +37,7 @@ public class DataParser {
         return result;
     }
 
-    public static void parse(String map) {
+    public static void parse(String map, Boolean parseNations) {
         Map<String, JsonElement> mapData = API.mapData(map);
         Collection<JsonElement> areas = mapData.values();
         if (areas.size() < 1) return;
@@ -83,7 +83,13 @@ public class DataParser {
                 return obj;
             });
 
+            if (!parseNations) return;
             if (nation != null) {
+                nations.computeIfPresent(nation.getAsString(), (k, v) -> {
+                    v.getAsJsonArray("towns").add(towns.get(name));
+                    return v;
+                });
+
                 nations.computeIfAbsent(nation.getAsString(), k -> {
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", nation.getAsString());
@@ -94,15 +100,8 @@ public class DataParser {
 
                     return obj;
                 });
-
-                nations.computeIfPresent(nation.getAsString(), (k, v) -> {
-                    v.getAsJsonArray("towns").add(towns.get(name));
-                    return v;
-                });
             }
         });
-
-
     }
 
     public static JsonObject toObj(Map<String, JsonObject> map) {
@@ -121,7 +120,7 @@ public class DataParser {
                 System.out.print(e);
                 return null;
             }
-        }).filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }).filter(Objects::nonNull).distinct().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public static Map<String, Nation> nationsAsMap(JsonObject nations) {

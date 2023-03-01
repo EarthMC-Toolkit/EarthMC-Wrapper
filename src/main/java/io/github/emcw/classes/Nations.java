@@ -28,7 +28,7 @@ public class Nations implements Collective<Nation> {
     }
 
     static List<Nation> fromArray(JsonArray arr) {
-        return arr.asList().stream()
+        return arr.asList().stream().parallel()
                 .map(p -> new Nation(p.getAsJsonObject()))
                 .collect(Collectors.toList());
     }
@@ -37,7 +37,7 @@ public class Nations implements Collective<Nation> {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable objects.
-        DataParser.parse(map);
+        DataParser.parse(map, true);
 
         // Convert to Town objects and use as cache.
         JsonObject towns = DataParser.get().getAsJsonObject("nations");

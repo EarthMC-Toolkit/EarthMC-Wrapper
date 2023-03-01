@@ -22,7 +22,7 @@ public class Players implements Collective<Player> {
     }
 
     public static List<Player> fromArray(JsonArray arr) {
-        return arr.asList().stream()
+        return arr.asList().stream().parallel()
                 .map(p -> new Player(p.getAsJsonObject()))
                 .collect(Collectors.toList());
     }

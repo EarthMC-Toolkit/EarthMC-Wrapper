@@ -40,7 +40,7 @@ public class Towns implements Collective<Town> {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable objects.
-        DataParser.parse(map);
+        DataParser.parse(map, false);
 
         // Convert to Town objects and use as cache.
         JsonObject towns = DataParser.get().getAsJsonObject("towns");
@@ -48,7 +48,7 @@ public class Towns implements Collective<Town> {
     }
 
     public static List<Town> fromArray(JsonArray arr) {
-        return arr.asList().stream()
+        return arr.asList().stream().parallel()
                 .map(p -> new Town(p.getAsJsonObject()))
                 .collect(Collectors.toList());
     }

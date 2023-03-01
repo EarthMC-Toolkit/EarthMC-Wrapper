@@ -1,8 +1,10 @@
 package io.github.emcw.utils;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.emcw.exceptions.APIException;
+import lombok.NoArgsConstructor;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,25 +14,19 @@ import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
 
+@NoArgsConstructor
 public class Request {
     private static final HttpClient client = HttpClient.newHttpClient();
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
 
+    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
     static JsonObject endpoints;
-    String url;
-
-    Request(String endpoint) {
-        this.url = endpoint;
-        endpoints = getEndpoints();
-    }
-
-    public <T> T body() throws APIException {
-        return Request.bodyOf(this.url);
-    }
 
     @SuppressWarnings("unchecked")
-    public static <T> T bodyOf(String url) throws APIException {
+    public static <T> T send(String url) throws APIException {
         return (T) JsonParser.parseString(fetch(url));
     }
 
@@ -40,8 +36,7 @@ public class Request {
     }
 
     static JsonObject updateEndpoints() {
-        final String url = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
-        try { return Request.bodyOf(url); }
+        try { return Request.send(epUrl); }
         catch (APIException e) {
             return null;
         }
@@ -57,8 +52,11 @@ public class Request {
             final HttpResponse<String> response;
             String endpointStr = "\nEndpoint: " + urlString;
 
-            try { response = client.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)); }
-            catch (HttpTimeoutException e) { throw new APIException("Request timed out after 5 seconds." + endpointStr); }
+            try { response = client.sendAsync(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
+            catch(CancellationException e) {
+                System.out.println("Request cancelled! " + endpointStr + e.getMessage());
+                return null;
+            }
 
             int statusCode = response.statusCode();
             if (!codes.contains(statusCode))

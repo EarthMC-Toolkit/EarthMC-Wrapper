@@ -5,17 +5,16 @@ import com.google.gson.JsonObject;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import io.github.emcw.exceptions.APIException;
 
 public class API {
     public static CompletableFuture<JsonObject> get(String map, String key) {
-        String endpoint = Request.getEndpoints()
-                .get(key).getAsJsonObject()
-                .get(map).getAsString();
-
+        String endpoint = Request.getEndpoints().getAsJsonObject(key).get(map).getAsString();
         return CompletableFuture.supplyAsync(() -> {
-            try { return new Request(endpoint).body(); }
-            catch (APIException e) { return null; }
+            try { return Request.send(endpoint); }
+            catch (Exception e) {
+                System.out.println("Exception occurred!\n" + e.getMessage());
+                return null;
+            }
         });
     }
 

@@ -3,10 +3,10 @@ package io.github.emcw.classes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Player;
 import io.github.emcw.utils.API;
 import io.github.emcw.utils.GsonUtil;
-import io.github.emcw.interfaces.Collective;
 
 import java.util.List;
 import java.util.Map;

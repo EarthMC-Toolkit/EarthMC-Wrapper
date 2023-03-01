@@ -1,14 +1,13 @@
 package io.github.emcw.objects;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static io.github.emcw.utils.GsonUtil.*;
+import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public class Resident extends Player {
     public final String town, nation, rank;

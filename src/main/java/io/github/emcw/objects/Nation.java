@@ -1,15 +1,12 @@
 package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import io.github.emcw.classes.Towns;
 import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
-import static io.github.emcw.utils.GsonUtil.*;
+import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public class Nation {
     @Getter

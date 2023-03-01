@@ -2,16 +2,15 @@ package io.github.emcw.classes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.emcw.objects.Nation;
-import io.github.emcw.objects.Town;
 import io.github.emcw.interfaces.Collective;
+import io.github.emcw.objects.Town;
+import io.github.emcw.utils.DataParser;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import io.github.emcw.utils.DataParser;
 
 public class Towns implements Collective<Town> {
     Map<String, Town> cache = null;

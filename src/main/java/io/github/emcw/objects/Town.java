@@ -1,14 +1,11 @@
 package io.github.emcw.objects;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static io.github.emcw.utils.GsonUtil.*;
 

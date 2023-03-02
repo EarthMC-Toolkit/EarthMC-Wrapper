@@ -1,9 +1,7 @@
 package io.github.emcw.utils;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class API {
@@ -22,11 +20,11 @@ public class API {
         return get(mapName, "players").join();
     }
 
-    public static Map<String, JsonElement> mapData(String mapName) {
+    public static JsonObject mapData(String mapName) {
         return get(mapName, "map").join()
                 .getAsJsonObject("sets")
                 .getAsJsonObject("townyPlugin.markerset")
-                .getAsJsonObject("areas").asMap();
+                .getAsJsonObject("areas");
     }
 }
 

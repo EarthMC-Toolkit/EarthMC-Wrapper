@@ -20,8 +20,7 @@ import java.util.stream.Stream;
 
 import static io.github.emcw.utils.Generics.collectAsMap;
 import static io.github.emcw.utils.Generics.streamEntries;
-import static io.github.emcw.utils.GsonUtil.keyAsStr;
-import static io.github.emcw.utils.GsonUtil.valueAsObj;
+import static io.github.emcw.utils.GsonUtil.*;
 
 public class DataParser {
     static ConcurrentHashMap<String, JsonObject>
@@ -38,11 +37,29 @@ public class DataParser {
     }
 
     public static void parsePlayerData(String map) {
-        JsonObject pData = API.playerData(map);
+        JsonArray pData = API.playerData(map).getAsJsonArray("players");
+
+        arrAsStream(pData).forEach(p -> {
+            JsonObject curPlayer = p.getAsJsonObject();
+            String name = keyAsStr(curPlayer, "account");
+
+            players.computeIfAbsent(name, k -> {
+                JsonObject obj = new JsonObject();
+
+                obj.addProperty("name", name);
+                obj.addProperty("nickname", keyAsStr(curPlayer, "name"));
+                obj.addProperty("world", keyAsStr(curPlayer, "world"));
+                obj.addProperty("x", keyAsInt(curPlayer, "x"));
+                obj.addProperty("y", keyAsInt(curPlayer, "y"));
+                obj.addProperty("z", keyAsInt(curPlayer, "z"));
+
+                return obj;
+            });
+        });
     }
 
     public static void parseMapData(String map, Boolean parseNations) {
-        Map<String, JsonElement> mapData = API.mapData(map);
+        Map<String, JsonElement> mapData = API.mapData(map).asMap();
         Collection<JsonElement> areas = mapData.values();
         if (areas.size() < 1) return;
 
@@ -67,7 +84,7 @@ public class DataParser {
 
             String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
             JsonElement nation = Objects.equals(nationStr, "")
-                    ? null : GsonUtil.deserialize(nationStr, JsonElement.class);
+                    ? null : deserialize(nationStr, JsonElement.class);
 
             String wiki = link != null ? link.attr("href") : null;
             String mayor = info.get(1).replace("Mayor ", "");
@@ -82,7 +99,7 @@ public class DataParser {
                 obj.addProperty("mayor", mayor);
                 obj.addProperty("wiki", wiki);
                 obj.add("nation", nation);
-                obj.add("residents", GsonUtil.arrFromStrArr(members));
+                obj.add("residents", arrFromStrArr(members));
 
                 return obj;
             });

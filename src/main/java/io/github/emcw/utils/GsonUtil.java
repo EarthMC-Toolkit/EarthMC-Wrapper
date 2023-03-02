@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class GsonUtil {
     @Getter
@@ -44,6 +45,10 @@ public class GsonUtil {
         }
 
         return arr;
+    }
+
+    static Stream<JsonElement> arrAsStream(JsonArray obj) {
+        return obj.asList().parallelStream();
     }
 
     static JsonObject valueAsObj(Map.Entry<String, JsonElement> entry) {

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GsonUtil {
@@ -43,6 +44,10 @@ public class GsonUtil {
         }
 
         return arr;
+    }
+
+    static JsonObject valueAsObj(Map.Entry<String, JsonElement> entry) {
+        return entry.getValue().getAsJsonObject();
     }
 
     @Nullable

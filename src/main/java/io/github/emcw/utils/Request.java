@@ -50,8 +50,8 @@ public class Request {
             String endpointStr = "\nEndpoint: " + urlString;
 
             try { response = client.sendAsync(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
-            catch(CancellationException e) {
-                System.out.println("Request cancelled! " + endpointStr + e.getMessage());
+            catch(Exception e) {
+                System.out.println("Request failed! " + endpointStr + e.getMessage());
                 return null;
             }
 

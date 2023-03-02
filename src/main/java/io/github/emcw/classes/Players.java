@@ -64,13 +64,8 @@ public class Players implements Collective<Player> {
     public void updateCache(Boolean force) {
         if (this.cache != null && !force) return;
 
-        // Parse player data into usable objects.
+        // Parse player data into usable Player objects.
         DataParser.parsePlayerData(this.map);
-
-        // Convert to Town objects and use as cache.
-        JsonObject towns = DataParser.get().getAsJsonObject("towns");
-        this.cache = DataParser.playersAsMap(towns);
-
-        return;
+        this.cache = DataParser.playersAsMap(DataParser.getPlayers());
     }
 }

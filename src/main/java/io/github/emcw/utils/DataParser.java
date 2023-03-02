@@ -3,20 +3,25 @@ package io.github.emcw.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import io.github.emcw.objects.Nation;
 import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Town;
-import org.apache.commons.lang3.StringUtils;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.emcw.utils.Generics.collectAsMap;
+import static io.github.emcw.utils.Generics.streamEntries;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
+import static io.github.emcw.utils.GsonUtil.valueAsObj;
 
 public class DataParser {
     static ConcurrentHashMap<String, JsonObject>
@@ -32,17 +37,8 @@ public class DataParser {
                 .collect(Collectors.toList());
     }
 
-    public static JsonObject get() {
-        JsonObject result = new JsonObject();
-        result.add("towns", toObj(towns));
-        result.add("nations", toObj(nations));
-        result.add("players", toObj(players));
-
-        return result;
-    }
-
     public static void parsePlayerData(String map) {
-    
+        JsonObject pData = API.playerData(map);
     }
 
     public static void parseMapData(String map, Boolean parseNations) {
@@ -112,44 +108,42 @@ public class DataParser {
         });
     }
 
-    public static JsonObject toObj(Map<String, JsonObject> map) {
-        JsonObject obj = new JsonObject();
-        map.forEach(obj::add);
-        return obj;
-    }
-
-    static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
-        return new ArrayList<>(o.entrySet()).parallelStream();
-    }
-
-    static <T> Map<String, T> collectAsMap(Stream<Map.Entry<String, T>> stream) {
-        return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
     public static Map<String, Player> playersAsMap(JsonObject players) {
         return collectAsMap(streamEntries(players).map(entry -> {
-            try {
-                JsonObject info = entry.getValue().getAsJsonObject();
-                return Map.entry(entry.getKey(), new Player(info));
-            } catch (Exception e) { return null; }
+            try { return Map.entry(entry.getKey(), new Player(valueAsObj(entry))); }
+            catch (Exception e) { return null; }
         }));
     }
 
     public static Map<String, Town> townsAsMap(JsonObject towns) {
         return collectAsMap(streamEntries(towns).map(entry -> {
-            try {
-                JsonObject info = entry.getValue().getAsJsonObject();
-                return Map.entry(entry.getKey(), new Town(info));
-            } catch (Exception e) { return null; }
+            try { return Map.entry(entry.getKey(), new Town(valueAsObj(entry))); }
+            catch (Exception e) { return null; }
         }));
     }
 
     public static Map<String, Nation> nationsAsMap(JsonObject nations) {
         return collectAsMap(streamEntries(nations).map(entry -> {
-            try {
-                JsonObject info = entry.getValue().getAsJsonObject();
-                return Map.entry(entry.getKey(), new Nation(info));
-            } catch (Exception e) { return null; }
+            try { return Map.entry(entry.getKey(), new Nation(valueAsObj(entry))); }
+            catch (Exception e) { return null; }
         }));
+    }
+
+    public static JsonObject getTowns() {
+        return toObj(towns);
+    }
+
+    public static JsonObject getNations() {
+        return toObj(nations);
+    }
+
+    public static JsonObject getPlayers() {
+        return toObj(players);
+    }
+
+    public static JsonObject toObj(Map<String, JsonObject> map) {
+        JsonObject obj = new JsonObject();
+        map.forEach(obj::add);
+        return obj;
     }
 }

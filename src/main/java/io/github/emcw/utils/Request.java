@@ -9,10 +9,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.CancellationException;
 
 @NoArgsConstructor
 public class Request {
@@ -33,7 +33,7 @@ public class Request {
     }
 
     static JsonObject updateEndpoints() {
-        try { return Request.send(epUrl); }
+        try { return send(epUrl); }
         catch (APIException e) {
             return null;
         }
@@ -49,10 +49,9 @@ public class Request {
             final HttpResponse<String> response;
             String endpointStr = "\nEndpoint: " + urlString;
 
-            try { response = client.sendAsync(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
+            try { response = client.sendAsync(req, BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
             catch(Exception e) {
-                System.out.println("Request failed! " + endpointStr + e.getMessage());
-                return null;
+                throw new APIException("Request failed! " + endpointStr + e.getMessage());
             }
 
             int statusCode = response.statusCode();

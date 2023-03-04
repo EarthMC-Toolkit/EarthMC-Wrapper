@@ -1,6 +1,7 @@
 package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
+import io.github.emcw.core.EMCWrapper;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -12,7 +13,7 @@ public class Player {
         this.name = keyAsStr(obj, "name");
         this.nickname = keyAsStr(obj, "nickname");
 
-        this.world = keyAsStr(obj, "world");
+        this.world = null;
         this.location = null;
     }
 
@@ -27,5 +28,9 @@ public class Player {
     boolean hidden() {
         Location loc = this.location;
         return loc.y == 64 && loc.x == 0 && loc.z == 0;
+    }
+
+    boolean isOnline() {
+        return false;
     }
 }

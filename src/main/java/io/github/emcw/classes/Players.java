@@ -7,6 +7,7 @@ import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Player;
 import io.github.emcw.utils.API;
 import io.github.emcw.utils.DataParser;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -30,31 +31,17 @@ public class Players implements Collective<Player> {
                 .collect(Collectors.toList());
     }
 
+    public Player single(JsonObject p) {
+        String name = keyAsStr(p, "name");
+        return single(name);
+    }
+
+    public Player single(String playerName) {
+        return Collective.super.single(playerName, this.cache);
+    }
+
     public List<Player> all() {
         return Collective.super.all(this.cache);
-    }
-
-    public Player getOnline(JsonObject p) {
-        String name = keyAsStr(p, "name");
-        return getOnline(name);
-    }
-
-    public Player getOnline(String playerName) {
-        JsonArray ops = API.playerData(this.map).getAsJsonArray("players");
-        JsonObject pl = new JsonObject();
-
-        if (!ops.isEmpty()) {
-            for (JsonElement op : ops) {
-                JsonObject cur = op.getAsJsonObject();
-
-                if (Objects.equals(keyAsStr(cur, "name"), playerName)) {
-                    pl = cur;
-                    break;
-                }
-            }
-        }
-
-        return new Player(pl);
     }
 
     public void updateCache() {
@@ -67,5 +54,21 @@ public class Players implements Collective<Player> {
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(this.map);
         this.cache = DataParser.playersAsMap(DataParser.getPlayers());
+    }
+
+    @Nullable
+    public Player getOnline(String playerName) {
+        Player pl = null;
+
+        if (!this.cache.isEmpty()) {
+            for (Player op : this.cache.values()) {
+                if (Objects.equals(op.name, playerName)) {
+                    pl = op;
+                    break;
+                }
+            }
+        }
+
+        return pl;
     }
 }

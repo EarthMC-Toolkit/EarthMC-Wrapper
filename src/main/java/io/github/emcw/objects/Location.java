@@ -1,5 +1,6 @@
 package io.github.emcw.objects;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import static io.github.emcw.utils.GsonUtil.*;
@@ -27,5 +28,11 @@ public class Location {
         Integer z = keyAsInt(obj, "z");
 
         return new Location(x, y, z);
+    }
+
+    public static Location of(JsonArray xArr, JsonArray zArr) {
+        Integer xAverage = 0, zAverage = 0;
+
+        return new Location(xAverage, zAverage);
     }
 }

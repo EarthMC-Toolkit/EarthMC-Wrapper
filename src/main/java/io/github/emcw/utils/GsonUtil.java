@@ -89,4 +89,10 @@ public class GsonUtil {
 
         return arr;
     }
+
+    public static JsonObject toObj(Map<String, JsonObject> map) {
+        JsonObject obj = new JsonObject();
+        map.forEach(obj::add);
+        return obj;
+    }
 }

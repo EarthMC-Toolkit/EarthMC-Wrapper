@@ -12,8 +12,8 @@ public class Generics {
         return new ArrayList<>(map.values());
     }
 
-    static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
-        return new ArrayList<>(o.entrySet()).parallelStream();
+    public static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
+        return o.entrySet().parallelStream();
     }
 
     static <T> Map<String, T> collectAsMap(Stream<Map.Entry<String, T>> stream) {

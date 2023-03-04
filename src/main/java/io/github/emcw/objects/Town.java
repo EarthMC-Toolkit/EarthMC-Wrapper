@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -61,6 +62,10 @@ public class Town {
             this.MOBS = keyAsBool(obj, "mobs");
             this.PUBLIC = keyAsBool(obj, "public");
         }
+    }
+
+    public List<Resident> onlineResidents() {
+        return residents.parallelStream().filter(Player::isOnline).collect(Collectors.toList());
     }
 
     public boolean hasNation() {

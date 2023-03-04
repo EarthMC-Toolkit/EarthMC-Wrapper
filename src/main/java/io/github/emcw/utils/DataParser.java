@@ -101,6 +101,10 @@ public class DataParser {
                 obj.add("nation", nation);
                 obj.add("residents", arrFromStrArr(members));
 
+                // x, y
+                // area
+                // flags
+
                 return obj;
             });
 
@@ -156,11 +160,5 @@ public class DataParser {
 
     public static JsonObject getPlayers() {
         return toObj(players);
-    }
-
-    public static JsonObject toObj(Map<String, JsonObject> map) {
-        JsonObject obj = new JsonObject();
-        map.forEach(obj::add);
-        return obj;
     }
 }

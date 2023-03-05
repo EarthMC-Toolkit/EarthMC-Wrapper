@@ -1,11 +1,10 @@
 package io.github.emcw.classes;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Player;
-import io.github.emcw.utils.API;
 import io.github.emcw.utils.DataParser;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,15 +17,15 @@ import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public class Players implements Collective<Player> {
     Map<String, Player> cache;
-    String map;
+    EMCMap parent;
 
-    public Players(String mapName) {
-        this.map = mapName;
+    public Players(EMCMap parent) {
+        this.parent = parent;
         updateCache(true);
     }
 
     public static List<Player> fromArray(JsonArray arr) {
-        return arr.asList().stream().parallel()
+        return arr.asList().parallelStream()
                 .map(p -> new Player(p.getAsJsonObject()))
                 .collect(Collectors.toList());
     }
@@ -37,10 +36,12 @@ public class Players implements Collective<Player> {
     }
 
     public Player single(String playerName) {
+        updateCache();
         return Collective.super.single(playerName, this.cache);
     }
 
     public List<Player> all() {
+        updateCache();
         return Collective.super.all(this.cache);
     }
 
@@ -52,7 +53,7 @@ public class Players implements Collective<Player> {
         if (this.cache != null && !force) return;
 
         // Parse player data into usable Player objects.
-        DataParser.parsePlayerData(this.map);
+        DataParser.parsePlayerData(parent.getMap());
         this.cache = DataParser.playersAsMap(DataParser.getPlayers());
     }
 

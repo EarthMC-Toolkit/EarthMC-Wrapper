@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.awt.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -64,8 +63,8 @@ public class Town {
         }
     }
 
-    public List<Resident> onlineResidents() {
-        return residents.parallelStream().filter(Player::isOnline).collect(Collectors.toList());
+    public static List<Resident> onlineResidents(String mapName, Town town) {
+        return town.getResidents().parallelStream().filter(p -> p.online(mapName)).toList();
     }
 
     public boolean hasNation() {

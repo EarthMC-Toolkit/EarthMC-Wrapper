@@ -90,6 +90,8 @@ public class DataParser {
             String mayor = info.get(1).replace("Mayor ", "");
 
             String names = StringUtils.substringBetween(String.join(", ", info), "Members ", ", pvp");
+            if (names == null) return;
+
             String[] members = names.split(", ");
 
             towns.computeIfAbsent(name, k -> {
@@ -110,18 +112,25 @@ public class DataParser {
 
             if (!parseNations) return;
             if (nation != null) {
-                nations.computeIfPresent(nation.getAsString(), (k, v) -> {
-                    v.getAsJsonArray("towns").add(towns.get(name));
+                String nationName = nation.getAsString();
+
+                nations.computeIfPresent(nationName, (k, v) -> {
+                    v.getAsJsonArray("towns").add(name);
+
                     return v;
                 });
 
-                nations.computeIfAbsent(nation.getAsString(), k -> {
+                nations.computeIfAbsent(nationName, k -> {
                     JsonObject obj = new JsonObject();
-                    obj.addProperty("name", nation.getAsString());
+                    obj.addProperty("name", nationName);
 
                     JsonArray townArr = new JsonArray();
-                    townArr.add(towns.get(name));
+                    townArr.add(name);
                     obj.add("towns", townArr);
+
+                    JsonArray residentArr = new JsonArray();
+                    residentArr.add(towns.get(name).get("residents"));
+                    obj.add("residents", residentArr);
 
                     return obj;
                 });

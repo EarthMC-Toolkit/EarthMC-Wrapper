@@ -1,7 +1,7 @@
 package io.github.emcw.classes;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Nation;
 import io.github.emcw.utils.DataParser;
@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class Nations implements Collective<Nation> {
     Map<String, Nation> cache = null;
-    String map;
+    EMCMap parent;
 
-    public Nations(String mapName) {
-        this.map = mapName;
+    public Nations(EMCMap parent) {
+        this.parent = parent;
         updateCache(true);
     }
 
@@ -37,7 +37,7 @@ public class Nations implements Collective<Nation> {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable Nation objects.
-        DataParser.parseMapData(map, true);
+        DataParser.parseMapData(parent.getMap(), true);
         this.cache = DataParser.nationsAsMap(DataParser.getNations());
     }
 }

@@ -1,10 +1,14 @@
 package io.github.emcw.objects;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.utils.Generics;
 import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
@@ -12,8 +16,7 @@ public class Nation {
     @Getter
     Capital capital;
     @Getter
-    List<String> towns;
-
+    List<String> towns, residents;
     @Getter
     String name, leader;
     @Getter
@@ -30,9 +33,6 @@ public class Nation {
         //this.capital = new Capital(capitalName, capitalLoc);
 
         this.towns = GsonUtil.toList(obj.getAsJsonArray("towns"));
+        //this.residents =
     }
-
-//    public static Nation fromTowns(List<Town> towns) {
-//        return null;
-//    }
 }

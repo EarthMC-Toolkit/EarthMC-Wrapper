@@ -7,12 +7,6 @@ plugins {
 group = project.maven_group
 version = project.wrapper_version
 
-Properties properties = new Properties()
-def propertiesFile = project.rootProject.file('.env')
-if (propertiesFile.exists()) {
-    properties.load(propertiesFile.newDataInputStream())
-}
-
 allprojects {
     repositories {
         mavenCentral()
@@ -22,7 +16,7 @@ allprojects {
                 url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
                 credentials {
                     username = project.findProperty("gpr.user")
-                    password = properties.getProperty('TOKEN') ?: System.getenv("GITHUB_TOKEN")
+                    password = System.getenv("GITHUB_TOKEN")
                 }
             }
         }

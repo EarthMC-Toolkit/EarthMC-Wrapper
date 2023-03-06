@@ -4,15 +4,21 @@ gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# Cache of project
+# Gradle
 .gradletasknamecache
-
-# Project
 .idea
 .gradle
-*.class
 **/build/
 !src/**/build/
 /src/test/
+out/
+bin/
+run/
 
+# Project
+*.class
 .env
+.vscode/
+.settings/
+.classpath
+.project

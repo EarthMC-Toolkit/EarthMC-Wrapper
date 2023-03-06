@@ -43,19 +43,24 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      implementation 'io.github.emcw:emc-wrapper:0.3.4'
+      implementation 'io.github.emcw:emc-wrapper:0.4.2'
     }
     ```
 
 - ### Import and Initialize
 
     ```java
-    import io.github.emcw.core.*;
-    import io.github.emcw.objects.Town;
+    import io.github.emcw.core.EMCMap;
+    import io.github.emcw.core.EMCWrapper;
+    import io.github.emcw.objects.*;
     import java.util.List;
 
-    EMCMap Aurora = new EMCWrapper().Aurora;
-    List<Town> all = Aurora.Towns.all();
-
-    System.out.println(all.size());
+    public class Main {
+        EMCMap Aurora = new EMCWrapper().Aurora;
+  
+        public static void main(String[] args) {
+            List<Town> all = Aurora.Towns.all();
+            System.out.println(all.size());
+        }
+    }
     ```

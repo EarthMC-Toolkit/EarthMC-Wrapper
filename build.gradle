@@ -7,6 +7,9 @@ plugins {
 group = project.maven_group
 version = project.wrapper_version
 
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_17
+
 allprojects {
     repositories {
         mavenCentral()
@@ -23,24 +26,27 @@ allprojects {
     }
 }
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_17
-
 dependencies {
+    //#region Implementations for 'main'
     implementation 'com.google.code.gson:gson:2.10.1'
+
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'org.jetbrains:annotations:20.1.0'
 
     implementation 'org.apache.commons:commons-lang3:3.0'
     implementation 'org.jsoup:jsoup:1.14.3'
+    //#endregion
 
+    //#region Implementations for 'test'
+    testImplementation "io.github.emcw:emc-wrapper:${version}"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    //#endregion
 
-    testImplementation 'io.github.emcw:emc-wrapper:0.3.3'
-
+    //#region Plugins
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    //#endregion
 }
 
 java {

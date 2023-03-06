@@ -11,20 +11,17 @@ EMCW is built to be intuitive and optimized from the ground up.
 
 ## Installation
 - ### Authenticate to GitHub Packages
-1. Create a file named `.env` in your project root and include it in your `.gitignore`.
-2. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`.
-3. Copy & paste the token and your account name into the `.env` file like so: 
+1. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`
+2. Give it any name and the appropriate repository permissions and hit 'Generate'
+3. On your local system, create two new system environment variables like so:
     ```txt
-    USERNAME=yourGithubUsername
-    TOKEN=yourTokenHere
+    Name: USERNAME
+    Value: yourGitHubUsername
     ```
-4. Paste the following code at the top of your `build.gradle` file.
-    ```gradle
-    Properties properties = new Properties()
-    def propertiesFile = project.rootProject.file('.env')
-    if (propertiesFile.exists()) {
-        properties.load(propertiesFile.newDataInputStream())
-    }
+   
+    ```
+    Name: GITHUB_TOKEN
+    Value: yourTokenHere
     ```
 
 - ### Add package dependency to build file
@@ -36,7 +33,7 @@ EMCW is built to be intuitive and optimized from the ground up.
             url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
             credentials {
                 username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }

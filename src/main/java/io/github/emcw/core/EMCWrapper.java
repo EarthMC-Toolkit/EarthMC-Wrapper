@@ -1,15 +1,22 @@
 package io.github.emcw.core;
 
+import lombok.Getter;
+
 public class EMCWrapper {
-    static EMCWrapper instance;
+    @Getter
+    EMCMap Aurora, Nova;
 
-    public final EMCMap Aurora, Nova;
+    static EMCWrapper instance = null;
 
-    public EMCWrapper() {
-        this.Aurora = new EMCMap("aurora");
-        this.Nova = new EMCMap("nova");
+    public EMCWrapper(Boolean aurora, Boolean nova) {
+        if (aurora) this.Aurora = new EMCMap("aurora");
+        if (nova) this.Nova = new EMCMap("nova");
 
         instance = this;
+    }
+
+    public EMCWrapper() {
+        new EMCWrapper(true, true);
     }
 
     public static EMCWrapper instance() {

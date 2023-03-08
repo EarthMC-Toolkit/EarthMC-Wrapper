@@ -2,20 +2,25 @@ package io.github.emcw.objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location {
-    public final Integer x, y, z;
+    @Getter
+    public Integer x, z, y = null;
 
     Location(Integer x, Integer y, Integer z) {
-        this.x = x;
+        this(x, z);
         this.y = y;
-        this.z = z;
     }
 
     Location(Integer x, Integer z) {
-        this(x, 64, z);
+        this.x = x;
+        this.z = z;
     }
 
     Location() {
@@ -23,16 +28,25 @@ public class Location {
     }
 
     static Location fromObj(JsonObject obj) {
-        Integer x = keyAsInt(obj, "x");
-        Integer y = keyAsInt(obj, "y");
-        Integer z = keyAsInt(obj, "z");
-
-        return new Location(x, y, z);
+        return new Location(
+            keyAsInt(obj, "x"),
+            keyAsInt(obj, "y"),
+            keyAsInt(obj, "z")
+        );
     }
 
-    public static Location of(JsonArray xArr, JsonArray zArr) {
-        Integer xAverage = 0, zAverage = 0;
+    public static Location of(JsonObject obj) {
+        JsonArray xArr = keyAsArr(obj, "x"),
+                  zArr = keyAsArr(obj, "z");
+
+        Integer xAverage = range(arrToIntArr(xArr)),
+                zAverage = range(arrToIntArr(zArr));
 
         return new Location(xAverage, zAverage);
+    }
+
+    public static Integer range(int[] args) {
+        IntSummaryStatistics stat = Arrays.stream(args).parallel().summaryStatistics();
+        return Math.round((stat.getMin() + stat.getMax()) / 2.0f);
     }
 }

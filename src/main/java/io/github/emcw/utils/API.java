@@ -21,10 +21,8 @@ public class API {
     }
 
     public static JsonObject mapData(String mapName) {
-        return get(mapName, "map").join()
-                .getAsJsonObject("sets")
+        return get(mapName, "map").join().getAsJsonObject("sets")
                 .getAsJsonObject("townyPlugin.markerset")
                 .getAsJsonObject("areas");
     }
 }
-

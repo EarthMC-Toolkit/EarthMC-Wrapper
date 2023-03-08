@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -38,7 +39,12 @@ public class GsonUtil {
        return GSON.fromJson(json, new TypeToken<List<T>>() {}.getType());
     }
 
-    public static JsonElement arrFromStrArr(String[] obj) {
+    public static int[] arrToIntArr(JsonArray arr) {
+        int[] ints = GSON.fromJson(serialize(arr), int[].class);
+        return Arrays.stream(ints).parallel().toArray();
+    }
+
+    public static JsonArray arrFromStrArr(String[] obj) {
         JsonArray arr = new JsonArray();
         for (String value : obj) {
             arr.add(deserialize(value, JsonElement.class));

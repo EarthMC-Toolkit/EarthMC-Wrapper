@@ -41,7 +41,7 @@ public class Player {
     }
 
     public static boolean online(String mapName, String playerName) {
-        EMCMap map = Objects.equals(mapName, "nova") ? instance().Nova : instance().Aurora;
+        EMCMap map = Objects.equals(mapName, "nova") ? instance().getNova() : instance().getAurora();
         return map.Players.getOnline(playerName) != null;
     }
 }

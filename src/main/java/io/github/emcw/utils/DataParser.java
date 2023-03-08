@@ -23,6 +23,8 @@ import static io.github.emcw.utils.Generics.streamEntries;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class DataParser {
+    private static final JsonArray residents = new JsonArray();
+
     static ConcurrentHashMap<String, JsonObject>
             towns   = new ConcurrentHashMap<>(),
             nations = new ConcurrentHashMap<>(),
@@ -66,6 +68,7 @@ public class DataParser {
         areas.parallelStream().forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
 
+            //#region Get and process keys (label, desc)
             String name = keyAsStr(cur, "label");
             if (name == null) return;
 
@@ -79,21 +82,30 @@ public class DataParser {
             info.remove("Flags");
 
             //System.out.println(info);
+            //#endregion
 
-            Element link = Jsoup.parse(title).select("a").first();
-
-            String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
-            JsonElement nation = Objects.equals(nationStr, "")
-                    ? null : deserialize(nationStr, JsonElement.class);
-
-            String wiki = link != null ? link.attr("href") : null;
-            String mayor = info.get(1).replace("Mayor ", "");
-
+            //#region Parse members flag & add to residents
             String names = StringUtils.substringBetween(String.join(", ", info), "Members ", ", pvp");
             if (names == null) return;
 
             String[] members = names.split(", ");
+            JsonArray residentNames = arrFromStrArr(members);
+            residents.addAll(residentNames);
+            //#endregion
 
+            //#region Variables from info (nation, wiki, mayor)
+            Element link = Jsoup.parse(title).select("a").first();
+            String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
+            JsonElement nation = Objects.equals(nationStr, "") ? null : deserialize(nationStr, JsonElement.class);
+
+            String wiki = link != null ? link.attr("href") : null;
+            String mayor = info.get(1).replace("Mayor ", "");
+
+            JsonArray x = keyAsArr(cur, "x");
+            JsonArray z = keyAsArr(cur, "z");
+            //#endregion
+
+            //#region Create/Update Towns Map.
             towns.computeIfAbsent(name, k -> {
                 JsonObject obj = new JsonObject();
 
@@ -101,15 +113,22 @@ public class DataParser {
                 obj.addProperty("mayor", mayor);
                 obj.addProperty("wiki", wiki);
                 obj.add("nation", nation);
-                obj.add("residents", arrFromStrArr(members));
+                obj.add("residents", residentNames);
 
-                // x, y
+                // Coord arrays
+                obj.add("x", x);
+                obj.add("z", z);
+
                 // area
+
+
                 // flags
 
                 return obj;
             });
+            //#endregion
 
+            //#region Create/Update Nations Map.
             if (!parseNations) return;
             if (nation != null) {
                 String nationName = nation.getAsString();
@@ -135,6 +154,7 @@ public class DataParser {
                     return obj;
                 });
             }
+            //#endregion
         });
     }
 

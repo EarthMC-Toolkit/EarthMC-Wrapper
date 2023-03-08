@@ -81,7 +81,7 @@ public class DataParser {
             if (title.contains("(Shop)")) return;
             info.remove("Flags");
 
-            //System.out.println(info);
+            //System.out.println(serialize(info));
             //#endregion
 
             //#region Parse members flag & add to residents
@@ -93,16 +93,13 @@ public class DataParser {
             residents.addAll(residentNames);
             //#endregion
 
-            //#region Variables from info (nation, wiki, mayor)
+            //#region Variables from info
             Element link = Jsoup.parse(title).select("a").first();
             String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
             JsonElement nation = Objects.equals(nationStr, "") ? null : deserialize(nationStr, JsonElement.class);
 
             String wiki = link != null ? link.attr("href") : null;
             String mayor = info.get(1).replace("Mayor ", "");
-
-            JsonArray x = keyAsArr(cur, "x");
-            JsonArray z = keyAsArr(cur, "z");
             //#endregion
 
             //#region Create/Update Towns Map.
@@ -116,14 +113,23 @@ public class DataParser {
                 obj.add("residents", residentNames);
 
                 // Coord arrays
+                JsonArray x = keyAsArr(cur, "x");
+                JsonArray z = keyAsArr(cur, "z");
+
                 obj.add("x", x);
                 obj.add("z", z);
 
-                // area
+                // Area
                 Integer area = Funcs.calcArea(arrToIntArr(x), arrToIntArr(z), x.size(), 256);
                 obj.addProperty("area", area);
 
-                // flags
+                // Flags (3-8)
+                obj.addProperty("pvp", info.get(3).replace("pvp: ", ""));
+                obj.addProperty("mobs", info.get(4).replace("mobs: ", ""));
+                obj.addProperty("public", info.get(5).replace("public: ", ""));
+                obj.addProperty("explosions", info.get(6).replace("explosion: ", ""));
+                obj.addProperty("fire", info.get(7).replace("fire: ", ""));
+                obj.addProperty("capital", info.get(8).replace("capital: ", ""));
 
                 return obj;
             });

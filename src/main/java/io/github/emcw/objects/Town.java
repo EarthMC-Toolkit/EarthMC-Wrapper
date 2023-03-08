@@ -23,7 +23,7 @@ public class Town {
     List<Resident> residents;
 
     //public Color fill, outline;
-    //Flags flags;
+    Flags flags;
 
     @Override
     public String toString() {
@@ -38,14 +38,13 @@ public class Town {
 
         this.location = Location.of(obj);
         this.area = keyAsInt(obj, "area");
-//
+        this.flags = new Flags(obj);
+
 //        String fillHex = keyAsStr(obj, "fillcolor");
 //        String outlineHex = keyAsStr(obj, "color");
 //
 //        this.fill = getColour(fillHex);
 //        this.outline = getColour(outlineHex);
-//
-//        this.flags = new Flags(obj);
     }
 
     static class Flags {
@@ -53,7 +52,7 @@ public class Town {
 
         Flags(JsonObject obj) {
             this.PVP = keyAsBool(obj, "pvp");
-            this.EXPLOSIONS = keyAsBool(obj, "explosion");
+            this.EXPLOSIONS = keyAsBool(obj, "explosions");
             this.FIRE = keyAsBool(obj, "fire");
             this.CAPITAL = keyAsBool(obj, "capital");
             this.MOBS = keyAsBool(obj, "mobs");

@@ -1,6 +1,6 @@
 package io.github.emcw.interfaces;
 
-import io.github.emcw.utils.Generics;
+import io.github.emcw.utils.Funcs;
 
 import java.util.*;
 
@@ -14,6 +14,6 @@ public interface Collective<T> {
     }
 
     default List<T> all(Map<String, T> f) {
-        return Generics.mapToList(f);
+        return Funcs.mapToList(f);
     }
 }

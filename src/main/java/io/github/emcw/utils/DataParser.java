@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.emcw.utils.Generics.collectAsMap;
-import static io.github.emcw.utils.Generics.streamEntries;
+import static io.github.emcw.utils.Funcs.collectAsMap;
+import static io.github.emcw.utils.Funcs.streamEntries;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class DataParser {
@@ -120,7 +120,8 @@ public class DataParser {
                 obj.add("z", z);
 
                 // area
-
+                Integer area = Funcs.calcArea(arrToIntArr(x), arrToIntArr(z), x.size(), 256);
+                obj.addProperty("area", area);
 
                 // flags
 

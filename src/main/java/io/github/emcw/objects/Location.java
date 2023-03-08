@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
-
+import static io.github.emcw.utils.Funcs.range;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location {
@@ -43,10 +41,5 @@ public class Location {
                 zAverage = range(arrToIntArr(zArr));
 
         return new Location(xAverage, zAverage);
-    }
-
-    public static Integer range(int[] args) {
-        IntSummaryStatistics stat = Arrays.stream(args).parallel().summaryStatistics();
-        return Math.round((stat.getMin() + stat.getMax()) / 2.0f);
     }
 }

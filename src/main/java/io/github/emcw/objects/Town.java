@@ -37,8 +37,7 @@ public class Town {
         this.residents = Resident.fromArr(obj.getAsJsonArray("residents"));
 
         this.location = Location.of(obj);
-
-//        this.area = keyAsInt(obj, "area");
+        this.area = keyAsInt(obj, "area");
 //
 //        String fillHex = keyAsStr(obj, "fillcolor");
 //        String outlineHex = keyAsStr(obj, "color");

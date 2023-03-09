@@ -2,13 +2,22 @@ package io.github.emcw.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.objects.Base;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Funcs {
+    public static <T> Map<String, T> listToMap(List<Base<T>> list, String key) {
+        ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
+        list.parallelStream().forEach(el -> map.put(el.getName(), el.getValue()));
+        return map;
+    }
+
     public static <K, V> List<V> mapToList(Map<K, V> map) {
         return new ArrayList<>(map.values());
     }
@@ -17,7 +26,7 @@ public class Funcs {
         return o.entrySet().parallelStream();
     }
 
-    static <T> Map<String, T> collectAsMap(Stream<Map.Entry<String, T>> stream) {
+    static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
@@ -27,16 +36,6 @@ public class Funcs {
             return (X[j] + X[i]) * (Z[j] - Z[i]);
         }).sum() / 2) / divisor;
     }
-
-//    public static double calcArea(double[] X, double[] Z, int numPoints, int divisor) {
-//        int i = 0, j = numPoints - 1;
-//        double area = 0;
-//        for (; i < numPoints; i++) {
-//            area += (X[j] + X[i]) * (Z[j] - Z[i]);
-//            j = i;
-//        }
-//        return Math.abs(area / 2) / divisor;
-//    }
 
     public static Integer range(int[] args) {
         IntSummaryStatistics stat = Arrays.stream(args).parallel().summaryStatistics();

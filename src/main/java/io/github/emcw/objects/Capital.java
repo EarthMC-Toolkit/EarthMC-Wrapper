@@ -1,11 +1,17 @@
 package io.github.emcw.objects;
 
-public class Capital {
-    public final String name;
-    public final Location location;
+import com.google.gson.JsonObject;
+import lombok.Getter;
 
-    Capital(String capitalName, Location loc) {
-        this.name = capitalName;
-        this.location = loc;
+import static io.github.emcw.utils.GsonUtil.keyAsInt;
+import static io.github.emcw.utils.GsonUtil.keyAsStr;
+
+public class Capital {
+    @Getter final String name;
+    @Getter final Location location;
+
+    Capital(JsonObject obj) {
+        this.name = keyAsStr(obj, "name");
+        this.location = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
     }
 }

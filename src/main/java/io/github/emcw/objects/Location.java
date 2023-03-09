@@ -8,8 +8,7 @@ import static io.github.emcw.utils.Funcs.range;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location {
-    @Getter
-    public Integer x, z, y = null;
+    @Getter public Integer x, z, y = null;
 
     Location(Integer x, Integer y, Integer z) {
         this(x, z);

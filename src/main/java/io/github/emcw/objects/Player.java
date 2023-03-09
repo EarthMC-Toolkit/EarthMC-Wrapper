@@ -2,25 +2,33 @@ package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
+import lombok.Getter;
 
 import java.util.Objects;
 
 import static io.github.emcw.core.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Player {
-    public final String name, nickname;
-    public Location location = null;
+public class Player extends Base<Player> {
+    @Getter
+    String nickname;
+
+    @Getter
+    Location location = null;
 
     String world = null;
 
     public Player(JsonObject obj, Boolean resident) {
-        this.name = keyAsStr(obj, "name");
+        super();
+
+        setInfo(this, keyAsStr(obj, "name"));
         this.nickname = keyAsStr(obj, "nickname");
     }
 
     public Player(JsonObject obj) {
-        this.name = keyAsStr(obj, "name");
+        super();
+        setInfo(this, keyAsStr(obj, "name"));
+
         this.nickname = keyAsStr(obj, "nickname");
 
         this.world = keyAsStr(obj, "world");

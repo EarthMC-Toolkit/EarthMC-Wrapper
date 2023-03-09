@@ -6,29 +6,22 @@ import lombok.Getter;
 
 import java.util.List;
 
-import static io.github.emcw.utils.GsonUtil.keyAsStr;
+import static io.github.emcw.utils.GsonUtil.*;
 
-public class Nation {
-    @Getter
-    Capital capital;
-    @Getter
-    List<String> towns, residents;
-    @Getter
-    String name, leader;
-    @Getter
-    Integer area;
+public class Nation extends Base<Nation> {
+    @Getter Capital capital;
+    @Getter List<String> towns, residents;
+    @Getter String leader;
+    @Getter Integer area;
 
     public Nation(JsonObject obj) {
-        this.name = keyAsStr(obj, "name");
-        //this.leader = keyAsStr(obj, "leader");
-        //this.area = keyAsInt(obj, "area");
+        super();
+        setInfo(this, keyAsStr(obj, "name"));
 
-        //String capitalName = keyAsStr(obj.getAsJsonObject("capital"), "name");
-        //Location capitalLoc = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
-
-        //this.capital = new Capital(capitalName, capitalLoc);
-
+        this.leader = keyAsStr(obj, "king");
+        this.area = keyAsInt(obj, "area");
+        //this.capital = new Capital(obj.getAsJsonObject("capital"));
         this.towns = GsonUtil.toList(obj.getAsJsonArray("towns"));
-        //this.residents =
+        this.residents = toList(keyAsArr(obj, "residents"));
     }
 }

@@ -10,20 +10,13 @@ import java.util.Objects;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Town {
-    @Getter
-    String name, mayor, nation;
-
-    @Getter
-    Integer area;
-
-    @Getter
-    Location location;
-
-    @Getter
-    List<Resident> residents;
+    @Getter String name, mayor, nation;
+    @Getter Integer area;
+    @Getter Location location;
+    @Getter List<Resident> residents;
+    @Getter Flags flags;
 
     //public Color fill, outline;
-    Flags flags;
 
     @Override
     public String toString() {

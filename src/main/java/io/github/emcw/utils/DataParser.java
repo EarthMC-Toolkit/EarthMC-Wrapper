@@ -60,6 +60,11 @@ public class DataParser {
         });
     }
 
+    static boolean flagAsBool(List<String> info, Integer index, String key) {
+        String str = info.get(index).replace(key, "");
+        return Boolean.parseBoolean(str);
+    }
+
     public static void parseMapData(String map, Boolean parseNations) {
         Map<String, JsonElement> mapData = API.mapData(map).asMap();
         Collection<JsonElement> areas = mapData.values();
@@ -98,8 +103,12 @@ public class DataParser {
             String nationStr = link != null ? link.text() : StringUtils.substringBetween(title, "(", ")");
             JsonElement nation = Objects.equals(nationStr, "") ? null : deserialize(nationStr, JsonElement.class);
 
-            String wiki = link != null ? link.attr("href") : null;
-            String mayor = info.get(1).replace("Mayor ", "");
+            String wikiStr = link != null ? link.attr("href") : null;
+            String mayorStr = info.get(1).replace("Mayor ", "");
+
+            JsonArray x = keyAsArr(cur, "x");
+            JsonArray z = keyAsArr(cur, "z");
+            int area = Funcs.calcArea(arrToIntArr(x), arrToIntArr(z), x.size(), 256);
             //#endregion
 
             //#region Create/Update Towns Map.
@@ -107,29 +116,25 @@ public class DataParser {
                 JsonObject obj = new JsonObject();
 
                 obj.addProperty("name", name);
-                obj.addProperty("mayor", mayor);
-                obj.addProperty("wiki", wiki);
+                obj.addProperty("mayor", mayorStr);
+                obj.addProperty("wiki", wikiStr);
                 obj.add("nation", nation);
                 obj.add("residents", residentNames);
 
                 // Coord arrays
-                JsonArray x = keyAsArr(cur, "x");
-                JsonArray z = keyAsArr(cur, "z");
-
                 obj.add("x", x);
                 obj.add("z", z);
 
                 // Area
-                Integer area = Funcs.calcArea(arrToIntArr(x), arrToIntArr(z), x.size(), 256);
                 obj.addProperty("area", area);
 
                 // Flags (3-8)
-                obj.addProperty("pvp", info.get(3).replace("pvp: ", ""));
-                obj.addProperty("mobs", info.get(4).replace("mobs: ", ""));
-                obj.addProperty("public", info.get(5).replace("public: ", ""));
-                obj.addProperty("explosions", info.get(6).replace("explosion: ", ""));
-                obj.addProperty("fire", info.get(7).replace("fire: ", ""));
-                obj.addProperty("capital", info.get(8).replace("capital: ", ""));
+                obj.addProperty("pvp", flagAsBool(info, 3, "pvp: "));
+                obj.addProperty("mobs", flagAsBool(info, 4, "mobs: "));
+                obj.addProperty("public", flagAsBool(info, 5, "public: "));
+                obj.addProperty("explosions", flagAsBool(info, 6, "pvp: "));
+                obj.addProperty("fire", flagAsBool(info, 7, "fire: "));
+                obj.addProperty("capital", flagAsBool(info, 8, "capital: "));
 
                 return obj;
             });
@@ -140,25 +145,31 @@ public class DataParser {
             if (nation != null) {
                 String nationName = nation.getAsString();
 
-                nations.computeIfPresent(nationName, (k, v) -> {
-                    v.getAsJsonArray("towns").add(name);
-
-                    return v;
-                });
-
+                // Not present, create a new Nation.
                 nations.computeIfAbsent(nationName, k -> {
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", nationName);
 
-                    JsonArray townArr = new JsonArray();
-                    townArr.add(name);
-                    obj.add("towns", townArr);
-
-                    JsonArray residentArr = new JsonArray();
-                    residentArr.add(towns.get(name).get("residents"));
-                    obj.add("residents", residentArr);
+                    obj.add("towns", new JsonArray());
+                    obj.add("residents", new JsonArray());
+                    obj.addProperty("area", 0);
 
                     return obj;
+                });
+
+                // Check if Nation is present before creating new one.
+                nations.computeIfPresent(nationName, (k, v) -> {
+                    v.getAsJsonArray("towns").add(name);
+                    v.getAsJsonArray("residents").addAll(residentNames);
+                    v.addProperty("area", v.get("area").getAsInt()+area);
+
+                    boolean capital = keyAsBool(towns.get(name), "capital");
+                    if (capital) {
+                        v.addProperty("wiki", keyAsBool(v, "wiki"));
+                        v.addProperty("king", mayorStr);
+                    }
+
+                    return v;
                 });
             }
             //#endregion

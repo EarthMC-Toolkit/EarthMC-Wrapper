@@ -5,7 +5,9 @@ import lombok.Getter;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -15,8 +17,7 @@ public class Town extends Base<Town> {
     @Getter Location location;
     @Getter List<Resident> residents;
     @Getter Flags flags;
-
-    //public Color fill, outline;
+    @Getter Color fill, outline;
 
     @Override
     public String toString() {
@@ -35,11 +36,8 @@ public class Town extends Base<Town> {
         this.area = keyAsInt(obj, "area");
         this.flags = new Flags(obj);
 
-//        String fillHex = keyAsStr(obj, "fillcolor");
-//        String outlineHex = keyAsStr(obj, "color");
-//
-//        this.fill = getColour(fillHex);
-//        this.outline = getColour(outlineHex);
+        this.fill = getColour(keyAsStr(obj, "fillcolor"));
+        this.outline = getColour(keyAsStr(obj, "color"));
     }
 
     static class Flags {
@@ -55,12 +53,13 @@ public class Town extends Base<Town> {
         }
     }
 
-    public static List<Resident> onlineResidents(String mapName, Town town) {
-        return town.getResidents().parallelStream().filter(p -> p.online(mapName)).toList();
+    public static Map<String, Resident> onlineResidents(String mapName, Town town) {
+        return town.getResidents().parallelStream().filter(p -> p.online(mapName))
+                .collect(Collectors.toMap(Base::getName, r -> r));
     }
 
-    public boolean hasNation() {
-        return this.nation != null;
+    public boolean nationless() {
+        return this.nation == null;
     }
 
     Color getColour(String hex) {

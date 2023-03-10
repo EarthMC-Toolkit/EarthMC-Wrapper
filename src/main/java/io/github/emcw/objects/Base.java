@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class Base<T> {
-    @Getter String name;
-    @Getter T value;
+    @Getter protected String name;
+    @Getter protected T value;
 
     void setInfo(T parent, String name) {
         this.value = parent;

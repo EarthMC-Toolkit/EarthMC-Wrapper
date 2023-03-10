@@ -107,24 +107,24 @@ public class DataParser {
 
             int[] x = arrToIntArr(keyAsArr(cur, "x"));
             int[] z = arrToIntArr(keyAsArr(cur, "z"));
-            int area = Funcs.calcArea(x, z, x.length, 256);
+            int area = calcArea(x, z);
+
+            String fill = keyAsStr(cur, "fillcolor");
+            String outline = keyAsStr(cur, "color");
             //#endregion
 
             //#region Create/Update Towns Map.
             towns.computeIfAbsent(name, k -> {
                 JsonObject obj = new JsonObject();
 
+                //#region Add properties
                 obj.addProperty("name", name);
+                obj.add("nation", nation);
                 obj.addProperty("mayor", mayorStr);
                 obj.addProperty("wiki", wikiStr);
-                obj.add("nation", nation);
                 obj.add("residents", residentNames);
-
-                // Coord arrays
                 obj.addProperty("x", range(x));
                 obj.addProperty("z", range(z));
-
-                // Area
                 obj.addProperty("area", area);
 
                 // Flags (3-8)
@@ -134,6 +134,10 @@ public class DataParser {
                 obj.addProperty("explosions", flagAsBool(info, 6, "pvp: "));
                 obj.addProperty("fire", flagAsBool(info, 7, "fire: "));
                 obj.addProperty("capital", flagAsBool(info, 8, "capital: "));
+
+                obj.addProperty("fill", fill);
+                obj.addProperty("outline", outline);
+                //#endregion
 
                 return obj;
             });

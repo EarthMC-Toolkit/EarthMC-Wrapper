@@ -10,12 +10,10 @@ import static io.github.emcw.core.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Player extends Base<Player> {
-    @Getter
-    String nickname;
+    @Getter String nickname;
+    @Getter Location location = null;
 
-    @Getter
-    Location location = null;
-
+    Boolean isResident = false;
     String world = null;
 
     public Player(JsonObject obj, Boolean resident) {
@@ -23,6 +21,7 @@ public class Player extends Base<Player> {
 
         setInfo(this, keyAsStr(obj, "name"));
         this.nickname = keyAsStr(obj, "nickname");
+        this.isResident = true;
     }
 
     public Player(JsonObject obj) {
@@ -30,7 +29,6 @@ public class Player extends Base<Player> {
         setInfo(this, keyAsStr(obj, "name"));
 
         this.nickname = keyAsStr(obj, "nickname");
-
         this.world = keyAsStr(obj, "world");
         this.location = Location.fromObj(obj);
     }
@@ -46,6 +44,10 @@ public class Player extends Base<Player> {
 
     public boolean online(String map) {
         return online(map, this.name);
+    }
+
+    public boolean isResident() {
+        return isResident;
     }
 
     public static boolean online(String mapName, String playerName) {

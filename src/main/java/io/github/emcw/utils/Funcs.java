@@ -30,6 +30,10 @@ public class Funcs {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public static int calcArea(int[] X, int[] Z) {
+        return calcArea(X, Z, X.length, 256);
+    }
+
     public static int calcArea(int[] X, int[] Z, int numPoints, int divisor) {
         return Math.abs(IntStream.range(0, numPoints).parallel().map(i -> {
             int j = (i + numPoints - 1) % numPoints;

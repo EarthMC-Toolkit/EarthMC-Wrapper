@@ -10,19 +10,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ForkJoinPool;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Objects.*;
 
 public class GsonUtil {
     @Getter
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final ForkJoinPool pool = new ForkJoinPool();
+    //private static final ForkJoinPool pool = new ForkJoinPool();
     static String regex = "(?<=})\\s*,\\s*(?=\\{)";
-
-    @Nullable
-    static JsonElement member(@NotNull JsonObject o, String k) {
-        return o.get(k);
-    }
 
     public static <T> String serialize(Object obj) {
         Type collectionType = new TypeToken<T>() {}.getType();
@@ -59,37 +56,46 @@ public class GsonUtil {
         return obj.asList().parallelStream();
     }
 
+    public static Map<String, JsonObject> intersection(JsonArray arr, JsonArray arr2) {
+        return arrAsStream(arr).flatMap(obj -> arrAsStream(arr2)
+                .map(JsonElement::getAsJsonObject)
+                .filter(obj2 -> Objects.equals(member(obj2, "name"), obj))
+        ).collect(Collectors.toMap(obj -> keyAsStr(obj, "name"), obj -> obj));
+    }
+
     static JsonObject valueAsObj(@NotNull Map.Entry<String, JsonElement> entry) {
         return entry.getValue().getAsJsonObject();
     }
 
-    @Nullable
-    public static JsonElement getKey(JsonObject obj, String key) {
-        try { return member(obj, key); }
-        catch (Exception e) { return null; }
+    static JsonElement member(@NotNull JsonObject o, String k) {
+        return o.get(k);
+    }
+
+    static boolean isNull(JsonElement el) {
+        return el == JsonNull.INSTANCE || el == null;
     }
 
     public static @NotNull Boolean keyAsBool(JsonObject o, String k) {
-        JsonElement key = getKey(o, k);
+        JsonElement key = member(o, k);
         return Boolean.TRUE.equals(key == null ? null : key.getAsBoolean());
     }
 
     @Nullable
     public static Integer keyAsInt(JsonObject o, String k) {
-        JsonElement key = getKey(o, k);
-        return key == JsonNull.INSTANCE || key == null ? null : key.getAsInt();
+        JsonElement key = member(o, k);
+        return isNull(key) ? null : key.getAsInt();
     }
 
     @Nullable
     public static String keyAsStr(JsonObject o, String k) {
-        JsonElement key = getKey(o, k);
-        return key == JsonNull.INSTANCE || key == null ? null : key.getAsString();
+        JsonElement key = member(o, k);
+        return isNull(key) ? null : key.getAsString();
     }
 
     public static JsonArray keyAsArr(JsonObject obj, String key) {
         JsonArray arr = new JsonArray();
 
-        try { arr = Objects.requireNonNull(member(obj, key)).getAsJsonArray(); }
+        try { arr = requireNonNull(member(obj, key)).getAsJsonArray(); }
         catch (IllegalStateException e) {
             arr.add(obj.get(key));
         }

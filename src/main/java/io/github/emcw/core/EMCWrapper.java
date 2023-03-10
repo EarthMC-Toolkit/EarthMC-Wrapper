@@ -3,10 +3,8 @@ package io.github.emcw.core;
 import lombok.Getter;
 
 public class EMCWrapper {
-    @Getter
-    EMCMap Aurora, Nova;
-
     static EMCWrapper instance = null;
+    @Getter EMCMap Aurora, Nova;
 
     public EMCWrapper(Boolean aurora, Boolean nova) {
         if (aurora) this.Aurora = new EMCMap("aurora");

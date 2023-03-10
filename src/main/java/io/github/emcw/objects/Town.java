@@ -9,8 +9,8 @@ import java.util.Objects;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Town {
-    @Getter String name, mayor, nation;
+public class Town extends Base<Town> {
+    @Getter String mayor, nation;
     @Getter Integer area;
     @Getter Location location;
     @Getter List<Resident> residents;
@@ -24,7 +24,9 @@ public class Town {
     }
 
     public Town(JsonObject obj) {
-        this.name = keyAsStr(obj, "name");
+        super();
+        setInfo(this, keyAsStr(obj, "name"));
+
         this.nation = keyAsStr(obj, "nation");
         this.mayor = keyAsStr(obj, "mayor");
         this.residents = Resident.fromArr(obj.getAsJsonArray("residents"));

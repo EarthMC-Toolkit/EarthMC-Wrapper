@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.emcw.exceptions.APIException;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,7 +23,6 @@ public class Request {
     static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
     static JsonObject endpoints;
 
-    @SuppressWarnings("unchecked")
     public static <T> T send(String url) throws APIException {
         return (T) JsonParser.parseString(fetch(url));
     }
@@ -39,26 +39,25 @@ public class Request {
         }
     }
 
-    static String fetch(String urlString) throws APIException {
-        try {
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(urlString))
-                    .timeout(Duration.ofSeconds(5))
-                    .GET().build();
+    @SneakyThrows
+    static String fetch(String urlString) {
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create(urlString))
+                .timeout(Duration.ofSeconds(5))
+                .GET().build();
 
-            final HttpResponse<String> response;
-            String endpointStr = "\nEndpoint: " + urlString;
+        final HttpResponse<String> response;
+        String endpointStr = "\nEndpoint: " + urlString;
 
-            try { response = client.sendAsync(req, BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
-            catch(Exception e) {
-                throw new APIException("Request failed! " + endpointStr + e.getMessage());
-            }
+        try { response = client.sendAsync(req, BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
+        catch(Exception e) {
+            throw new APIException("Request failed! " + endpointStr + e.getMessage());
+        }
 
-            int statusCode = response.statusCode();
-            if (!codes.contains(statusCode))
-                throw new APIException("API Error! Response code: " + statusCode + endpointStr);
+        int statusCode = response.statusCode();
+        if (!codes.contains(statusCode))
+            throw new APIException("API Error! Response code: " + statusCode + endpointStr);
 
-            return response.body();
-        } catch (Exception e) { throw new APIException(e.getMessage()); }
+        return response.body();
     }
 }

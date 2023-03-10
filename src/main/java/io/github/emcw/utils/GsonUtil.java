@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,14 @@ import java.util.stream.Stream;
 import static java.util.Objects.*;
 
 public class GsonUtil {
-    @Getter
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     //private static final ForkJoinPool pool = new ForkJoinPool();
+
+    @Getter
+    private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Color.class, new ColorAdapter())
+            .setPrettyPrinting()
+            .create();
+
     static String regex = "(?<=})\\s*,\\s*(?=\\{)";
 
     public static <T> String serialize(Object obj) {

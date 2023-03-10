@@ -36,8 +36,8 @@ public class Town extends Base<Town> {
         this.area = keyAsInt(obj, "area");
         this.flags = new Flags(obj);
 
-        this.fill = getColour(keyAsStr(obj, "fillcolor"));
-        this.outline = getColour(keyAsStr(obj, "color"));
+        this.fill = getColour(keyAsStr(obj, "fill"));
+        this.outline = getColour(keyAsStr(obj, "outline"));
     }
 
     static class Flags {

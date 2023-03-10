@@ -20,7 +20,7 @@ public class Nation extends Base<Nation> {
 
         this.leader = keyAsStr(obj, "king");
         this.area = keyAsInt(obj, "area");
-        //this.capital = new Capital(obj.getAsJsonObject("capital"));
+        this.capital = new Capital(obj.getAsJsonObject("capital"));
         this.towns = GsonUtil.toList(obj.getAsJsonArray("towns"));
         this.residents = toList(keyAsArr(obj, "residents"));
     }

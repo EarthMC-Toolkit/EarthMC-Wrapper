@@ -18,8 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.emcw.utils.Funcs.collectAsMap;
-import static io.github.emcw.utils.Funcs.streamEntries;
+import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class DataParser {
@@ -106,9 +105,9 @@ public class DataParser {
             String wikiStr = link != null ? link.attr("href") : null;
             String mayorStr = info.get(1).replace("Mayor ", "");
 
-            JsonArray x = keyAsArr(cur, "x");
-            JsonArray z = keyAsArr(cur, "z");
-            int area = Funcs.calcArea(arrToIntArr(x), arrToIntArr(z), x.size(), 256);
+            int[] x = arrToIntArr(keyAsArr(cur, "x"));
+            int[] z = arrToIntArr(keyAsArr(cur, "z"));
+            int area = Funcs.calcArea(x, z, x.length, 256);
             //#endregion
 
             //#region Create/Update Towns Map.
@@ -122,8 +121,8 @@ public class DataParser {
                 obj.add("residents", residentNames);
 
                 // Coord arrays
-                obj.add("x", x);
-                obj.add("z", z);
+                obj.addProperty("x", range(x));
+                obj.addProperty("z", range(z));
 
                 // Area
                 obj.addProperty("area", area);
@@ -150,6 +149,7 @@ public class DataParser {
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", nationName);
 
+                    // Set default property values to be added to.
                     obj.add("towns", new JsonArray());
                     obj.add("residents", new JsonArray());
                     obj.addProperty("area", 0);
@@ -157,7 +157,7 @@ public class DataParser {
                     return obj;
                 });
 
-                // Check if Nation is present before creating new one.
+                // Nation is present, add current town prop values.
                 nations.computeIfPresent(nationName, (k, v) -> {
                     v.getAsJsonArray("towns").add(name);
                     v.getAsJsonArray("residents").addAll(residentNames);
@@ -167,6 +167,13 @@ public class DataParser {
                     if (capital) {
                         v.addProperty("wiki", keyAsBool(v, "wiki"));
                         v.addProperty("king", mayorStr);
+
+                        JsonObject capitalObj = new JsonObject();
+                        capitalObj.addProperty("name", name);
+                        capitalObj.addProperty("x", range(x));
+                        capitalObj.addProperty("z", range(z));
+
+                        v.add("capital", capitalObj);
                     }
 
                     return v;

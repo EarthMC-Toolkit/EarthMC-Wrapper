@@ -54,7 +54,7 @@ public class Players implements Collective<Player> {
 
     public Map<String, Player> townless() {
         Map<String, Resident> residents = parent.Residents.cache;
-        return arrToMap(difference(mapToArr(cache), mapToArr(residents)), "name");
+        return difference(mapToArr(cache), mapToArr(residents), "name");
     }
 
     @Nullable

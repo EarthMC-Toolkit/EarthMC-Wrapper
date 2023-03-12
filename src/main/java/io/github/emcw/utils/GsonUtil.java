@@ -2,6 +2,8 @@ package io.github.emcw.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import io.github.emcw.objects.Base;
+import io.github.emcw.objects.Player;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +13,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +35,10 @@ public class GsonUtil {
 
     public static <T> T deserialize(String str, Class<T> c) {
         return GSON.fromJson(str, c);
+    }
+
+    public static <T> T deserialize(String str, Type type) {
+        return GSON.fromJson(str, type);
     }
 
     public static JsonElement asTree(Object input) {
@@ -73,12 +80,12 @@ public class GsonUtil {
         return arr;
     }
 
-    public static Stream<String> arrAsStream(@NotNull String[] obj) {
-        return Arrays.stream(obj).toList().parallelStream();
+    public static Stream<String> strArrAsStream(@NotNull String[] arr) {
+        return Arrays.stream(arr).toList().parallelStream();
     }
 
-    public static Stream<JsonElement> arrAsStream(@NotNull JsonArray obj) {
-        return obj.asList().parallelStream();
+    public static Stream<JsonElement> arrAsStream(@NotNull JsonArray arr) {
+        return arr.asList().parallelStream();
     }
 
     public static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
@@ -92,13 +99,17 @@ public class GsonUtil {
         ).collect(Collectors.toMap(obj -> keyAsStr(obj, "name"), obj -> obj));
     }
 
-    public static JsonArray difference(JsonArray ops, JsonArray residents) {
-        Set<String> names = arrAsStream(residents)
-                .map(JsonElement::getAsString)
+    public static Map<String, Player> difference(JsonArray ops, JsonArray residents, String key) {
+        Set<String> names = arrAsStream(residents).filter(Objects::nonNull)
+                .map(res -> keyAsStr(res.getAsJsonObject(), key))
                 .collect(Collectors.toSet());
 
-        return arrAsStream(ops).filter(op -> !names.contains(keyAsStr(op.getAsJsonObject(), "name")))
-                .collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
+        Type playerListType = new TypeToken<List<Player>>(){}.getType();
+        List<Player> playerList = deserialize(serialize(ops), playerListType);
+
+        return playerList.parallelStream()
+                .filter(op -> !names.contains(op.getName()))
+                .collect(Collectors.toMap(Base::getName, Function.identity()));
     }
 
     static JsonObject valueAsObj(@NotNull Map.Entry<String, JsonElement> entry) {

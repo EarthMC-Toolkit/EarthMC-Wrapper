@@ -149,7 +149,7 @@ public class DataParser {
 
             if (parseResidents) {
                 // Loop through members
-                arrAsStream(members).forEach(res -> {
+                strArrAsStream(members).forEach(res -> {
                     // Create new object (name, town, nation, rank)
                     JsonObject newObj = new JsonObject();
 

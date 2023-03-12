@@ -11,14 +11,14 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 public class GsonUtil {
-    //private static final ForkJoinPool pool = new ForkJoinPool();
-
     @Getter
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Color.class, new ColorAdapter())
@@ -41,9 +41,26 @@ public class GsonUtil {
     }
 
     public static <T> List<T> toList(Object obj) {
-       String json = serialize(obj);
-       return (List<T>) deserialize(json, List.class);
+       return (List<T>) deserialize(serialize(obj), List.class);
     }
+
+    public static <T> JsonArray mapToArr(@NotNull Map<String, T> map) {
+        JsonArray arr = new JsonArray();
+        map.values().parallelStream().forEach(v -> arr.add(asTree(v)));
+
+        return arr;
+    }
+
+    public static <T> Map<String, T> arrToMap(@NotNull JsonArray arr, String key) {
+        ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
+        arrAsStream(arr).forEach(el -> {
+            JsonObject obj = el.getAsJsonObject();
+            map.put(obj.get(key).getAsString(), (T) el);
+        });
+
+        return map;
+    }
+
 
     public static int[] arrToIntArr(@NotNull JsonArray arr) {
         return deserialize(serialize(arr), int[].class);
@@ -62,11 +79,24 @@ public class GsonUtil {
         return obj.asList().parallelStream();
     }
 
+    public static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
+        return o.entrySet().parallelStream();
+    }
+
     public static Map<String, JsonObject> intersection(JsonArray arr, JsonArray arr2) {
         return arrAsStream(arr).flatMap(obj -> arrAsStream(arr2)
                 .map(JsonElement::getAsJsonObject)
                 .filter(obj2 -> Objects.equals(member(obj2, "name"), obj))
         ).collect(Collectors.toMap(obj -> keyAsStr(obj, "name"), obj -> obj));
+    }
+
+    public static JsonArray difference(JsonArray ops, JsonArray residents) {
+        Set<String> names = arrAsStream(residents)
+                .map(JsonElement::getAsString)
+                .collect(Collectors.toSet());
+
+        return arrAsStream(ops).filter(op -> !names.contains(keyAsStr(op.getAsJsonObject(), "name")))
+                .collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
     }
 
     static JsonObject valueAsObj(@NotNull Map.Entry<String, JsonElement> entry) {
@@ -109,7 +139,7 @@ public class GsonUtil {
         return arr;
     }
 
-    public static @NotNull JsonObject toObj(@NotNull Map<String, JsonObject> map) {
+    public static @NotNull JsonObject mapToObj(@NotNull Map<String, JsonObject> map) {
         JsonObject obj = new JsonObject();
         map.forEach(obj::add);
         return obj;

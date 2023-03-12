@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class Base<T> {
-    @Getter protected String name;
-    @Getter protected T value;
+    @Getter String name;
+    @Getter T parent;
 
     void setInfo(T parent, String name) {
-        this.value = parent;
+        this.parent = parent;
         this.name = name;
     }
 }

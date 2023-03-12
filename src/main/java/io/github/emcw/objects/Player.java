@@ -13,8 +13,8 @@ public class Player extends Base<Player> {
     @Getter String nickname;
     @Getter Location location = null;
 
-    Boolean isResident = false;
     String world = null;
+    private transient Boolean isResident = false;
 
     public Player(JsonObject obj, Boolean resident) {
         super();

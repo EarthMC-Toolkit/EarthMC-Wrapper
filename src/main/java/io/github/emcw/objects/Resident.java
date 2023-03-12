@@ -23,9 +23,15 @@ public class Resident extends Player {
     }
 
     public static List<Resident> fromArr(JsonArray arr) {
+        return arr.asList().parallelStream()
+                .map(p -> new Resident(p.getAsJsonObject()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Resident> fromArr(JsonArray arr, String key) {
         return StreamSupport.stream(arr.spliterator(), true).map(curRes -> {
             JsonObject obj = new JsonObject();
-            obj.add("name", curRes);
+            obj.add(key, curRes);
 
             return new Resident(obj);
         }).collect(Collectors.toList());

@@ -53,8 +53,9 @@ public class Town extends Base<Town> {
         }
     }
 
-    public static Map<String, Resident> onlineResidents(String mapName, Town town) {
-        return town.getResidents().parallelStream().filter(p -> p.online(mapName))
+    public Map<String, Resident> onlineResidents() {
+        return getResidents().parallelStream()
+                .filter(p -> p.online(parent.getName()))
                 .collect(Collectors.toMap(Base::getName, r -> r));
     }
 
@@ -67,6 +68,10 @@ public class Town extends Base<Town> {
     }
 
     String defaultColour() {
-        return Objects.equals(this.nation, "No Nation") ? "#89C500" : "3FB4FF";
+        return defaultColour(this.nation);
+    }
+
+    private static String defaultColour(String nationName) {
+        return Objects.equals(nationName, "No Nation") ? "#89C500" : "3FB4FF";
     }
 }

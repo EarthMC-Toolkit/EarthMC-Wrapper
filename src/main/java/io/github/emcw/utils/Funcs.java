@@ -1,7 +1,5 @@
 package io.github.emcw.utils;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.github.emcw.objects.Base;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,18 +10,14 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Funcs {
-    public static <T> Map<String, T> listToMap(List<Base<T>> list, String key) {
+    public static <T> Map<String, T> listToMap(List<Base<T>> list) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
-        list.parallelStream().forEach(el -> map.put(el.getName(), el.getValue()));
+        list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));
         return map;
     }
 
     public static <K, V> List<V> mapToList(Map<K, V> map) {
         return new ArrayList<>(map.values());
-    }
-
-    public static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
-        return o.entrySet().parallelStream();
     }
 
     static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {

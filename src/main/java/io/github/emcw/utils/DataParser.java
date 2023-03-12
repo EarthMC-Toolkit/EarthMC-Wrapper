@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 
 import io.github.emcw.objects.Nation;
 import io.github.emcw.objects.Player;
+import io.github.emcw.objects.Resident;
 import io.github.emcw.objects.Town;
 
 import org.jsoup.Jsoup;
@@ -22,12 +23,13 @@ import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class DataParser {
-    private static final JsonArray residents = new JsonArray();
+    private static final JsonArray allResidents = new JsonArray();
 
     static ConcurrentHashMap<String, JsonObject>
             towns   = new ConcurrentHashMap<>(),
             nations = new ConcurrentHashMap<>(),
-            players = new ConcurrentHashMap<>();
+            players = new ConcurrentHashMap<>(),
+            residents = new ConcurrentHashMap<>();
 
     static Safelist whitelist = new Safelist().addAttributes("a", "href");
 
@@ -94,7 +96,7 @@ public class DataParser {
 
             String[] members = names.split(", ");
             JsonArray residentNames = arrFromStrArr(members);
-            residents.addAll(residentNames);
+            allResidents.addAll(residentNames);
             //#endregion
 
             //#region Variables from info
@@ -187,6 +189,13 @@ public class DataParser {
         });
     }
 
+    public static Map<String, Resident> residentsAsMap(JsonObject residents) {
+        return collectAsMap(streamEntries(residents).map(entry -> {
+            try { return Map.entry(entry.getKey(), new Resident(valueAsObj(entry))); }
+            catch (Exception e) { return null; }
+        }));
+    }
+
     public static Map<String, Player> playersAsMap(JsonObject players) {
         return collectAsMap(streamEntries(players).map(entry -> {
             try { return Map.entry(entry.getKey(), new Player(valueAsObj(entry))); }
@@ -209,14 +218,18 @@ public class DataParser {
     }
 
     public static JsonObject getTowns() {
-        return toObj(towns);
+        return mapToObj(towns);
     }
 
     public static JsonObject getNations() {
-        return toObj(nations);
+        return mapToObj(nations);
     }
 
     public static JsonObject getPlayers() {
-        return toObj(players);
+        return mapToObj(players);
+    }
+
+    public static JsonObject getResidents() {
+        return mapToObj(residents);
     }
 }

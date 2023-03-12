@@ -12,14 +12,14 @@ public class EMCMap {
     public Players Players;
     public Residents Residents;
 
-    @Getter
-    String map;
+    @Getter String map;
 
     EMCMap(String mapName) {
-        this.map = mapName;
+        map = mapName;
 
-        this.Nations = new Nations(this);
-        this.Towns = new Towns(this);
-        this.Players = new Players(this);
+        Nations = new Nations(this);
+        Towns = new Towns(this);
+        Players = new Players(this);
+        Residents = new Residents(this);
     }
 }

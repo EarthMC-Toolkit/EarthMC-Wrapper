@@ -24,6 +24,10 @@ public class Funcs {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public static boolean arrayHas(String[] strings, String str) {
+       return Arrays.stream(strings).parallel().anyMatch(str::equals);
+    }
+
     public static int calcArea(int[] X, int[] Z) {
         return calcArea(X, Z, X.length, 256);
     }
@@ -37,6 +41,6 @@ public class Funcs {
 
     public static Integer range(int[] args) {
         IntSummaryStatistics stat = Arrays.stream(args).parallel().summaryStatistics();
-        return Math.round((stat.getMin() + stat.getMax()) / 2.0f);
+        return Math.round((stat.getMin() + stat.getMax()) / 2f);
     }
 }

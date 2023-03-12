@@ -7,7 +7,6 @@ import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
 
 import org.jetbrains.annotations.Nullable;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +17,8 @@ import com.google.gson.JsonObject;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Players implements Collective<Player> {
-    private EMCMap parent;
-
-    @Getter
-    protected Map<String, Player> cache;
+    private final EMCMap parent;
+    protected Map<String, Player> cache = null;
 
     public Players(EMCMap parent) {
         this.parent = parent;
@@ -35,12 +32,12 @@ public class Players implements Collective<Player> {
 
     public Player single(String playerName) {
         updateCache();
-        return Collective.super.single(playerName, getCache());
+        return Collective.super.single(playerName, cache);
     }
 
     public List<Player> all() {
         updateCache();
-        return Collective.super.all(getCache());
+        return Collective.super.all(cache);
     }
 
     public void updateCache() {
@@ -48,7 +45,7 @@ public class Players implements Collective<Player> {
     }
 
     public void updateCache(Boolean force) {
-        if (getCache() != null && !force) return;
+        if (cache != null && !force) return;
 
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(parent.getMap());
@@ -57,15 +54,15 @@ public class Players implements Collective<Player> {
 
     public Map<String, Player> townless() {
         Map<String, Resident> residents = parent.Residents.cache;
-        return arrToMap(difference(mapToArr(getCache()), mapToArr(residents)), "name");
+        return arrToMap(difference(mapToArr(cache), mapToArr(residents)), "name");
     }
 
     @Nullable
     public Player getOnline(String playerName) {
         Player pl = null;
 
-        if (!getCache().isEmpty()) {
-            for (Player op : getCache().values()) {
+        if (!cache.isEmpty()) {
+            for (Player op : cache.values()) {
                 if (Objects.equals(op.getName(), playerName)) {
                     pl = op;
                     break;

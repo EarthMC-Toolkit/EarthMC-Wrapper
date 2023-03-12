@@ -8,10 +8,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.lang.reflect.Type;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -75,7 +73,11 @@ public class GsonUtil {
         return arr;
     }
 
-    static Stream<JsonElement> arrAsStream(@NotNull JsonArray obj) {
+    public static Stream<String> arrAsStream(@NotNull String[] obj) {
+        return Arrays.stream(obj).toList().parallelStream();
+    }
+
+    public static Stream<JsonElement> arrAsStream(@NotNull JsonArray obj) {
         return obj.asList().parallelStream();
     }
 

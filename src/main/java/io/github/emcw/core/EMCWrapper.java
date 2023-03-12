@@ -7,8 +7,8 @@ public class EMCWrapper {
     @Getter EMCMap Aurora, Nova;
 
     public EMCWrapper(Boolean aurora, Boolean nova) {
-        if (aurora) this.Aurora = new EMCMap("aurora");
-        if (nova) this.Nova = new EMCMap("nova");
+        if (aurora) Aurora = new EMCMap("aurora");
+        if (nova) Nova = new EMCMap("nova");
 
         instance = this;
     }

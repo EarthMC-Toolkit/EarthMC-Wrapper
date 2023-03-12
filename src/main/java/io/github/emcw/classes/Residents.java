@@ -1,41 +1,30 @@
 package io.github.emcw.classes;
 
-import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
 
-import static io.github.emcw.utils.GsonUtil.keyAsStr;
-
 public class Residents implements Collective<Resident> {
-    private EMCMap parent;
-
-    @Getter
-    protected Map<String, Resident> cache;
+    private final EMCMap parent;
+    protected Map<String, Resident> cache = null;
 
     public Residents(EMCMap parent) {
         this.parent = parent;
         updateCache(true);
     }
 
-    public Resident single(JsonObject p) {
-        String name = keyAsStr(p, "name");
-        return single(name);
-    }
-
     public Resident single(String playerName) {
         updateCache();
-        return Collective.super.single(playerName, getCache());
+        return Collective.super.single(playerName, cache);
     }
 
     public List<Resident> all() {
         updateCache();
-        return Collective.super.all(getCache());
+        return Collective.super.all(cache);
     }
 
     public void updateCache() {
@@ -43,10 +32,10 @@ public class Residents implements Collective<Resident> {
     }
 
     public void updateCache(Boolean force) {
-        if (getCache() != null && !force) return;
+        if (cache != null && !force) return;
 
         // Parse player data into usable Player objects.
-        DataParser.parseMapData(parent.getMap(), false);
+        DataParser.parseMapData(parent.getMap(), false, true);
         this.cache = DataParser.residentsAsMap(DataParser.getResidents());
     }
 }

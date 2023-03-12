@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Nations implements Collective<Nation> {
-    Map<String, Nation> cache = null;
-    EMCMap parent;
+    private final EMCMap parent;
+    protected Map<String, Nation> cache = null;
 
     public Nations(EMCMap parent) {
         this.parent = parent;
@@ -37,7 +37,7 @@ public class Nations implements Collective<Nation> {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable Nation objects.
-        DataParser.parseMapData(parent.getMap(), true);
+        DataParser.parseMapData(parent.getMap(), true, false);
         this.cache = DataParser.nationsAsMap(DataParser.getNations());
     }
 }

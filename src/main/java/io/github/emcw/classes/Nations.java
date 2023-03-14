@@ -17,7 +17,8 @@ public class Nations implements Collective<Nation> {
     }
 
     public Nation single(String key) throws NullPointerException {
-        return Collective.super.single(key, this.cache);
+        updateCache(false);
+        return single(key, this.cache);
     }
 
     public Map<String, Nation> all() {

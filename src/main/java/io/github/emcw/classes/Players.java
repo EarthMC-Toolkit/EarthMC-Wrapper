@@ -31,7 +31,7 @@ public class Players implements Collective<Player> {
 
     public Player single(String playerName) {
         updateCache();
-        return Collective.super.single(playerName, cache);
+        return single(playerName, cache);
     }
 
     public Map<String, Player> all() {

@@ -18,7 +18,7 @@ public class Residents implements Collective<Resident> {
 
     public Resident single(String playerName) {
         updateCache();
-        return Collective.super.single(playerName, cache);
+        return single(playerName, cache);
     }
 
     public Map<String, Resident> all() {

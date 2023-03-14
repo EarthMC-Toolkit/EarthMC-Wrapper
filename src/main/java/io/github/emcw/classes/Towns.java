@@ -18,7 +18,7 @@ public class Towns implements Collective<Town> {
 
     public Town single(String key) throws NullPointerException {
         updateCache();
-        return Collective.super.single(key, cache);
+        return single(key, cache);
     }
 
     public Map<String, Town> all() {

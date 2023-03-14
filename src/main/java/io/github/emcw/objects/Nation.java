@@ -18,20 +18,25 @@ public class Nation extends Base<Nation> {
     @Getter String leader;
     @Getter Integer area;
 
-    private final transient List<String> residentNames;
+    // Not exposed to serialization.
+    private transient List<String> residentNames;
 
     public Nation(JsonObject obj) {
         super();
+        init(obj);
+    }
+
+    public void init(JsonObject obj) {
         setInfo(this, keyAsStr(obj, "name"));
 
-        this.leader = keyAsStr(obj, "king");
-        this.area = keyAsInt(obj, "area");
-        this.capital = new Capital(obj.getAsJsonObject("capital"));
-        this.towns = GsonUtil.toList(obj.getAsJsonArray("towns"));
+        leader = keyAsStr(obj, "king");
+        area = keyAsInt(obj, "area");
+        capital = new Capital(obj.getAsJsonObject("capital"));
+        towns = GsonUtil.toList(keyAsArr(obj, "towns"));
 
         JsonArray residentArr = keyAsArr(obj, "residents");
-        this.residentNames = toList(residentArr);
-        this.residents = Resident.fromArr(residentArr);
+        residents = Resident.fromArr(residentArr);
+        residentNames = toList(residentArr);
     }
 
     public List<String> residentNameList() {

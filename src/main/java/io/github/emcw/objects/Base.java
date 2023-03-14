@@ -8,7 +8,7 @@ public class Base<T> {
     @Getter String name;
     @Getter T parent;
 
-    void setInfo(T parent, String name) {
+    protected void setInfo(T parent, String name) {
         this.parent = parent;
         this.name = name;
     }

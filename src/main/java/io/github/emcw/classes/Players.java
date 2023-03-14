@@ -8,7 +8,6 @@ import io.github.emcw.utils.DataParser;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -35,9 +34,9 @@ public class Players implements Collective<Player> {
         return Collective.super.single(playerName, cache);
     }
 
-    public List<Player> all() {
+    public Map<String, Player> all() {
         updateCache();
-        return Collective.super.all(cache);
+        return cache;
     }
 
     public void updateCache() {
@@ -54,7 +53,7 @@ public class Players implements Collective<Player> {
 
     public Map<String, Player> townless() {
         Map<String, Resident> residents = parent.Residents.cache;
-        return difference(mapToArr(cache), mapToArr(residents), "name");
+        return difference(mapToArr(cache), mapToArr(residents));
     }
 
     @Nullable

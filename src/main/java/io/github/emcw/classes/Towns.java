@@ -1,16 +1,11 @@
 package io.github.emcw.classes;
 
-import com.google.gson.JsonArray;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Town;
 import io.github.emcw.utils.DataParser;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static io.github.emcw.utils.GsonUtil.arrAsStream;
 
 public class Towns implements Collective<Town> {
     private final EMCMap parent;
@@ -22,11 +17,13 @@ public class Towns implements Collective<Town> {
     }
 
     public Town single(String key) throws NullPointerException {
+        updateCache();
         return Collective.super.single(key, cache);
     }
 
-    public List<Town> all() {
-        return Collective.super.all(cache);
+    public Map<String, Town> all() {
+        updateCache();
+        return cache;
     }
 
     public void updateCache() {
@@ -41,9 +38,9 @@ public class Towns implements Collective<Town> {
         cache = DataParser.townsAsMap(DataParser.getTowns());
     }
 
-    public static List<Town> fromArray(JsonArray arr) {
-        return arrAsStream(arr)
-                .map(p -> new Town(p.getAsJsonObject()))
-                .collect(Collectors.toList());
-    }
+//    public static List<Town> fromArray(JsonArray arr) {
+//        return arrAsStream(arr)
+//                .map(p -> new Town(p.getAsJsonObject()))
+//                .collect(Collectors.toList());
+//    }
 }

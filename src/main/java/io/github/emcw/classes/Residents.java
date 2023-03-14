@@ -5,7 +5,6 @@ import io.github.emcw.interfaces.Collective;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
 
-import java.util.List;
 import java.util.Map;
 
 public class Residents implements Collective<Resident> {
@@ -22,9 +21,9 @@ public class Residents implements Collective<Resident> {
         return Collective.super.single(playerName, cache);
     }
 
-    public List<Resident> all() {
+    public Map<String, Resident> all() {
         updateCache();
-        return Collective.super.all(cache);
+        return cache;
     }
 
     public void updateCache() {

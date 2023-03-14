@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
+@SuppressWarnings("unchecked")
 public class GsonUtil {
     @Getter
     private static final Gson GSON = new GsonBuilder()
@@ -29,8 +30,15 @@ public class GsonUtil {
     static String regex = "(?<=})\\s*,\\s*(?=\\{)";
 
     public static <T> String serialize(Object obj) {
-        Type collectionType = new TypeToken<T>() {}.getType();
-        return GSON.toJson(obj, collectionType);
+        return GSON.toJson(obj, getType(obj));
+    }
+
+    public static <T> Type getType(@NotNull T obj) {
+        return TypeToken.get(obj.getClass()).getType();
+    }
+
+    public static <T> Type getType(Class<T> clazz) {
+        return TypeToken.getParameterized(clazz).getType();
     }
 
     public static <T> T deserialize(String str, Class<T> c) {
@@ -39,6 +47,10 @@ public class GsonUtil {
 
     public static <T> T deserialize(String str, Type type) {
         return GSON.fromJson(str, type);
+    }
+
+    public static <T> T deserialize(JsonElement el, Type type) {
+        return GSON.fromJson(el, type);
     }
 
     public static JsonElement asTree(Object input) {
@@ -60,12 +72,11 @@ public class GsonUtil {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         arrAsStream(arr).forEach(el -> {
             JsonObject obj = el.getAsJsonObject();
-            map.put(obj.get(key).getAsString(), (T) el);
+            map.put(obj.get(key).getAsString(), deserialize(el, getType(el)));
         });
 
         return map;
     }
-
 
     public static int[] arrToIntArr(@NotNull JsonArray arr) {
         return deserialize(serialize(arr), int[].class);
@@ -88,7 +99,11 @@ public class GsonUtil {
         return arr.asList().parallelStream();
     }
 
-    public static Stream<Map.Entry<String, JsonElement>> streamEntries(JsonObject o) {
+    public static Stream<Map.Entry<String, JsonElement>> streamEntries(@NotNull JsonObject o) {
+        return o.entrySet().parallelStream();
+    }
+
+    public static <T> Stream<Map.Entry<String, T>> streamEntries(@NotNull Map<String, T> o) {
         return o.entrySet().parallelStream();
     }
 
@@ -97,6 +112,10 @@ public class GsonUtil {
                 .map(JsonElement::getAsJsonObject)
                 .filter(obj2 -> Objects.equals(member(obj2, "name"), obj))
         ).collect(Collectors.toMap(obj -> keyAsStr(obj, "name"), obj -> obj));
+    }
+
+    public static Map<String, Player> difference(JsonArray ops, JsonArray residents) {
+        return difference(ops, residents, "name");
     }
 
     public static Map<String, Player> difference(JsonArray ops, JsonArray residents, String key) {
@@ -108,6 +127,7 @@ public class GsonUtil {
         List<Player> playerList = deserialize(serialize(ops), playerListType);
 
         return playerList.parallelStream()
+                .filter(Objects::nonNull)
                 .filter(op -> !names.contains(op.getName()))
                 .collect(Collectors.toMap(Base::getName, Function.identity()));
     }

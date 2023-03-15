@@ -31,7 +31,7 @@ public class Town extends Base<Town> implements IPlayerCollective, ISerializable
 
         nation = keyAsStr(obj, "nation");
         mayor = keyAsStr(obj, "mayor");
-        residents = fromArr(keyAsArr(obj, "residents"));
+        residents = fromArr(keyAsArr(obj, "residents"), "name");
 
         location = Location.of(obj);
         area = keyAsInt(obj, "area");

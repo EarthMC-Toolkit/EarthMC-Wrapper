@@ -82,7 +82,7 @@ public class GsonUtil {
         return deserialize(serialize(arr), int[].class);
     }
 
-    public static @NotNull JsonArray arrFromStrArr(String @NotNull [] obj) {
+    public static @NotNull JsonArray arrFromStrArr(String[] obj) {
         JsonArray arr = new JsonArray();
         for (String value : obj) {
             arr.add(deserialize(value, JsonElement.class));

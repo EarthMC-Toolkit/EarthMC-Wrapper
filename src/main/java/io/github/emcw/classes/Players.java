@@ -24,11 +24,13 @@ public class Players implements IMap<Player> {
         updateCache(true);
     }
 
+    @Nullable
     public Player single(JsonObject p) {
         String name = keyAsStr(p, "name");
         return single(name);
     }
 
+    @Nullable
     public Player single(String playerName) {
         return single(playerName, all());
     }

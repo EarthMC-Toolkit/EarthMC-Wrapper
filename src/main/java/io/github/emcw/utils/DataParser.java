@@ -147,24 +147,6 @@ public class DataParser {
             });
             //#endregion
 
-            if (parseResidents) {
-                // Loop through members
-                strArrAsStream(members).forEach(res -> {
-                    // Create new object (name, town, nation, rank)
-                    JsonObject newObj = new JsonObject();
-
-                    newObj.addProperty("name", res);
-                    newObj.addProperty("town", name);
-                    newObj.addProperty("nation", nation);
-
-                    String rank = mayorStr.equals(res) ? (capital ? "Nation Leader" : "Mayor") : "Resident";
-                    newObj.addProperty("rank", rank);
-
-                    // Add resident obj to residents.
-                    residents.put(res, newObj);
-                });
-            }
-
             //#region Create/Update Nations Map.
             if (parseNations && nation != null) {
                 // Not present, create a new Nation.
@@ -201,6 +183,24 @@ public class DataParser {
                     return v;
                 });
             }
+
+            if (parseResidents) {
+                // Loop through members
+                strArrAsStream(members).forEach(res -> {
+                    // Create new object (name, town, nation, rank)
+                    JsonObject newObj = new JsonObject();
+
+                    newObj.addProperty("name", res);
+                    newObj.addProperty("town", name);
+                    newObj.addProperty("nation", nation);
+
+                    String rank = mayorStr.equals(res) ? (capital ? "Nation Leader" : "Mayor") : "Resident";
+                    newObj.addProperty("rank", rank);
+
+                    // Add resident obj to residents.
+                    residents.put(res, newObj);
+                });
+            }
             //#endregion
         });
     }
@@ -227,9 +227,16 @@ public class DataParser {
     }
 
     public static Map<String, Nation> nationsAsMap(JsonObject nations) {
+        System.out.println(nations.size());
+
+        //System.out.println(serialize(nations));
+
         return collectAsMap(streamEntries(nations).map(entry -> {
             try { return Map.entry(entry.getKey(), new Nation(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+                return null;
+            }
         }));
     }
 

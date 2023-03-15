@@ -4,6 +4,7 @@ import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.IMap;
 import io.github.emcw.objects.Town;
 import io.github.emcw.utils.DataParser;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -16,8 +17,9 @@ public class Towns implements IMap<Town> {
         updateCache(true);
     }
 
-    public Town single(String key) {
-        return single(key, all());
+    @Nullable
+    public Town single(String townName) {
+        return single(townName, all());
     }
 
     public Map<String, Town> all() {

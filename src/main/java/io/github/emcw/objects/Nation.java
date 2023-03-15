@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.IPlayerCollective;
 import io.github.emcw.interfaces.ISerializable;
-import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
 
 import java.util.List;
@@ -14,13 +13,12 @@ import static io.github.emcw.utils.GsonUtil.*;
 
 public class Nation extends Base<Nation> implements IPlayerCollective, ISerializable {
     @Getter Capital capital;
-    @Getter List<String> towns;
-    @Getter List<Resident> residents;
+    @Getter List<String> towns, residents;
     @Getter String leader;
     @Getter Integer area;
 
     // Not exposed to serialization.
-    private transient List<String> residentNames;
+    private transient List<Resident> residentList;
 
     public Nation(JsonObject obj) {
         super();
@@ -33,18 +31,18 @@ public class Nation extends Base<Nation> implements IPlayerCollective, ISerializ
         leader = keyAsStr(obj, "king");
         area = keyAsInt(obj, "area");
         capital = new Capital(obj.getAsJsonObject("capital"));
-        towns = GsonUtil.toList(keyAsArr(obj, "towns"));
+        towns = toList(keyAsArr(obj, "towns"));
 
         JsonArray residentArr = keyAsArr(obj, "residents");
-        residents = Resident.fromArr(residentArr);
-        residentNames = toList(residentArr);
+        residents = toList(residentArr);
+        residentList = Resident.fromArr(residentArr, "name");
     }
 
-    public List<String> residentNameList() {
-        return residentNames;
+    public List<Resident> residentList() {
+        return residentList;
     }
 
     public Map<String, Resident> onlineResidents() {
-        return onlineResidents(residents, parent);
+        return onlineResidents(residentList, parent);
     }
 }

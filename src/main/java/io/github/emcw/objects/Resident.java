@@ -3,7 +3,6 @@ package io.github.emcw.objects;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,18 +22,18 @@ public class Resident extends Player {
         rank = keyAsStr(obj, "rank");
     }
 
-    public static List<Resident> fromArr(@NotNull JsonArray arr) {
-        return arr.asList().parallelStream()
-                .map(p -> new Resident(p.getAsJsonObject()))
-                .collect(Collectors.toList());
-    }
-
-//    public static List<Resident> fromArr(JsonArray arr, String key) {
-//        return StreamSupport.stream(arr.spliterator(), true).map(curRes -> {
-//            JsonObject obj = new JsonObject();
-//            obj.add(key, curRes);
-//
-//            return new Resident(obj);
-//        }).collect(Collectors.toList());
+//    public static List<Resident> fromArr(@NotNull JsonArray arr) {
+//        return arr.asList().parallelStream()
+//                .map(p -> new Resident(p.getAsJsonObject()))
+//                .collect(Collectors.toList());
 //    }
+
+    public static List<Resident> fromArr(JsonArray arr, String key) {
+        return StreamSupport.stream(arr.spliterator(), true).map(curRes -> {
+            JsonObject obj = new JsonObject();
+            obj.add(key, curRes);
+
+            return new Resident(obj);
+        }).collect(Collectors.toList());
+    }
 }

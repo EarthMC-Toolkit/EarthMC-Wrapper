@@ -4,6 +4,7 @@ import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.IMap;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class Residents implements IMap<Resident> {
         updateCache(true);
     }
 
+    @Nullable
     public Resident single(String playerName) {
         return single(playerName, all());
     }

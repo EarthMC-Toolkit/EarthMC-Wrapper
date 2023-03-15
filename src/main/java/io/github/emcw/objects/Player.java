@@ -17,34 +17,38 @@ public class Player extends Base<Player> implements ISerializable {
     String world = null;
     private transient Boolean isResident = false;
 
-    public Player(JsonObject obj, Boolean resident) {
-        super();
-
-        setInfo(this, keyAsStr(obj, "name"));
-        this.nickname = keyAsStr(obj, "nickname");
-        this.isResident = true;
+    public Player(JsonObject obj) {
+        new Player(obj, false);
     }
 
-    public Player(JsonObject obj) {
+    public Player(JsonObject obj, Boolean resident) {
         super();
-        setInfo(this, keyAsStr(obj, "name"));
+        init(obj, resident);
+    }
 
-        this.nickname = keyAsStr(obj, "nickname");
-        this.world = keyAsStr(obj, "world");
-        this.location = Location.fromObj(obj);
+    public void init(JsonObject obj, Boolean resident) {
+        setInfo(this, keyAsStr(obj, "name"));
+        nickname = keyAsStr(obj, "nickname");
+
+        if (resident) isResident = true;
+        else {
+            world = keyAsStr(obj, "world");
+            location = Location.fromObj(obj);
+        }
     }
 
     boolean hidden() {
-        Location loc = this.location;
-        return loc.y == 64 && loc.x == 0 && loc.z == 0;
+        return location.y == 64 &&
+               location.x == 0 &&
+               location.z == 0;
     }
 
     boolean underground() {
-        return !Objects.equals(this.world, "earth");
+        return !Objects.equals(world, "earth");
     }
 
     public boolean online(String map) {
-        return online(map, this.name);
+        return online(map, name);
     }
 
     public boolean isResident() {

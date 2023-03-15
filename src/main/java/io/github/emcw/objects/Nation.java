@@ -45,6 +45,6 @@ public class Nation extends Base<Nation> implements IPlayerCollective, ISerializ
     }
 
     public Map<String, Resident> onlineResidents() {
-        return (Map<String, Resident>) onlineResidents(residents, parent);
+        return onlineResidents(residents, parent);
     }
 }

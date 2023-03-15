@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static io.github.emcw.objects.Resident.fromArr;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Town extends Base<Town> implements IPlayerCollective, ISerializable {
@@ -26,7 +27,7 @@ public class Town extends Base<Town> implements IPlayerCollective, ISerializable
 
         this.nation = keyAsStr(obj, "nation");
         this.mayor = keyAsStr(obj, "mayor");
-        this.residents = Resident.fromArr(obj.getAsJsonArray("residents"));
+        this.residents = fromArr(keyAsArr(obj, "residents"));
 
         this.location = Location.of(obj);
         this.area = keyAsInt(obj, "area");
@@ -50,11 +51,11 @@ public class Town extends Base<Town> implements IPlayerCollective, ISerializable
     }
 
     public Map<String, Resident> onlineResidents() {
-        return (Map<String, Resident>) onlineResidents(residents, parent);
+        return onlineResidents(residents, parent);
     }
 
     public boolean nationless() {
-        return this.nation == null;
+        return nation == null;
     }
 
     Color getColour(String hex) {
@@ -62,7 +63,7 @@ public class Town extends Base<Town> implements IPlayerCollective, ISerializable
     }
 
     String defaultColour() {
-        return defaultColour(this.nation);
+        return defaultColour(nation);
     }
 
     private static String defaultColour(String nationName) {

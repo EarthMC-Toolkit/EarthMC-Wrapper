@@ -33,13 +33,7 @@ public class Towns implements IMap<Town> {
         if (cache != null && !force) return;
 
         // Parse map data into usable Town objects.
-        DataParser.parseMapData(parent.getMap(), false, false);
+        DataParser.parseMapData(parent.getMap(), false, true);
         cache = DataParser.townsAsMap(DataParser.getTowns());
     }
-
-//    public static List<Town> fromArray(JsonArray arr) {
-//        return arrAsStream(arr)
-//                .map(p -> new Town(p.getAsJsonObject()))
-//                .collect(Collectors.toList());
-//    }
 }

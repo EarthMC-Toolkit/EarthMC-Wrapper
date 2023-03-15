@@ -11,7 +11,7 @@ import static io.github.emcw.utils.Funcs.collectAsMap;
 import static io.github.emcw.utils.GsonUtil.streamEntries;
 
 public interface IMap<T> {
-    default T single(String key, @NotNull Map<String, T> map) {
+    default T single(String key, Map<String, T> map) {
         return map.getOrDefault(key, null);
     }
 

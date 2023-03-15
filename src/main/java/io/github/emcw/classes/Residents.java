@@ -17,8 +17,7 @@ public class Residents implements IMap<Resident> {
     }
 
     public Resident single(String playerName) {
-        updateCache();
-        return single(playerName, cache);
+        return single(playerName, all());
     }
 
     public Map<String, Resident> all() {
@@ -35,6 +34,6 @@ public class Residents implements IMap<Resident> {
 
         // Parse player data into usable Player objects.
         DataParser.parseMapData(parent.getMap(), false, true);
-        this.cache = DataParser.residentsAsMap(DataParser.getResidents());
+        cache = DataParser.residentsAsMap(DataParser.getResidents());
     }
 }

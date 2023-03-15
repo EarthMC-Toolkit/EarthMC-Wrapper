@@ -16,7 +16,7 @@ public class Nations implements IMap<Nation> {
         updateCache(true);
     }
 
-    public Nation single(String key) throws NullPointerException {
+    public Nation single(String key) {
         return single(key, all());
     }
 

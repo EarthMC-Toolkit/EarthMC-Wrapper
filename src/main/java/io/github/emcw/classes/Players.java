@@ -30,8 +30,7 @@ public class Players implements IMap<Player> {
     }
 
     public Player single(String playerName) {
-        updateCache();
-        return single(playerName, cache);
+        return single(playerName, all());
     }
 
     public Map<String, Player> all() {
@@ -48,7 +47,7 @@ public class Players implements IMap<Player> {
 
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(parent.getMap());
-        this.cache = DataParser.playersAsMap(DataParser.getPlayers());
+        cache = DataParser.playersAsMap(DataParser.getPlayers());
     }
 
     public Map<String, Player> townless() {

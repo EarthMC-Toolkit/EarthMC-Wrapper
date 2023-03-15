@@ -17,8 +17,7 @@ public class Nations implements IMap<Nation> {
     }
 
     public Nation single(String key) throws NullPointerException {
-        updateCache(false);
-        return single(key, this.cache);
+        return single(key, all());
     }
 
     public Map<String, Nation> all() {
@@ -26,17 +25,11 @@ public class Nations implements IMap<Nation> {
         return cache;
     }
 
-//    static List<Nation> fromArray(JsonArray arr) {
-//        return arrAsStream(arr)
-//                .map(p -> new Nation(p.getAsJsonObject()))
-//                .collect(Collectors.toList());
-//    }
-
     public void updateCache(Boolean force) {
-        if (this.cache != null && !force) return;
+        if (cache != null && !force) return;
 
         // Parse map data into usable Nation objects.
         DataParser.parseMapData(parent.getMap(), true, false);
-        this.cache = DataParser.nationsAsMap(DataParser.getNations());
+        cache = DataParser.nationsAsMap(DataParser.getNations());
     }
 }

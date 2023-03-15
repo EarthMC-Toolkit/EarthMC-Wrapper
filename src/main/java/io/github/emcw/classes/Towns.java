@@ -16,9 +16,8 @@ public class Towns implements IMap<Town> {
         updateCache(true);
     }
 
-    public Town single(String key) throws NullPointerException {
-        updateCache();
-        return single(key, cache);
+    public Town single(String key) {
+        return single(key, all());
     }
 
     public Map<String, Town> all() {

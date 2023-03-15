@@ -7,8 +7,8 @@ import io.github.emcw.classes.Towns;
 import lombok.Getter;
 
 public class EMCMap {
-    public Nations Nations;
     public Towns Towns;
+    public Nations Nations;
     public Players Players;
     public Residents Residents;
 
@@ -17,8 +17,8 @@ public class EMCMap {
     EMCMap(String mapName) {
         map = mapName;
 
-        Nations = new Nations(this);
         Towns = new Towns(this);
+        Nations = new Nations(this);
         Players = new Players(this);
         Residents = new Residents(this);
     }

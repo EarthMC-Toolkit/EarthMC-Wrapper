@@ -23,30 +23,34 @@ public class Town extends Base<Town> implements IPlayerCollective, ISerializable
 
     public Town(JsonObject obj) {
         super();
+        init(obj);
+    }
+
+    void init(JsonObject obj) {
         setInfo(this, keyAsStr(obj, "name"));
 
-        this.nation = keyAsStr(obj, "nation");
-        this.mayor = keyAsStr(obj, "mayor");
-        this.residents = fromArr(keyAsArr(obj, "residents"));
+        nation = keyAsStr(obj, "nation");
+        mayor = keyAsStr(obj, "mayor");
+        residents = fromArr(keyAsArr(obj, "residents"));
 
-        this.location = Location.of(obj);
-        this.area = keyAsInt(obj, "area");
-        this.flags = new Flags(obj);
+        location = Location.of(obj);
+        area = keyAsInt(obj, "area");
+        flags = new Flags(obj);
 
-        this.fill = getColour(keyAsStr(obj, "fill"));
-        this.outline = getColour(keyAsStr(obj, "outline"));
+        fill = getColour(keyAsStr(obj, "fill"));
+        outline = getColour(keyAsStr(obj, "outline"));
     }
 
     static class Flags {
         Boolean PVP, EXPLOSIONS, FIRE, CAPITAL, MOBS, PUBLIC;
 
         Flags(JsonObject obj) {
-            this.PVP = keyAsBool(obj, "pvp");
-            this.EXPLOSIONS = keyAsBool(obj, "explosions");
-            this.FIRE = keyAsBool(obj, "fire");
-            this.CAPITAL = keyAsBool(obj, "capital");
-            this.MOBS = keyAsBool(obj, "mobs");
-            this.PUBLIC = keyAsBool(obj, "public");
+            PVP = keyAsBool(obj, "pvp");
+            EXPLOSIONS = keyAsBool(obj, "explosions");
+            FIRE = keyAsBool(obj, "fire");
+            CAPITAL = keyAsBool(obj, "capital");
+            MOBS = keyAsBool(obj, "mobs");
+            PUBLIC = keyAsBool(obj, "public");
         }
     }
 

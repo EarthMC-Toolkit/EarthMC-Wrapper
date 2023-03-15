@@ -11,7 +11,7 @@ public class Capital {
     @Getter final Location location;
 
     Capital(JsonObject obj) {
-        this.name = keyAsStr(obj, "name");
-        this.location = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
+        name = keyAsStr(obj, "name");
+        location = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
     }
 }

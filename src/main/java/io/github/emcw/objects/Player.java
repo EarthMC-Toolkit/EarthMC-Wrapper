@@ -51,7 +51,7 @@ public class Player extends Base<Player> implements ISerializable {
         return online(map, name);
     }
 
-    public boolean isResident() {
+    private boolean isResident() {
         return isResident;
     }
 

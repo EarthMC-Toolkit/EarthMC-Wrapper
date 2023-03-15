@@ -2,6 +2,7 @@ package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
+import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
 import static io.github.emcw.core.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Player extends Base<Player> {
+public class Player extends Base<Player> implements ISerializable {
     @Getter String nickname;
     @Getter Location location = null;
 

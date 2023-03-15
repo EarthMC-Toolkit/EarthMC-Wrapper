@@ -1,7 +1,7 @@
 package io.github.emcw.classes;
 
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.interfaces.Collective;
+import io.github.emcw.interfaces.IMap;
 import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Players implements Collective<Player> {
+public class Players implements IMap<Player> {
     private final EMCMap parent;
     protected Map<String, Player> cache = null;
 

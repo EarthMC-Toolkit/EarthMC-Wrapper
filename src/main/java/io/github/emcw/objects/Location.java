@@ -2,12 +2,13 @@ package io.github.emcw.objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 
 import static io.github.emcw.utils.Funcs.range;
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Location {
+public class Location implements ISerializable {
     @Getter Integer x, z, y;
 
     Location(Integer x, Integer y, Integer z) {

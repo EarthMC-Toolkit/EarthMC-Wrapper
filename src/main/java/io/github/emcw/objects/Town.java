@@ -1,28 +1,24 @@
 package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
+import io.github.emcw.interfaces.IPlayerCollective;
+import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Town extends Base<Town> {
+public class Town extends Base<Town> implements IPlayerCollective, ISerializable {
     @Getter String mayor, nation;
     @Getter Integer area;
     @Getter Location location;
     @Getter List<Resident> residents;
     @Getter Flags flags;
     @Getter Color fill, outline;
-
-    @Override
-    public String toString() {
-        return serialize(this);
-    }
 
     public Town(JsonObject obj) {
         super();
@@ -54,9 +50,7 @@ public class Town extends Base<Town> {
     }
 
     public Map<String, Resident> onlineResidents() {
-        return getResidents().parallelStream()
-                .filter(p -> p.online(parent.getName()))
-                .collect(Collectors.toMap(Base::getName, r -> r));
+        return (Map<String, Resident>) onlineResidents(residents, parent);
     }
 
     public boolean nationless() {

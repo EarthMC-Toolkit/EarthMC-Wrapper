@@ -20,7 +20,7 @@ public class Funcs {
         return new ArrayList<>(map.values());
     }
 
-    static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
+    public static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 

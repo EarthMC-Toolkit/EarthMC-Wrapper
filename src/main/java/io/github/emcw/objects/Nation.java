@@ -2,6 +2,8 @@ package io.github.emcw.objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.emcw.interfaces.IPlayerCollective;
+import io.github.emcw.interfaces.ISerializable;
 import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
 
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Nation extends Base<Nation> {
+public class Nation extends Base<Nation> implements IPlayerCollective, ISerializable {
     @Getter Capital capital;
     @Getter List<String> towns;
     @Getter List<Resident> residents;
@@ -44,8 +46,6 @@ public class Nation extends Base<Nation> {
     }
 
     public Map<String, Resident> onlineResidents() {
-        return getResidents().parallelStream()
-                .filter(p -> p.online(parent.getName()))
-                .collect(Collectors.toMap(Base::getName, r -> r));
+        return (Map<String, Resident>) onlineResidents(residents, parent);
     }
 }

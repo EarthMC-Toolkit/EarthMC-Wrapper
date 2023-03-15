@@ -1,13 +1,13 @@
 package io.github.emcw.classes;
 
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.interfaces.Collective;
+import io.github.emcw.interfaces.IMap;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
 
 import java.util.Map;
 
-public class Residents implements Collective<Resident> {
+public class Residents implements IMap<Resident> {
     private final EMCMap parent;
     protected Map<String, Resident> cache = null;
 

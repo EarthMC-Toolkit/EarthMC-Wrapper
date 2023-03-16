@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -46,5 +47,23 @@ public class Funcs {
 
     public static <T> List<T> removeListDuplicates(List<T> list) {
         return list.parallelStream().distinct().collect(Collectors.toList());
+    }
+
+//    public static boolean sqr(Player a, Player b, double range) {
+//        double distance = Math.hypot(a.getX() - b.getX(), a.getZ() - b.getZ());
+//        return distance <= range;
+//    }
+
+    public static <T> boolean sqr(T a, T b, double range,
+                                  Function<T, Double> xGetter,
+                                  Function<T, Double> zGetter) {
+        double distance = Math.hypot(xGetter.apply(a) - xGetter.apply(b),
+                zGetter.apply(a) - zGetter.apply(b));
+        return distance <= range;
+    }
+
+    public static boolean hypot(double num, double[] args) {
+        double input = args[0], radius = args[1];
+        return (num <= input+radius) && (num >= input-radius);
     }
 }

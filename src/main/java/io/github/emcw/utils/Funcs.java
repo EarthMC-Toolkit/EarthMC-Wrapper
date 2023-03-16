@@ -43,4 +43,8 @@ public class Funcs {
         IntSummaryStatistics stat = Arrays.stream(args).parallel().summaryStatistics();
         return Math.round((stat.getMin() + stat.getMax()) / 2f);
     }
+
+    public static <T> List<T> removeListDuplicates(List<T> list) {
+        return list.parallelStream().distinct().collect(Collectors.toList());
+    }
 }

@@ -57,8 +57,11 @@ public class Funcs {
     public static <T> boolean sqr(T a, T b, double range,
                                   Function<T, Double> xGetter,
                                   Function<T, Double> zGetter) {
-        double distance = Math.hypot(xGetter.apply(a) - xGetter.apply(b),
-                zGetter.apply(a) - zGetter.apply(b));
+        double distance = Math.hypot(
+                xGetter.apply(a) - xGetter.apply(b),
+                zGetter.apply(a) - zGetter.apply(b)
+        );
+
         return distance <= range;
     }
 

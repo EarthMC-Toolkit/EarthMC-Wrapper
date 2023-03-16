@@ -227,14 +227,10 @@ public class DataParser {
     }
 
     public static Map<String, Nation> nationsAsMap(JsonObject nations) {
-        System.out.println(nations.size());
-
-        //System.out.println(serialize(nations));
-
         return collectAsMap(streamEntries(nations).map(entry -> {
             try { return Map.entry(entry.getKey(), new Nation(valueAsObj(entry))); }
             catch (Exception e) {
-                System.out.println(e.getMessage());
+                //System.out.println(e.getMessage());
                 return null;
             }
         }));

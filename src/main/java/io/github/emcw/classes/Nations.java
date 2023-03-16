@@ -33,7 +33,5 @@ public class Nations implements IMap<Nation> {
         // Parse map data into usable Nation objects.
         DataParser.parseMapData(parent.getMap(), true, false);
         this.cache = DataParser.nationsAsMap(DataParser.getNations());
-
-        System.out.println(cache.size());
     }
 }

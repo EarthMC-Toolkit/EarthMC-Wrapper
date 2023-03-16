@@ -18,7 +18,8 @@ public class Player extends Base<Player> implements ISerializable {
     private transient Boolean isResident = false;
 
     public Player(JsonObject obj) {
-        new Player(obj, false);
+        super();
+        init(obj, false);
     }
 
     public Player(JsonObject obj, Boolean resident) {

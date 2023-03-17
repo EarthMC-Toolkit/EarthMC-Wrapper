@@ -1,12 +1,11 @@
 package io.github.emcw.data;
 
-import io.github.emcw.exceptions.MissingEntryException;
+import java.util.Map;
 
+import io.github.emcw.exceptions.MissingEntryException;
 import static io.github.emcw.utils.Funcs.arrayHas;
 import static io.github.emcw.utils.Funcs.collectAsMap;
 import static io.github.emcw.utils.GsonUtil.streamEntries;
-
-import java.util.*;
 
 public abstract class Assembly<T> {
     protected Map<String, T> cache = null;

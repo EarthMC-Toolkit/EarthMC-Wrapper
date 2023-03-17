@@ -1,12 +1,13 @@
 package io.github.emcw.objects;
 
 import com.google.gson.JsonObject;
+import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 
 import static io.github.emcw.utils.GsonUtil.keyAsInt;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
-public class Capital {
+public class Capital implements ISerializable {
     @Getter final String name;
     @Getter final Location location;
 

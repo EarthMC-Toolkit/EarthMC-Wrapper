@@ -1,7 +1,7 @@
-package io.github.emcw.classes;
+package io.github.emcw.data;
 
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.interfaces.IMap;
+import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
@@ -11,33 +11,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Objects;
 
-import com.google.gson.JsonObject;
-
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Players implements IMap<Player> {
+public class Players extends Assembly<Player> implements ILocatable<Player> {
     private final EMCMap parent;
-    protected Map<String, Player> cache = null;
 
     public Players(EMCMap parent) {
         this.parent = parent;
         updateCache(true);
-    }
-
-    @Nullable
-    public Player single(JsonObject p) {
-        String name = keyAsStr(p, "name");
-        return single(name);
-    }
-
-    @Nullable
-    public Player single(String playerName) {
-        return single(playerName, all());
-    }
-
-    public Map<String, Player> all() {
-        updateCache();
-        return cache;
     }
 
     public void updateCache() {

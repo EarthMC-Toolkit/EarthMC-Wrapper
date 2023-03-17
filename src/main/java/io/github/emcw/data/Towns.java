@@ -1,30 +1,15 @@
-package io.github.emcw.classes;
+package io.github.emcw.data;
 
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.interfaces.IMap;
 import io.github.emcw.objects.Town;
 import io.github.emcw.utils.DataParser;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-
-public class Towns implements IMap<Town> {
+public class Towns extends Assembly<Town> {
     private final EMCMap parent;
-    protected Map<String, Town> cache = null;
 
     public Towns(EMCMap parent) {
         this.parent = parent;
         updateCache(true);
-    }
-
-    @Nullable
-    public Town single(String townName) {
-        return single(townName, all());
-    }
-
-    public Map<String, Town> all() {
-        updateCache();
-        return cache;
     }
 
     public void updateCache() {

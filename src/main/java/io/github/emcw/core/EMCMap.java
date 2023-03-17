@@ -1,9 +1,9 @@
 package io.github.emcw.core;
 
-import io.github.emcw.classes.Nations;
-import io.github.emcw.classes.Players;
-import io.github.emcw.classes.Residents;
-import io.github.emcw.classes.Towns;
+import io.github.emcw.data.Nations;
+import io.github.emcw.data.Players;
+import io.github.emcw.data.Residents;
+import io.github.emcw.data.Towns;
 import lombok.Getter;
 
 public class EMCMap {

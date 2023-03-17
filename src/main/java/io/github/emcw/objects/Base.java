@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class Base<T> {
+public abstract class Base<T> {
     @Getter String name;
     @Getter T parent;
 

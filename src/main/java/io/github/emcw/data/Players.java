@@ -30,7 +30,9 @@ public class Players extends Assembly<Player> implements ILocatable<Player> {
 
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(parent.getMap());
-        cache = DataParser.playersAsMap(DataParser.getPlayers());
+
+        Map<String, Player> players = DataParser.playersAsMap();
+        if (!players.isEmpty()) cache = players;
     }
 
     public Map<String, Player> townless() {

@@ -4,6 +4,8 @@ import io.github.emcw.core.EMCMap;
 import io.github.emcw.objects.Nation;
 import io.github.emcw.utils.DataParser;
 
+import java.util.Map;
+
 public class Nations extends Assembly<Nation> {
     private final EMCMap parent;
 
@@ -17,6 +19,8 @@ public class Nations extends Assembly<Nation> {
 
         // Parse map data into usable Nation objects.
         DataParser.parseMapData(parent.getMap(), true, false);
-        this.cache = DataParser.nationsAsMap(DataParser.getNations());
+
+        Map<String, Nation> nations = DataParser.nationsAsMap();
+        if (!nations.isEmpty()) cache = nations;
     }
 }

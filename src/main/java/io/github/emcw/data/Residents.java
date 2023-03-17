@@ -4,6 +4,8 @@ import io.github.emcw.core.EMCMap;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
 
+import java.util.Map;
+
 public class Residents extends Assembly<Resident> {
     private final EMCMap parent;
 
@@ -21,6 +23,8 @@ public class Residents extends Assembly<Resident> {
 
         // Parse player data into usable Player objects.
         DataParser.parseMapData(parent.getMap(), false, true);
-        cache = DataParser.residentsAsMap(DataParser.getResidents());
+
+        Map<String, Resident> residents = DataParser.residentsAsMap();
+        if (!residents.isEmpty()) cache = residents;
     }
 }

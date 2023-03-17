@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-@SuppressWarnings("unchecked")
 public class GsonUtil {
     @Getter
     private static final Gson GSON = new GsonBuilder()
@@ -132,8 +131,12 @@ public class GsonUtil {
                 .collect(Collectors.toMap(Base::getName, Function.identity()));
     }
 
-    static JsonObject valueAsObj(@NotNull Map.Entry<String, JsonElement> entry) {
-        return entry.getValue().getAsJsonObject();
+    static <T> JsonObject valueAsObj(Map.Entry<String, T> entry) {
+        return (JsonObject) entryVal(entry);
+    }
+
+    static <T> T entryVal(@NotNull Map.Entry<String, T> entry) {
+        return entry.getValue();
     }
 
     static JsonElement member(@NotNull JsonObject o, String k) {

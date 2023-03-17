@@ -205,50 +205,47 @@ public class DataParser {
         });
     }
 
-    public static Map<String, Resident> residentsAsMap(JsonObject residents) {
+    public static Map<String, Resident> residentsAsMap() {
         return collectAsMap(streamEntries(residents).map(entry -> {
             try { return Map.entry(entry.getKey(), new Resident(valueAsObj(entry))); }
             catch (Exception e) { return null; }
         }));
     }
 
-    public static Map<String, Player> playersAsMap(JsonObject players) {
+    public static Map<String, Player> playersAsMap() {
         return collectAsMap(streamEntries(players).map(entry -> {
             try { return Map.entry(entry.getKey(), new Player(valueAsObj(entry))); }
             catch (Exception e) { return null; }
         }));
     }
 
-    public static Map<String, Town> townsAsMap(JsonObject towns) {
+    public static Map<String, Town> townsAsMap() {
         return collectAsMap(streamEntries(towns).map(entry -> {
             try { return Map.entry(entry.getKey(), new Town(valueAsObj(entry))); }
             catch (Exception e) { return null; }
         }));
     }
 
-    public static Map<String, Nation> nationsAsMap(JsonObject nations) {
+    public static Map<String, Nation> nationsAsMap() {
         return collectAsMap(streamEntries(nations).map(entry -> {
             try { return Map.entry(entry.getKey(), new Nation(valueAsObj(entry))); }
-            catch (Exception e) {
-                //System.out.println(e.getMessage());
-                return null;
-            }
+            catch (Exception e) { return null; }
         }));
     }
 
-    public static JsonObject getTowns() {
+    public static JsonObject townsAsObj() {
         return mapToObj(towns);
     }
 
-    public static JsonObject getNations() {
+    public static JsonObject nationsAsObj() {
         return mapToObj(nations);
     }
 
-    public static JsonObject getPlayers() {
+    public static JsonObject playersAsObj() {
         return mapToObj(players);
     }
 
-    public static JsonObject getResidents() {
+    public static JsonObject residentsAsObj() {
         return mapToObj(residents);
     }
 }

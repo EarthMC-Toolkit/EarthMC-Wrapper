@@ -39,9 +39,11 @@ public class Player extends Base<Player> implements ISerializable {
     }
 
     boolean hidden() {
-        return location.y == 64 &&
-               location.x == 0 &&
-               location.z == 0;
+        return location.y == 64 && location.x == 0 && location.z == 0;
+    }
+
+    boolean isResident() {
+        return isResident;
     }
 
     boolean underground() {
@@ -50,10 +52,6 @@ public class Player extends Base<Player> implements ISerializable {
 
     public boolean online(String map) {
         return online(map, name);
-    }
-
-    private boolean isResident() {
-        return isResident;
     }
 
     public static boolean online(String mapName, String playerName) {

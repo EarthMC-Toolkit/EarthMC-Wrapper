@@ -43,6 +43,17 @@ public class Players extends Assembly<Player> implements ILocatable<Player> {
         return getNearby(cache, xCoord, zCoord, xRadius, zRadius);
     }
 
+    public Map<String, Player> online() {
+        return cache;
+    }
+
+    @Override
+    public Map<String, Player> all() {
+        // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
+        //return Funcs.merge(online(), parent.Residents.all());
+        return null;
+    }
+
     public Map<String, Player> townless() {
         Map<String, Resident> residents = parent.Residents.cache;
         return difference(mapToArr(cache), mapToArr(residents));

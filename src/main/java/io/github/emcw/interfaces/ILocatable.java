@@ -6,7 +6,6 @@ import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Town;
 
 import java.util.Map;
-import java.util.function.Predicate;
 
 import static io.github.emcw.utils.Funcs.collectAsMap;
 import static io.github.emcw.utils.Funcs.hypot;
@@ -20,25 +19,23 @@ public interface ILocatable<T> {
     }
 
     default Map<String, T> getNearby(Map<String, T> map,
-                                     Integer xCoord, Integer zCoord,
-                                     Integer xRadius, Integer zRadius) {
+            Integer xCoord, Integer zCoord,
+            Integer xRadius, Integer zRadius) {
 
-        return collectAsMap(streamEntries(map).filter(nearbyPredicate(
-                intArr(xCoord, xRadius), intArr(zCoord, zRadius))
-        ));
+        Integer[] xx = intArr(xCoord, xRadius),
+                  zz = intArr(zCoord, zRadius);
+
+        return collectAsMap(streamEntries(map).filter(entry -> checkNearby(entry.getValue(), xx, zz)));
     }
 
-    private Predicate<? super Map.Entry<String, T>> nearbyPredicate(Integer[] xArr, Integer[] zArr) {
-        return entry -> {
-            Location loc = null;
-            T val = entry.getValue();
+    private boolean checkNearby(T val, Integer[] xArr, Integer[] zArr) {
+        Location loc = null;
 
-            if (val instanceof Player) loc = ((Player) val).getLocation();
-            else if (val instanceof Town) loc = ((Town) val).getLocation();
-            else if (val instanceof Nation) loc = ((Nation) val).getCapital().getLocation();
+        if (val instanceof Player) loc = ((Player) val).getLocation();
+        else if (val instanceof Town) loc = ((Town) val).getLocation();
+        else if (val instanceof Nation) loc = ((Nation) val).getCapital().getLocation();
 
-            return loc != null && isNearby(loc, xArr, zArr);
-        };
+        return loc != null && isNearby(loc, xArr, zArr);
     }
 
     private boolean isNearby(Location location, Integer[] xArr, Integer[] zArr) {

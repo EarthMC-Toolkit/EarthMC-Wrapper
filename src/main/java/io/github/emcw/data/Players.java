@@ -50,8 +50,7 @@ public class Players extends Assembly<Player> implements ILocatable<Player> {
     @Override
     public Map<String, Player> all() {
         // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
-        //return Funcs.merge(online(), parent.Residents.all());
-        return null;
+        return Funcs.merge(online(), parent.Residents.all());
     }
 
     public Map<String, Player> townless() {

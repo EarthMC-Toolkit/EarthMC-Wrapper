@@ -35,6 +35,14 @@ public class Players extends Assembly<Player> implements ILocatable<Player> {
         if (!players.isEmpty()) cache = players;
     }
 
+    public Map<String, Player> nearby(Integer xCoord, Integer zCoord, Integer radius) {
+        return getNearby(cache, xCoord, zCoord, radius);
+    }
+
+    public Map<String, Player> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
+        return getNearby(cache, xCoord, zCoord, xRadius, zRadius);
+    }
+
     public Map<String, Player> townless() {
         Map<String, Resident> residents = parent.Residents.cache;
         return difference(mapToArr(cache), mapToArr(residents));

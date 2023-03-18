@@ -14,7 +14,7 @@ public class Player extends Base<Player> implements ISerializable {
     @Getter String nickname;
     @Getter Location location = null;
 
-    String world = null;
+    private transient String world = null;
     private transient Boolean isResident = false;
 
     public Player(JsonObject obj) {

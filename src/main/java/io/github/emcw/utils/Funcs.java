@@ -63,7 +63,7 @@ public class Funcs {
         return distance <= range;
     }
 
-    public static boolean hypot(double num, double[] args) {
+    public static boolean hypot(Integer num, Integer[] args) {
         double input = args[0], radius = args[1];
         return (num <= input+radius) && (num >= input-radius);
     }

@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -20,34 +21,51 @@ public class Player extends Base<Player> implements ISerializable {
     public Player(JsonObject obj) {
         super();
         init(obj, false);
+        setLocation(obj, false);
     }
 
     public Player(JsonObject obj, Boolean resident) {
         super();
         init(obj, resident);
+        setLocation(obj, false);
     }
 
-    public void init(JsonObject obj, Boolean resident) {
+    public Player(JsonObject obj, Boolean resident, Boolean parsed) {
+        super();
+        init(obj, resident);
+        setLocation(obj, parsed);
+    }
+
+    public void init(JsonObject obj, @NotNull Boolean resident) {
         setInfo(this, keyAsStr(obj, "name"));
         nickname = keyAsStr(obj, "nickname");
-
-        if (resident) isResident = true;
-        else {
-            world = keyAsStr(obj, "world");
-            location = Location.fromObj(obj);
-        }
+        world = keyAsStr(obj, "world");
+        isResident = resident;
     }
 
-    boolean hidden() {
+    public void setLocation(JsonObject obj, Boolean parsed) {
+        Location loc;
+
+        if (parsed) loc = Location.fromObj(obj.getAsJsonObject("location"));
+        else loc = Location.fromObj(obj);
+
+        if (loc.valid()) location = loc;
+    }
+
+    public boolean hasCustomNickname() {
+        return nickname != null && !Objects.equals(nickname, name);
+    }
+
+    public boolean underground() {
+        return hidden() && !Objects.equals(world, "earth");
+    }
+
+    public boolean hidden() {
         return location.y == 64 && location.x == 0 && location.z == 0;
     }
 
-    boolean isResident() {
+    public boolean isResident() {
         return isResident;
-    }
-
-    boolean underground() {
-        return !Objects.equals(world, "earth");
     }
 
     public boolean online(String map) {

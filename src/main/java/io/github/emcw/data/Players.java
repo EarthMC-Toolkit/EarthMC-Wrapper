@@ -1,5 +1,6 @@
 package io.github.emcw.data;
 
+import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.objects.Player;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -50,7 +52,26 @@ public class Players extends Assembly<Player> implements ILocatable<Player> {
     @Override
     public Map<String, Player> all() {
         // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
-        return Funcs.merge(online(), parent.Residents.all());
+        return mergeWith(parent.Residents.all());
+    }
+
+    private Map<String, Player> mergeWith(Map<String, Resident> residents) {
+        Map<String, Player> merged = new ConcurrentHashMap<>(cache);
+
+        // Loop through residents in parallel
+        streamValues(residents).forEach(res -> {
+            String resName = res.getName();
+            JsonObject resObj = asTree(res).getAsJsonObject();
+
+            Player op = merged.get(resName);
+            Player player = op == null ? new Resident(resObj) : new Resident(resObj, asTree(op).getAsJsonObject());
+
+            merged.put(resName, player);
+        });
+
+        // Remove null values from resulting map
+        merged.values().removeIf(Objects::isNull);
+        return merged;
     }
 
     public Map<String, Player> townless() {

@@ -106,6 +106,10 @@ public class GsonUtil {
         return o.entrySet().parallelStream();
     }
 
+    public static <T> Stream<T> streamValues(@NotNull Map<String, T> o) {
+        return o.values().parallelStream();
+    }
+
     public static Map<String, JsonObject> intersection(JsonArray arr, JsonArray arr2) {
         return arrAsStream(arr).flatMap(obj -> arrAsStream(arr2)
                 .map(JsonElement::getAsJsonObject)

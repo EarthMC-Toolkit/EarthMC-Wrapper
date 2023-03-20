@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import static io.github.emcw.utils.Funcs.arrayHas;
 import static io.github.emcw.utils.Funcs.collectAsMap;
 import static io.github.emcw.utils.GsonUtil.streamEntries;
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public abstract class Assembly<T> {
     protected Map<String, T> cache = null;
 

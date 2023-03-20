@@ -5,8 +5,8 @@ EMCW is built to be intuitive and optimized from the ground up.
 <br>This library takes advantage of the following:
 - [Google GSON](https://github.com/google/gson) - For serialization/deserialization of classes and objects.
 - [Lombok Annotations](https://github.com/projectlombok/lombok) - Automates the process of writing getters/setters.
-- Caching + parsing using `ConcurrentHashMap`s
-- Interfaces for generic methods like `.single()` and `.all()`
+- [Caffeine](https://github.com/ben-manes/caffeine) - High performance caching library with support for sized-based eviction and time-based expiration.
+- [Interfaces](https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html) and [Abstraction](https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html) to achieve multiple inheritance while increasing modularity and re-usability.
 - Multithreading via the use of [Parallelism](https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html).
 
 ## Installation
@@ -40,23 +40,31 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      implementation 'io.github.emcw:emc-wrapper:0.4.2'
+      implementation 'io.github.emcw:emc-wrapper:0.7.1'
     }
     ```
 
 - ### Import and Initialize
 
     ```java
-    import io.github.emcw.core.EMCMap;
-    import io.github.emcw.core.EMCWrapper;
+    import io.github.emcw.core.*;
     import io.github.emcw.objects.*;
-    import java.util.List;
+    import java.util.Map;
 
     public class Main {
-        EMCMap Aurora = new EMCWrapper().Aurora;
+        // Choose which maps we should initialize.
+        static EMCWrapper emc = new EMCWrapper(true, false);
+        static EMCMap Aurora, Nova;
   
         public static void main(String[] args) {
-            List<Town> all = Aurora.Towns.all();
+            Aurora = emc.getAurora(); // New instance of 'EMCMap'
+            Nova = emc.getNova(); // Will return 'null' since we set false
+  
+            doSomethingWithTowns();
+        }
+  
+        static void doSomethingWithTowns() {
+            Map<String, Town> all = Aurora.Towns.all();
             System.out.println(all.size());
         }
     }

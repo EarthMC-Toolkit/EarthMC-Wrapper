@@ -3,6 +3,7 @@ package io.github.emcw.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.emcw.exceptions.APIException;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -15,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Request {
     private static final HttpClient client = HttpClient.newHttpClient();
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });

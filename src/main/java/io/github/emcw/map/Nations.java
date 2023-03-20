@@ -1,4 +1,4 @@
-package io.github.emcw.data;
+package io.github.emcw.map;
 
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.objects.Nation;

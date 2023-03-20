@@ -1,15 +1,15 @@
-package io.github.emcw.data;
+package io.github.emcw.map;
 
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.objects.Town;
+import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
 
 import java.util.Map;
 
-public class Towns extends Assembly<Town> {
+public class Residents extends Assembly<Resident> {
     private final EMCMap parent;
 
-    public Towns(EMCMap parent) {
+    public Residents(EMCMap parent) {
         this.parent = parent;
         updateCache(true);
     }
@@ -21,10 +21,10 @@ public class Towns extends Assembly<Town> {
     public void updateCache(Boolean force) {
         if (cache != null && !force) return;
 
-        // Parse map data into usable Town objects.
+        // Parse player data into usable Player objects.
         DataParser.parseMapData(parent.getMap(), false, true);
 
-        Map<String, Town> towns = DataParser.townsAsMap();
-        if (!towns.isEmpty()) cache = towns;
+        Map<String, Resident> residents = DataParser.residentsAsMap();
+        if (!residents.isEmpty()) cache = residents;
     }
 }

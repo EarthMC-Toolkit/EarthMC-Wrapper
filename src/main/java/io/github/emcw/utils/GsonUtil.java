@@ -4,7 +4,9 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import io.github.emcw.objects.Base;
 import io.github.emcw.objects.Player;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,12 +21,12 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonUtil {
     @Getter
     private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(Color.class, new ColorAdapter())
-            .setPrettyPrinting()
-            .create();
+        .registerTypeAdapter(Color.class, new ColorAdapter())
+        .setPrettyPrinting().create();
 
     static String regex = "(?<=})\\s*,\\s*(?=\\{)";
 

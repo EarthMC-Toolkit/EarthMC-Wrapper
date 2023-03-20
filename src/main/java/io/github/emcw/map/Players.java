@@ -1,4 +1,4 @@
-package io.github.emcw.data;
+package io.github.emcw.map;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;

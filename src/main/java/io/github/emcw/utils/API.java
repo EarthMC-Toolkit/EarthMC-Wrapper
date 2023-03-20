@@ -1,9 +1,12 @@
 package io.github.emcw.utils;
 
 import com.google.gson.JsonObject;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.concurrent.CompletableFuture;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class API {
     public static CompletableFuture<JsonObject> get(String map, String key) {
         String endpoint = Request.getEndpoints().getAsJsonObject(key).get(map).getAsString();

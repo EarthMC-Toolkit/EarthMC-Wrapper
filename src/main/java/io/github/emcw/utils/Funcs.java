@@ -1,6 +1,8 @@
 package io.github.emcw.utils;
 
 import io.github.emcw.objects.Base;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
     public static <T> Map<String, T> listToMap(List<Base<T>> list) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();

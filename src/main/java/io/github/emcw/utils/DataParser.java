@@ -9,6 +9,8 @@ import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.objects.Town;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
@@ -22,6 +24,7 @@ import java.util.stream.Stream;
 import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DataParser {
     private static final JsonArray allResidents = new JsonArray();
 

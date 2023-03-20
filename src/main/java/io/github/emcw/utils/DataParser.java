@@ -166,7 +166,7 @@ public class DataParser {
                 nations.computeIfPresent(nation, (k, v) -> {
                     v.getAsJsonArray("towns").add(name);
                     v.getAsJsonArray("residents").addAll(residentNames);
-                    v.addProperty("area", v.get("area").getAsInt()+area);
+                    v.addProperty("area", v.get("area").getAsInt() + area);
 
                     if (capital) {
                         v.addProperty("wiki", keyAsBool(v, "wiki"));

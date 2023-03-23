@@ -15,7 +15,7 @@ public class Towns extends BaseCache<Town> {
         super(Duration.ofMinutes(3), 0);
 
         this.parent = parent;
-        updateCache(false);
+        updateCache(true);
     }
 
     public void updateCache() {

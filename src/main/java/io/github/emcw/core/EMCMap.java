@@ -17,8 +17,6 @@ public class EMCMap {
     @Setter(AccessLevel.PRIVATE) public Players Players = null;
     @Setter(AccessLevel.PRIVATE) public Residents Residents = null;
 
-    //@Setter(AccessLevel.PRIVATE) public CacheContainer cacheContainer;
-
     EMCMap(String mapName) {
         initMap(mapName, CacheStrategy.TIME_BASED);
     }
@@ -34,7 +32,5 @@ public class EMCMap {
         setNations(new Nations(this));
         setPlayers(new Players(this));
         setResidents(new Residents(this));
-
-        //cacheContainer = new CacheContainer(strategy);
     }
 }

@@ -1,6 +1,6 @@
 package io.github.emcw.core;
 
-import io.github.emcw.enums.CacheStrategy;
+import io.github.emcw.caching.CacheStrategy;
 import io.github.emcw.map.Nations;
 import io.github.emcw.map.Players;
 import io.github.emcw.map.Residents;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class EMCMap {
-    private CacheStrategy cacheStrategy;
     @Getter String map;
 
     @Setter(AccessLevel.PRIVATE) public Towns Towns = null;
@@ -18,8 +17,10 @@ public class EMCMap {
     @Setter(AccessLevel.PRIVATE) public Players Players = null;
     @Setter(AccessLevel.PRIVATE) public Residents Residents = null;
 
+    //@Setter(AccessLevel.PRIVATE) public CacheContainer cacheContainer;
+
     EMCMap(String mapName) {
-        initMap(mapName, CacheStrategy.LAZY);
+        initMap(mapName, CacheStrategy.TIME_BASED);
     }
 
     EMCMap(String mapName, CacheStrategy cacheStrategy) {
@@ -27,12 +28,13 @@ public class EMCMap {
     }
 
     void initMap(String mapName, CacheStrategy strategy) {
-        cacheStrategy = strategy;
         map = mapName;
 
         setTowns(new Towns(this));
         setNations(new Nations(this));
         setPlayers(new Players(this));
         setResidents(new Residents(this));
+
+        //cacheContainer = new CacheContainer(strategy);
     }
 }

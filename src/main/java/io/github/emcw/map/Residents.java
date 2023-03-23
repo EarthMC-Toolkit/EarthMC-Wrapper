@@ -1,15 +1,19 @@
 package io.github.emcw.map;
 
+import io.github.emcw.caching.BaseCache;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.utils.DataParser;
 
+import java.time.Duration;
 import java.util.Map;
 
-public class Residents extends Assembly<Resident> {
+public class Residents extends BaseCache<Resident> {
     private final EMCMap parent;
 
     public Residents(EMCMap parent) {
+        super(Duration.ofMinutes(3), 0);
+
         this.parent = parent;
         updateCache(true);
     }
@@ -25,6 +29,6 @@ public class Residents extends Assembly<Resident> {
         DataParser.parseMapData(parent.getMap(), false, true);
 
         Map<String, Resident> residents = DataParser.residentsAsMap();
-        if (!residents.isEmpty()) cache = residents;
+        if (!residents.isEmpty()) cache.putAll(residents);
     }
 }

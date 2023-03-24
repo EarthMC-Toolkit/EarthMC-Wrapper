@@ -2,6 +2,7 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import io.github.emcw.core.EMCMap;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.Contract;
@@ -12,7 +13,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Map;
 
-public abstract class BaseCache<V> {
+public class BaseCache<V> {
     @Setter(AccessLevel.PRIVATE) public Cache<String, V> cache;
 
     @Setter Duration expiry;
@@ -29,11 +30,11 @@ public abstract class BaseCache<V> {
         init(expiryTime, maxEntries);
     }
 
-    protected BaseCache(Duration expiryTime) {
+    public BaseCache(Duration expiryTime) {
         init(expiryTime, null);
     }
 
-    protected BaseCache() {
+    public BaseCache() {
         init(Duration.ofMinutes(3), null);
     }
 
@@ -62,7 +63,7 @@ public abstract class BaseCache<V> {
         Caffeine<Object, Object> builder = Caffeine.newBuilder();
 
         if (!expiry.isZero()) builder.expireAfterWrite(expiry);
-        if (maxSize != 0) builder.maximumSize(maxSize);
+        if (maxSize != null) builder.maximumSize(maxSize);
 
         return builder.build();
     }

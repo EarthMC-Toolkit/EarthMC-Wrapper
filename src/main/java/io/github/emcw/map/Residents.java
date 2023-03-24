@@ -12,10 +12,8 @@ public class Residents extends BaseCache<Resident> {
     private final EMCMap parent;
 
     public Residents(EMCMap parent) {
-        super(Duration.ofMinutes(3), 0);
-
+        super(Duration.ofMinutes(3));
         this.parent = parent;
-        updateCache(true);
     }
 
     public void updateCache() {
@@ -26,9 +24,9 @@ public class Residents extends BaseCache<Resident> {
         if (cache != null && !force) return;
 
         // Parse player data into usable Player objects.
-        DataParser.parseMapData(parent.getMap(), false, true);
+        DataParser.parseMapData(parent.getMap(), false, false, true);
 
-        Map<String, Resident> residents = DataParser.residentsAsMap();
+        Map<String, Resident> residents = DataParser.parsedResidents();
         if (!residents.isEmpty()) cache.putAll(residents);
     }
 }

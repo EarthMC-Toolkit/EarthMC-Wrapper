@@ -12,19 +12,21 @@ public class Nations extends BaseCache<Nation> {
     private final EMCMap parent;
 
     public Nations(EMCMap parent) {
-        super(Duration.ofMinutes(3), 0);
-
+        super(Duration.ofMinutes(3));
         this.parent = parent;
-        updateCache(true);
+    }
+
+    public void updateCache() {
+        updateCache(false);
     }
 
     public void updateCache(Boolean force) {
         if (this.cache != null && !force) return;
 
         // Parse map data into usable Nation objects.
-        DataParser.parseMapData(parent.getMap(), true, false);
+        DataParser.parseMapData(parent.getMap(), true, true, false);
 
-        Map<String, Nation> nations = DataParser.nationsAsMap();
+        Map<String, Nation> nations = DataParser.parsedNations();
         if (!nations.isEmpty()) cache.putAll(nations);
     }
 }

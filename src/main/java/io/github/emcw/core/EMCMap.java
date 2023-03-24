@@ -17,8 +17,10 @@ public class EMCMap {
     @Setter(AccessLevel.PRIVATE) public Players Players = null;
     @Setter(AccessLevel.PRIVATE) public Residents Residents = null;
 
+    @Setter(AccessLevel.PRIVATE) public CacheStrategy cacheStrategy;
+
     EMCMap(String mapName) {
-        initMap(mapName, CacheStrategy.TIME_BASED);
+        initMap(mapName, CacheStrategy.LAZY);
     }
 
     EMCMap(String mapName, CacheStrategy cacheStrategy) {
@@ -26,11 +28,21 @@ public class EMCMap {
     }
 
     void initMap(String mapName, CacheStrategy strategy) {
+        cacheStrategy = strategy;
         map = mapName;
 
         setTowns(new Towns(this));
         setNations(new Nations(this));
-        setPlayers(new Players(this));
         setResidents(new Residents(this));
+        setPlayers(new Players(this));
+
+        updateAll();
     }
+
+    private void updateAll() {
+        Towns.updateCache(true);
+        Nations.updateCache(true);
+        Residents.updateCache(true);
+        Players.updateCache(true);
+    };
 }

@@ -12,10 +12,8 @@ public class Towns extends BaseCache<Town> {
     private final EMCMap parent;
 
     public Towns(EMCMap parent) {
-        super(Duration.ofMinutes(3), 0);
-
+        super(Duration.ofMinutes(3));
         this.parent = parent;
-        updateCache(true);
     }
 
     public void updateCache() {
@@ -26,9 +24,9 @@ public class Towns extends BaseCache<Town> {
         if (cache != null && !force) return;
 
         // Parse map data into usable Town objects.
-        DataParser.parseMapData(parent.getMap(), false, true);
+        DataParser.parseMapData(parent.getMap(), true, false, true);
 
-        Map<String, Town> towns = DataParser.townsAsMap();
+        Map<String, Town> towns = DataParser.parsedTowns();
         if (!towns.isEmpty()) cache.putAll(towns);
     }
 }

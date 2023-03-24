@@ -1,55 +1,55 @@
 package io.github.emcw.utils;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.emcw.caching.BaseCache;
 import io.github.emcw.objects.Nation;
 import io.github.emcw.objects.Player;
 import io.github.emcw.objects.Resident;
 import io.github.emcw.objects.Town;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DataParser {
-    private static final JsonArray allResidents = new JsonArray();
-
-    static ConcurrentHashMap<String, JsonObject>
-            towns   = new ConcurrentHashMap<>(),
-            nations = new ConcurrentHashMap<>(),
-            players = new ConcurrentHashMap<>(),
-            residents = new ConcurrentHashMap<>();
-
     static Safelist whitelist = new Safelist().addAttributes("a", "href");
 
+    @Getter static BaseCache<JsonObject> towns = new BaseCache<>();
+    @Getter static BaseCache<JsonObject> nations = new BaseCache<>();
+    @Getter static BaseCache<JsonObject> players = new BaseCache<>();
+    @Getter static BaseCache<JsonObject> residents = new BaseCache<>();
+
     static List<String> processFlags(String str) {
-        return Stream.of(str.split("<br />")).parallel()
+        return strArrAsStream(str.split("<br />"))
                 .map(e -> Jsoup.clean(e, whitelist))
                 .collect(Collectors.toList());
     }
 
     public static void parsePlayerData(String map) {
+        players.cache.invalidateAll();
+
         JsonArray pData = API.playerData(map).getAsJsonArray("players");
+        if (pData.size() < 1) return;
 
         arrAsStream(pData).forEach(p -> {
             JsonObject curPlayer = p.getAsJsonObject();
             String name = keyAsStr(curPlayer, "account");
 
-            players.computeIfAbsent(name, k -> {
+            players.all().computeIfAbsent(name, k -> {
                 JsonObject obj = new JsonObject();
 
                 obj.addProperty("name", name);
@@ -64,17 +64,24 @@ public class DataParser {
         });
     }
 
-    static boolean flagAsBool(List<String> info, Integer index, String key) {
+    static boolean flagAsBool(@NotNull List<String> info, Integer index, String key) {
         String str = info.get(index).replace(key, "");
         return Boolean.parseBoolean(str);
     }
 
-    public static void parseMapData(String map, Boolean parseNations, Boolean parseResidents) {
-        Map<String, JsonElement> mapData = API.mapData(map).asMap();
-        Collection<JsonElement> areas = mapData.values();
-        if (areas.size() < 1) return;
+    public static void parseMapData(String map) {
+        parseMapData(map, true, true, true);
+    }
 
-        areas.parallelStream().forEach(town -> {
+    public static void parseMapData(String map, Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
+        towns.cache.invalidateAll();
+        nations.cache.invalidateAll();
+        residents.cache.invalidateAll();
+
+        JsonObject mapData = API.mapData(map);
+        if (mapData.size() < 1) return;
+
+        streamValues(mapData.asMap()).forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
 
             //#region Get and process keys (label, desc)
@@ -99,7 +106,6 @@ public class DataParser {
 
             String[] members = names.split(", ");
             JsonArray residentNames = arrFromStrArr(members);
-            allResidents.addAll(residentNames);
             //#endregion
 
             //#region Variables from info
@@ -121,39 +127,41 @@ public class DataParser {
             //#endregion
 
             //#region Create/Update Towns Map.
-            towns.computeIfAbsent(name, k -> {
-                JsonObject obj = new JsonObject();
+            if (parseTowns) {
+                towns.all().computeIfAbsent(name, k -> {
+                    JsonObject obj = new JsonObject();
 
-                //#region Add properties
-                obj.addProperty("name", name);
-                obj.addProperty("nation", nation);
-                obj.addProperty("mayor", mayorStr);
-                obj.addProperty("wiki", wikiStr);
-                obj.add("residents", residentNames);
-                obj.addProperty("x", range(x));
-                obj.addProperty("z", range(z));
-                obj.addProperty("area", area);
+                    //#region Add properties
+                    obj.addProperty("name", name);
+                    obj.addProperty("nation", nation);
+                    obj.addProperty("mayor", mayorStr);
+                    obj.addProperty("wiki", wikiStr);
+                    obj.add("residents", residentNames);
+                    obj.addProperty("x", range(x));
+                    obj.addProperty("z", range(z));
+                    obj.addProperty("area", area);
 
-                // Flags (3-8)
-                obj.addProperty("pvp", flagAsBool(info, 3, "pvp: "));
-                obj.addProperty("mobs", flagAsBool(info, 4, "mobs: "));
-                obj.addProperty("public", flagAsBool(info, 5, "public: "));
-                obj.addProperty("explosions", flagAsBool(info, 6, "pvp: "));
-                obj.addProperty("fire", flagAsBool(info, 7, "fire: "));
-                obj.addProperty("capital", capital);
+                    // Flags (3-8)
+                    obj.addProperty("pvp", flagAsBool(info, 3, "pvp: "));
+                    obj.addProperty("mobs", flagAsBool(info, 4, "mobs: "));
+                    obj.addProperty("public", flagAsBool(info, 5, "public: "));
+                    obj.addProperty("explosions", flagAsBool(info, 6, "pvp: "));
+                    obj.addProperty("fire", flagAsBool(info, 7, "fire: "));
+                    obj.addProperty("capital", capital);
 
-                obj.addProperty("fill", fill);
-                obj.addProperty("outline", outline);
-                //#endregion
+                    obj.addProperty("fill", fill);
+                    obj.addProperty("outline", outline);
+                    //#endregion
 
-                return obj;
-            });
+                    return obj;
+                });
+            }
             //#endregion
 
             //#region Create/Update Nations Map.
             if (parseNations && nation != null) {
                 // Not present, create a new Nation.
-                nations.computeIfAbsent(nation, k -> {
+                nations.all().computeIfAbsent(nation, k -> {
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", nation);
 
@@ -166,7 +174,7 @@ public class DataParser {
                 });
 
                 // Nation is present, add current town prop values.
-                nations.computeIfPresent(nation, (k, v) -> {
+                nations.all().computeIfPresent(nation, (k, v) -> {
                     v.getAsJsonArray("towns").add(name);
                     v.getAsJsonArray("residents").addAll(residentNames);
                     v.addProperty("area", v.get("area").getAsInt() + area);
@@ -201,54 +209,38 @@ public class DataParser {
                     newObj.addProperty("rank", rank);
 
                     // Add resident obj to residents.
-                    residents.put(res, newObj);
+                    residents.cache.put(res, newObj);
                 });
             }
             //#endregion
         });
     }
 
-    public static Map<String, Resident> residentsAsMap() {
-        return collectAsMap(streamEntries(residents).map(entry -> {
-            try { return Map.entry(entry.getKey(), new Resident(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
-        }));
-    }
-
-    public static Map<String, Player> playersAsMap() {
-        return collectAsMap(streamEntries(players).map(entry -> {
-            try { return Map.entry(entry.getKey(), new Player(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
-        }));
-    }
-
-    public static Map<String, Town> townsAsMap() {
-        return collectAsMap(streamEntries(towns).map(entry -> {
+    public static Map<String, Town> parsedTowns() {
+        return collectAsMap(streamEntries(towns.all()).map(entry -> {
             try { return Map.entry(entry.getKey(), new Town(valueAsObj(entry))); }
             catch (Exception e) { return null; }
         }));
     }
 
-    public static Map<String, Nation> nationsAsMap() {
-        return collectAsMap(streamEntries(nations).map(entry -> {
+    public static Map<String, Nation> parsedNations() {
+        return collectAsMap(streamEntries(nations.all()).map(entry -> {
             try { return Map.entry(entry.getKey(), new Nation(valueAsObj(entry))); }
             catch (Exception e) { return null; }
         }));
     }
 
-    public static JsonObject townsAsObj() {
-        return mapToObj(towns);
+    public static Map<String, Resident> parsedResidents() {
+        return collectAsMap(streamEntries(residents.all()).map(entry -> {
+            try { return Map.entry(entry.getKey(), new Resident(valueAsObj(entry))); }
+            catch (Exception e) { return null; }
+        }));
     }
 
-    public static JsonObject nationsAsObj() {
-        return mapToObj(nations);
-    }
-
-    public static JsonObject playersAsObj() {
-        return mapToObj(players);
-    }
-
-    public static JsonObject residentsAsObj() {
-        return mapToObj(residents);
+    public static Map<String, Player> parsedPlayers() {
+        return collectAsMap(streamEntries(players.all()).map(entry -> {
+            try { return Map.entry(entry.getKey(), new Player(valueAsObj(entry))); }
+            catch (Exception e) { return null; }
+        }));
     }
 }

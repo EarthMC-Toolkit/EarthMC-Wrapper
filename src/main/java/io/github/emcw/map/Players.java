@@ -22,10 +22,8 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     private final EMCMap parent;
 
     public Players(EMCMap parent) {
-        super(Duration.ofSeconds(2), 0);
-
+        super(Duration.ofSeconds(2));
         this.parent = parent;
-        updateCache(true);
     }
 
     public void updateCache() {
@@ -38,7 +36,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(parent.getMap());
 
-        Map<String, Player> players = DataParser.playersAsMap();
+        Map<String, Player> players = DataParser.parsedPlayers();
         if (!players.isEmpty()) cache.putAll(players);
     }
 

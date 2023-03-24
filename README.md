@@ -3,12 +3,11 @@ An unofficial Java API wrapper library allowing interaction with the [EarthMC Dy
 
 EMCW is built to be intuitive and optimized from the ground up.
 <br>This library takes advantage of the following:
+- Multithreading via the use of [Parallelism](https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html).
 - [Google GSON](https://github.com/google/gson) - For serialization/deserialization of classes and objects.
 - [Lombok Annotations](https://github.com/projectlombok/lombok) - Automates the process of writing getters/setters.
-- [Caffeine](https://github.com/ben-manes/caffeine) - High performance caching library with support for sized-based eviction and time-based expiration.
 - [Interfaces](https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html) and [Abstraction](https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html) to achieve multiple inheritance while increasing modularity and re-usability.
-- Multithreading via the use of [Parallelism](https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html).
-
+- [Caffeine](https://github.com/ben-manes/caffeine) - High performance caching library built on top of `ConcurrentHashMap`, providing better concurrency & memory management with support for both size and time based eviction of entries.
 ## Installation
 - ### Authenticate to GitHub Packages
 1. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`
@@ -40,7 +39,7 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      implementation 'io.github.emcw:emc-wrapper:0.7.1'
+      implementation 'io.github.emcw:emc-wrapper:0.8.0'
     }
     ```
 

@@ -2,7 +2,6 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import io.github.emcw.core.EMCMap;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.Contract;
@@ -66,5 +65,17 @@ public class BaseCache<V> {
         if (maxSize != null) builder.maximumSize(maxSize);
 
         return builder.build();
+    }
+
+    public void invalidateAll() {
+        cache.invalidateAll();
+    }
+
+    public void put(String key, V val) {
+        cache.put(key, val);
+    }
+
+    public void putAll(Map<? extends String, ? extends V> map) {
+        cache.putAll(map);
     }
 }

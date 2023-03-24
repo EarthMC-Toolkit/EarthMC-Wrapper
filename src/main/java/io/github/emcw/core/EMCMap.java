@@ -31,6 +31,10 @@ public class EMCMap {
         cacheStrategy = strategy;
         map = mapName;
 
+        initAll();
+    }
+
+    private void initAll() {
         setTowns(new Towns(this));
         setNations(new Nations(this));
         setResidents(new Residents(this));
@@ -44,5 +48,5 @@ public class EMCMap {
         Nations.updateCache(true);
         Residents.updateCache(true);
         Players.updateCache(true);
-    };
+    }
 }

@@ -40,7 +40,7 @@ public class DataParser {
     }
 
     public static void parsePlayerData(String map) {
-        players.cache.invalidateAll();
+        players.invalidateAll();
 
         JsonArray pData = API.playerData(map).getAsJsonArray("players");
         if (pData.size() < 1) return;
@@ -74,9 +74,9 @@ public class DataParser {
     }
 
     public static void parseMapData(String map, Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        towns.cache.invalidateAll();
-        nations.cache.invalidateAll();
-        residents.cache.invalidateAll();
+        towns.invalidateAll();
+        nations.invalidateAll();
+        residents.invalidateAll();
 
         JsonObject mapData = API.mapData(map);
         if (mapData.size() < 1) return;
@@ -209,7 +209,7 @@ public class DataParser {
                     newObj.addProperty("rank", rank);
 
                     // Add resident obj to residents.
-                    residents.cache.put(res, newObj);
+                    residents.put(res, newObj);
                 });
             }
             //#endregion

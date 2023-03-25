@@ -2,7 +2,6 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import io.github.emcw.entities.BaseEntity;
 import io.github.emcw.exceptions.MissingEntryException;
 import lombok.AccessLevel;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BaseCache<V> {
     @Setter(AccessLevel.PRIVATE) public Cache<String, V> cache;

@@ -10,10 +10,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
-import okhttp3.ConnectionPool;
-import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
-import okhttp3.Response;
+import okhttp3.*;
+import okhttp3.brotli.BrotliInterceptor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -24,9 +22,11 @@ public class Request {
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
 
     static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
+
     private static final OkHttpClient client = new OkHttpClient.Builder()
-            .callTimeout(5, TimeUnit.SECONDS)
-            .connectionPool(new ConnectionPool(2, 60, TimeUnit.SECONDS))
+            .callTimeout(6, TimeUnit.SECONDS)
+            .connectionPool(new ConnectionPool(4, 2, TimeUnit.MINUTES))
+            .addInterceptor(BrotliInterceptor.INSTANCE)
             .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
             .build();
 

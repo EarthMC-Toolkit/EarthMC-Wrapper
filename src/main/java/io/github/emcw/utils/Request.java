@@ -35,11 +35,10 @@ public class Request {
     static Cache<String, JsonObject> getEndpoints() {
         if (endpoints.asMap().isEmpty()) {
             JsonObject eps = updateEndpoints();
+
             if (eps != null) {
                 eps.asMap().forEach((k, v) -> endpoints.put(k, v.getAsJsonObject()));
             }
-
-            //System.out.println(serialize(endpoints));
         }
 
         return endpoints;

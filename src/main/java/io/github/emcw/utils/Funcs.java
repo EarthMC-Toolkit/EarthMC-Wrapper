@@ -70,7 +70,7 @@ public class Funcs {
 
     @Contract(pure = true)
     public static boolean hypot(Integer num, Integer @NotNull [] args) {
-        double input = args[0], radius = args[1];
+        Integer input = args[0], radius = args[1];
         return (num <= input+radius) && (num >= input-radius);
     }
 

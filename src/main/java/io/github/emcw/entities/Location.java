@@ -38,6 +38,10 @@ public class Location implements ISerializable {
         return x != null && z != null;
     }
 
+    public boolean isDefault() {
+        return x == 0 && z == 0;
+    }
+
     public static @NotNull Location of(JsonObject obj) {
         JsonArray xArr = keyAsArr(obj, "x"),
                   zArr = keyAsArr(obj, "z");

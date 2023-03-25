@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.google.gson.JsonObject;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.core.EMCMap;
+import io.github.emcw.entities.Location;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.entities.Player;
 import io.github.emcw.entities.Resident;
@@ -22,7 +23,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     private final EMCMap parent;
 
     public Players(EMCMap parent) {
-        super(Duration.ofSeconds(2));
+        super(Duration.ofMillis(1500));
         this.parent = parent;
     }
 
@@ -46,6 +47,22 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
 
     public Map<String, Player> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
         return getNearby(online(), xCoord, zCoord, xRadius, zRadius);
+    }
+
+    public Map<String, Player> nearby(Player p, Integer xRadius, Integer zRadius) {
+        Location playerLoc = p.getLocation();
+
+        if (playerLoc.isDefault()) return Map.of();
+
+        Map<String, Player> nearby = getNearby(online(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
+        nearby.remove(p.getName());
+
+        return nearby;
+    }
+
+    public Map<String, Player> nearby(Location location, Integer xRadius, Integer zRadius) {
+        if (!location.valid()) return Map.of();
+        return getNearby(online(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
     public Map<String, Player> online() {

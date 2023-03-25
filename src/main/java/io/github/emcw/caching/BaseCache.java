@@ -2,6 +2,8 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import io.github.emcw.entities.BaseEntity;
+import io.github.emcw.exceptions.MissingEntryException;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.Contract;
@@ -9,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BaseCache<V> {
     @Setter(AccessLevel.PRIVATE) public Cache<String, V> cache;
@@ -44,13 +46,16 @@ public class BaseCache<V> {
         cache = setupCache();
     }
 
-    public Map<String, V> get(String... keys) {
-        return cache.getAllPresent(Arrays.asList(keys));
+    public Map<String, V> get(String @NotNull ... keys) {
+        return cache.getAllPresent(List.of(keys));
     }
 
     @Nullable
-    public V single(String key) {
-        return cache.getIfPresent(key);
+    public V single(String key) throws MissingEntryException {
+        var result = cache.getIfPresent(key);
+        if (result == null) throw new MissingEntryException("Could not find entry with key: " + key);
+
+        return result;
     }
 
     public Map<String, V> all() {

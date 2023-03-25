@@ -5,28 +5,34 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.emcw.exceptions.APIException;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.Response;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Request {
-    private static final HttpClient client = HttpClient.newHttpClient();
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
+
+    static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
+    private static final OkHttpClient client = new OkHttpClient.Builder()
+            .callTimeout(5, TimeUnit.SECONDS)
+            .connectionPool(new ConnectionPool(2, 60, TimeUnit.SECONDS))
+            .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
+            .build();
 
     static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
     static Cache<String, JsonObject> endpoints = Caffeine.newBuilder()
-            .expireAfterWrite(Duration.ofSeconds(30)).build();
+            .expireAfterWrite(30, TimeUnit.SECONDS).build();
 
     public static <T> T send(String url) throws APIException {
         return (T) JsonParser.parseString(fetch(url));
@@ -54,23 +60,20 @@ public class Request {
 
     @SneakyThrows
     static String fetch(String urlString) {
-        HttpRequest req = HttpRequest.newBuilder()
-                .uri(URI.create(urlString))
-                .timeout(Duration.ofSeconds(5))
-                .GET().build();
+        builder.url(urlString);
 
-        final HttpResponse<String> response;
+        final Response response;
         String endpointStr = "\nEndpoint: " + urlString;
 
-        try { response = client.sendAsync(req, BodyHandlers.ofString(StandardCharsets.UTF_8)).join(); }
+        try { response = client.newCall(builder.build()).execute(); }
         catch(Exception e) {
             throw new APIException("Request failed! " + endpointStr + e.getMessage());
         }
 
-        int statusCode = response.statusCode();
+        int statusCode = response.code();
         if (!codes.contains(statusCode))
             throw new APIException("API Error! Response code: " + statusCode + endpointStr);
 
-        return response.body();
+        return response.body().string();
     }
 }

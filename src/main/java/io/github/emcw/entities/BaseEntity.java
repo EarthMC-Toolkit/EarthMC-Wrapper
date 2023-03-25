@@ -1,8 +1,8 @@
-package io.github.emcw.objects;
+package io.github.emcw.entities;
 
 import lombok.Getter;
 
-public abstract class Base<T> {
+public abstract class BaseEntity<T> {
     @Getter String name;
     @Getter T parent;
 

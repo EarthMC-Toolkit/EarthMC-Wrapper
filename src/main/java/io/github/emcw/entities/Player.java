@@ -1,7 +1,8 @@
-package io.github.emcw.objects;
+package io.github.emcw.entities;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
+import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -11,9 +12,9 @@ import java.util.Objects;
 import static io.github.emcw.core.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Player extends Base<Player> implements ISerializable {
-    @Getter String nickname;
-    @Getter Location location = null;
+public class Player extends BaseEntity<Player> implements ISerializable, ILocatable<Player> {
+    @Getter private String nickname;
+    @Getter private Location location = null;
 
     private transient String world = null;
     private transient Boolean isResident = false;

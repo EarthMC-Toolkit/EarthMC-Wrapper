@@ -1,9 +1,9 @@
 package io.github.emcw.interfaces;
 
-import io.github.emcw.objects.Location;
-import io.github.emcw.objects.Nation;
-import io.github.emcw.objects.Player;
-import io.github.emcw.objects.Town;
+import io.github.emcw.entities.Location;
+import io.github.emcw.entities.Nation;
+import io.github.emcw.entities.Player;
+import io.github.emcw.entities.Town;
 
 import java.util.Map;
 
@@ -38,7 +38,7 @@ public interface ILocatable<T> {
         return loc != null && isNearby(loc, xArr, zArr);
     }
 
-    private boolean isNearby(Location location, Integer[] xArr, Integer[] zArr) {
+    default boolean isNearby(Location location, Integer[] xArr, Integer[] zArr) {
         int x = location.getX(), z = location.getZ();
         return (x != 0 && z != 0) && hypot(x, xArr) && hypot(z, zArr);
     }

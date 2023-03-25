@@ -1,4 +1,4 @@
-package io.github.emcw.objects;
+package io.github.emcw.entities;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.IPlayerCollective;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.emcw.objects.Resident.fromArr;
+import static io.github.emcw.entities.Resident.fromArr;
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Town extends Base<Town> implements IPlayerCollective, ISerializable {
+public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerializable {
     @Getter String mayor, nation;
     @Getter Integer area;
     @Getter Location location;

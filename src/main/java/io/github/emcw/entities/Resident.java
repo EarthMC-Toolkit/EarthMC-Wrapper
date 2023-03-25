@@ -1,7 +1,8 @@
-package io.github.emcw.objects;
+package io.github.emcw.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.stream.StreamSupport;
 
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
-public class Resident extends Player {
-    @Getter String town, nation, rank;
+public class Resident extends Player implements ISerializable {
+    @Getter private String town, nation, rank;
 
     public Resident(JsonObject res, JsonObject op) {
         super(op, true, true);

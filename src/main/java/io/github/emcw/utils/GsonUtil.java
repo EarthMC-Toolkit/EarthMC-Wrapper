@@ -2,8 +2,8 @@ package io.github.emcw.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import io.github.emcw.objects.Base;
-import io.github.emcw.objects.Player;
+import io.github.emcw.entities.BaseEntity;
+import io.github.emcw.entities.Player;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -134,7 +134,7 @@ public class GsonUtil {
         return playerList.parallelStream()
                 .filter(Objects::nonNull)
                 .filter(op -> !names.contains(op.getName()))
-                .collect(Collectors.toMap(Base::getName, Function.identity()));
+                .collect(Collectors.toMap(BaseEntity::getName, Function.identity()));
     }
 
     static <T> JsonObject valueAsObj(Map.Entry<String, T> entry) {

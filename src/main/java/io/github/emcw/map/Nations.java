@@ -2,13 +2,14 @@ package io.github.emcw.map;
 
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.objects.Nation;
+import io.github.emcw.entities.Nation;
+import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.utils.DataParser;
 
 import java.time.Duration;
 import java.util.Map;
 
-public class Nations extends BaseCache<Nation> {
+public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
     private final EMCMap parent;
 
     public Nations(EMCMap parent) {

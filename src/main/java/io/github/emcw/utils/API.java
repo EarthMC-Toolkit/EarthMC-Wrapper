@@ -9,9 +9,11 @@ import java.util.concurrent.CompletableFuture;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class API {
     public static CompletableFuture<JsonObject> get(String map, String key) {
-        String endpoint = Request.getEndpoints().getAsJsonObject(key).get(map).getAsString();
         return CompletableFuture.supplyAsync(() -> {
-            try { return Request.send(endpoint); }
+            try {
+                String endpoint = Request.getEndpoints().getIfPresent(key).get(map).getAsString();
+                return Request.send(endpoint);
+            }
             catch (Exception e) {
                 System.out.println("Exception occurred!\n" + e.getMessage());
                 return null;

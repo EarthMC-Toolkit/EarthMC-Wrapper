@@ -1,11 +1,14 @@
 package io.github.emcw.utils;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.emcw.exceptions.APIException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,20 +25,30 @@ public class Request {
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
 
     static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
-    static JsonObject endpoints;
+    static Cache<String, JsonObject> endpoints = Caffeine.newBuilder()
+            .expireAfterWrite(Duration.ofSeconds(30)).build();
 
     public static <T> T send(String url) throws APIException {
         return (T) JsonParser.parseString(fetch(url));
     }
 
-    static JsonObject getEndpoints() {
-        if (endpoints == null) endpoints = updateEndpoints();
+    static Cache<String, JsonObject> getEndpoints() {
+        if (endpoints.asMap().isEmpty()) {
+            JsonObject eps = updateEndpoints();
+            if (eps != null) {
+                eps.asMap().forEach((k, v) -> endpoints.put(k, v.getAsJsonObject()));
+            }
+
+            //System.out.println(serialize(endpoints));
+        }
+
         return endpoints;
     }
 
-    static JsonObject updateEndpoints() {
+    static @Nullable JsonObject updateEndpoints() {
         try { return send(epUrl); }
         catch (APIException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }

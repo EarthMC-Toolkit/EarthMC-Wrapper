@@ -4,10 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import io.github.emcw.caching.BaseCache;
-import io.github.emcw.objects.Nation;
-import io.github.emcw.objects.Player;
-import io.github.emcw.objects.Resident;
-import io.github.emcw.objects.Town;
+import io.github.emcw.entities.Nation;
+import io.github.emcw.entities.Player;
+import io.github.emcw.entities.Resident;
+import io.github.emcw.entities.Town;
 
 import lombok.AccessLevel;
 import lombok.Getter;

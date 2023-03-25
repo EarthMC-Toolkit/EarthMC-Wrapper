@@ -1,4 +1,4 @@
-package io.github.emcw.objects;
+package io.github.emcw.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Nation extends Base<Nation> implements IPlayerCollective, ISerializable {
+public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISerializable {
     @Getter Capital capital;
     @Getter List<String> towns;
     @Getter List<Resident> residents;

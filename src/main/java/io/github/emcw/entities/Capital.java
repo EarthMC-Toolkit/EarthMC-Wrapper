@@ -1,4 +1,4 @@
-package io.github.emcw.objects;
+package io.github.emcw.entities;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.ISerializable;

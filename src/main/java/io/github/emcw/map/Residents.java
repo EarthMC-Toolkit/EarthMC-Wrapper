@@ -2,7 +2,7 @@ package io.github.emcw.map;
 
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.core.EMCMap;
-import io.github.emcw.objects.Resident;
+import io.github.emcw.entities.Resident;
 import io.github.emcw.utils.DataParser;
 
 import java.time.Duration;

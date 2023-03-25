@@ -10,6 +10,7 @@ import io.github.emcw.entities.Player;
 import io.github.emcw.entities.Resident;
 import io.github.emcw.utils.DataParser;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
@@ -49,7 +50,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         return getNearby(online(), xCoord, zCoord, xRadius, zRadius);
     }
 
-    public Map<String, Player> nearby(Player p, Integer xRadius, Integer zRadius) {
+    public Map<String, Player> nearby(@NotNull Player p, Integer xRadius, Integer zRadius) {
         Location playerLoc = p.getLocation();
 
         if (playerLoc.isDefault()) return Map.of();
@@ -60,7 +61,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         return nearby;
     }
 
-    public Map<String, Player> nearby(Location location, Integer xRadius, Integer zRadius) {
+    public Map<String, Player> nearby(@NotNull Location location, Integer xRadius, Integer zRadius) {
         if (!location.valid()) return Map.of();
         return getNearby(online(), location.getX(), location.getZ(), xRadius, zRadius);
     }
@@ -75,7 +76,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         return mergeWith(parent.Residents.all());
     }
 
-    private Map<String, Player> mergeWith(Map<String, Resident> residents) {
+    private @NotNull Map<String, Player> mergeWith(Map<String, Resident> residents) {
         Map<String, Player> merged = new ConcurrentHashMap<>(cache.asMap());
 
         // Loop through residents in parallel

@@ -33,7 +33,7 @@ public class DataParser {
     @Getter static BaseCache<JsonObject> players = new BaseCache<>();
     @Getter static BaseCache<JsonObject> residents = new BaseCache<>();
 
-    static List<String> processFlags(String str) {
+    static List<String> processFlags(@NotNull String str) {
         return strArrAsStream(str.split("<br />"))
                 .map(e -> Jsoup.clean(e, whitelist))
                 .collect(Collectors.toList());

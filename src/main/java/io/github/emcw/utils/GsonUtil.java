@@ -62,14 +62,14 @@ public class GsonUtil {
        return (List<T>) deserialize(serialize(obj), List.class);
     }
 
-    public static <T> JsonArray mapToArr(@NotNull Map<String, T> map) {
+    public static <T> @NotNull JsonArray mapToArr(@NotNull Map<String, T> map) {
         JsonArray arr = new JsonArray();
         map.values().parallelStream().forEach(v -> arr.add(asTree(v)));
 
         return arr;
     }
 
-    public static <T> Map<String, T> arrToMap(@NotNull JsonArray arr, String key) {
+    public static <T> @NotNull Map<String, T> arrToMap(@NotNull JsonArray arr, String key) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         arrAsStream(arr).forEach(el -> {
             JsonObject obj = el.getAsJsonObject();

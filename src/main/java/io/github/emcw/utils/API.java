@@ -3,16 +3,21 @@ package io.github.emcw.utils;
 import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class API {
-    public static CompletableFuture<JsonObject> get(String map, String key) {
+    @Contract("_, _ -> new")
+    public static @NotNull CompletableFuture<JsonObject> get(String map, String key) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                String endpoint = Request.getEndpoints().getIfPresent(key).get(map).getAsString();
-                return Request.send(endpoint);
+                JsonObject endpoint = Request.getEndpoints().getIfPresent(key);
+                if (endpoint != null) return Request.send(endpoint.get(map).getAsString());
+
+                throw new NullPointerException("Error fetching " + key + "! Received `null` as endpoint URL.");
             }
             catch (Exception e) {
                 System.out.println("Exception occurred!\n" + e.getMessage());

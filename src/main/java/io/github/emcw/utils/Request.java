@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 
 import okhttp3.*;
 import okhttp3.brotli.BrotliInterceptor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class Request {
     }
 
     @SneakyThrows
-    static String fetch(String urlString) {
+    static @NotNull String fetch(String urlString) {
         builder.url(urlString);
 
         final Response response;
@@ -74,6 +75,9 @@ public class Request {
         if (!codes.contains(statusCode))
             throw new APIException("API Error! Response code: " + statusCode + endpointStr);
 
-        return response.body().string();
+        ResponseBody body = response.body();
+        if (body == null) throw new APIException("Fetch Error: Response body is null");
+
+        return body.string();
     }
 }

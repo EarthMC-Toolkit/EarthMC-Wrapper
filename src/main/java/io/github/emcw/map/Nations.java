@@ -1,5 +1,6 @@
 package io.github.emcw.map;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.entities.Nation;
@@ -7,7 +8,6 @@ import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.utils.DataParser;
 
 import java.time.Duration;
-import java.util.Map;
 
 public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
     private final EMCMap parent;
@@ -27,7 +27,7 @@ public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
         // Parse map data into usable Nation objects.
         DataParser.parseMapData(parent.getMap(), true, true, false);
 
-        Map<String, Nation> nations = DataParser.parsedNations();
-        if (!nations.isEmpty()) cache.putAll(nations);
+        Cache<String, Nation> nations = DataParser.parsedNations();
+        if (!nations.asMap().isEmpty()) cache = nations;
     }
 }

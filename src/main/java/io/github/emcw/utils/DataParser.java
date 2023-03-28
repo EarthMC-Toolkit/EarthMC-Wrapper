@@ -1,5 +1,7 @@
 package io.github.emcw.utils;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -216,31 +218,28 @@ public class DataParser {
         });
     }
 
-    public static Map<String, Town> parsedTowns() {
-        return collectAsMap(streamEntries(towns.all()).map(entry -> {
-            try { return Map.entry(entry.getKey(), new Town(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
-        }));
+    private static final Cache<String, Town> townCache = Caffeine.newBuilder().build();
+    private static final Cache<String, Nation> nationCache = Caffeine.newBuilder().build();
+    private static final Cache<String, Resident> residentCache = Caffeine.newBuilder().build();
+    private static final Cache<String, Player> playerCache = Caffeine.newBuilder().build();
+
+    public static Cache<String, Town> parsedTowns() {
+        streamEntries(towns.all()).forEach(entry -> townCache.put(entry.getKey(), new Town(valueAsObj(entry))));
+        return townCache;
     }
 
-    public static Map<String, Nation> parsedNations() {
-        return collectAsMap(streamEntries(nations.all()).map(entry -> {
-            try { return Map.entry(entry.getKey(), new Nation(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
-        }));
+    public static Cache<String, Nation> parsedNations() {
+        streamEntries(nations.all()).forEach(entry -> nationCache.put(entry.getKey(), new Nation(valueAsObj(entry))));
+        return nationCache;
     }
 
-    public static Map<String, Resident> parsedResidents() {
-        return collectAsMap(streamEntries(residents.all()).map(entry -> {
-            try { return Map.entry(entry.getKey(), new Resident(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
-        }));
+    public static Cache<String, Resident> parsedResidents() {
+        streamEntries(residents.all()).forEach(entry -> residentCache.put(entry.getKey(), new Resident(valueAsObj(entry))));
+        return residentCache;
     }
 
-    public static Map<String, Player> parsedPlayers() {
-        return collectAsMap(streamEntries(players.all()).map(entry -> {
-            try { return Map.entry(entry.getKey(), new Player(valueAsObj(entry))); }
-            catch (Exception e) { return null; }
-        }));
+    public static Cache<String, Player> parsedPlayers() {
+        streamEntries(players.all()).forEach(entry -> playerCache.put(entry.getKey(), new Player(valueAsObj(entry))));
+        return playerCache;
     }
 }

@@ -2,6 +2,8 @@ package io.github.emcw.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import io.github.emcw.adapters.ColorAdapter;
+import io.github.emcw.adapters.DurationAdapter;
 import io.github.emcw.entities.BaseEntity;
 import io.github.emcw.entities.Player;
 import lombok.AccessLevel;
@@ -12,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,9 +26,9 @@ import static java.util.Objects.requireNonNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonUtil {
-    @Getter
-    private static final Gson GSON = new GsonBuilder()
+    @Getter private static final Gson GSON = new GsonBuilder()
         .registerTypeAdapter(Color.class, new ColorAdapter())
+        .registerTypeAdapter(Duration.class, new DurationAdapter())
         .setPrettyPrinting().create();
 
     static String regex = "(?<=})\\s*,\\s*(?=\\{)";
@@ -145,8 +148,8 @@ public class GsonUtil {
         return entry.getValue();
     }
 
-    static JsonElement member(@NotNull JsonObject o, String k) {
-        return o.get(k);
+    static JsonElement member(JsonObject o, String k) {
+        return o == null ? null : o.get(k);
     }
 
     static boolean isNull(JsonElement el) {

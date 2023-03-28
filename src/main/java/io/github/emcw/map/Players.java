@@ -38,8 +38,8 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(parent.getMap());
 
-        Map<String, Player> players = DataParser.parsedPlayers();
-        if (!players.isEmpty()) cache.putAll(players);
+        Cache<String, Player> players = DataParser.parsedPlayers();
+        if (!players.asMap().isEmpty()) cache = players;
     }
 
     public Map<String, Player> nearby(Integer xCoord, Integer zCoord, Integer radius) {

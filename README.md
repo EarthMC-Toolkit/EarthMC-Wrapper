@@ -39,7 +39,7 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      implementation 'io.github.emcw:emc-wrapper:0.8.3'
+      api 'io.github.emcw:emc-wrapper:0.8.6'
     }
     ```
 
@@ -68,3 +68,57 @@ EMCW is built to be intuitive and optimized from the ground up.
         }
     }
     ```
+  
+## Documentation
+> **Javadoc**<br>
+> You currently won't see any tooltips as you are using **EMCW**. However, I plan to gradually document new and existing fields, methods & classes post ***v1.0.0***.
+
+<p><b>TLDR;</b><br>
+Since this library uses Lombok, it is most likely that fields you try to access are private.<br>
+Although public getters are provided which you can use like so:
+
+```java
+// Example entity
+public class Nation {
+    @Getter List<String> towns;
+    @Getter String leader;
+}
+
+// Usage
+public class Test {
+    // Here we can see Lombok in use.
+    // getAurora(), getTowns(), getLeader()
+    
+    EMCMap Aurora = new EMCWrapper(true, false).getAurora();
+    
+    public static void main(String[] args) {
+        Nation exampleNation = Aurora.Nations.single("nationName");
+        
+        String leader = exampleNation.getLeader();
+        Integer amtOfTowns = exampleNation.getTowns().size();
+    }
+}
+```
+</p>
+
+- All map classes inherit methods:
+  - `.all()` - Retrieve the entire map of entities.
+  - `.single("name")` - Retrieve a single entity by its name.
+  - `.get("name", "anotherName")` - Returns a map of entities by inputting their names.
+
+### Map Classes
+<details>
+  <summary><b>Towns</b></summary>
+</details>
+
+<details>
+  <summary><b>Nations</b></summary>
+</details>
+
+<details>
+  <summary><b>Residents</b></summary>
+</details>
+
+<details>
+  <summary><b>Players</b></summary>
+</details>

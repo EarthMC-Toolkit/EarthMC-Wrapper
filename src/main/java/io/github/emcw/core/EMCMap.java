@@ -17,13 +17,13 @@ public class EMCMap {
     @Setter(AccessLevel.PRIVATE) public Players Players = null;
     @Setter(AccessLevel.PRIVATE) public Residents Residents = null;
 
-    @Setter(AccessLevel.PRIVATE) public CacheStrategy cacheStrategy;
+    @Setter(AccessLevel.PRIVATE) CacheStrategy cacheStrategy;
 
-    EMCMap(String mapName) {
+    public EMCMap(String mapName) {
         initMap(mapName, CacheStrategy.LAZY);
     }
 
-    EMCMap(String mapName, CacheStrategy cacheStrategy) {
+    public EMCMap(String mapName, CacheStrategy cacheStrategy) {
         initMap(mapName, cacheStrategy);
     }
 

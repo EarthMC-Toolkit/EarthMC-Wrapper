@@ -12,17 +12,17 @@ import static io.github.emcw.utils.GsonUtil.*;
 public class Location implements ISerializable {
     @Getter Integer x, z, y;
 
-    Location(Integer x, Integer y, Integer z) {
+    public Location(Integer x, Integer y, Integer z) {
         this(x, z);
         this.y = y;
     }
 
-    Location(Integer x, Integer z) {
+    public Location(Integer x, Integer z) {
         this.x = x;
         this.z = z;
     }
 
-    Location() {
+    public Location() {
         this(0, 64, 0);
     }
 

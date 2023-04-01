@@ -11,7 +11,7 @@ public class Capital implements ISerializable {
     @Getter final String name;
     @Getter final Location location;
 
-    Capital(JsonObject obj) {
+    public Capital(JsonObject obj) {
         name = keyAsStr(obj, "name");
         location = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
     }

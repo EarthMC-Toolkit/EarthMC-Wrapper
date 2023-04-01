@@ -96,8 +96,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     }
 
     public Map<String, Player> townless() {
-        Cache<String, Resident> residents = parent.Residents.cache;
-        return difference(mapToArr(cache.asMap()), mapToArr(residents.asMap()));
+        return difference(mapToArr(cache.asMap()), mapToArr(parent.Residents.all()));
     }
 
     @Nullable

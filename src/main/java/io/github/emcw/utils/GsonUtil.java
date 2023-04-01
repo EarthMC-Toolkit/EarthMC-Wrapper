@@ -67,7 +67,7 @@ public class GsonUtil {
 
     public static <T> @NotNull JsonArray mapToArr(@NotNull Map<String, T> map) {
         JsonArray arr = new JsonArray();
-        map.values().parallelStream().forEach(v -> arr.add(asTree(v)));
+        map.values().forEach(v -> arr.add(asTree(v)));
 
         return arr;
     }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.entities.Location;
+import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.entities.Player;
 import io.github.emcw.entities.Resident;
@@ -33,13 +34,38 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     }
 
     public void updateCache(Boolean force) {
-        if (cache != null && !force) return;
+        // We aren't forcing an update, and not expired.
+        if (!cache.asMap().isEmpty() && !force) return;
 
         // Parse player data into usable Player objects.
         DataParser.parsePlayerData(parent.getMap());
-
         Cache<String, Player> players = DataParser.parsedPlayers();
-        if (!players.asMap().isEmpty()) cache = players;
+
+        // Make sure we have data to use.
+        if (!players.asMap().isEmpty())
+            cache = players;
+    }
+
+    @Override
+    public Map<String, Player> all() {
+        // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
+        return mergeWith(parent.Residents.all());
+    }
+
+    @Override
+    public Player single(String name) throws MissingEntryException {
+        updateCache();
+        return super.single(name);
+    }
+
+    public Map<String, Player> get(String @NotNull ... keys) {
+        updateCache();
+        return super.get(keys);
+    }
+
+    public Map<String, Player> online() {
+        updateCache();
+        return cache.asMap();
     }
 
     public Map<String, Player> nearby(Integer xCoord, Integer zCoord, Integer radius) {
@@ -66,18 +92,8 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         return getNearby(online(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
-    public Map<String, Player> online() {
-        return cache.asMap();
-    }
-
-    @Override
-    public Map<String, Player> all() {
-        // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
-        return mergeWith(parent.Residents.all());
-    }
-
     private @NotNull Map<String, Player> mergeWith(Map<String, Resident> residents) {
-        Map<String, Player> merged = new ConcurrentHashMap<>(cache.asMap());
+        Map<String, Player> merged = new ConcurrentHashMap<>(online());
 
         // Loop through residents in parallel
         streamValues(residents).forEach(res -> {
@@ -96,12 +112,12 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     }
 
     public Map<String, Player> townless() {
-        return difference(mapToArr(cache.asMap()), mapToArr(parent.Residents.all()));
+        return difference(mapToArr(online()), mapToArr(parent.Residents.all()));
     }
 
     @Nullable
     public Player getOnline(String playerName) {
-        Map<String, Player> map = cache.asMap();
+        Map<String, Player> map = online();
         Player pl = null;
 
         if (!map.isEmpty()) {

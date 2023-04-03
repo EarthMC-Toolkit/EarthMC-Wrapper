@@ -63,6 +63,7 @@ java {
 jar {
     // Will include every single runtime dependency
     from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 publishing {

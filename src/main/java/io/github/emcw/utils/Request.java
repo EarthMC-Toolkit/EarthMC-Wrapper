@@ -20,10 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Request {
-    static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
-
     static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
-
     private static final OkHttpClient client = new OkHttpClient.Builder()
             .callTimeout(6, TimeUnit.SECONDS)
             .connectionPool(new ConnectionPool(4, 2, TimeUnit.MINUTES))
@@ -31,13 +28,10 @@ public class Request {
             .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
             .build();
 
-    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
+    static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
+    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/Toolkit-Website/main/endpoints.json";
     static Cache<String, JsonObject> endpoints = Caffeine.newBuilder()
             .expireAfterWrite(30, TimeUnit.SECONDS).build();
-
-    public static <T> T send(String url) throws APIException {
-        return (T) JsonParser.parseString(fetch(url));
-    }
 
     static Cache<String, JsonObject> getEndpoints() {
         if (endpoints.asMap().isEmpty()) {
@@ -59,8 +53,12 @@ public class Request {
         }
     }
 
+    public static <T> T send(String url) throws APIException {
+        return (T) JsonParser.parseString(fetch(url));
+    }
+
     @SneakyThrows
-    static @NotNull String fetch(String urlString) {
+    public static @NotNull String fetch(String urlString) {
         builder.url(urlString);
 
         final Response response;

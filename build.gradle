@@ -60,6 +60,11 @@ java {
     //withJavadocJar()
 }
 
+jar {
+    // Will include every single runtime dependency
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
 publishing {
     repositories {
         maven {

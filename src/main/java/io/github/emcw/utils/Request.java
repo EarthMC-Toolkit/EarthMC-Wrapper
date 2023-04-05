@@ -30,8 +30,7 @@ public class Request {
 
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
     static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/Toolkit-Website/main/endpoints.json";
-    static Cache<String, JsonObject> endpoints = Caffeine.newBuilder()
-            .expireAfterWrite(30, TimeUnit.SECONDS).build();
+    static Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
 
     static Cache<String, JsonObject> getEndpoints() {
         if (endpoints.asMap().isEmpty()) {

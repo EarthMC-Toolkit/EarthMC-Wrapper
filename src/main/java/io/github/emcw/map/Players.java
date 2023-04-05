@@ -118,17 +118,6 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     @Nullable
     public Player getOnline(String playerName) {
         Map<String, Player> map = online();
-        Player pl = null;
-
-        if (!map.isEmpty()) {
-            for (Player op : map.values()) {
-                if (Objects.equals(op.getName(), playerName)) {
-                    pl = op;
-                    break;
-                }
-            }
-        }
-
-        return pl;
+        return map.getOrDefault(playerName, null);
     }
 }

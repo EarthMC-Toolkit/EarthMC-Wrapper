@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.util.*;
 
 public class BaseCache<V> {
-    @Setter(AccessLevel.PRIVATE) public Cache<String, V> cache;
+    @Setter(AccessLevel.PRIVATE) protected Cache<String, V> cache;
 
     @Setter Duration expiry;
     @Setter Integer maxSize;
@@ -58,6 +58,10 @@ public class BaseCache<V> {
 
     public Map<String, V> all() {
         return cache.asMap();
+    }
+
+    public boolean has(String key) {
+        return all().containsKey(key);
     }
 
     @Contract(" -> new")

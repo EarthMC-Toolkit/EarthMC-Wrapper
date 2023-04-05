@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class Request {
     static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     private static final OkHttpClient client = new OkHttpClient.Builder()
-            .callTimeout(6, TimeUnit.SECONDS)
-            .connectionPool(new ConnectionPool(4, 2, TimeUnit.MINUTES))
+            .callTimeout(10, TimeUnit.SECONDS)
+            .connectionPool(new ConnectionPool(16, 3, TimeUnit.MINUTES))
             .addInterceptor(BrotliInterceptor.INSTANCE)
             .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
             .build();

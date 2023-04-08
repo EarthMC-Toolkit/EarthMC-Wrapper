@@ -1,0 +1,151 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.emcw",
+    "module": "emc-wrapper",
+    "version": "0.10.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "emc-wrapper-0.10.1.jar",
+          "url": "emc-wrapper-0.10.1.jar",
+          "size": 5330330,
+          "sha512": "0b154b80f6958adb821e9a0eaa9d4bc4f153e6d7aff24b4841abb942982596ae47b743e9cf8a1790f887162360fa1251b04401aae16a4336cba0a0c1d0acc2ea",
+          "sha256": "f0ae940f7220c285f7b73c8dadaceb9a72299de2171b2be4785c450e1a853ce6",
+          "sha1": "c11170709a78ecc00bac154cd618b394f04eed17",
+          "md5": "32070960a3e5b4b7c153eec065145e0b"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.10.1"
+          }
+        },
+        {
+          "group": "org.jetbrains",
+          "module": "annotations",
+          "version": {
+            "requires": "20.1.0"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.12.0"
+          }
+        },
+        {
+          "group": "org.jsoup",
+          "module": "jsoup",
+          "version": {
+            "requires": "1.15.4"
+          }
+        },
+        {
+          "group": "com.squareup.okhttp3",
+          "module": "okhttp",
+          "version": {
+            "requires": "4.9.2"
+          }
+        },
+        {
+          "group": "com.squareup.okhttp3",
+          "module": "okhttp-brotli",
+          "version": {
+            "requires": "4.10.0"
+          }
+        },
+        {
+          "group": "com.github.ben-manes.caffeine",
+          "module": "caffeine",
+          "version": {
+            "requires": "3.1.5"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "emc-wrapper-0.10.1.jar",
+          "url": "emc-wrapper-0.10.1.jar",
+          "size": 5330330,
+          "sha512": "0b154b80f6958adb821e9a0eaa9d4bc4f153e6d7aff24b4841abb942982596ae47b743e9cf8a1790f887162360fa1251b04401aae16a4336cba0a0c1d0acc2ea",
+          "sha256": "f0ae940f7220c285f7b73c8dadaceb9a72299de2171b2be4785c450e1a853ce6",
+          "sha1": "c11170709a78ecc00bac154cd618b394f04eed17",
+          "md5": "32070960a3e5b4b7c153eec065145e0b"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "emc-wrapper-0.10.1-sources.jar",
+          "url": "emc-wrapper-0.10.1-sources.jar",
+          "size": 24314,
+          "sha512": "4f7b099a50e9f721620901dd6dec30cd78f63007cd4eecb858d20fc09be181ca562205870d0d7ebe0a4b21921bf276f7683b1bb418290d499c48c2d28d92cf8a",
+          "sha256": "7b1b00501712ded8731711c86f5635604e751a2362a07f40936d737b29880cd6",
+          "sha1": "eef7c457ead5b0bb77ae9c53571d2b905d7877ea",
+          "md5": "d2aa31b95fcb33f4102d07d2a0cdef98"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "emc-wrapper-0.10.1-javadoc.jar",
+          "url": "emc-wrapper-0.10.1-javadoc.jar",
+          "size": 181704,
+          "sha512": "82f830afdbb5d1972b2d90718784a74b783d9714ca9325b2b4d7a65a2f291a430508912fcf4ed67498a8d2e3d37c4b281f90a68f9a17e3a1ed047218392bdb09",
+          "sha256": "060fb313e0656ae5f0e6331ede0afe8b618c842b1132e5e5a603b2faaf619a0d",
+          "sha1": "5f404a4318cfac728c52fb11a3cb2b09cd7a2acc",
+          "md5": "a9c659c0e900435d9ea6e609850cd9b8"
+        }
+      ]
+    }
+  ]
+}

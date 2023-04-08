@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"io.github.emcw.adapters"},{"l":"io.github.emcw.caching"},{"l":"io.github.emcw.core"},{"l":"io.github.emcw.entities"},{"l":"io.github.emcw.exceptions"},{"l":"io.github.emcw.interfaces"},{"l":"io.github.emcw.map"},{"l":"io.github.emcw.utils"}];updateSearchResults();

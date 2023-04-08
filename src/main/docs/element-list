@@ -1,0 +1,8 @@
+io.github.emcw.adapters
+io.github.emcw.caching
+io.github.emcw.core
+io.github.emcw.entities
+io.github.emcw.exceptions
+io.github.emcw.interfaces
+io.github.emcw.map
+io.github.emcw.utils

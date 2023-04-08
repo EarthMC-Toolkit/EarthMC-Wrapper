@@ -57,8 +57,9 @@ public class GsonUtil {
         return GSON.fromJson(el, type);
     }
 
-    public static JsonElement asTree(Object input) {
-        return getGSON().toJsonTree(input);
+    public static <T extends JsonElement> T asTree(Object input) {
+        JsonElement tree = getGSON().toJsonTree(input);
+        return tree.isJsonObject() ? (T) tree.getAsJsonObject() : (T) tree;
     }
 
     public static <T> List<T> toList(Object obj) {

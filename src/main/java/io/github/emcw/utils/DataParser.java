@@ -5,22 +5,22 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import io.github.emcw.caching.BaseCache;
 import io.github.emcw.entities.Nation;
 import io.github.emcw.entities.Player;
 import io.github.emcw.entities.Resident;
 import io.github.emcw.entities.Town;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.Funcs.*;
@@ -30,40 +30,25 @@ import static io.github.emcw.utils.GsonUtil.*;
 public class DataParser {
     static Safelist whitelist = new Safelist().addAttributes("a", "href");
 
-    @Getter static BaseCache<JsonObject> towns = new BaseCache<>();
-    @Getter static BaseCache<JsonObject> nations = new BaseCache<>();
-    @Getter static BaseCache<JsonObject> players = new BaseCache<>();
-    @Getter static BaseCache<JsonObject> residents = new BaseCache<>();
+    static Cache<String, JsonObject> rawTowns = buildEmpty();
+    static Cache<String, JsonObject> rawNations = buildEmpty();
+    static Cache<String, JsonObject> rawResidents = buildEmpty();
+    static Cache<String, JsonObject> rawPlayers = buildEmpty();
+
+    private static final Cache<String, Town> towns = buildEmpty();
+    private static final Cache<String, Nation> nations = buildEmpty();
+    private static final Cache<String, Resident> residents = buildEmpty();
+    private static final Cache<String, Player> playerCache = buildEmpty();
+
+    @Contract(" -> new")
+    static <K, V> @NotNull Cache<K, V> buildEmpty() {
+        return Caffeine.newBuilder().build();
+    }
 
     static List<String> processFlags(@NotNull String str) {
         return strArrAsStream(str.split("<br />"))
                 .map(e -> Jsoup.clean(e, whitelist))
                 .collect(Collectors.toList());
-    }
-
-    public static void parsePlayerData(String map) {
-        players.invalidateAll();
-
-        JsonArray pData = API.playerData(map).getAsJsonArray("players");
-        if (pData.size() < 1) return;
-
-        arrAsStream(pData).forEach(p -> {
-            JsonObject curPlayer = p.getAsJsonObject();
-            String name = keyAsStr(curPlayer, "account");
-
-            players.all().computeIfAbsent(name, k -> {
-                JsonObject obj = new JsonObject();
-
-                obj.addProperty("name", name);
-                obj.addProperty("nickname", keyAsStr(curPlayer, "name"));
-                obj.addProperty("world", keyAsStr(curPlayer, "world"));
-                obj.addProperty("x", keyAsInt(curPlayer, "x"));
-                obj.addProperty("y", keyAsInt(curPlayer, "y"));
-                obj.addProperty("z", keyAsInt(curPlayer, "z"));
-
-                return obj;
-            });
-        });
     }
 
     static boolean flagAsBool(@NotNull List<String> info, Integer index, String key) {
@@ -76,9 +61,9 @@ public class DataParser {
     }
 
     public static void parseMapData(String map, Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        towns.invalidateAll();
-        nations.invalidateAll();
-        residents.invalidateAll();
+        rawTowns.invalidateAll();
+        rawNations.invalidateAll();
+        rawResidents.invalidateAll();
 
         JsonObject mapData = API.mapData(map);
         if (mapData.size() < 1) return;
@@ -98,11 +83,9 @@ public class DataParser {
 
             if (title.contains("(Shop)")) return;
             info.remove("Flags");
-
-            //System.out.println(serialize(info));
             //#endregion
 
-            //#region Parse members flag & add to residents
+            //#region Parse members flag & add to rawResidents
             String names = StringUtils.substringBetween(String.join(", ", info), "Members ", ", pvp");
             if (names == null) return;
 
@@ -130,7 +113,7 @@ public class DataParser {
 
             //#region Create/Update Towns Map.
             if (parseTowns) {
-                towns.all().computeIfAbsent(name, k -> {
+                rawTowns.asMap().computeIfAbsent(name, k -> {
                     JsonObject obj = new JsonObject();
 
                     //#region Add properties
@@ -163,7 +146,7 @@ public class DataParser {
             //#region Create/Update Nations Map.
             if (parseNations && nation != null) {
                 // Not present, create a new Nation.
-                nations.all().computeIfAbsent(nation, k -> {
+                rawNations.asMap().computeIfAbsent(nation, k -> {
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", nation);
 
@@ -176,7 +159,7 @@ public class DataParser {
                 });
 
                 // Nation is present, add current town prop values.
-                nations.all().computeIfPresent(nation, (k, v) -> {
+                rawNations.asMap().computeIfPresent(nation, (k, v) -> {
                     v.getAsJsonArray("towns").add(name);
                     v.getAsJsonArray("residents").addAll(residentNames);
                     v.addProperty("area", v.get("area").getAsInt() + area);
@@ -210,36 +193,62 @@ public class DataParser {
                     String rank = mayorStr.equals(res) ? (capital ? "Nation Leader" : "Mayor") : "Resident";
                     newObj.addProperty("rank", rank);
 
-                    // Add resident obj to residents.
-                    residents.put(res, newObj);
+                    // Add resident obj to rawResidents.
+                    rawResidents.put(res, newObj);
                 });
             }
             //#endregion
         });
     }
 
-    private static final Cache<String, Town> townCache = Caffeine.newBuilder().build();
-    private static final Cache<String, Nation> nationCache = Caffeine.newBuilder().build();
-    private static final Cache<String, Resident> residentCache = Caffeine.newBuilder().build();
-    private static final Cache<String, Player> playerCache = Caffeine.newBuilder().build();
+    public static void parsePlayerData(String map) {
+        rawPlayers.invalidateAll();
+
+        JsonArray pData = API.playerData(map).getAsJsonArray("players");
+        if (pData.size() < 1) return;
+
+        arrAsStream(pData).forEach(p -> {
+            JsonObject curPlayer = p.getAsJsonObject();
+            String name = keyAsStr(curPlayer, "account");
+
+            rawPlayers.asMap().computeIfAbsent(name, k -> {
+                JsonObject obj = new JsonObject();
+
+                obj.addProperty("name", name);
+                obj.addProperty("nickname", keyAsStr(curPlayer, "name"));
+                obj.addProperty("world", keyAsStr(curPlayer, "world"));
+                obj.addProperty("x", keyAsInt(curPlayer, "x"));
+                obj.addProperty("y", keyAsInt(curPlayer, "y"));
+                obj.addProperty("z", keyAsInt(curPlayer, "z"));
+
+                return obj;
+            });
+        });
+    }
 
     public static Cache<String, Town> parsedTowns() {
-        streamEntries(towns.all()).forEach(entry -> townCache.put(entry.getKey(), new Town(valueAsObj(entry))));
-        return townCache;
+        streamEntries(rawTowns.asMap()).forEach(entry -> towns.put(entry.getKey(), new Town(valueAsObj(entry))));
+        return towns;
     }
 
     public static Cache<String, Nation> parsedNations() {
-        streamEntries(nations.all()).forEach(entry -> nationCache.put(entry.getKey(), new Nation(valueAsObj(entry))));
-        return nationCache;
+        streamEntries(rawNations.asMap()).forEach(entry -> nations.put(entry.getKey(), new Nation(valueAsObj(entry))));
+        return nations;
     }
 
     public static Cache<String, Resident> parsedResidents() {
-        streamEntries(residents.all()).forEach(entry -> residentCache.put(entry.getKey(), new Resident(valueAsObj(entry))));
-        return residentCache;
+        streamEntries(rawResidents.asMap()).forEach(entry -> residents.put(entry.getKey(), new Resident(valueAsObj(entry))));
+        return residents;
     }
 
     public static Cache<String, Player> parsedPlayers() {
-        streamEntries(players.all()).forEach(entry -> playerCache.put(entry.getKey(), new Player(valueAsObj(entry))));
+        streamEntries(rawPlayers.asMap()).forEach(entry -> {
+            String key = entry.getKey();
+            Player pl = new Player(valueAsObj(entry), residents.asMap().containsKey(key));
+
+            playerCache.put(key, pl);
+        });
+
         return playerCache;
     }
 }

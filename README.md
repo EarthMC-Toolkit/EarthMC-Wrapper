@@ -39,7 +39,7 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      api 'io.github.emcw:emc-wrapper:0.8.6'
+      api 'io.github.emcw:emc-wrapper:0.10.1'
     }
     ```
 

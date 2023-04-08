@@ -3,6 +3,7 @@ package io.github.emcw.map;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.gson.JsonObject;
 import io.github.emcw.caching.BaseCache;
+import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.entities.Location;
 import io.github.emcw.exceptions.MissingEntryException;
@@ -14,36 +15,43 @@ import io.github.emcw.utils.DataParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Players extends BaseCache<Player> implements ILocatable<Player> {
     private final EMCMap parent;
 
-    public Players(EMCMap parent) {
-        super(Duration.ofMillis(1500));
+    public Players(EMCMap parent, CacheOptions options) {
+        super(options);
         this.parent = parent;
+
+        setUpdater(this::forceUpdate);
+        build();
     }
 
-    public void updateCache() {
+    public void tryUpdate() {
         updateCache(false);
+    }
+
+    public void forceUpdate() {
+        updateCache(true);
     }
 
     public void updateCache(Boolean force) {
         // We aren't forcing an update, and not expired.
-        if (!cache.asMap().isEmpty() && !force) return;
+        if (!empty() && !force) return;
 
         // Parse player data into usable Player objects.
-        DataParser.parsePlayerData(parent.getMap());
+        DataParser.parsePlayerData(parent.getMapName());
         Cache<String, Player> players = DataParser.parsedPlayers();
 
         // Make sure we have data to use.
         if (!players.asMap().isEmpty())
-            cache = players;
+            setCache(players);
     }
 
     @Override
@@ -54,17 +62,17 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
 
     @Override
     public Player single(String name) throws MissingEntryException {
-        updateCache();
+        tryUpdate();
         return super.single(name);
     }
 
     public Map<String, Player> get(String @NotNull ... keys) {
-        updateCache();
+        tryUpdate();
         return super.get(keys);
     }
 
     public Map<String, Player> online() {
-        updateCache();
+        tryUpdate();
         return cache.asMap();
     }
 
@@ -93,15 +101,16 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     }
 
     private @NotNull Map<String, Player> mergeWith(Map<String, Resident> residents) {
-        Map<String, Player> merged = new ConcurrentHashMap<>(online());
+        Map<String, Player> ops = online();
+        Map<String, Player> merged = new ConcurrentHashMap<>(ops);
 
         // Loop through residents in parallel
         streamValues(residents).forEach(res -> {
             String resName = res.getName();
-            JsonObject resObj = asTree(res).getAsJsonObject();
+            JsonObject resObj = asTree(res);
 
-            Player op = merged.get(resName);
-            Player player = op == null ? new Resident(resObj) : new Resident(resObj, asTree(op).getAsJsonObject());
+            Player found = ops.get(resName);
+            Resident player = found == null ? new Resident(resObj) : new Resident(asTree(resObj), found);
 
             merged.put(resName, player);
         });
@@ -112,7 +121,10 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     }
 
     public Map<String, Player> townless() {
-        return difference(mapToArr(online()), mapToArr(parent.Residents.all()));
+        //return difference(mapToArr(online()), mapToArr(parent.Residents.all()));
+
+        return streamValues(all()).filter(p -> !p.isResident())
+                .collect(Collectors.toMap(Player::getName, p -> p));
     }
 
     @Nullable

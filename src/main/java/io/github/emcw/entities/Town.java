@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.IPlayerCollective;
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.List;
@@ -70,7 +72,8 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
         return defaultColour(nation);
     }
 
-    private static String defaultColour(String nationName) {
+    @Contract(pure = true)
+    private static @NotNull String defaultColour(String nationName) {
         return Objects.equals(nationName, "No Nation") ? "#89C500" : "3FB4FF";
     }
 }

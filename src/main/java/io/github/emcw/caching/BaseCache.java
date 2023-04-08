@@ -2,46 +2,56 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.Expiry;
 import io.github.emcw.exceptions.MissingEntryException;
 import lombok.AccessLevel;
 import lombok.Setter;
-import org.jetbrains.annotations.Contract;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Duration;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class BaseCache<V> {
-    @Setter(AccessLevel.PRIVATE) protected Cache<String, V> cache;
+    @Setter(AccessLevel.PROTECTED) protected Cache<String, V> cache;
+    protected CacheOptions options;
 
-    @Setter Duration expiry;
-    @Setter Integer maxSize;
+    Caffeine<Object, Object> builder = Caffeine.newBuilder();
+    Expiry<String, V> expireAfterCreate = new Expiry<>() {
+        @Override
+        public long expireAfterCreate(String key, V value, long currentTime) {
+            return options.expiry;
+        }
+
+        @Override
+        public long expireAfterUpdate(String key, V value, long currentTime, @NonNegative long currentDuration) {
+            return currentDuration;
+        }
+
+        @Override
+        public long expireAfterRead(String key, V value, long currentTime, @NonNegative long currentDuration) {
+            return currentDuration;
+        }
+    };
+
+    Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
+
+    ScheduledExecutorService service = null;
+    @Setter protected Runnable updater = null;
 
     /**
     * Abstract class acting as a parent to other cache classes and holds a reference to a Caffeine cache.<br>
     * It provides the fundamental methods (get, single & all) that children automatically inherit.
     *
-    * @param expiryTime The duration at which to remove all entries at.
-    * @param maxEntries The max number of entries this cache can hold before evicting.
+    * @param cacheOptions The options that this cache will be setup with.
+    * @see  io.github.emcw.caching.CacheOptions
     */
-    protected BaseCache(Duration expiryTime, Integer maxEntries) {
-        init(expiryTime, maxEntries);
-    }
-
-    public BaseCache(Duration expiryTime) {
-        init(expiryTime, null);
-    }
-
-    public BaseCache() {
-        init(Duration.ofMinutes(3), null);
-    }
-
-    private void init(Duration expiryTime, Integer maxEntries) {
-        setExpiry(expiryTime);
-        setMaxSize(maxEntries);
-
-        cache = setupCache();
+    public BaseCache(CacheOptions cacheOptions) {
+        options = cacheOptions;
     }
 
     public Map<String, V> get(String @NotNull ... keys) {
@@ -64,18 +74,34 @@ public class BaseCache<V> {
         return all().containsKey(key);
     }
 
-    @Contract(" -> new")
-    private @NotNull Cache<String, V> setupCache() {
-        Caffeine<Object, Object> builder = Caffeine.newBuilder();
-
-        if (!expiry.isZero()) builder.expireAfterWrite(expiry);
-        if (maxSize != null) builder.maximumSize(maxSize);
-
-        return builder.build();
+    private void initRefreshScheduler() {
+        service = Executors.newScheduledThreadPool(CONCURRENCY);
+        service.scheduleAtFixedRate(() -> {
+            try {
+                if (options.strategy == CacheStrategy.TIME_BASED) updater.run();
+                else clear();
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }, options.expiry, options.expiry, options.unit);
     }
 
-    public void invalidateAll() {
+    private void stopRefreshScheduler() {
+        service = null;
+    }
+
+    protected void build() {
+        initRefreshScheduler();
+        setCache(builder.build());
+    }
+
+    public void clear() {
         cache.invalidateAll();
+    }
+
+    public boolean empty() {
+        return cache == null || cache.asMap().isEmpty();
     }
 
     public void put(String key, V val) {

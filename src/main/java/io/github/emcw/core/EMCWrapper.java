@@ -3,11 +3,6 @@ package io.github.emcw.core;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-enum MapType {
-    AURORA,
-    NOVA
-}
-
 public class EMCWrapper {
     private static EMCWrapper instance = null;
     @Getter EMCMap Aurora, Nova;
@@ -18,11 +13,6 @@ public class EMCWrapper {
 
     public EMCWrapper(Boolean aurora, Boolean nova) {
         initMaps(aurora, nova);
-    }
-
-    public EMCWrapper(MapType map) {
-        if (map == MapType.AURORA) initMaps(true, false);
-        else initMaps(false, true);
     }
 
     private void initMaps(@NotNull Boolean aurora, @NotNull Boolean nova) {

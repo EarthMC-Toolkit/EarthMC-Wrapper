@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Request {
     static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     private static final OkHttpClient client = new OkHttpClient.Builder()

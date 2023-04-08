@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import static io.github.emcw.utils.Funcs.range;
@@ -26,7 +27,8 @@ public class Location implements ISerializable {
         this(0, 64, 0);
     }
 
-    static Location fromObj(JsonObject obj) {
+    @Contract("_ -> new")
+    public static @NotNull Location fromObj(JsonObject obj) {
         return new Location(
             keyAsInt(obj, "x"),
             keyAsInt(obj, "y"),

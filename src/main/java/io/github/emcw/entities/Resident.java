@@ -6,6 +6,7 @@ import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -19,6 +20,11 @@ public class Resident extends Player implements ISerializable {
         setFields(res);
     }
 
+    public Resident(JsonObject res, Player op) {
+        super(op);
+        setFields(res);
+    }
+
     public Resident(JsonObject obj) {
         super(obj, true);
         setFields(obj);
@@ -28,6 +34,10 @@ public class Resident extends Player implements ISerializable {
         town = keyAsStr(obj, "town");
         nation = keyAsStr(obj, "nation");
         rank = keyAsStr(obj, "rank");
+    }
+
+    public boolean hasAuthority() {
+        return Objects.equals(rank, "Mayor") || Objects.equals(rank, "Leader");
     }
 
     public static List<Resident> fromArr(JsonArray arr, String key) {

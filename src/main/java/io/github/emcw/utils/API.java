@@ -8,10 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class API {
     @Contract("_, _ -> new")
-    public static @NotNull CompletableFuture<JsonObject> get(String map, String key) {
+    private static @NotNull CompletableFuture<JsonObject> get(String map, String key) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 JsonObject endpoint = Request.getEndpoints().getIfPresent(key);
@@ -24,6 +23,10 @@ public class API {
                 return null;
             }
         });
+    }
+
+    public static JsonObject configData(String mapName) {
+        return get(mapName, "config").join();
     }
 
     public static JsonObject playerData(String mapName) {

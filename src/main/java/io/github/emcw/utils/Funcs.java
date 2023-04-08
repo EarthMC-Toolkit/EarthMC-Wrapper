@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -54,27 +53,26 @@ public class Funcs {
         return list.parallelStream().distinct().collect(Collectors.toList());
     }
 
-//    public static boolean sqr(Player a, Player b, double range) {
-//        double distance = Math.hypot(a.getX() - b.getX(), a.getZ() - b.getZ());
-//        return distance <= range;
-//    }
+    public static Integer euclidean(int x1, int x2, int z1, int z2) {
+        return (int) Math.hypot(x1 - x2, z1 - z2);
+    }
 
-    public static <T> boolean sqr(T a, T b, double range, Function<T, Double> xGetter, Function<T, Double> zGetter) {
-        double distance = Math.hypot(
-            xGetter.apply(a) - xGetter.apply(b),
-            zGetter.apply(a) - zGetter.apply(b)
-        );
-
-        return distance <= range;
+    public static @NotNull Integer manhattan(int x1, int x2, int z1, int z2) {
+        return Math.abs(x1 - x2) + Math.abs(z1 - z2);
     }
 
     @Contract(pure = true)
-    public static boolean hypot(Integer num, Integer @NotNull [] args) {
+    public static <T> Stream<T> streamList(@NotNull List<T> list) {
+        return list.parallelStream();
+    }
+
+    @Contract(pure = true)
+    public static boolean withinRadius(Integer num, Integer @NotNull [] args) {
         Integer input = args[0], radius = args[1];
         return (num <= input+radius) && (num >= input-radius);
     }
 
-    public static boolean hypot(Integer sourceCoord, Integer targetCoord, Integer radius) {
+    public static boolean withinRadius(Integer sourceCoord, Integer targetCoord, Integer radius) {
         return (sourceCoord <= targetCoord+radius) && (sourceCoord >= targetCoord-radius);
     }
 }

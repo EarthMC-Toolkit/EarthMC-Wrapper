@@ -2,10 +2,14 @@ package io.github.emcw.entities;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.core.EMCMap;
+import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -17,7 +21,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     @Getter private Location location = null;
 
     private transient String world = null;
-    private transient Boolean isResident = false;
+    @Setter transient Boolean isResident = false;
 
     public Player(JsonObject obj) {
         super();
@@ -37,6 +41,15 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         setLocation(obj, parsed);
     }
 
+    public Player(@NotNull Player player) {
+        super();
+
+        setInfo(this, player.getName());
+        nickname = player.getNickname();
+        location = player.getLocation();
+        isResident = player.isResident();
+    }
+
     public void init(JsonObject obj, @NotNull Boolean resident) {
         setInfo(this, keyAsStr(obj, "name"));
         nickname = keyAsStr(obj, "nickname");
@@ -44,7 +57,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         isResident = resident;
     }
 
-    public void setLocation(JsonObject obj, Boolean parsed) {
+    public void setLocation(JsonObject obj, @NotNull Boolean parsed) {
         Location loc;
 
         if (parsed) loc = Location.fromObj(obj.getAsJsonObject("location"));
@@ -53,28 +66,40 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         if (loc.valid()) location = loc;
     }
 
+    public static EMCMap getMap(String name) {
+        return Objects.equals(name, "nova") ? instance().getNova() : instance().getAurora();
+    }
+
+    public Resident asResident(String mapName) throws MissingEntryException {
+        Resident res = getMap(mapName).Residents.single(name);
+        return new Resident(GsonUtil.asTree(res), this);
+    }
+
     public boolean hasCustomNickname() {
         return nickname != null && !Objects.equals(nickname, name);
     }
 
-    public boolean underground() {
-        return hidden() && !Objects.equals(world, "earth");
+    public boolean aboveGround() {
+        return Objects.equals(world, "earth");
     }
 
-    public boolean hidden() {
+    public boolean underground() {
+        return locationIsDefault() && !aboveGround();
+    }
+
+    public boolean locationIsDefault() {
         return location.y == 64 && location.x == 0 && location.z == 0;
     }
 
     public boolean isResident() {
-        return isResident;
+        return isResident != null && isResident;
     }
 
     public boolean online(String map) {
-        return online(map, name);
+        return getMap(map).Players.online().containsKey(name);
     }
 
-    public static boolean online(String mapName, String playerName) {
-        EMCMap map = Objects.equals(mapName, "nova") ? instance().getNova() : instance().getAurora();
-        return map.Players.getOnline(playerName) != null;
+    public static @Nullable Player getOnline(String mapName, String playerName) {
+        return getMap(mapName).Players.getOnline(playerName);
     }
 }

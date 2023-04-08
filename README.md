@@ -39,7 +39,7 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      api 'io.github.emcw:emc-wrapper:0.10.1'
+      api 'io.github.emcw:emc-wrapper:0.10.2'
     }
     ```
 
@@ -71,7 +71,9 @@ EMCW is built to be intuitive and optimized from the ground up.
   
 ## Documentation
 > **Javadoc**<br>
-> You currently won't see any tooltips as you are using **EMCW**. However, I plan to gradually document new and existing fields, methods & classes post ***v1.0.0***.
+> You currently won't see much documentation as you are using **EMCW**. However, I plan to gradually document new and existing fields, methods & classes post ***v1.0.0***.
+<br><br>
+> [Go to Javadoc webpage.](https://earthmc-toolkit.github.io/EarthMC-Wrapper/index-all.html)
 
 <p><b>TLDR;</b><br>
 Since this library uses Lombok, it is most likely that fields you try to access are private.<br>

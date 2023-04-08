@@ -16,5 +16,5 @@ jobs:
           javadoc-branch: javadoc
           java-version: 17
           java-distribution: zulu
-          target-folder: src/main/docs
+          target-folder: /docs
           project: gradle

@@ -2,41 +2,43 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.Expiry;
 import io.github.emcw.exceptions.MissingEntryException;
 import lombok.AccessLevel;
 import lombok.Setter;
-import org.checkerframework.checker.index.qual.NonNegative;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Map;
 
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static io.github.emcw.utils.GsonUtil.strArrAsStream;
+
+@SuppressWarnings("unused")
 public class BaseCache<V> {
     @Setter(AccessLevel.PROTECTED) protected Cache<String, V> cache;
     protected CacheOptions options;
 
     Caffeine<Object, Object> builder = Caffeine.newBuilder();
-    Expiry<String, V> expireAfterCreate = new Expiry<>() {
-        @Override
-        public long expireAfterCreate(String key, V value, long currentTime) {
-            return options.expiry;
-        }
-
-        @Override
-        public long expireAfterUpdate(String key, V value, long currentTime, @NonNegative long currentDuration) {
-            return currentDuration;
-        }
-
-        @Override
-        public long expireAfterRead(String key, V value, long currentTime, @NonNegative long currentDuration) {
-            return currentDuration;
-        }
-    };
+//    Expiry<String, V> expireAfterCreate = new Expiry<>() {
+//        @Override
+//        public long expireAfterCreate(String key, V value, long currentTime) {
+//            return options.expiry;
+//        }
+//
+//        @Override
+//        public long expireAfterUpdate(String key, V value, long currentTime, @NonNegative long currentDuration) {
+//            return currentDuration;
+//        }
+//
+//        @Override
+//        public long expireAfterRead(String key, V value, long currentTime, @NonNegative long currentDuration) {
+//            return currentDuration;
+//        }
+//    };
 
     Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
@@ -55,23 +57,40 @@ public class BaseCache<V> {
     }
 
     public Map<String, V> get(String @NotNull ... keys) {
-        return cache.getAllPresent(List.of(keys));
+        Map<String, V> result = new ConcurrentHashMap<>();
+
+        strArrAsStream(keys).forEach(k -> {
+            V cur = all().get(k);
+            if (cur != null)
+                result.put(k, cur);
+        });
+
+        return result;
     }
 
     @Nullable
     public V single(String key) throws MissingEntryException {
-        var result = cache.getIfPresent(key);
-        if (result == null) throw new MissingEntryException("Could not find entry with key: " + key);
+        V result = cache.getIfPresent(key);
+
+        if (result == null) {
+            result = all().get(key);
+            if (result == null)
+                throw new MissingEntryException("Could not find entry by key '" + key + "'");
+        }
 
         return result;
     }
 
     public Map<String, V> all() {
-        return cache.asMap();
+        Map<String, V> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        map.putAll(cache.asMap());
+
+        return map;
     }
 
     public boolean has(String key) {
-        return all().containsKey(key);
+        if (cache.asMap().containsKey(key)) return true;
+        else return all().get(key) != null;
     }
 
     private void initRefreshScheduler() {

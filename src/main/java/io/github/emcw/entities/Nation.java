@@ -33,7 +33,7 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
         leader = keyAsStr(obj, "king");
         area = keyAsInt(obj, "area");
         capital = new Capital(obj.getAsJsonObject("capital"));
-        towns = toList(keyAsArr(obj, "towns"));
+        towns = Funcs.removeListDuplicates(toList(keyAsArr(obj, "towns")));
 
         JsonArray residentArr = keyAsArr(obj, "residents");
         residentNames = Funcs.removeListDuplicates(toList(residentArr));

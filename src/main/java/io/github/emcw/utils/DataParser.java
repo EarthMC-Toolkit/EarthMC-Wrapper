@@ -61,12 +61,12 @@ public class DataParser {
     }
 
     public static void parseMapData(String map, Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        rawTowns.invalidateAll();
-        rawNations.invalidateAll();
-        rawResidents.invalidateAll();
-
         JsonObject mapData = API.mapData(map);
         if (mapData.size() < 1) return;
+
+        if (parseTowns) rawTowns.invalidateAll();
+        if (parseNations) rawNations.invalidateAll();
+        if (parseResidents) rawResidents.invalidateAll();
 
         streamValues(mapData.asMap()).forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
@@ -160,9 +160,11 @@ public class DataParser {
 
                 // Nation is present, add current town prop values.
                 rawNations.asMap().computeIfPresent(nation, (k, v) -> {
+                    Integer prevArea = keyAsInt(v, "area");
+                    if (prevArea != null) v.addProperty("area", prevArea + area);
+
                     v.getAsJsonArray("towns").add(name);
                     v.getAsJsonArray("residents").addAll(residentNames);
-                    v.addProperty("area", v.get("area").getAsInt() + area);
 
                     if (capital) {
                         v.addProperty("wiki", keyAsBool(v, "wiki"));
@@ -202,10 +204,10 @@ public class DataParser {
     }
 
     public static void parsePlayerData(String map) {
-        rawPlayers.invalidateAll();
-
         JsonArray pData = API.playerData(map).getAsJsonArray("players");
         if (pData.size() < 1) return;
+
+        rawPlayers.invalidateAll();
 
         arrAsStream(pData).forEach(p -> {
             JsonObject curPlayer = p.getAsJsonObject();

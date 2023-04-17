@@ -24,14 +24,13 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
+@SuppressWarnings("unchecked")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonUtil {
     @Getter private static final Gson GSON = new GsonBuilder()
         .registerTypeAdapter(Color.class, new ColorAdapter())
         .registerTypeAdapter(Duration.class, new DurationAdapter())
         .setPrettyPrinting().create();
-
-    static String regex = "(?<=})\\s*,\\s*(?=\\{)";
 
     public static <T> String serialize(Object obj) {
         return GSON.toJson(obj, getType(obj));
@@ -57,13 +56,17 @@ public class GsonUtil {
         return GSON.fromJson(el, type);
     }
 
+    public static <T> T convert(Object obj, Class<T> clazz) {
+        return deserialize(serialize(obj), clazz);
+    }
+
     public static <T extends JsonElement> T asTree(Object input) {
         JsonElement tree = getGSON().toJsonTree(input);
         return tree.isJsonObject() ? (T) tree.getAsJsonObject() : (T) tree;
     }
 
     public static <T> List<T> toList(Object obj) {
-       return (List<T>) deserialize(serialize(obj), List.class);
+       return convert(obj, List.class);
     }
 
     public static <T> @NotNull JsonArray mapToArr(@NotNull Map<String, T> map) {
@@ -77,14 +80,14 @@ public class GsonUtil {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         arrAsStream(arr).forEach(el -> {
             JsonObject obj = el.getAsJsonObject();
-            map.put(obj.get(key).getAsString(), deserialize(el, getType(el)));
+            map.put(keyAsStr(obj, key), deserialize(el, getType(el)));
         });
 
         return map;
     }
 
     public static int[] arrToIntArr(@NotNull JsonArray arr) {
-        return deserialize(serialize(arr), int[].class);
+        return convert(arr, int[].class);
     }
 
     public static @NotNull JsonArray arrFromStrArr(String[] obj) {
@@ -97,7 +100,7 @@ public class GsonUtil {
     }
 
     public static Stream<String> strArrAsStream(@NotNull String[] arr) {
-        return Arrays.stream(arr).toList().parallelStream();
+        return Stream.of(arr).toList().parallelStream();
     }
 
     public static Stream<JsonElement> arrAsStream(@NotNull JsonArray arr) {
@@ -105,7 +108,7 @@ public class GsonUtil {
     }
 
     public static Stream<Map.Entry<String, JsonElement>> streamEntries(@NotNull JsonObject o) {
-        return o.entrySet().parallelStream();
+        return streamEntries(o.asMap());
     }
 
     public static <T> Stream<Map.Entry<String, T>> streamEntries(@NotNull Map<String, T> o) {
@@ -157,9 +160,22 @@ public class GsonUtil {
         return el == JsonNull.INSTANCE || el == null;
     }
 
+    public static @Nullable JsonObject keyAsObj(JsonObject o, String k) {
+        JsonElement key = member(o, k);
+        JsonObject result = new JsonObject();
+
+        key.getAsJsonArray().forEach(el -> {
+            result.add(k, el);
+        });
+
+        return isNull(key) ? null : result;
+    }
+
     public static @NotNull Boolean keyAsBool(JsonObject o, String k) {
         JsonElement key = member(o, k);
-        return Boolean.TRUE.equals(key == null ? null : key.getAsBoolean());
+        if (key != null) key.getAsBoolean();
+
+        return false;
     }
 
     @Nullable

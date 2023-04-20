@@ -15,6 +15,7 @@ import java.util.Objects;
 import static io.github.emcw.entities.Resident.fromArr;
 import static io.github.emcw.utils.GsonUtil.*;
 
+@SuppressWarnings("unused")
 public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerializable {
     @Getter String mayor, nation;
     @Getter Integer area;

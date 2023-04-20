@@ -1,5 +1,7 @@
 package io.github.emcw.utils;
 
+import io.github.emcw.core.EMCMap;
+import io.github.emcw.core.EMCWrapper;
 import io.github.emcw.entities.BaseEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -8,15 +10,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static io.github.emcw.utils.GsonUtil.strArrAsStream;
+
+@SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
     public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));
+
         return map;
     }
 
@@ -25,32 +32,38 @@ public class Funcs {
         return new ArrayList<>(map.values());
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> Map<String, T> collectEntities(@NotNull Stream<? extends BaseEntity<T>> stream) {
+        return (Map<String, T>) stream.collect(Collectors.toMap(t -> t.getName(), Function.identity()));
+    }
+
     public static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static boolean arrayHas(String[] strings, @NotNull String str) {
-       return Arrays.stream(strings).parallel().anyMatch(str::equals);
+    public static boolean arrayHas(String[] arr, @NotNull String str) {
+       return strArrAsStream(arr).anyMatch(str::equals);
     }
 
     public static int calcArea(int[] X, int[] Z) {
-        return calcArea(X, Z, X.length, 256);
+        return calcArea(X, Z, X.length);
     }
 
-    public static int calcArea(int[] X, int[] Z, int numPoints, int divisor) {
-        return Math.abs(IntStream.range(0, numPoints).parallel().map(i -> {
+    public static int calcArea(int[] X, int[] Z, int numPoints, int... divisor) {
+        IntStream ints = streamIntRange(numPoints).map(i -> {
             int j = (i + numPoints - 1) % numPoints;
             return (X[j] + X[i]) * (Z[j] - Z[i]);
-        }).sum() / 2) / divisor;
+        });
+
+        int sum = ints.sum() / 2,
+            div = divisor.length < 1 ? 256 : divisor[0];
+
+        return Math.abs(sum / div);
     }
 
     public static @NotNull Integer range(int[] args) {
-        IntSummaryStatistics stat = Arrays.stream(args).parallel().summaryStatistics();
+        IntSummaryStatistics stat = streamInts(args).summaryStatistics();
         return Math.round((stat.getMin() + stat.getMax()) / 2f);
-    }
-
-    public static <T> List<T> removeListDuplicates(@NotNull List<T> list) {
-        return list.parallelStream().distinct().collect(Collectors.toList());
     }
 
     public static Integer euclidean(int x1, int x2, int z1, int z2) {
@@ -61,9 +74,32 @@ public class Funcs {
         return Math.abs(x1 - x2) + Math.abs(z1 - z2);
     }
 
+    public static <T> List<T> removeListDuplicates(@NotNull List<T> list) {
+        return collectList(streamList(list), true);
+    }
+
+    public static <T> List<T> collectList(Stream<T> stream, Boolean noDuplicates) {
+        return (noDuplicates ? stream.distinct() : stream)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
     @Contract(pure = true)
     public static <T> Stream<T> streamList(@NotNull List<T> list) {
         return list.parallelStream();
+    }
+
+    public static @NotNull IntStream streamIntRange(int max, int... min) {
+        return IntStream.range(min.length < 1 ? 0 : min[0], max).parallel();
+    }
+
+    public static @NotNull IntStream streamInts(int... ints) {
+        return IntStream.of(ints).parallel();
+    }
+
+    public static EMCMap mapByName(@NotNull String name) {
+        var wrapper = EMCWrapper.instance();
+        return name.equals("nova") ? wrapper.getNova() : wrapper.getAurora();
     }
 
     @Contract(pure = true)

@@ -138,37 +138,46 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Resident.html" title="class in io.github.emcw.entities">Resident</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asResident(java.lang.String)" class="member-name-link">asResident</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../core/EMCMap.html" title="class in io.github.emcw.core">EMCMap</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getMap(java.lang.String)" class="member-name-link">getMap</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="Player.html" title="class in io.github.emcw.entities">Player</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getOnline(java.lang.String,java.lang.String)" class="member-name-link">getOnline</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName,
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts this player into a <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>.<br>
+ Essentially equivalent to a "downcast", adding new fields and methods found in <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>,
+ keeping all existing info the same.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="Player.html" title="class in io.github.emcw.entities">Player</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getOnline(java.lang.String,java.lang.String)" class="member-name-link">getOnline</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasCustomNickname()" class="member-name-link">hasCustomNickname</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#init(com.google.gson.JsonObject,java.lang.Boolean)" class="member-name-link">init</a><wbr>(com.google.gson.JsonObject&nbsp;obj,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;resident)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Static helper method for retrieving an online <a href="Player.html" title="class in io.github.emcw.entities"><code>Player</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasCustomNickname()" class="member-name-link">hasCustomNickname</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isResident()" class="member-name-link">isResident</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#init(com.google.gson.JsonObject,java.lang.Boolean)" class="member-name-link">init</a><wbr>(com.google.gson.JsonObject&nbsp;obj,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;resident)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#locationIsDefault()" class="member-name-link">locationIsDefault</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isResident()" class="member-name-link">isResident</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check if this player is also a resident on the map this instance was retrieved from.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#online(java.lang.String)" class="member-name-link">online</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;map)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLocation(com.google.gson.JsonObject,java.lang.Boolean)" class="member-name-link">setLocation</a><wbr>(com.google.gson.JsonObject&nbsp;obj,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#locationIsDefault()" class="member-name-link">locationIsDefault</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether this player is located at the default Dynmap location.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#online(java.lang.String)" class="member-name-link">online</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;map)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check if this player is online in the inputted map.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLocation(com.google.gson.JsonObject,java.lang.Boolean)" class="member-name-link">setLocation</a><wbr>(com.google.gson.JsonObject&nbsp;obj,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parsed)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#underground()" class="member-name-link">underground</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#underground()" class="member-name-link">underground</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -248,17 +257,18 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 </section>
 </li>
 <li>
-<section class="detail" id="getMap(java.lang.String)">
-<h3>getMap</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../core/EMCMap.html" title="class in io.github.emcw.core">EMCMap</a></span>&nbsp;<span class="element-name">getMap</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-</section>
-</li>
-<li>
 <section class="detail" id="asResident(java.lang.String)">
 <h3>asResident</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Resident.html" title="class in io.github.emcw.entities">Resident</a></span>&nbsp;<span class="element-name">asResident</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName)</span>
                     throws <span class="exceptions"><a href="../exceptions/MissingEntryException.html" title="class in io.github.emcw.exceptions">MissingEntryException</a></span></div>
+<div class="block"><p>Converts this player into a <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>.<br>
+ Essentially equivalent to a "downcast", adding new fields and methods found in <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>,
+ keeping all existing info the same. </p></div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mapName</code> - The map used to retrieve the resident from. If invalid, Aurora will be assumed.</dd>
+<dt>Returns:</dt>
+<dd>The <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a> instance if found, otherwise a <a href="../exceptions/MissingEntryException.html" title="class in io.github.emcw.exceptions"><code>MissingEntryException</code></a>.</dd>
 <dt>Throws:</dt>
 <dd><code><a href="../exceptions/MissingEntryException.html" title="class in io.github.emcw.exceptions">MissingEntryException</a></code></dd>
 </dl>
@@ -286,18 +296,29 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <section class="detail" id="locationIsDefault()">
 <h3>locationIsDefault</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">locationIsDefault</span>()</div>
+<div class="block"><p>Whether this player is located at the default Dynmap location.</p></div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true/false if <code>location</code> is 0, 64, 0</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isResident()">
 <h3>isResident</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isResident</span>()</div>
+<div class="block"><p>Check if this player is also a resident on the map this instance was retrieved from.</p></div>
 </section>
 </li>
 <li>
 <section class="detail" id="online(java.lang.String)">
 <h3>online</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">online</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;map)</span></div>
+<div class="block"><p>Check if this player is online in the inputted map.</p></div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true/false if the player is online.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -306,6 +327,14 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@Nullable <a href="Player.html" title="class in io.github.emcw.entities">Player</a></span>&nbsp;<span class="element-name">getOnline</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerName)</span></div>
+<div class="block"><p>Static helper method for retrieving an online <a href="Player.html" title="class in io.github.emcw.entities"><code>Player</code></a>.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mapName</code> - The map this player is online in.<br> If invalid map is inputted, Aurora will be assumed.</dd>
+<dd><code>playerName</code> - The name of the player we want to retrieve.</dd>
+<dt>Returns:</dt>
+<dd>A new instance of this class</dd>
+</dl>
 </section>
 </li>
 </ul>

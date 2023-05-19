@@ -94,14 +94,20 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Location</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Default location representing 0, 64, 0.</div>
+</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.Integer,java.lang.Integer)" class="member-name-link">Location</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;x,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;z)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">A location in 2D space.</div>
+</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">Location</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;x,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;y,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;z)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">A location in 3D space.</div>
+</div>
 </div>
 </section>
 </li>
@@ -116,18 +122,22 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static @NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromObj(com.google.gson.JsonObject)" class="member-name-link">fromObj</a><wbr>(com.google.gson.JsonObject&nbsp;obj)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDefault()" class="member-name-link">isDefault</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether this location points to the map center.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>protected static @NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(com.google.gson.JsonObject)" class="member-name-link">of</a><wbr>(com.google.gson.JsonObject&nbsp;obj)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#valid()" class="member-name-link">valid</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Check if this location is properly initialized.</div>
+</div>
 </div>
 </div>
 </div>
@@ -154,6 +164,13 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Location</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;x,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;y,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;z)</span></div>
+<div class="block"><p>A location in 3D space.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The coordinate on the x-axis (left/right)</dd>
+<dd><code>y</code> - The coordinate on the y-axis (up/down)</dd>
+<dd><code>z</code> - The coordinate on the z-axis (forward/backward)</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -161,12 +178,19 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <h3>Location</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Location</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;x,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;z)</span></div>
+<div class="block"><p>A location in 2D space.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The coordinate on the x-axis (left/right)</dd>
+<dd><code>z</code> - The coordinate on the z-axis (up/down)</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Location</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Location</span>()</div>
+<div class="block"><p>Default location representing 0, 64, 0.</p></div>
 </section>
 </li>
 </ul>
@@ -178,30 +202,34 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="fromObj(com.google.gson.JsonObject)">
-<h3>fromObj</h3>
-<div class="member-signature"><span class="annotations">@Contract("_ -&gt; new")
-@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></span>&nbsp;<span class="element-name">fromObj</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;obj)</span></div>
-</section>
-</li>
-<li>
 <section class="detail" id="valid()">
 <h3>valid</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">valid</span>()</div>
+<div class="block">Check if this location is properly initialized.
+ <br>Shorthand for <code>x != null &amp;&amp; z != null;</code></div>
 </section>
 </li>
 <li>
 <section class="detail" id="isDefault()">
 <h3>isDefault</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDefault</span>()</div>
+<div class="block">Whether this location points to the map center.
+ Shorthand for <code>x == 0 &amp;&amp; z == 0;</code></div>
+</section>
+</li>
+<li>
+<section class="detail" id="fromObj(com.google.gson.JsonObject)">
+<h3>fromObj</h3>
+<div class="member-signature"><span class="annotations">@Contract("_ -&gt; new")
+@NotNull
+</span><span class="modifiers">protected static</span>&nbsp;<span class="return-type">@NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></span>&nbsp;<span class="element-name">fromObj</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;obj)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="of(com.google.gson.JsonObject)">
 <h3>of</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;obj)</span></div>
+</span><span class="modifiers">protected static</span>&nbsp;<span class="return-type">@NotNull <a href="Location.html" title="class in io.github.emcw.entities">Location</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;obj)</span></div>
 </section>
 </li>
 </ul>

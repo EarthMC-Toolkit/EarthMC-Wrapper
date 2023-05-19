@@ -85,7 +85,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#arrToMap(com.google.gson.JsonArray,java.lang.String)" class="member-name-link">arrToMap(JsonArray, String)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Player.html#asResident(java.lang.String)" class="member-name-link">asResident(String)</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts this player into a <a href="io/github/emcw/entities/Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>.<br>
+ Essentially equivalent to a "downcast", adding new fields and methods found in <a href="io/github/emcw/entities/Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>,
+ keeping all existing info the same.</div>
+</dd>
 <dt><a href="io/github/emcw/interfaces/ISerializable.html#asString()" class="member-name-link">asString()</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#asTree(java.lang.Object)" class="member-name-link">asTree(Object)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
@@ -101,7 +105,9 @@ loadScripts(document, 'script');</script>
  It provides the fundamental methods (get, single &amp; all) that children automatically inherit.</div>
 </dd>
 <dt><a href="io/github/emcw/entities/BaseEntity.html" class="type-name-link" title="class in io.github.emcw.entities">BaseEntity</a>&lt;<a href="io/github/emcw/entities/BaseEntity.html" title="type parameter in BaseEntity">T</a>&gt; - Class in <a href="io/github/emcw/entities/package-summary.html">io.github.emcw.entities</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">An generic base class that all other entities inherit from.</div>
+</dd>
 <dt><a href="io/github/emcw/entities/BaseEntity.html#%3Cinit%3E()" class="member-name-link">BaseEntity()</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/BaseEntity.html" title="class in io.github.emcw.entities">BaseEntity</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#build()" class="member-name-link">build()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
@@ -231,8 +237,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/map/Towns.html#get(java.lang.String...)" class="member-name-link">get(String...)</a> - Method in class io.github.emcw.map.<a href="io/github/emcw/map/Towns.html" title="class in io.github.emcw.map">Towns</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/entities/Player.html#getMap(java.lang.String)" class="member-name-link">getMap(String)</a> - Static method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Map&lt;String, T&gt;, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Map&lt;String, T&gt;, Integer, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
@@ -242,7 +246,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/map/Players.html#getOnline(java.lang.String)" class="member-name-link">getOnline(String)</a> - Method in class io.github.emcw.map.<a href="io/github/emcw/map/Players.html" title="class in io.github.emcw.map">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Player.html#getOnline(java.lang.String,java.lang.String)" class="member-name-link">getOnline(String, String)</a> - Static method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Static helper method for retrieving an online <a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities"><code>Player</code></a>.</div>
+</dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#getType(java.lang.Class)" class="member-name-link">getType(Class&lt;T&gt;)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#getType(T)" class="member-name-link">getType(T)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
@@ -257,7 +263,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/caching/BaseCache.html#has(java.lang.String)" class="member-name-link">has(String)</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Resident.html#hasAuthority()" class="member-name-link">hasAuthority()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Resident.html" title="class in io.github.emcw.entities">Resident</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Determines whether this resident has more permissions than a regular resident.</div>
+</dd>
 <dt><a href="io/github/emcw/entities/Player.html#hasCustomNickname()" class="member-name-link">hasCustomNickname()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/CacheStrategy.html#HYBRID" class="member-name-link">HYBRID</a> - Enum constant in enum class io.github.emcw.caching.<a href="io/github/emcw/caching/CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a></dt>
@@ -300,11 +308,15 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/interfaces/IPlayerCollective.html" class="type-name-link" title="interface in io.github.emcw.interfaces">IPlayerCollective</a> - Interface in <a href="io/github/emcw/interfaces/package-summary.html">io.github.emcw.interfaces</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Location.html#isDefault()" class="member-name-link">isDefault()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Location.html" title="class in io.github.emcw.entities">Location</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Whether this location points to the map center.</div>
+</dd>
 <dt><a href="io/github/emcw/interfaces/ISerializable.html" class="type-name-link" title="interface in io.github.emcw.interfaces">ISerializable</a> - Interface in <a href="io/github/emcw/interfaces/package-summary.html">io.github.emcw.interfaces</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Player.html#isResident()" class="member-name-link">isResident()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Check if this player is also a resident on the map this instance was retrieved from.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:K">K</h2>
 <dl class="index">
@@ -330,17 +342,27 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/entities/Location.html" class="type-name-link" title="class in io.github.emcw.entities">Location</a> - Class in <a href="io/github/emcw/entities/package-summary.html">io.github.emcw.entities</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Location.html#%3Cinit%3E()" class="member-name-link">Location()</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Location.html" title="class in io.github.emcw.entities">Location</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Default location representing 0, 64, 0.</div>
+</dd>
 <dt><a href="io/github/emcw/entities/Location.html#%3Cinit%3E(java.lang.Integer,java.lang.Integer)" class="member-name-link">Location(Integer, Integer)</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Location.html" title="class in io.github.emcw.entities">Location</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">A location in 2D space.</div>
+</dd>
 <dt><a href="io/github/emcw/entities/Location.html#%3Cinit%3E(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">Location(Integer, Integer, Integer)</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Location.html" title="class in io.github.emcw.entities">Location</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">A location in 3D space.</div>
+</dd>
 <dt><a href="io/github/emcw/entities/Player.html#locationIsDefault()" class="member-name-link">locationIsDefault()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Whether this player is located at the default Dynmap location.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:M">M</h2>
 <dl class="index">
 <dt><a href="io/github/emcw/utils/Funcs.html#manhattan(int,int,int,int)" class="member-name-link">manhattan(int, int, int, int)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" title="class in io.github.emcw.utils">Funcs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/utils/Funcs.html#manhattan(io.github.emcw.entities.Location,io.github.emcw.entities.Location)" class="member-name-link">manhattan(Location, Location)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" title="class in io.github.emcw.utils">Funcs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/Funcs.html#mapByName(java.lang.String)" class="member-name-link">mapByName(String)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" title="class in io.github.emcw.utils">Funcs</a></dt>
 <dd>&nbsp;</dd>
@@ -392,7 +414,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/map/Players.html#online()" class="member-name-link">online()</a> - Method in class io.github.emcw.map.<a href="io/github/emcw/map/Players.html" title="class in io.github.emcw.map">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Player.html#online(java.lang.String)" class="member-name-link">online(String)</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Player.html" title="class in io.github.emcw.entities">Player</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Check if this player is online in the inputted map.</div>
+</dd>
 <dt><a href="io/github/emcw/entities/Nation.html#onlineResidents()" class="member-name-link">onlineResidents()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Nation.html" title="class in io.github.emcw.entities">Nation</a></dt>
 <dd>
 <div class="block">All residents that are online in this Nation.</div>
@@ -558,7 +582,9 @@ loadScripts(document, 'script');</script>
 <h2 class="title" id="I:V">V</h2>
 <dl class="index">
 <dt><a href="io/github/emcw/entities/Location.html#valid()" class="member-name-link">valid()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Location.html" title="class in io.github.emcw.entities">Location</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Check if this location is properly initialized.</div>
+</dd>
 <dt><a href="io/github/emcw/caching/CacheStrategy.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class io.github.emcw.caching.<a href="io/github/emcw/caching/CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>

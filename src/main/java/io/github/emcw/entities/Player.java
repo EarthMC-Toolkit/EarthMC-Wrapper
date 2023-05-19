@@ -16,6 +16,7 @@ import java.util.Objects;
 import static io.github.emcw.core.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
+@SuppressWarnings("unused")
 public class Player extends BaseEntity<Player> implements ISerializable, ILocatable<Player> {
     @Getter private String nickname;
     @Getter private Location location = null;
@@ -66,10 +67,17 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         if (loc.valid()) location = loc;
     }
 
-    public static EMCMap getMap(String name) {
+    static EMCMap getMap(String name) {
         return Objects.equals(name, "nova") ? instance().getNova() : instance().getAurora();
     }
 
+    /**
+     * <p>Converts this player into a {@link Resident}.<br>
+     * Essentially equivalent to a "downcast", adding new fields and methods found in {@link Resident},
+     * keeping all existing info the same. </p>
+     * @param mapName The map used to retrieve the resident from. If invalid, Aurora will be assumed.
+     * @return The {@link Resident} instance if found, otherwise a {@link MissingEntryException}.
+     */
     public Resident asResident(String mapName) throws MissingEntryException {
         Resident res = getMap(mapName).Residents.single(name);
         return new Resident(GsonUtil.asTree(res), this);
@@ -87,18 +95,35 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         return locationIsDefault() && !aboveGround();
     }
 
+    /**
+     * <p>Whether this player is located at the default Dynmap location.</p>
+     * @return true/false if {@link #location} is 0, 64, 0
+     */
     public boolean locationIsDefault() {
         return location.y == 64 && location.x == 0 && location.z == 0;
     }
 
+    /**
+     * <p>Check if this player is also a resident on the map this instance was retrieved from.</p>
+     */
     public boolean isResident() {
         return isResident != null && isResident;
     }
 
+    /**
+     * <p>Check if this player is online in the inputted map.</p>
+     * @return true/false if the player is online.
+     */
     public boolean online(String map) {
         return getMap(map).Players.online().containsKey(name);
     }
 
+    /**
+     * <p>Static helper method for retrieving an online {@link Player}.</p>
+     * @param mapName The map this player is online in.<br> If invalid map is inputted, Aurora will be assumed.
+     * @param playerName The name of the player we want to retrieve.
+     * @return A new instance of this class
+     */
     public static @Nullable Player getOnline(String mapName, String playerName) {
         return getMap(mapName).Players.getOnline(playerName);
     }

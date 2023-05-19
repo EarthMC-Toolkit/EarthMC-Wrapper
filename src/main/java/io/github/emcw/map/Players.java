@@ -18,10 +18,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static io.github.emcw.utils.Funcs.collectEntities;
 import static io.github.emcw.utils.GsonUtil.*;
 
+@SuppressWarnings("unused")
 public class Players extends BaseCache<Player> implements ILocatable<Player> {
     private final EMCMap parent;
 
@@ -121,10 +124,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
     }
 
     public Map<String, Player> townless() {
-        //return difference(mapToArr(online()), mapToArr(parent.Residents.all()));
-
-        return streamValues(all()).filter(p -> !p.isResident())
-                .collect(Collectors.toMap(Player::getName, p -> p));
+        return collectEntities(streamValues(all()).filter(p -> !p.isResident()));
     }
 
     @Nullable

@@ -6,8 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.emcw.exceptions.APIException;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import okhttp3.*;
@@ -18,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("unchecked")
 public class Request {
     static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     private static final OkHttpClient client = new OkHttpClient.Builder()
@@ -28,7 +27,7 @@ public class Request {
             .build();
 
     static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
-    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/Toolkit-Website/main/endpoints.json";
+    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
     static Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
 
     static Cache<String, JsonObject> getEndpoints() {

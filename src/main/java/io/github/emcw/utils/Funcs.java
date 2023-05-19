@@ -3,6 +3,7 @@ package io.github.emcw.utils;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.core.EMCWrapper;
 import io.github.emcw.entities.BaseEntity;
+import io.github.emcw.entities.Location;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
@@ -34,7 +35,8 @@ public class Funcs {
 
     @SuppressWarnings("unchecked")
     public static <T> Map<String, T> collectEntities(@NotNull Stream<? extends BaseEntity<T>> stream) {
-        return (Map<String, T>) stream.collect(Collectors.toMap(t -> t.getName(), Function.identity()));
+        return (Map<String, T>) stream.filter(Objects::nonNull)
+                .collect(Collectors.toMap(BaseEntity::getName, Function.identity()));
     }
 
     public static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
@@ -70,6 +72,10 @@ public class Funcs {
         return (int) Math.hypot(x1 - x2, z1 - z2);
     }
 
+    public static @NotNull Integer manhattan(Location loc1, Location loc2) {
+        return manhattan(loc1.getX(), loc2.getX(), loc1.getZ(), loc2.getZ());
+    }
+
     public static @NotNull Integer manhattan(int x1, int x2, int z1, int z2) {
         return Math.abs(x1 - x2) + Math.abs(z1 - z2);
     }
@@ -89,7 +95,7 @@ public class Funcs {
         return list.parallelStream();
     }
 
-    public static @NotNull IntStream streamIntRange(int max, int... min) {
+    public static @NotNull IntStream streamIntRange(int max, int @NotNull ... min) {
         return IntStream.range(min.length < 1 ? 0 : min[0], max).parallel();
     }
 

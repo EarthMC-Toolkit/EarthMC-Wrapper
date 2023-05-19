@@ -53,7 +53,18 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
 //        Towns towns = Funcs.mapByName(mapName).Towns;
 //
 //        return collectAsMap(streamEntries(towns.all()).map(entry -> {
-//            Town curTown = entry.getValue();
+//            Town town = entry.getValue();
+//
+//            Location townLoc = town.getLocation();
+//            Location capitalLoc = getCapital().getLocation();
+//
+//            // In range, return the town
+//            if (Funcs.manhattan(capitalLoc, townLoc) < 2500) {
+//
+//            }
+//
+//            // Otherwise null
+//            return null;
 //        }));
 //    }
 

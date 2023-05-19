@@ -44,10 +44,10 @@ public interface ILocatable<T> {
         INT_ARRAY_Z[0] = zCoord;
         INT_ARRAY_Z[1] = zRadius;
 
-        return collectAsMap(streamEntries(map).filter(entry -> checkNearby(entry.getValue(), INT_ARRAY_X, INT_ARRAY_Z)));
+        return collectAsMap(streamEntries(map).filter(entry -> checkNearby(entry.getValue())));
     }
 
-    private boolean checkNearby(T val, Integer[] xArr, Integer[] zArr) {
+    private boolean checkNearby(T val) {
         Location loc = null;
 
         if (val instanceof Player player) {
@@ -57,13 +57,13 @@ public interface ILocatable<T> {
         else if (val instanceof Town town) loc = town.getLocation();
         else if (val instanceof Nation nation) loc = nation.getCapital().getLocation();
 
-        return loc != null && !loc.isDefault() && isNearby(loc, xArr, zArr);
+        return loc != null && !loc.isDefault() && isNearby(loc);
     }
 
-    private boolean isNearby(Location location, Integer[] xArr, Integer[] zArr) {
+    private boolean isNearby(Location location) {
         if (location == null) return false;
 
         int x = location.getX(), z = location.getZ();
-        return withinRadius(x, xArr) && withinRadius(z, zArr);
+        return withinRadius(x, INT_ARRAY_X) && withinRadius(z, INT_ARRAY_Z);
     }
 }

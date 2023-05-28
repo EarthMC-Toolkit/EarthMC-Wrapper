@@ -1,4 +1,6 @@
-# EarthMC-Wrapper
+
+
+# EarthMC-Wrapper [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://earthmc-toolkit.github.io/EarthMC-Wrapper/ "Go to project documentation")
 An unofficial Java API wrapper library allowing interaction with the [EarthMC Dynmap](https://earthmc.net/map/aurora/).
 
 EMCW is built to be intuitive and optimized from the ground up.
@@ -39,7 +41,7 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      api 'io.github.emcw:emc-wrapper:0.10.2'
+      api 'io.github.emcw:emc-wrapper:0.11.0'
     }
     ```
 

@@ -1,14 +1,19 @@
 package io.github.emcw.utils;
 
 import com.google.gson.JsonObject;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class API {
+/**
+ * Utility class for interacting with the <a href="earthmc.net/map/aurora/">EarthMC Dynmap</a> asynchronously.<br><br>
+ * <b>Note:</b>
+ * <br>This class is used internally to obtain fresh data, you should never need to use it directly.
+ */
+public final class API {
+    private API() {}
+
     @Contract("_, _ -> new")
     private static @NotNull CompletableFuture<JsonObject> get(String map, String key) {
         return CompletableFuture.supplyAsync(() -> {

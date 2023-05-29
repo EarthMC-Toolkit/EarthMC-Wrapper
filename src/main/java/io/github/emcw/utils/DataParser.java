@@ -68,6 +68,11 @@ public class DataParser {
         if (parseNations) rawNations.invalidateAll();
         if (parseResidents) rawResidents.invalidateAll();
 
+        processMapData(mapData, parseTowns, parseNations, parseResidents);
+    }
+
+    private static void processMapData(@NotNull JsonObject mapData,
+                                       Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
         streamValues(mapData.asMap()).forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
 
@@ -108,98 +113,106 @@ public class DataParser {
             String fill = keyAsStr(cur, "fillcolor");
             String outline = keyAsStr(cur, "color");
 
-            Boolean capital = flagAsBool(info, 8, "capital: ");
+            boolean capital = flagAsBool(info, 8, "capital: ");
             //#endregion
 
-            //#region Create/Update Towns Map.
-            if (parseTowns) {
-                rawTowns.asMap().computeIfAbsent(name, k -> {
-                    JsonObject obj = new JsonObject();
+            if (parseTowns)
+                parseTowns(name, nation, mayorStr, wikiStr, residentNames, x, z, area, capital, info, fill, outline);
 
-                    //#region Add properties
-                    obj.addProperty("name", name);
-                    obj.addProperty("nation", nation);
-                    obj.addProperty("mayor", mayorStr);
-                    obj.addProperty("wiki", wikiStr);
-                    obj.add("residents", residentNames);
-                    obj.addProperty("x", range(x));
-                    obj.addProperty("z", range(z));
-                    obj.addProperty("area", area);
+            if (parseNations && nation != null)
+                parseNations(nation, name, residentNames, mayorStr, area, x, z, capital);
 
-                    // Flags (3-8)
-                    obj.addProperty("pvp", flagAsBool(info, 3, "pvp: "));
-                    obj.addProperty("mobs", flagAsBool(info, 4, "mobs: "));
-                    obj.addProperty("public", flagAsBool(info, 5, "public: "));
-                    obj.addProperty("explosions", flagAsBool(info, 6, "pvp: "));
-                    obj.addProperty("fire", flagAsBool(info, 7, "fire: "));
-                    obj.addProperty("capital", capital);
+            if (parseResidents)
+                parseResidents(members, name, nation, mayorStr, capital);
+        });
+    }
 
-                    obj.addProperty("fill", fill);
-                    obj.addProperty("outline", outline);
-                    //#endregion
+    private static void parseTowns(String name, String nation, String mayor, String wiki,
+                                   JsonArray residents, int[] x, int[] z, int area, Boolean capital,
+                                   List<String> info, String fill, String outline) {
+        rawTowns.asMap().computeIfAbsent(name, k -> {
+            JsonObject obj = new JsonObject();
 
-                    return obj;
-                });
-            }
+            //#region Add properties
+            obj.addProperty("name", name);
+            obj.addProperty("nation", nation);
+            obj.addProperty("mayor", mayor);
+            obj.addProperty("wiki", wiki);
+            obj.add("residents", residents);
+            obj.addProperty("x", range(x));
+            obj.addProperty("z", range(z));
+            obj.addProperty("area", area);
+
+            // Flags (3-8)
+            obj.addProperty("pvp", flagAsBool(info, 3, "pvp: "));
+            obj.addProperty("mobs", flagAsBool(info, 4, "mobs: "));
+            obj.addProperty("public", flagAsBool(info, 5, "public: "));
+            obj.addProperty("explosions", flagAsBool(info, 6, "pvp: "));
+            obj.addProperty("fire", flagAsBool(info, 7, "fire: "));
+            obj.addProperty("capital", capital);
+
+            obj.addProperty("fill", fill);
+            obj.addProperty("outline", outline);
             //#endregion
 
-            //#region Create/Update Nations Map.
-            if (parseNations && nation != null) {
-                // Not present, create a new Nation.
-                rawNations.asMap().computeIfAbsent(nation, k -> {
-                    JsonObject obj = new JsonObject();
-                    obj.addProperty("name", nation);
+            return obj;
+        });
+    }
 
-                    // Set default property values to be added to.
-                    obj.add("towns", new JsonArray());
-                    obj.add("residents", new JsonArray());
-                    obj.addProperty("area", 0);
+    private static void parseNations(String nation, String town, JsonArray residents,
+                                     String mayor, int area, int[] x, int[] z, boolean capital) {
+        // Not present, create a new Nation.
+        rawNations.asMap().computeIfAbsent(nation, k -> {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("name", nation);
 
-                    return obj;
-                });
+            // Set default property values to be added to.
+            obj.add("towns", new JsonArray());
+            obj.add("residents", new JsonArray());
+            obj.addProperty("area", 0);
 
-                // Nation is present, add current town prop values.
-                rawNations.asMap().computeIfPresent(nation, (k, v) -> {
-                    Integer prevArea = keyAsInt(v, "area");
-                    if (prevArea != null) v.addProperty("area", prevArea + area);
+            return obj;
+        });
 
-                    v.getAsJsonArray("towns").add(name);
-                    v.getAsJsonArray("residents").addAll(residentNames);
+        // Nation is present, add current town prop values.
+        rawNations.asMap().computeIfPresent(nation, (k, v) -> {
+            Integer prevArea = keyAsInt(v, "area");
+            if (prevArea != null) v.addProperty("area", prevArea + area);
 
-                    if (capital) {
-                        v.addProperty("wiki", keyAsBool(v, "wiki"));
-                        v.addProperty("king", mayorStr);
+            v.getAsJsonArray("towns").add(town);
+            v.getAsJsonArray("residents").addAll(residents);
 
-                        JsonObject capitalObj = new JsonObject();
-                        capitalObj.addProperty("name", name);
-                        capitalObj.addProperty("x", range(x));
-                        capitalObj.addProperty("z", range(z));
+            if (capital) {
+                v.addProperty("wiki", keyAsBool(v, "wiki"));
+                v.addProperty("king", mayor);
 
-                        v.add("capital", capitalObj);
-                    }
+                JsonObject capitalObj = new JsonObject();
+                capitalObj.addProperty("name", town);
+                capitalObj.addProperty("x", range(x));
+                capitalObj.addProperty("z", range(z));
 
-                    return v;
-                });
+                v.add("capital", capitalObj);
             }
 
-            if (parseResidents) {
-                // Loop through members
-                strArrAsStream(members).forEach(res -> {
-                    // Create new object (name, town, nation, rank)
-                    JsonObject newObj = new JsonObject();
+            return v;
+        });
+    }
 
-                    newObj.addProperty("name", res);
-                    newObj.addProperty("town", name);
-                    newObj.addProperty("nation", nation);
+    private static void parseResidents(String[] members, String town, String nation, String mayor, Boolean capital) {
+        // Loop through members
+        strArrAsStream(members).forEach(res -> {
+            // Create new object (name, town, nation, rank)
+            JsonObject obj = new JsonObject();
 
-                    String rank = mayorStr.equals(res) ? (capital ? "Nation Leader" : "Mayor") : "Resident";
-                    newObj.addProperty("rank", rank);
+            obj.addProperty("name", res);
+            obj.addProperty("town", town);
+            obj.addProperty("nation", nation);
 
-                    // Add resident obj to rawResidents.
-                    rawResidents.put(res, newObj);
-                });
-            }
-            //#endregion
+            String rank = mayor.equals(res) ? (capital ? "Nation Leader" : "Mayor") : "Resident";
+            obj.addProperty("rank", rank);
+
+            // Add resident to rawResidents.
+            rawResidents.put(res, obj);
         });
     }
 

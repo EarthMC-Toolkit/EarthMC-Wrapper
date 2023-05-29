@@ -4,14 +4,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.IPlayerCollective;
 import io.github.emcw.interfaces.ISerializable;
-import io.github.emcw.map.Towns;
 import io.github.emcw.utils.Funcs;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
 
-import static io.github.emcw.utils.Funcs.collectAsMap;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")

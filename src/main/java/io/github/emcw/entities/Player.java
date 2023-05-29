@@ -5,7 +5,6 @@ import io.github.emcw.core.EMCMap;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.interfaces.ISerializable;
-import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +50,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         isResident = player.isResident();
     }
 
-    public void init(JsonObject obj, @NotNull Boolean resident) {
+    private void init(JsonObject obj, @NotNull Boolean resident) {
         setInfo(this, keyAsStr(obj, "name"));
         nickname = keyAsStr(obj, "nickname");
         world = keyAsStr(obj, "world");
@@ -67,7 +66,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         if (loc.valid()) location = loc;
     }
 
-    static EMCMap getMap(String name) {
+    private static EMCMap getMap(String name) {
         return Objects.equals(name, "nova") ? instance().getNova() : instance().getAurora();
     }
 
@@ -80,7 +79,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
      */
     public Resident asResident(String mapName) throws MissingEntryException {
         Resident res = getMap(mapName).Residents.single(name);
-        return new Resident(GsonUtil.asTree(res), this);
+        return new Resident(asTree(res), this);
     }
 
     public boolean hasCustomNickname() {

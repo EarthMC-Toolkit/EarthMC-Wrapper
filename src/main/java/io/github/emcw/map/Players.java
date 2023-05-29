@@ -18,8 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static io.github.emcw.utils.Funcs.collectEntities;
 import static io.github.emcw.utils.GsonUtil.*;

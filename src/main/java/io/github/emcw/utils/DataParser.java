@@ -75,6 +75,7 @@ public class DataParser {
                                        Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
         streamValues(mapData.asMap()).forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
+            //ProcessedTown processed = new ProcessedTown(cur);
 
             //#region Get and process keys (label, desc)
             String name = keyAsStr(cur, "label");

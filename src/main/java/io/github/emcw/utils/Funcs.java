@@ -51,7 +51,7 @@ public class Funcs {
         return calcArea(X, Z, X.length);
     }
 
-    public static int calcArea(int[] X, int[] Z, int numPoints, int... divisor) {
+    public static int calcArea(int[] X, int[] Z, int numPoints, int @NotNull ... divisor) {
         IntStream ints = streamIntRange(numPoints).map(i -> {
             int j = (i + numPoints - 1) % numPoints;
             return (X[j] + X[i]) * (Z[j] - Z[i]);
@@ -72,7 +72,7 @@ public class Funcs {
         return (int) Math.hypot(x1 - x2, z1 - z2);
     }
 
-    public static @NotNull Integer manhattan(Location loc1, Location loc2) {
+    public static @NotNull Integer manhattan(@NotNull Location loc1, @NotNull Location loc2) {
         return manhattan(loc1.getX(), loc2.getX(), loc1.getZ(), loc2.getZ());
     }
 

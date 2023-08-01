@@ -58,11 +58,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     }
 
     public void setLocation(JsonObject obj, @NotNull Boolean parsed) {
-        Location loc;
-
-        if (parsed) loc = Location.fromObj(obj.getAsJsonObject("location"));
-        else loc = Location.fromObj(obj);
-
+        Location loc = parsed ? Location.fromObj(obj.getAsJsonObject("location")) : Location.fromObj(obj);
         if (loc.valid()) location = loc;
     }
 

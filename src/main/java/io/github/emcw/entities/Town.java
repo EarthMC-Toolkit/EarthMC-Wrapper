@@ -45,7 +45,7 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
     }
 
     static class Flags {
-        Boolean PVP, EXPLOSIONS, FIRE, CAPITAL, MOBS, PUBLIC;
+        final Boolean PVP, EXPLOSIONS, FIRE, CAPITAL, MOBS, PUBLIC;
 
         Flags(JsonObject obj) {
             PVP = keyAsBool(obj, "pvp");

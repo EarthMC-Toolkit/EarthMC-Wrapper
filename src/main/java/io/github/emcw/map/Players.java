@@ -55,7 +55,6 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
             setCache(players);
     }
 
-    @Override
     public Map<String, Player> all() {
         // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
         return mergeWith(parent.Residents.all());

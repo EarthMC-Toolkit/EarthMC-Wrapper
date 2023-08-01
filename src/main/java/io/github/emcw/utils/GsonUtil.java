@@ -80,7 +80,10 @@ public class GsonUtil {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         arrAsStream(arr).forEach(el -> {
             JsonObject obj = el.getAsJsonObject();
-            map.put(keyAsStr(obj, key), deserialize(el, getType(el)));
+            String k = keyAsStr(obj, key);
+            if (k == null) return;
+            
+            map.put(k, deserialize(el, getType(el)));
         });
 
         return map;
@@ -164,18 +167,14 @@ public class GsonUtil {
         JsonElement key = member(o, k);
         JsonObject result = new JsonObject();
 
-        key.getAsJsonArray().forEach(el -> {
-            result.add(k, el);
-        });
+        key.getAsJsonArray().forEach(el -> result.add(k, el));
 
         return isNull(key) ? null : result;
     }
 
     public static @NotNull Boolean keyAsBool(JsonObject o, String k) {
         JsonElement key = member(o, k);
-        if (key != null) key.getAsBoolean();
-
-        return false;
+        return key != null && key.getAsBoolean();
     }
 
     @Nullable

@@ -28,12 +28,12 @@ import static io.github.emcw.utils.GsonUtil.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DataParser {
-    static Safelist whitelist = new Safelist().addAttributes("a", "href");
+    static final Safelist whitelist = new Safelist().addAttributes("a", "href");
 
-    static Cache<String, JsonObject> rawTowns = buildEmpty();
-    static Cache<String, JsonObject> rawNations = buildEmpty();
-    static Cache<String, JsonObject> rawResidents = buildEmpty();
-    static Cache<String, JsonObject> rawPlayers = buildEmpty();
+    static final Cache<String, JsonObject> rawTowns = buildEmpty();
+    static final Cache<String, JsonObject> rawNations = buildEmpty();
+    static final Cache<String, JsonObject> rawResidents = buildEmpty();
+    static final Cache<String, JsonObject> rawPlayers = buildEmpty();
 
     private static final Cache<String, Town> towns = buildEmpty();
     private static final Cache<String, Nation> nations = buildEmpty();

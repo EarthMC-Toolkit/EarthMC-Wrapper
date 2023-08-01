@@ -3,6 +3,7 @@ package io.github.emcw.caching;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.emcw.exceptions.MissingEntryException;
+import io.github.emcw.utils.GsonUtil;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -20,27 +21,29 @@ import static io.github.emcw.utils.GsonUtil.strArrAsStream;
 @SuppressWarnings("unused")
 public class BaseCache<V> {
     @Setter(AccessLevel.PROTECTED) protected Cache<String, V> cache;
-    protected CacheOptions options;
+    protected final CacheOptions options;
 
-    Caffeine<Object, Object> builder = Caffeine.newBuilder();
-//    Expiry<String, V> expireAfterCreate = new Expiry<>() {
-//        @Override
-//        public long expireAfterCreate(String key, V value, long currentTime) {
-//            return options.expiry;
-//        }
-//
-//        @Override
-//        public long expireAfterUpdate(String key, V value, long currentTime, @NonNegative long currentDuration) {
-//            return currentDuration;
-//        }
-//
-//        @Override
-//        public long expireAfterRead(String key, V value, long currentTime, @NonNegative long currentDuration) {
-//            return currentDuration;
-//        }
-//    };
+    final Caffeine<Object, Object> builder = Caffeine.newBuilder();
+    /*
+        Expiry<String, V> expireAfterCreate = new Expiry<>() {
+            @Override
+            public long expireAfterCreate(String key, V value, long currentTime) {
+                return options.expiry;
+            }
 
-    Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
+            @Override
+            public long expireAfterUpdate(String key, V value, long currentTime, @NonNegative long currentDuration) {
+                return currentDuration;
+            }
+
+            @Override
+            public long expireAfterRead(String key, V value, long currentTime, @NonNegative long currentDuration) {
+                return currentDuration;
+            }
+        };
+    */
+
+    final Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
     ScheduledExecutorService service = null;
     @Setter protected Runnable updater = null;
@@ -71,9 +74,16 @@ public class BaseCache<V> {
     @Nullable
     public V single(String key) throws MissingEntryException {
         V result = cache.getIfPresent(key);
+        System.out.println(this.getClass().getSuperclass().getSimpleName());
 
         if (result == null) {
-            result = all().get(key);
+            try {
+                result = all().get(key);
+                System.out.println(GsonUtil.serialize(result));
+            } catch (Exception e) {
+                result = null;
+            }
+
             if (result == null)
                 throw new MissingEntryException("Could not find entry by key '" + key + "'");
         }

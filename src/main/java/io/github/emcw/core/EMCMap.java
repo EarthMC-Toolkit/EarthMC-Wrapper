@@ -14,15 +14,16 @@ import lombok.Setter;
 import java.util.concurrent.TimeUnit;
 
 public class EMCMap {
-    @Getter String mapName;
+    @Getter
+    final String mapName;
 
     @Setter(AccessLevel.PRIVATE) public Towns Towns = null;
     @Setter(AccessLevel.PRIVATE) public Nations Nations = null;
     @Setter(AccessLevel.PRIVATE) public Players Players = null;
     @Setter(AccessLevel.PRIVATE) public Residents Residents = null;
 
-    CacheOptions lazyOpts = new CacheOptions(2, TimeUnit.SECONDS, CacheStrategy.LAZY);
-    CacheOptions timedOpts = new CacheOptions(3, TimeUnit.MINUTES, CacheStrategy.TIME_BASED);
+    final CacheOptions lazyOpts = new CacheOptions(2, TimeUnit.SECONDS, CacheStrategy.LAZY);
+    final CacheOptions timedOpts = new CacheOptions(3, TimeUnit.MINUTES, CacheStrategy.TIME_BASED);
 
     public EMCMap(String mapName) {
         this.mapName = mapName;

@@ -21,7 +21,7 @@ public class ProcessedTown {
 
     public final List<String> info;
 
-    static Safelist whitelist = new Safelist().addAttributes("a", "href");
+    static final Safelist whitelist = new Safelist().addAttributes("a", "href");
 
     public ProcessedTown(JsonObject obj) {
         this.name = keyAsStr(obj, "label");

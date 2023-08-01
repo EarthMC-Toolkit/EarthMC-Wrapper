@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
 public class Request {
-    static okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
+    static final okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     private static final OkHttpClient client = new OkHttpClient.Builder()
             .callTimeout(10, TimeUnit.SECONDS)
             .connectionPool(new ConnectionPool(16, 3, TimeUnit.MINUTES))
@@ -26,9 +26,9 @@ public class Request {
             .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
             .build();
 
-    static List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
+    static final List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
     static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
-    static Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
+    static final Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
 
     static Cache<String, JsonObject> getEndpoints() {
         if (endpoints.asMap().isEmpty()) {
@@ -61,18 +61,19 @@ public class Request {
         final Response response;
         String endpointStr = "\nEndpoint: " + urlString;
 
-        try { response = client.newCall(builder.build()).execute(); }
-        catch(Exception e) {
+        try {
+            response = client.newCall(builder.build()).execute();
+
+            int statusCode = response.code();
+            if (!codes.contains(statusCode))
+                throw new APIException("API Error! Response code: " + statusCode + endpointStr);
+
+            try (ResponseBody body = response.body()) {
+                if (body == null) throw new APIException("Fetch Error: Response body is null");
+                return body.string();
+            }
+        } catch (Exception e) {
             throw new APIException("Request failed! " + endpointStr + e.getMessage());
         }
-
-        int statusCode = response.code();
-        if (!codes.contains(statusCode))
-            throw new APIException("API Error! Response code: " + statusCode + endpointStr);
-
-        ResponseBody body = response.body();
-        if (body == null) throw new APIException("Fetch Error: Response body is null");
-
-        return body.string();
     }
 }

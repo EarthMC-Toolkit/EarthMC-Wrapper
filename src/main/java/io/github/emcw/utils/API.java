@@ -39,8 +39,18 @@ public final class API {
     }
 
     public static JsonObject mapData(String mapName) {
-        return get(mapName, "map").join().getAsJsonObject("sets")
+        CompletableFuture<JsonObject> data = get(mapName, "map");
+
+        try {
+            return data.join().getAsJsonObject("sets")
                 .getAsJsonObject("townyPlugin.markerset")
                 .getAsJsonObject("areas");
+        }
+        catch (Exception e) {
+            throw new NullPointerException("" +
+                "Error fetching " + mapName + " map data!\n" +
+                "Received response may be "
+            );
+        }
     }
 }

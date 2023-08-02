@@ -48,7 +48,7 @@ public class BaseCache<V> {
     }
 
     protected void updateIf(CacheStrategy strategy) {
-        if (strategy == options.strategy) {
+        if (options.strategy == strategy) {
             updater.run(); // Updates the cache before accessing it
         }
     }
@@ -71,7 +71,6 @@ public class BaseCache<V> {
         V val = cache.getIfPresent(key);
         if (val == null) {
             // Expired and lazy, force update.
-            System.out.println("expired, force updating");
             updateIf(CacheStrategy.LAZY);
 
             val = cache.getIfPresent(key);

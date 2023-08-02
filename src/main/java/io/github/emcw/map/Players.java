@@ -66,6 +66,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         return super.single(name);
     }
 
+    @Override
     public Map<String, Player> get(String @NotNull ... keys) {
         tryUpdate();
         return super.get(keys);

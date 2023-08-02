@@ -3,14 +3,11 @@ package io.github.emcw.caching;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.emcw.exceptions.MissingEntryException;
-import io.github.emcw.utils.GsonUtil;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -24,25 +21,6 @@ public class BaseCache<V> {
     protected final CacheOptions options;
 
     final Caffeine<Object, Object> builder = Caffeine.newBuilder();
-    /*
-        Expiry<String, V> expireAfterCreate = new Expiry<>() {
-            @Override
-            public long expireAfterCreate(String key, V value, long currentTime) {
-                return options.expiry;
-            }
-
-            @Override
-            public long expireAfterUpdate(String key, V value, long currentTime, @NonNegative long currentDuration) {
-                return currentDuration;
-            }
-
-            @Override
-            public long expireAfterRead(String key, V value, long currentTime, @NonNegative long currentDuration) {
-                return currentDuration;
-            }
-        };
-    */
-
     final Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
     ScheduledExecutorService service = null;
@@ -59,6 +37,22 @@ public class BaseCache<V> {
         options = cacheOptions;
     }
 
+    protected void build() {
+        if (options.strategy != CacheStrategy.LAZY) {
+            initRefreshScheduler();
+            setCache(builder.build());
+        }
+        else {
+            setCache(builder.expireAfterWrite(options.expiry, options.unit).build());
+        }
+    }
+
+    protected void updateIf(CacheStrategy strategy) {
+        if (strategy == options.strategy) {
+            updater.run(); // Updates the cache before accessing it
+        }
+    }
+
     public Map<String, V> get(String @NotNull ... keys) {
         Map<String, V> result = new ConcurrentHashMap<>();
 
@@ -71,27 +65,27 @@ public class BaseCache<V> {
         return result;
     }
 
-    @Nullable
     public V single(String key) throws MissingEntryException {
-        V result = cache.getIfPresent(key);
-        System.out.println(this.getClass().getSuperclass().getSimpleName());
+        updateIf(CacheStrategy.HYBRID);
 
-        if (result == null) {
-            try {
-                result = all().get(key);
-                System.out.println(GsonUtil.serialize(result));
-            } catch (Exception e) {
-                result = null;
-            }
+        V val = cache.getIfPresent(key);
+        if (val == null) {
+            // Expired and lazy, force update.
+            System.out.println("expired, force updating");
+            updateIf(CacheStrategy.LAZY);
 
-            if (result == null)
-                throw new MissingEntryException("Could not find entry by key '" + key + "'");
+            val = cache.getIfPresent(key);
+            if (val == null) throw new MissingEntryException("Could not find entry by key '" + key + "'");
         }
 
-        return result;
+        return val;
     }
 
     public Map<String, V> all() {
+        return _all();
+    }
+
+    private @NotNull Map<String, V> _all() {
         Map<String, V> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         map.putAll(cache.asMap());
 
@@ -106,10 +100,7 @@ public class BaseCache<V> {
     private void initRefreshScheduler() {
         service = Executors.newScheduledThreadPool(CONCURRENCY);
         service.scheduleAtFixedRate(() -> {
-            try {
-                if (options.strategy == CacheStrategy.TIME_BASED) updater.run();
-                else clear();
-            }
+            try { updater.run(); }
             catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -118,11 +109,6 @@ public class BaseCache<V> {
 
     private void stopRefreshScheduler() {
         service = null;
-    }
-
-    protected void build() {
-        initRefreshScheduler();
-        setCache(builder.build());
     }
 
     public void clear() {

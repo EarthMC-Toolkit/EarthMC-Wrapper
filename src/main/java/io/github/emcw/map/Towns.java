@@ -43,7 +43,6 @@ public class Towns extends BaseCache<Town> implements ILocatable<Town> {
             setCache(towns);
     }
 
-    @Override
     public Map<String, Town> all() {
         tryUpdate();
         return super.all();

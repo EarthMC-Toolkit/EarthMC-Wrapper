@@ -18,9 +18,9 @@ public class Residents extends BaseCache<Resident> {
         super(options);
         this.parent = parent;
 
+        setUpdater(this::forceUpdate);
         forceUpdate();
 
-        setUpdater(this::forceUpdate);
         build();
     }
 

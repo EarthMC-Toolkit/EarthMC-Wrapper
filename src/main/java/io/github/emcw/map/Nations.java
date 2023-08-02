@@ -42,7 +42,6 @@ public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
             setCache(nations);
     }
 
-    @Override
     public Map<String, Nation> all() {
         tryUpdate();
         return super.all();

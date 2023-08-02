@@ -49,7 +49,7 @@ public final class API {
         catch (Exception e) {
             throw new NullPointerException("" +
                 "Error fetching " + mapName + " map data!\n" +
-                "Received response may be "
+                "Received response may be incorrectly formatted."
             );
         }
     }

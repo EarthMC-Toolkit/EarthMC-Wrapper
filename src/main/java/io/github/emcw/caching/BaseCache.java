@@ -57,7 +57,7 @@ public class BaseCache<V> {
         Map<String, V> result = new ConcurrentHashMap<>();
 
         strArrAsStream(keys).forEach(k -> {
-            V cur = all().get(k);
+            V cur = _all().get(k);
             if (cur != null)
                 result.put(k, cur);
         });
@@ -93,7 +93,7 @@ public class BaseCache<V> {
 
     public boolean has(String key) {
         if (cache.asMap().containsKey(key)) return true;
-        else return all().get(key) != null;
+        else return _all().get(key) != null;
     }
 
     private void initRefreshScheduler() {
@@ -124,5 +124,12 @@ public class BaseCache<V> {
 
     public void putAll(Map<? extends String, ? extends V> map) {
         cache.putAll(map);
+    }
+
+    public void tryExpire() {
+        if (options.strategy.equals(CacheStrategy.LAZY) ||
+            options.strategy.equals(CacheStrategy.HYBRID)) {
+            clear();
+        }
     }
 }

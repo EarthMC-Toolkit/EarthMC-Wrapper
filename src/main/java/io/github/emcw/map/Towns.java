@@ -3,6 +3,7 @@ package io.github.emcw.map;
 import com.github.benmanes.caffeine.cache.Cache;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
+import io.github.emcw.caching.CacheStrategy;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.entities.Town;
 import io.github.emcw.exceptions.MissingEntryException;
@@ -24,6 +25,7 @@ public class Towns extends BaseCache<Town> implements ILocatable<Town> {
     }
 
     public void tryUpdate() {
+        tryExpire();
         updateCache(false);
     }
 

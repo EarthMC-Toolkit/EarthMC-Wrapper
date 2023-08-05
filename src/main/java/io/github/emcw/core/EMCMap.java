@@ -30,6 +30,21 @@ public class EMCMap {
         initCaches();
     }
 
+    public EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache) {
+        this(mapName, mapDataCache, playerDataCache, false);
+    }
+
+    public EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache, boolean prefill) {
+        this.mapName = mapName;
+
+        setTowns(new Towns(this, mapDataCache));
+        setNations(new Nations(this, mapDataCache));
+        setResidents(new Residents(this, mapDataCache));
+        setPlayers(new Players(this, playerDataCache));
+
+        if (prefill) prefill();
+    }
+
     private void initCaches() {
         setTowns(new Towns(this, timedOpts));
         setNations(new Nations(this, timedOpts));

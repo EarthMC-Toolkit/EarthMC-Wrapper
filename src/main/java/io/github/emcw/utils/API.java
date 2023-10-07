@@ -47,10 +47,12 @@ public final class API {
                 .getAsJsonObject("areas");
         }
         catch (Exception e) {
-            throw new NullPointerException("" +
+            System.out.println(
                 "Error fetching " + mapName + " map data!\n" +
                 "Received response may be incorrectly formatted."
             );
         }
+
+        return new JsonObject();
     }
 }

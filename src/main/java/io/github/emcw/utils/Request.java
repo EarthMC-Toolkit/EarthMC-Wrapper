@@ -27,7 +27,7 @@ public class Request {
             .build();
 
     static final List<Integer> codes = List.of(new Integer[]{ 200, 203, 304 });
-    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/master/endpoints.json";
+    static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/main/src/endpoints.json";
     static final Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
 
     static Cache<String, JsonObject> getEndpoints() {

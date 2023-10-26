@@ -6,3 +6,4 @@ io.github.emcw.exceptions
 io.github.emcw.interfaces
 io.github.emcw.map
 io.github.emcw.utils
+io.github.emcw.utils.http

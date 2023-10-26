@@ -133,25 +133,29 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#aboveGround()" class="member-name-link">aboveGround</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Resident.html" title="class in io.github.emcw.entities">Resident</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asResident(java.lang.String)" class="member-name-link">asResident</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Resident.html" title="class in io.github.emcw.entities">Resident</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asResident(java.lang.String)" class="member-name-link">asResident</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Converts this player into a <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>.<br>
  Essentially equivalent to a "downcast", adding new fields and methods found in <a href="Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a>,
  keeping all existing info the same.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="Player.html" title="class in io.github.emcw.entities">Player</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getOnline(java.lang.String,java.lang.String)" class="member-name-link">getOnline</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="Player.html" title="class in io.github.emcw.entities">Player</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getOnline(java.lang.String,java.lang.String)" class="member-name-link">getOnline</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mapName,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerName)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Static helper method for retrieving an online <a href="Player.html" title="class in io.github.emcw.entities"><code>Player</code></a>.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasCustomNickname()" class="member-name-link">hasCustomNickname</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">If this player has set a nickname.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasCustomNickname()" class="member-name-link">hasCustomNickname</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hidden()" class="member-name-link">hidden</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Essentially the opposite of <a href="#visible()"><code>visible()</code></a>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isResident()" class="member-name-link">isResident</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -172,8 +176,10 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parsed)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#underground()" class="member-name-link">underground</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visible()" class="member-name-link">visible</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">If this player is visible on the Dynmap.</div>
+</div>
 </div>
 </div>
 </div>
@@ -266,25 +272,42 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <section class="detail" id="hasCustomNickname()">
 <h3>hasCustomNickname</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasCustomNickname</span>()</div>
+<div class="block">If this player has set a nickname.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true/false if <code>nickname</code> is same as their account <code>BaseEntity.name</code>.</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="aboveGround()">
-<h3>aboveGround</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">aboveGround</span>()</div>
+<section class="detail" id="visible()">
+<h3>visible</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">visible</span>()</div>
+<div class="block">If this player is visible on the Dynmap.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true/false if <code>world</code> is "earth" and player is not under a block.</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="underground()">
-<h3>underground</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">underground</span>()</div>
+<section class="detail" id="hidden()">
+<h3>hidden</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hidden</span>()</div>
+<div class="block">Essentially the opposite of <a href="#visible()"><code>visible()</code></a>.
+ <p><b>NOTE:</b>
+ This returns true for players under a tree, in the nether etc.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true/false if <code>world</code> is NOT "earth" and <code>location</code> is 0, 64, 0.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="locationIsDefault()">
 <h3>locationIsDefault</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">locationIsDefault</span>()</div>
-<div class="block"><p>Whether this player is located at the default Dynmap location.</p></div>
+<div class="block">Whether this player is located at the default Dynmap location.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true/false if <code>location</code> is 0, 64, 0</dd>
@@ -295,7 +318,7 @@ implements <a href="../interfaces/ISerializable.html" title="interface in io.git
 <section class="detail" id="isResident()">
 <h3>isResident</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isResident</span>()</div>
-<div class="block"><p>Check if this player is also a resident on the map this instance was retrieved from.</p></div>
+<div class="block">Check if this player is also a resident on the map this instance was retrieved from.</div>
 </section>
 </li>
 <li>

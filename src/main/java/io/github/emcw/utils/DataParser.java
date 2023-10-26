@@ -10,6 +10,7 @@ import io.github.emcw.entities.Player;
 import io.github.emcw.entities.Resident;
 import io.github.emcw.entities.Town;
 
+import io.github.emcw.utils.http.DynmapAPI;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
@@ -61,7 +62,7 @@ public class DataParser {
     }
 
     public static void parseMapData(String map, Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        JsonObject mapData = API.mapData(map);
+        JsonObject mapData = DynmapAPI.mapData(map);
         if (mapData.size() < 1) return;
 
         if (parseTowns) rawTowns.invalidateAll();
@@ -218,7 +219,7 @@ public class DataParser {
     }
 
     public static void parsePlayerData(String map) {
-        JsonArray pData = API.playerData(map).getAsJsonArray("players");
+        JsonArray pData = DynmapAPI.playerData(map).getAsJsonArray("players");
         if (pData.size() < 1) return;
 
         rawPlayers.invalidateAll();

@@ -92,6 +92,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = findProperty('maven_group')
             artifactId = findProperty('lib_name')
+
             version = findProperty('wrapper_version')
 
             from components.java

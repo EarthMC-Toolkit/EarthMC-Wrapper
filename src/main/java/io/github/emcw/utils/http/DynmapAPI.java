@@ -1,4 +1,4 @@
-package io.github.emcw.utils;
+package io.github.emcw.utils.http;
 
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.Contract;
@@ -11,8 +11,8 @@ import java.util.concurrent.CompletableFuture;
  * <b>Note:</b>
  * <br>This class is used internally to obtain fresh data, you should never need to use it directly.
  */
-public final class API {
-    private API() {}
+public final class DynmapAPI {
+    private DynmapAPI() {}
 
     @Contract("_, _ -> new")
     private static @NotNull CompletableFuture<JsonObject> get(String map, String key) {

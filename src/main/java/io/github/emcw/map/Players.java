@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.google.gson.JsonObject;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.caching.CacheStrategy;
 import io.github.emcw.core.EMCMap;
 import io.github.emcw.entities.Location;
 import io.github.emcw.exceptions.MissingEntryException;

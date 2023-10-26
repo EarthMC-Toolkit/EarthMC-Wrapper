@@ -13,7 +13,6 @@ import java.util.stream.StreamSupport;
 
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
-@SuppressWarnings("unused")
 public class Resident extends Player implements ISerializable {
     @Getter private String town, nation, rank;
 
@@ -46,6 +45,7 @@ public class Resident extends Player implements ISerializable {
         return Objects.equals(rank, "Mayor") || Objects.equals(rank, "Leader");
     }
 
+    @SuppressWarnings("SameParameterValue")
     protected static List<Resident> fromArr(@NotNull JsonArray arr, String key) {
         return StreamSupport.stream(arr.spliterator(), true).map(curRes -> {
             JsonObject obj = new JsonObject();

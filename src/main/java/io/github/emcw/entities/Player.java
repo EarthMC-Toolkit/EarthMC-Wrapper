@@ -78,20 +78,34 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
         return new Resident(asTree(res), this);
     }
 
+    /**
+     * If this player has set a nickname.
+     * @return true/false if {@link #nickname} is same as their account {@link #name}.
+     */
     public boolean hasCustomNickname() {
         return nickname != null && !Objects.equals(nickname, name);
     }
 
-    public boolean aboveGround() {
+    /**
+     * If this player is visible on the Dynmap.
+     * @return true/false if {@link #world} is "earth" and player is not under a block.
+     */
+    public boolean visible() {
         return Objects.equals(world, "earth");
     }
 
-    public boolean underground() {
-        return locationIsDefault() && !aboveGround();
+    /**
+     * Essentially the opposite of {@link #visible}.
+     * <p><b>NOTE:</b>
+     * This returns true for players under a tree, in the nether etc.
+     * @return true/false if {@link #world} is NOT "earth" and {@link #location} is 0, 64, 0.
+     */
+    public boolean hidden() {
+        return locationIsDefault() && !visible();
     }
 
     /**
-     * <p>Whether this player is located at the default Dynmap location.</p>
+     * Whether this player is located at the default Dynmap location.
      * @return true/false if {@link #location} is 0, 64, 0
      */
     public boolean locationIsDefault() {
@@ -99,7 +113,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     }
 
     /**
-     * <p>Check if this player is also a resident on the map this instance was retrieved from.</p>
+     * Check if this player is also a resident on the map this instance was retrieved from.
      */
     public boolean isResident() {
         return isResident != null && isResident;

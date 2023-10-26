@@ -51,7 +51,7 @@ public interface ILocatable<T> {
         Location loc = null;
 
         if (val instanceof Player player) {
-            if (!player.aboveGround()) return false;
+            if (!player.visible()) return false;
             loc = player.getLocation();
         }
         else if (val instanceof Town town) loc = town.getLocation();

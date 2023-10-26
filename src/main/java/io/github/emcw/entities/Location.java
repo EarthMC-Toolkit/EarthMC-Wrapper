@@ -11,12 +11,9 @@ import static io.github.emcw.utils.Funcs.range;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location implements ISerializable {
-    @Getter
-    final Integer x;
-    @Getter
-    final Integer z;
-    @Getter
-    Integer y;
+    @Getter final Integer x;
+    @Getter final Integer z;
+    @Getter Integer y;
 
     /**
      * <p>A location in 3D space.</p>

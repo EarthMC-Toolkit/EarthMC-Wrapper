@@ -1,4 +1,4 @@
-package io.github.emcw.utils;
+package io.github.emcw.utils.http;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -30,6 +30,7 @@ public class Request {
     static final String epUrl = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/main/src/endpoints.json";
     static final Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
 
+    @SuppressWarnings("SameReturnValue")
     static Cache<String, JsonObject> getEndpoints() {
         if (endpoints.asMap().isEmpty()) {
             JsonObject eps = updateEndpoints();
@@ -43,14 +44,10 @@ public class Request {
     }
 
     static @Nullable JsonObject updateEndpoints() {
-        try { return send(epUrl); }
-        catch (APIException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        return send(epUrl);
     }
 
-    public static <T> T send(String url) throws APIException {
+    public static <T> T send(String url) {
         return (T) JsonParser.parseString(fetch(url));
     }
 

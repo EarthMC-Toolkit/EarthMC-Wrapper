@@ -18,6 +18,10 @@ public class EMCWrapper {
         initMaps(true, true);
     }
 
+    public EMCWrapper(EMCMap aurora, EMCMap nova) {
+        initMaps(aurora, nova);
+    }
+
     /**
      * Returns a new {@link EMCWrapper} instance.
      * Maps may be initialized independently by passing their respective boolean values.
@@ -31,6 +35,13 @@ public class EMCWrapper {
     private void initMaps(@NotNull Boolean aurora, @NotNull Boolean nova) {
         if (aurora) Aurora = new EMCMap("aurora");
         if (nova) Nova = new EMCMap("nova");
+
+        instance = this;
+    }
+
+    private void initMaps(EMCMap aurora, EMCMap nova) {
+        if (aurora != null) Aurora = aurora;
+        if (nova != null) Nova = nova;
 
         instance = this;
     }

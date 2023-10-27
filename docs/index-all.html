@@ -102,7 +102,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/emcw/entities/BaseEntity.html" class="type-name-link" title="class in io.github.emcw.entities">BaseEntity</a>&lt;<a href="io/github/emcw/entities/BaseEntity.html" title="type parameter in BaseEntity">T</a>&gt; - Class in <a href="io/github/emcw/entities/package-summary.html">io.github.emcw.entities</a></dt>
 <dd>
-<div class="block">An generic base class that all other entities inherit from.</div>
+<div class="block">A generic base class that all other entities inherit from.</div>
 </dd>
 <dt><a href="io/github/emcw/entities/BaseEntity.html#%3Cinit%3E()" class="member-name-link">BaseEntity()</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/BaseEntity.html" title="class in io.github.emcw.entities">BaseEntity</a></dt>
 <dd>&nbsp;</dd>
@@ -247,6 +247,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/map/Towns.html#get(java.lang.String...)" class="member-name-link">get(String...)</a> - Method in class io.github.emcw.map.<a href="io/github/emcw/map/Towns.html" title="class in io.github.emcw.map">Towns</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/entities/Nation.html#getCapital()" class="member-name-link">getCapital()</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Nation.html" title="class in io.github.emcw.entities">Nation</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Map&lt;String, T&gt;, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Map&lt;String, T&gt;, Integer, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
@@ -304,6 +306,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/interfaces/ILocatable.html#INT_ARRAY_Z" class="member-name-link">INT_ARRAY_Z</a> - Static variable in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#intersection(com.google.gson.JsonArray,com.google.gson.JsonArray)" class="member-name-link">intersection(JsonArray, JsonArray)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/entities/Nation.html#invitableTowns(java.lang.String)" class="member-name-link">invitableTowns(String)</a> - Method in class io.github.emcw.entities.<a href="io/github/emcw/entities/Nation.html" title="class in io.github.emcw.entities">Nation</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/adapters/package-summary.html">io.github.emcw.adapters</a> - package io.github.emcw.adapters</dt>
 <dd>&nbsp;</dd>
@@ -405,7 +409,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Nation.html" class="type-name-link" title="class in io.github.emcw.entities">Nation</a> - Class in <a href="io/github/emcw/entities/package-summary.html">io.github.emcw.entities</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/entities/Nation.html#%3Cinit%3E(com.google.gson.JsonObject)" class="member-name-link">Nation(JsonObject)</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Nation.html" title="class in io.github.emcw.entities">Nation</a></dt>
+<dt><a href="io/github/emcw/entities/Nation.html#%3Cinit%3E(com.google.gson.JsonObject,java.lang.String)" class="member-name-link">Nation(JsonObject, String)</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Nation.html" title="class in io.github.emcw.entities">Nation</a></dt>
 <dd>
 <div class="block">Creates a new Nation by parsing raw data.<br>
  <font color="#e38c1b">Should <b>NOT</b> be called explicitly unless you know what you are doing!</font></div>
@@ -458,7 +462,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
-<dt><a href="io/github/emcw/utils/DataParser.html#parsedNations()" class="member-name-link">parsedNations()</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/DataParser.html" title="class in io.github.emcw.utils">DataParser</a></dt>
+<dt><a href="io/github/emcw/utils/DataParser.html#parsedNations(java.lang.String)" class="member-name-link">parsedNations(String)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/DataParser.html" title="class in io.github.emcw.utils">DataParser</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/DataParser.html#parsedPlayers()" class="member-name-link">parsedPlayers()</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/DataParser.html" title="class in io.github.emcw.utils">DataParser</a></dt>
 <dd>&nbsp;</dd>
@@ -583,6 +587,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/entities/Town.html#%3Cinit%3E(com.google.gson.JsonObject)" class="member-name-link">Town(JsonObject)</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Town.html" title="class in io.github.emcw.entities">Town</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/entities/Town.html#%3Cinit%3E(io.github.emcw.entities.Capital)" class="member-name-link">Town(Capital)</a> - Constructor for class io.github.emcw.entities.<a href="io/github/emcw/entities/Town.html" title="class in io.github.emcw.entities">Town</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/map/Players.html#townless()" class="member-name-link">townless()</a> - Method in class io.github.emcw.map.<a href="io/github/emcw/map/Players.html" title="class in io.github.emcw.map">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/map/Towns.html" class="type-name-link" title="class in io.github.emcw.map">Towns</a> - Class in <a href="io/github/emcw/map/package-summary.html">io.github.emcw.map</a></dt>
@@ -590,6 +596,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/core/EMCMap.html#Towns" class="member-name-link">Towns</a> - Variable in class io.github.emcw.core.<a href="io/github/emcw/core/EMCMap.html" title="class in io.github.emcw.core">EMCMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/map/Towns.html#%3Cinit%3E(io.github.emcw.core.EMCMap,io.github.emcw.caching.CacheOptions)" class="member-name-link">Towns(EMCMap, CacheOptions)</a> - Constructor for class io.github.emcw.map.<a href="io/github/emcw/map/Towns.html" title="class in io.github.emcw.map">Towns</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/utils/http/OfficialAPI.html#townyData()" class="member-name-link">townyData()</a> - Method in class io.github.emcw.utils.http.<a href="io/github/emcw/utils/http/OfficialAPI.html" title="class in io.github.emcw.utils.http">OfficialAPI</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/utils/http/OfficialAPI.html#townyData(java.lang.String)" class="member-name-link">townyData(String)</a> - Method in class io.github.emcw.utils.http.<a href="io/github/emcw/utils/http/OfficialAPI.html" title="class in io.github.emcw.utils.http">OfficialAPI</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#tryExpire()" class="member-name-link">tryExpire()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>&nbsp;</dd>

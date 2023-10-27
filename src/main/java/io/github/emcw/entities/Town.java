@@ -29,6 +29,13 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
         init(obj);
     }
 
+    public Town(Capital capital) {
+        super();
+
+        setInfo(this, capital.getName());
+        location = capital.getLocation();
+    }
+
     void init(JsonObject obj) {
         setInfo(this, keyAsStr(obj, "name"));
 

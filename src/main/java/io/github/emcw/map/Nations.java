@@ -37,7 +37,7 @@ public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
 
         // Parse map data into usable Nation objects.
         DataParser.parseMapData(parent.getMapName(), true, true, false);
-        Cache<String, Nation> nations = DataParser.parsedNations();
+        Cache<String, Nation> nations = DataParser.parsedNations(parent.getMapName());
 
         if (!nations.asMap().isEmpty())
             setCache(nations);

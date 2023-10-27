@@ -72,8 +72,12 @@ public class DataParser {
         processMapData(mapData, parseTowns, parseNations, parseResidents);
     }
 
-    private static void processMapData(@NotNull JsonObject mapData,
-                                       Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
+    private static void processMapData(
+        @NotNull JsonObject mapData,
+        Boolean parseTowns,
+        Boolean parseNations,
+        Boolean parseResidents
+    ) {
         streamValues(mapData.asMap()).forEach(town -> {
             JsonObject cur = town.getAsJsonObject();
             //ProcessedTown processed = new ProcessedTown(cur);
@@ -129,9 +133,11 @@ public class DataParser {
         });
     }
 
-    private static void parseTowns(String name, String nation, String mayor, String wiki,
-                                   JsonArray residents, int[] x, int[] z, int area, Boolean capital,
-                                   List<String> info, String fill, String outline) {
+    private static void parseTowns(
+        String name, String nation, String mayor, String wiki,
+        JsonArray residents, int[] x, int[] z, int area, Boolean capital,
+        List<String> info, String fill, String outline
+    ) {
         rawTowns.asMap().computeIfAbsent(name, k -> {
             JsonObject obj = new JsonObject();
 
@@ -161,8 +167,10 @@ public class DataParser {
         });
     }
 
-    private static void parseNations(String nation, String town, JsonArray residents,
-                                     String mayor, int area, int[] x, int[] z, boolean capital) {
+    private static void parseNations(
+        String nation, String town, JsonArray residents,
+        String mayor, int area, int[] x, int[] z, boolean capital
+    ) {
         // Not present, create a new Nation.
         rawNations.asMap().computeIfAbsent(nation, k -> {
             JsonObject obj = new JsonObject();
@@ -244,17 +252,26 @@ public class DataParser {
     }
 
     public static Cache<String, Town> parsedTowns() {
-        streamEntries(rawTowns.asMap()).forEach(entry -> towns.put(entry.getKey(), new Town(valueAsObj(entry))));
+        streamEntries(rawTowns.asMap()).forEach(entry ->
+            towns.put(entry.getKey(), new Town(valueAsObj(entry)))
+        );
+
         return towns;
     }
 
-    public static Cache<String, Nation> parsedNations() {
-        streamEntries(rawNations.asMap()).forEach(entry -> nations.put(entry.getKey(), new Nation(valueAsObj(entry))));
+    public static Cache<String, Nation> parsedNations(String map) {
+        streamEntries(rawNations.asMap()).forEach(entry ->
+            nations.put(entry.getKey(), new Nation(valueAsObj(entry), map))
+        );
+
         return nations;
     }
 
     public static Cache<String, Resident> parsedResidents() {
-        streamEntries(rawResidents.asMap()).forEach(entry -> residents.put(entry.getKey(), new Resident(valueAsObj(entry))));
+        streamEntries(rawResidents.asMap()).forEach(entry ->
+            residents.put(entry.getKey(), new Resident(valueAsObj(entry)))
+        );
+
         return residents;
     }
 

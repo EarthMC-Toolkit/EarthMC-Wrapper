@@ -104,7 +104,7 @@ public class Funcs {
     }
 
     public static EMCMap mapByName(@NotNull String name) {
-        var wrapper = EMCWrapper.instance();
+        EMCWrapper wrapper = EMCWrapper.instance();
         return name.equals("nova") ? wrapper.getNova() : wrapper.getAurora();
     }
 

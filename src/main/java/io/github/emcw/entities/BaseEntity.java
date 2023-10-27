@@ -3,7 +3,7 @@ package io.github.emcw.entities;
 import lombok.Getter;
 
 /**
- * <p>An generic base class that all other entities inherit from. Holds a name and a reference to its parent.</p>
+ * A generic base class that all other entities inherit from. Holds a name and a reference to its parent.
  * @param <T> Determines the class type of the {@link #parent} reference.
  */
 public abstract class BaseEntity<T> {

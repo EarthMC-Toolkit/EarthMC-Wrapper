@@ -1,9 +1,9 @@
 package io.github.emcw.utils;
 
-import io.github.emcw.core.EMCMap;
-import io.github.emcw.core.EMCWrapper;
-import io.github.emcw.entities.BaseEntity;
-import io.github.emcw.entities.Location;
+import io.github.emcw.EMCMap;
+import io.github.emcw.EMCWrapper;
+import io.github.emcw.map.entities.BaseEntity;
+import io.github.emcw.map.entities.Location;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
@@ -86,8 +86,8 @@ public class Funcs {
 
     public static <T> List<T> collectList(Stream<T> stream, Boolean noDuplicates) {
         return (noDuplicates ? stream.distinct() : stream)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
     @Contract(pure = true)
@@ -103,7 +103,7 @@ public class Funcs {
         return IntStream.of(ints).parallel();
     }
 
-    public static EMCMap mapByName(@NotNull String name) {
+    public static EMCMap mapInstance(@NotNull String name) {
         EMCWrapper wrapper = EMCWrapper.instance();
         return name.equals("nova") ? wrapper.getNova() : wrapper.getAurora();
     }

@@ -1,4 +1,4 @@
-package io.github.emcw.entities;
+package io.github.emcw.map.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

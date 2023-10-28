@@ -1,15 +1,15 @@
-package io.github.emcw.map;
+package io.github.emcw.map.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.gson.JsonObject;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.core.EMCMap;
-import io.github.emcw.entities.Location;
+import io.github.emcw.EMCMap;
+import io.github.emcw.map.entities.Location;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
-import io.github.emcw.entities.Player;
-import io.github.emcw.entities.Resident;
+import io.github.emcw.map.entities.Player;
+import io.github.emcw.map.entities.Resident;
 import io.github.emcw.utils.DataParser;
 
 import org.jetbrains.annotations.NotNull;

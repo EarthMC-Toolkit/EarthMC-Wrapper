@@ -1,6 +1,9 @@
 package io.github.emcw.interfaces;
 
-import io.github.emcw.entities.*;
+import io.github.emcw.map.entities.Location;
+import io.github.emcw.map.entities.Nation;
+import io.github.emcw.map.entities.Player;
+import io.github.emcw.map.entities.Town;
 
 import java.util.Map;
 

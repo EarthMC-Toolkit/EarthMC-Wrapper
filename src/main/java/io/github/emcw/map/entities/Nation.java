@@ -1,12 +1,13 @@
-package io.github.emcw.entities;
+package io.github.emcw.map.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.IPlayerCollective;
 import io.github.emcw.interfaces.ISerializable;
-import io.github.emcw.map.Towns;
+import io.github.emcw.map.api.Towns;
 import io.github.emcw.utils.Funcs;
+import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
-import static io.github.emcw.utils.Funcs.collectEntities;
+import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
@@ -55,7 +56,7 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
     }
 
     public Town getCapital() {
-        Towns towns = Funcs.mapByName(mapName).Towns;
+        Towns towns = mapInstance(mapName).Towns;
         try {
             return towns.single(capital.getName());
         } catch (MissingEntryException e) {
@@ -64,26 +65,23 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
     }
 
     // TODO: Finish invitableTowns
-    public Map<String, Town> invitableTowns(String mapName) {
-        Towns towns = Funcs.mapByName(mapName).Towns;
-
-        Stream<Entry<String, Town>> townsStream = streamEntries(towns.all());
-        Stream<Town> townsMap = townsStream.map(entry -> {
+    public Map<String, Town> invitableTowns() {
+        Stream<Entry<String, Town>> towns = GsonUtil.streamEntries(mapInstance(mapName).Towns.all());
+        return collectEntities(towns.map(entry -> {
             Town town = entry.getValue();
+            if (town.nation == null) {
+                Location townLoc = town.getLocation();
+                Location capitalLoc = getCapital().getLocation();
 
-            Location townLoc = town.getLocation();
-            Location capitalLoc = getCapital().getLocation();
-
-            // In range, return the town
-            if (Funcs.manhattan(capitalLoc, townLoc) < 2500) {
-                return town;
+                // In range, return the town
+                int inviteRange = mapName.equals("nova") ? 3000 : 3500;
+                if (manhattan(capitalLoc, townLoc) < inviteRange) {
+                    return town;
+                }
             }
 
-            // Otherwise null
             return null;
-        });
-
-        return collectEntities(townsMap);
+        }));
     }
 
     /**

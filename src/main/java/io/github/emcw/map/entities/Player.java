@@ -1,7 +1,7 @@
-package io.github.emcw.entities;
+package io.github.emcw.map.entities;
 
 import com.google.gson.JsonObject;
-import io.github.emcw.core.EMCMap;
+import io.github.emcw.EMCMap;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.interfaces.ISerializable;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import static io.github.emcw.core.EMCWrapper.instance;
+import static io.github.emcw.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")

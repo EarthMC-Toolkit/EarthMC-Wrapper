@@ -1,4 +1,4 @@
-package io.github.emcw.core;
+package io.github.emcw;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;

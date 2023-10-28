@@ -1,4 +1,4 @@
-package io.github.emcw.map;
+package io.github.emcw.map.entities;
 
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +39,7 @@ public class ProcessedTown {
 
     public static List<String> processFlags(@NotNull String str) {
         return strArrAsStream(str.split("<br />"))
-                .map(e -> Jsoup.clean(e, whitelist))
-                .collect(Collectors.toList());
+            .map(e -> Jsoup.clean(e, whitelist))
+            .collect(Collectors.toList());
     }
 }

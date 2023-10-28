@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 public class OfficialAPI {
     public OfficialAPI() { }
 
-    static String OAPI_DOMAIN = "https://api.earthmc.net/v2/aurora/";
+    static final String OAPI_DOMAIN = "https://api.earthmc.net/v2/aurora/";
 
     @Contract("_, -> new")
     private static @NotNull CompletableFuture<JsonObject> get(String url) {

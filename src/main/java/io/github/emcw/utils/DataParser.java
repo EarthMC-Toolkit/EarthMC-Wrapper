@@ -5,10 +5,10 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import io.github.emcw.entities.Nation;
-import io.github.emcw.entities.Player;
-import io.github.emcw.entities.Resident;
-import io.github.emcw.entities.Town;
+import io.github.emcw.map.entities.Nation;
+import io.github.emcw.map.entities.Player;
+import io.github.emcw.map.entities.Resident;
+import io.github.emcw.map.entities.Town;
 
 import io.github.emcw.utils.http.DynmapAPI;
 import lombok.AccessLevel;

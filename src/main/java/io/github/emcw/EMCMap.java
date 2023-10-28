@@ -1,11 +1,11 @@
-package io.github.emcw.core;
+package io.github.emcw;
 
 import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.caching.CacheStrategy;
-import io.github.emcw.map.Nations;
-import io.github.emcw.map.Players;
-import io.github.emcw.map.Residents;
-import io.github.emcw.map.Towns;
+import io.github.emcw.map.api.Nations;
+import io.github.emcw.map.api.Players;
+import io.github.emcw.map.api.Residents;
+import io.github.emcw.map.api.Towns;
 
 import lombok.AccessLevel;
 import lombok.Getter;

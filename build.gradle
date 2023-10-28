@@ -95,6 +95,7 @@ publishing {
 
             version = findProperty('wrapper_version')
 
+            //noinspection GroovyAssignabilityCheck
             from components.java
         }
     }

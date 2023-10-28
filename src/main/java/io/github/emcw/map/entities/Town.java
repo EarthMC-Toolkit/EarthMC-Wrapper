@@ -1,4 +1,4 @@
-package io.github.emcw.entities;
+package io.github.emcw.map.entities;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.IPlayerCollective;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.emcw.entities.Resident.fromArr;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
@@ -41,7 +40,7 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
 
         nation = keyAsStr(obj, "nation");
         mayor = keyAsStr(obj, "mayor");
-        residents = fromArr(keyAsArr(obj, "residents"), "name");
+        residents = Resident.fromArr(keyAsArr(obj, "residents"), "name");
 
         location = Location.of(obj);
         area = keyAsInt(obj, "area");

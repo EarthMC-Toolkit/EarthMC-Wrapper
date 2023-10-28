@@ -1,26 +1,25 @@
-package io.github.emcw.map;
+package io.github.emcw.map.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.core.EMCMap;
-import io.github.emcw.entities.Resident;
+import io.github.emcw.EMCMap;
+import io.github.emcw.map.entities.Nation;
 import io.github.emcw.exceptions.MissingEntryException;
+import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.utils.DataParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class Residents extends BaseCache<Resident> {
+public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
     private final EMCMap parent;
 
-    public Residents(EMCMap parent, CacheOptions options) {
+    public Nations(EMCMap parent, CacheOptions options) {
         super(options);
         this.parent = parent;
 
         setUpdater(this::forceUpdate);
-        forceUpdate();
-
         build();
     }
 
@@ -36,28 +35,26 @@ public class Residents extends BaseCache<Resident> {
     private void updateCache(Boolean force) {
         if (!empty() && !force) return;
 
-        // Parse player data into usable Player objects.
-        DataParser.parseMapData(parent.getMapName(), false, false, true);
-        Cache<String, Resident> residents = DataParser.parsedResidents();
+        // Parse map data into usable Nation objects.
+        DataParser.parseMapData(parent.getMapName(), true, true, false);
+        Cache<String, Nation> nations = DataParser.parsedNations(parent.getMapName());
 
-        // Make sure we're using valid data
-        if (!residents.asMap().isEmpty())
-            setCache(residents);
+        if (!nations.asMap().isEmpty())
+            setCache(nations);
     }
 
-    @Override
-    public Map<String, Resident> all() {
+    public Map<String, Nation> all() {
         tryUpdate();
         return super.all();
     }
 
     @Override
-    public Resident single(String name) throws MissingEntryException {
+    public Nation single(String name) throws MissingEntryException {
         tryUpdate();
         return super.single(name);
     }
 
-    public Map<String, Resident> get(String @NotNull ... keys) {
+    public Map<String, Nation> get(String @NotNull ... keys) {
         tryUpdate();
         return super.get(keys);
     }

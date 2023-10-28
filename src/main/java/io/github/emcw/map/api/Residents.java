@@ -40,7 +40,7 @@ public class Residents extends BaseCache<Resident> {
         DataParser.parseMapData(parent.getMapName(), false, false, true);
         Cache<String, Resident> residents = DataParser.parsedResidents();
 
-        // Make sure we're using valid data
+        // Make sure we"re using valid data
         if (!residents.asMap().isEmpty())
             setCache(residents);
     }

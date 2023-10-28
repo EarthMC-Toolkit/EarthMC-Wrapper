@@ -82,7 +82,7 @@ public class GsonUtil {
             JsonObject obj = el.getAsJsonObject();
             String k = keyAsStr(obj, key);
             if (k == null) return;
-            
+
             map.put(k, deserialize(el, getType(el)));
         });
 

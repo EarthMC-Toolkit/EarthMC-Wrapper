@@ -1,7 +1,10 @@
 plugins {
-    id 'java'
-    id 'java-library'
-    id 'maven-publish'
+    id "java"
+    id "java-library"
+    id "maven-publish"
+
+    kotlin("plugin.lombok") version "1.9.10"
+    id("io.freefair.lombok") version "8.1.0"
 }
 
 group = project.maven_group

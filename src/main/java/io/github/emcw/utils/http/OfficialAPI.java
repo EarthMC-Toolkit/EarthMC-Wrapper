@@ -42,11 +42,11 @@ public class OfficialAPI {
         return null;
     }
 
-    public JsonObject serverInfo() {
+    public @Nullable JsonObject serverInfo() {
         // TODO: Proper deserialization of API response. (Using records?)
-        //return GsonUtil.deserialize(townyData(""));
+        return townyData("");
 
-        return null;
+        //return null;
     }
 
     protected static class Towns {

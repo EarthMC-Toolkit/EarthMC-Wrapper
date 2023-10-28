@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../entities/Nation.html" title="class in io.github.emcw.entities">Nation</a></code>, <code><a href="../entities/Town.html" title="class in io.github.emcw.entities">Town</a></code></dd>
+<dd><code><a href="../map/entities/Nation.html" title="class in io.github.emcw.map.entities">Nation</a></code>, <code><a href="../map/entities/Town.html" title="class in io.github.emcw.map.entities">Town</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">IPlayerCollective</span></div>
@@ -91,9 +91,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Resident.html" title="class in io.github.emcw.entities">Resident</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onlineResidents(java.util.List,io.github.emcw.entities.BaseEntity)" class="member-name-link">onlineResidents</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../entities/Resident.html" title="class in io.github.emcw.entities">Resident</a>&gt;&nbsp;residents,
- <a href="../entities/BaseEntity.html" title="class in io.github.emcw.entities">BaseEntity</a>&lt;?&gt;&nbsp;parent)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onlineResidents(java.util.List,io.github.emcw.map.entities.BaseEntity)" class="member-name-link">onlineResidents</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;&nbsp;residents,
+ <a href="../map/entities/BaseEntity.html" title="class in io.github.emcw.map.entities">BaseEntity</a>&lt;?&gt;&nbsp;parent)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Returns a new list of residents who are found to be online in the parent map.</div>
 </div>
@@ -112,17 +112,17 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="onlineResidents(java.util.List,io.github.emcw.entities.BaseEntity)">
+<section class="detail" id="onlineResidents(java.util.List,io.github.emcw.map.entities.BaseEntity)">
 <h3>onlineResidents</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Resident.html" title="class in io.github.emcw.entities">Resident</a>&gt;</span>&nbsp;<span class="element-name">onlineResidents</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../entities/Resident.html" title="class in io.github.emcw.entities">Resident</a>&gt;&nbsp;residents,
- <a href="../entities/BaseEntity.html" title="class in io.github.emcw.entities">BaseEntity</a>&lt;?&gt;&nbsp;parent)</span></div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;</span>&nbsp;<span class="element-name">onlineResidents</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;&nbsp;residents,
+ <a href="../map/entities/BaseEntity.html" title="class in io.github.emcw.map.entities">BaseEntity</a>&lt;?&gt;&nbsp;parent)</span></div>
 <div class="block">Returns a new list of residents who are found to be online in the parent map.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>residents</code> - The <a href="../entities/Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a> list to perform filtering on.</dd>
+<dd><code>residents</code> - The <a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities"><code>Resident</code></a> list to perform filtering on.</dd>
 <dd><code>parent</code> - The parent of this entity who provides the map name of the current instance.</dd>
 <dt>Returns:</dt>
-<dd>A new list of <a href="../entities/Resident.html" title="class in io.github.emcw.entities"><code>Resident</code></a> objects who are online.</dd>
+<dd>A new list of <a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities"><code>Resident</code></a> objects who are online.</dd>
 </dl>
 </section>
 </li>

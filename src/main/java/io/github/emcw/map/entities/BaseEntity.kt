@@ -7,8 +7,8 @@ import lombok.Getter
  * @param <T> Determines the class type of the [.parent] reference.
 </T> */
 abstract class BaseEntity<T> {
-    @JvmField @Getter var name: String? = null
-    @JvmField @Getter var parent: T? = null
+    @Getter var name: String? = null
+    @Getter var parent: T? = null
 
     protected fun setInfo(parent: T, name: String?) {
         this.parent = parent

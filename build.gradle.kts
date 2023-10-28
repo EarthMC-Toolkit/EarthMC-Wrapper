@@ -1,17 +1,11 @@
 plugins {
-    id "java"
-    id "java-library"
-    id "maven-publish"
-
-    kotlin("plugin.lombok") version "1.9.10"
-    id("io.freefair.lombok") version "8.1.0"
+    id("java")
+    id("java-library")
+    id("maven-publish")
 }
 
-group = project.maven_group
-version = project.wrapper_version
-
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_17
+group = project.property("maven_group").toString()
+version = project.property("wrapper_version").toString()
 
 allprojects {
     repositories {
@@ -21,7 +15,7 @@ allprojects {
             maven {
                 url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
                 credentials {
-                    username = project.USERNAME
+                    username = project.property("USERNAME").toString()
                     password = System.getenv("GITHUB_TOKEN")
                 }
             }
@@ -30,51 +24,58 @@ allprojects {
 }
 
 dependencies {
-    //#region Implementations for 'main'
-    compileOnly 'org.jetbrains:annotations:24.0.0'
+    //#region Implementations for "main"
+    compileOnly("org.jetbrains:annotations:24.0.0")
 
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation("com.google.code.gson:gson:2.10.1")
 
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'org.jsoup:jsoup:1.15.4'
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("org.jsoup:jsoup:1.15.4")
 
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.squareup.okhttp3:okhttp-brotli:4.10.0'
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:okhttp-brotli:4.10.0")
 
-    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.5'
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.5")
     //#endregion
 
-    //#region Implementations for 'test'
-    testCompileOnly "io.github.emcw:emc-wrapper:${version}"
+    //#region Implementations for "test"
+    testCompileOnly("io.github.emcw:emc-wrapper:${version}")
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     //#endregion
 
     //#region Plugins
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    compileOnly("org.projectlombok:lombok:1.18.26")
+    annotationProcessor("org.projectlombok:lombok:1.18.26")
     //#endregion
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_17
+
     withSourcesJar()
     //withJavadocJar()
 }
 
-jar {
+tasks.jar {
     // Will include every single runtime dependency
-    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    from(configurations.runtimeClasspath.get().map{ if (it.isDirectory) it else zipTree(it) })
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 publishing {
     java {
-        tasks.withType(Javadoc).configureEach {
-            failOnError false
-            options.addStringOption('Xdoclint:none', '-quiet')
-            options.addStringOption('encoding', 'UTF-8')
-            options.addStringOption('charSet', 'UTF-8')
+        tasks.withType<Javadoc>().configureEach {
+            isFailOnError = false
+            options {
+                this as StandardJavadocDocletOptions
+
+                addStringOption("Xdoclint:none", "-quiet")
+                addStringOption("encoding", "UTF-8")
+                addStringOption("charSet", "UTF-8")
+            }
         }
 
         withJavadocJar()
@@ -85,25 +86,24 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
             credentials {
-                username = project.USERNAME
+                username = project.property("USERNAME").toString()
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
 
     publications {
-        mavenJava(MavenPublication) {
-            groupId = findProperty('maven_group')
-            artifactId = findProperty('lib_name')
+        create<MavenPublication>("maven") {
+            groupId = property("maven_group").toString()
+            artifactId = property("lib_name").toString()
 
-            version = findProperty('wrapper_version')
+            version = property("wrapper_version").toString()
 
-            //noinspection GroovyAssignabilityCheck
-            from components.java
+            from(components["java"])
         }
     }
 }
 
-test {
+tasks.test {
     useJUnitPlatform()
 }

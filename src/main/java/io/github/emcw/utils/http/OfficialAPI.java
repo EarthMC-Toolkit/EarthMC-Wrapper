@@ -3,6 +3,7 @@ package io.github.emcw.utils.http;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -24,17 +25,8 @@ public class OfficialAPI {
         });
     }
 
-    public JsonObject townyData() {
-        return townyData("");
-    }
-
-    public JsonObject townyData(@NotNull String endpoint) {
-        if (endpoint.startsWith("/")) {
-            endpoint = endpoint.substring(1);
-        }
-
-        // Get as JSON
-        String fullUrl = OAPI_DOMAIN + endpoint;
+    private @Nullable JsonObject townyData(@NotNull String endpoint) {
+        String fullUrl = OAPI_DOMAIN + (endpoint.startsWith("/") ? endpoint.substring(1) : endpoint);
         CompletableFuture<JsonObject> data = get(fullUrl);
 
         try {
@@ -47,6 +39,17 @@ public class OfficialAPI {
             );
         }
 
-        return new JsonObject();
+        return null;
+    }
+
+    public JsonObject serverInfo() {
+        // TODO: Proper deserialization of API response. (Using records?)
+        //return GsonUtil.deserialize(townyData(""));
+
+        return null;
+    }
+
+    protected static class Towns {
+
     }
 }

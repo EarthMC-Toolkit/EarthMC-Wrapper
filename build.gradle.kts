@@ -2,6 +2,19 @@ plugins {
     id("java")
     id("java-library")
     id("maven-publish")
+
+    kotlin("plugin.lombok") version "1.9.10"
+    id("io.freefair.lombok") version "6.6"
+
+    kotlin("kapt") version "1.9.10"
+}
+
+kotlinLombok {
+    lombokConfigurationFile(file("lombok.config"))
+}
+
+kapt {
+    keepJavacAnnotationProcessors = true
 }
 
 group = project.property("maven_group").toString()
@@ -25,7 +38,7 @@ allprojects {
 
 dependencies {
     //#region Implementations for "main"
-    compileOnly("org.jetbrains:annotations:24.0.0")
+    compileOnly("org.jetbrains:annotations:24.0.1")
 
     implementation("com.google.code.gson:gson:2.10.1")
 
@@ -46,8 +59,8 @@ dependencies {
     //#endregion
 
     //#region Plugins
-    compileOnly("org.projectlombok:lombok:1.18.26")
-    annotationProcessor("org.projectlombok:lombok:1.18.26")
+//    compileOnly("org.projectlombok:lombok:1.18.26")
+//    annotationProcessor("org.projectlombok:lombok:1.18.26")
     //#endregion
 }
 

@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-brotli:4.10.0'
 
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.5'
+    implementation 'com.github.jafarlihi:eemit:0.1.0'
     //#endregion
 
     //#region Implementations for 'test'

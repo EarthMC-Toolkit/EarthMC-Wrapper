@@ -6,6 +6,7 @@ import io.github.emcw.map.api.Nations;
 import io.github.emcw.map.api.Players;
 import io.github.emcw.map.api.Residents;
 import io.github.emcw.map.api.Towns;
+import io.github.emcw.map.api.GPS;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,13 +15,13 @@ import lombok.Setter;
 import java.util.concurrent.TimeUnit;
 
 public class EMCMap {
-    @Getter
-    final String mapName;
+    @Getter final String mapName;
 
     @Setter(AccessLevel.PRIVATE) public Towns Towns = null;
     @Setter(AccessLevel.PRIVATE) public Nations Nations = null;
     @Setter(AccessLevel.PRIVATE) public Players Players = null;
     @Setter(AccessLevel.PRIVATE) public Residents Residents = null;
+    @Setter(AccessLevel.PRIVATE) public GPS GPS = null;
 
     final CacheOptions lazyOpts = new CacheOptions(2, TimeUnit.SECONDS, CacheStrategy.LAZY);
     final CacheOptions timedOpts = new CacheOptions(3, TimeUnit.MINUTES, CacheStrategy.TIME_BASED);
@@ -28,6 +29,8 @@ public class EMCMap {
     public EMCMap(String mapName) {
         this.mapName = mapName;
         initCaches();
+
+        setGPS(new GPS(this));
     }
 
     public EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache) {
@@ -43,6 +46,8 @@ public class EMCMap {
         setPlayers(new Players(this, playerDataCache));
 
         if (prefill) prefill();
+
+        setGPS(new GPS(this));
     }
 
     private void initCaches() {

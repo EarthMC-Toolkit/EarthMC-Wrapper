@@ -50,8 +50,8 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
         outline = getColour(keyAsStr(obj, "outline"));
     }
 
-    static class Flags {
-        final Boolean PVP, EXPLOSIONS, FIRE, CAPITAL, MOBS, PUBLIC;
+    public static class Flags {
+        public final Boolean PVP, EXPLOSIONS, FIRE, CAPITAL, MOBS, PUBLIC;
 
         Flags(JsonObject obj) {
             PVP = keyAsBool(obj, "pvp");

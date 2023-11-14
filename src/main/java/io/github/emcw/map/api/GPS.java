@@ -6,10 +6,9 @@ import io.github.emcw.map.entities.Nation;
 
 import com.github.jafarlihi.eemit.EventEmitter;
 import io.github.emcw.map.entities.Town;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 
 import static io.github.emcw.utils.Funcs.collectEntities;
 import static io.github.emcw.utils.GsonUtil.streamValues;
@@ -66,10 +65,11 @@ public class GPS extends EventEmitter<Object> {
             return !PVP && !capitalIsPublic;
         }));
 
-        return new Route(null, 0, "");
+        String direction = cardinalDirection(new Location(), new Location());
+        return new Route(null, 0, direction);
     }
 
-    static String cardinalDirection(Location origin, Location destination) {
+    static @NotNull String cardinalDirection(Location origin, Location destination) {
         int deltaX = origin.getX() - destination.getX();
         int deltaZ = origin.getZ() - destination.getZ();
 

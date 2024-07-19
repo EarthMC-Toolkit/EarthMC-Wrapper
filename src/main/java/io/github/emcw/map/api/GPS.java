@@ -69,7 +69,7 @@ public class GPS extends EventEmitter<Object> {
         return new Route(null, 0, direction);
     }
 
-    static @NotNull String cardinalDirection(Location origin, Location destination) {
+    static @NotNull String cardinalDirection(@NotNull Location origin, @NotNull Location destination) {
         int deltaX = origin.getX() - destination.getX();
         int deltaZ = origin.getZ() - destination.getZ();
 

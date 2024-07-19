@@ -6,7 +6,7 @@ import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.EMCMap;
 import io.github.emcw.map.entities.Resident;
 import io.github.emcw.exceptions.MissingEntryException;
-import io.github.emcw.utils.DataParser;
+import io.github.emcw.utils.parsers.DynmapParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -37,8 +37,8 @@ public class Residents extends BaseCache<Resident> {
         if (!empty() && !force) return;
 
         // Parse player data into usable Player objects.
-        DataParser.parseMapData(parent.getMapName(), false, false, true);
-        Cache<String, Resident> residents = DataParser.parsedResidents();
+        DynmapParser.parseMapData(parent.getMapName(), false, false, true);
+        Cache<String, Resident> residents = DynmapParser.parsedResidents();
 
         // Make sure we're using valid data
         if (!residents.asMap().isEmpty())

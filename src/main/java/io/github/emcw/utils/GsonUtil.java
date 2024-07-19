@@ -32,7 +32,7 @@ public class GsonUtil {
         .registerTypeAdapter(Duration.class, new DurationAdapter())
         .setPrettyPrinting().create();
 
-    public static <T> String serialize(Object obj) {
+    public static String serialize(Object obj) {
         return GSON.toJson(obj, getType(obj));
     }
 
@@ -147,7 +147,7 @@ public class GsonUtil {
                 .collect(Collectors.toMap(BaseEntity::getName, Function.identity()));
     }
 
-    static <T> JsonObject valueAsObj(Map.Entry<String, T> entry) {
+    public static <T> JsonObject valueAsObj(Map.Entry<String, T> entry) {
         return (JsonObject) entryVal(entry);
     }
 

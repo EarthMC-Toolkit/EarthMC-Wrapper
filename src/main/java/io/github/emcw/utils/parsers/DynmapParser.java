@@ -1,4 +1,4 @@
-package io.github.emcw.utils;
+package io.github.emcw.utils.parsers;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -28,7 +28,7 @@ import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DataParser {
+public class DynmapParser {
     static final Safelist whitelist = new Safelist().addAttributes("a", "href");
 
     static final Cache<String, JsonObject> rawTowns = buildEmpty();

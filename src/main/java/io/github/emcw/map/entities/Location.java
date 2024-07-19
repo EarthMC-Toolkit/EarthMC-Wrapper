@@ -65,11 +65,11 @@ public class Location implements ISerializable {
     }
 
     protected static @NotNull Location of(JsonObject obj) {
-        JsonArray xArr = keyAsArr(obj, "x"),
-                  zArr = keyAsArr(obj, "z");
+        JsonArray xArr = keyAsArr(obj, "x");
+        JsonArray zArr = keyAsArr(obj, "z");
 
-        Integer xAverage = range(arrToIntArr(xArr)),
-                zAverage = range(arrToIntArr(zArr));
+        Integer xAverage = range(arrToIntArr(xArr));
+        Integer zAverage = range(arrToIntArr(zArr));
 
         return new Location(xAverage, zAverage);
     }

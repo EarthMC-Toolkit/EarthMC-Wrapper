@@ -45,9 +45,8 @@ public class GPS extends EventEmitter<Object> {
 
     public Route findRoute(Location loc, RouteType route) {
         if (loc == null || !loc.valid()) {
-            new IllegalArgumentException(
-                "Cannot find route! Inputted location is invalid:\n" + loc
-            ).printStackTrace();
+            new IllegalArgumentException("Cannot find route! Inputted location is invalid:\n" + loc)
+                .printStackTrace();
         }
 
         Map<String, Town> towns = this.parent.Towns.all();

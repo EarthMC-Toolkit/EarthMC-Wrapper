@@ -7,7 +7,7 @@ import io.github.emcw.EMCMap;
 import io.github.emcw.map.entities.Town;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
-import io.github.emcw.utils.parsers.DynmapParser;
+import io.github.emcw.utils.parsers.SquaremapParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -36,8 +36,8 @@ public class Towns extends BaseCache<Town> implements ILocatable<Town> {
         if (!empty() && !force) return;
 
         // Parse map data into usable Town objects.
-        DynmapParser.parseMapData(parent.getMapName(), true, false, true);
-        Cache<String, Town> towns = DynmapParser.parsedTowns();
+        SquaremapParser.parseMapData(true, false, true);
+        Cache<String, Town> towns = SquaremapParser.parsedTowns();
 
         // Make sure were using valid data.
         if (!towns.asMap().isEmpty())

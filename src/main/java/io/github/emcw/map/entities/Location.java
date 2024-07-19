@@ -13,17 +13,17 @@ import static io.github.emcw.utils.GsonUtil.*;
 public class Location implements ISerializable {
     @Getter final Integer x;
     @Getter final Integer z;
-    @Getter Integer y;
+    @Getter Integer yaw;
 
     /**
      * <p>A location in 3D space.</p>
      * @param x The coordinate on the x-axis (left/right)
-     * @param y The coordinate on the y-axis (up/down)
      * @param z The coordinate on the z-axis (forward/backward)
+     * @param yaw I have no fucking clue
      */
-    public Location(Integer x, Integer y, Integer z) {
+    public Location(Integer x, Integer z, Integer yaw) {
         this(x, z);
-        this.y = y;
+        this.yaw = yaw;
     }
 
     /**

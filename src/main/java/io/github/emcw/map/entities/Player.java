@@ -105,11 +105,11 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     }
 
     /**
-     * Whether this player is located at the default Dynmap location.
-     * @return true/false if {@link #location} is 0, 64, 0
+     * Whether this player is located at the default map location.
+     * @return true/false if {@link #location} is 0, 0
      */
     public boolean locationIsDefault() {
-        return location.y == 64 && location.x == 0 && location.z == 0;
+        return location.x == 0 && location.z == 0;
     }
 
     /**

@@ -10,8 +10,7 @@ import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.map.entities.Player;
 import io.github.emcw.map.entities.Resident;
-import io.github.emcw.utils.parsers.DynmapParser;
-
+import io.github.emcw.utils.parsers.SquaremapParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,8 +47,8 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         if (!empty() && !force) return;
 
         // Parse player data into usable Player objects.
-        DynmapParser.parsePlayerData(parent.getMapName());
-        Cache<String, Player> players = DynmapParser.parsedPlayers();
+        SquaremapParser.parsePlayerData();
+        Cache<String, Player> players = SquaremapParser.parsedPlayers();
 
         // Make sure we have data to use.
         if (!players.asMap().isEmpty())

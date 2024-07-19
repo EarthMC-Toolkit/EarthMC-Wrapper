@@ -6,10 +6,11 @@ import com.google.gson.JsonObject;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.StreamSupport;
+
+import static io.github.emcw.utils.GsonUtil.arrAsStream;
+import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public final class SquaremapAPI {
     private SquaremapAPI() {
@@ -39,9 +40,9 @@ public final class SquaremapAPI {
 
         try {
           JsonArray markersets = data.join().getAsJsonArray();
-          JsonElement towny = markersets.asList().parallelStream()
+          JsonElement towny = arrAsStream(markersets)
               .map(JsonElement::getAsJsonObject)
-              .filter(el -> el.get("id").getAsString().equals("towny"))
+              .filter(el -> Objects.equals(keyAsStr(el, "id"), "towny"))
               .findFirst()
               .orElseThrow();
 

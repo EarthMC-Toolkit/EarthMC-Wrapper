@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jsoup.safety.Safelist;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +22,12 @@ import static io.github.emcw.utils.GsonUtil.strArrAsStream;
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
+    private static final Safelist whitelist = new Safelist().addAttributes("a", "href");
+
+    public static Safelist getWhitelist() {
+        return whitelist;
+    }
+
     public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));

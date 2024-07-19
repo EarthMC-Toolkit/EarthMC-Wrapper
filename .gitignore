@@ -11,6 +11,7 @@ gradle-app.setting
 **/build/
 !src/**/build/
 /src/test/
+/src/archive/
 out/
 bin/
 run/

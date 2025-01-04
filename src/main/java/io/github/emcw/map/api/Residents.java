@@ -6,7 +6,7 @@ import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.EMCMap;
 import io.github.emcw.map.entities.Resident;
 import io.github.emcw.exceptions.MissingEntryException;
-import io.github.emcw.utils.parsers.DynmapParser;
+
 import io.github.emcw.utils.parsers.SquaremapParser;
 import org.jetbrains.annotations.NotNull;
 

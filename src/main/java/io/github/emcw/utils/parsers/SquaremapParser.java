@@ -23,7 +23,7 @@ public class SquaremapParser {
     private static final Cache<String, Town> towns = buildEmpty();
     private static final Cache<String, Nation> nations = buildEmpty();
     private static final Cache<String, Resident> residents = buildEmpty();
-    private static final Cache<String, Player> playerCache = buildEmpty();
+    private static final Cache<String, Player> players = buildEmpty();
 
     @Contract(" -> new")
     static <K, V> @NotNull Cache<K, V> buildEmpty() {
@@ -64,6 +64,18 @@ public class SquaremapParser {
                 return obj;
             });
         });
+    }
+
+    public static Cache<String, Town> parsedTowns() {
+        return null;
+    }
+
+    public static Cache<String, Nation> parsedNations() {
+        return null;
+    }
+
+    public static Cache<String, Resident> parsedResidents() {
+        return null;
     }
 
     public static Cache<String, Player> parsedPlayers() {

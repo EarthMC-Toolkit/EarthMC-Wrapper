@@ -7,7 +7,6 @@ import io.github.emcw.EMCMap;
 import io.github.emcw.map.entities.Nation;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
-import io.github.emcw.utils.parsers.DynmapParser;
 import io.github.emcw.utils.parsers.SquaremapParser;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,14 +33,14 @@ public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
     }
 
     private void updateCache(Boolean force) {
-        if (!empty() && !force) return;
-
-        // Parse map data into usable Nation objects.
-        SquaremapParser.parseMapData(parent.getMapName(), true, true, false);
-        Cache<String, Nation> nations = SquaremapParser.parsedNations(parent.getMapName());
-
-        if (!nations.asMap().isEmpty())
-            setCache(nations);
+//        if (!empty() && !force) return;
+//
+//        // Parse map data into usable Nation objects.
+//        SquaremapParser.parseMapData(parent.getMapName(), true, true, false);
+//        Cache<String, Nation> nations = SquaremapParser.parsedNations(parent.getMapName());
+//
+//        if (!nations.asMap().isEmpty())
+//            setCache(nations);
     }
 
     public Map<String, Nation> all() {

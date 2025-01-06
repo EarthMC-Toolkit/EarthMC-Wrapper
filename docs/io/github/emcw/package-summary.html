@@ -15,7 +15,11 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="package-declaration-page">
-<script type="text/javascript">var pathtoroot = "../../../";
+<script type="text/javascript">var evenRowColor = "even-row-color";
+var oddRowColor = "odd-row-color";
+var tableTab = "table-tab";
+var activeTableTab = "active-table-tab";
+var pathtoroot = "../../../";
 loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -75,14 +79,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><a href="interfaces/package-summary.html">io.github.emcw.interfaces</a></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><a href="utils/package-summary.html">io.github.emcw.utils</a></div>
+<div class="col-first even-row-color"><a href="oapi/package-summary.html">io.github.emcw.oapi</a></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><a href="utils/package-summary.html">io.github.emcw.utils</a></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </div>
 </li>
 <li>
 <div id="class-summary">
-<div class="caption"><span>Classes</span></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button></div>
+<div id="class-summary.tabpanel" role="tabpanel" aria-labelledby="class-summary-tab0">
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
@@ -91,6 +98,19 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color class-summary class-summary-tab2"><a href="EMCWrapper.html" title="class in io.github.emcw">EMCWrapper</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">The main entrypoint of this library.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="OfficialAPI.html" title="class in io.github.emcw">OfficialAPI</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">Wrapper around the official <a href="https://earthmc.net/docs/api">EarthMC API</a>.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="OfficialAPI.Maps.html" title="enum class in io.github.emcw">OfficialAPI.Maps</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab3">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="OfficialAPI.V3.html" title="class in io.github.emcw">OfficialAPI.V3</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">Simple class for interacting with the 3rd version of the API.<br></div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="SquaremapAPI.html" title="class in io.github.emcw">SquaremapAPI</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
 </div>
 </div>
 </div>

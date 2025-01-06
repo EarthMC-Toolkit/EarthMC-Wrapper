@@ -112,7 +112,8 @@ public class Funcs {
 
     public static EMCMap mapInstance(@NotNull String name) {
         EMCWrapper wrapper = EMCWrapper.instance();
-        return name.equals("nova") ? wrapper.getNova() : wrapper.getAurora();
+        return wrapper.getAurora();
+        //return name.equals("nova") ? wrapper.getNova() : wrapper.getAurora();
     }
 
     @Contract(pure = true)

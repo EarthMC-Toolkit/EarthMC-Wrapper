@@ -63,7 +63,8 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     }
 
     private static EMCMap getMap(String name) {
-        return Objects.equals(name, "nova") ? instance().getNova() : instance().getAurora();
+        return instance().getAurora();
+        //return Objects.equals(name, "nova") ? instance().getNova() : instance().getAurora();
     }
 
     /**
@@ -120,7 +121,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     }
 
     /**
-     * <p>Check if this player is online in the inputted map.</p>
+     * <p>Check if this player is online for the given map.</p>
      * @return true/false if the player is online.
      */
     public boolean online(String map) {

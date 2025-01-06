@@ -8,7 +8,7 @@ import io.github.emcw.map.entities.Nation;
 import io.github.emcw.map.entities.Player;
 import io.github.emcw.map.entities.Resident;
 import io.github.emcw.map.entities.Town;
-import io.github.emcw.utils.http.SquaremapAPI;
+import io.github.emcw.SquaremapAPI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,17 +35,17 @@ public class SquaremapParser {
     }
 
     public static void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        JsonArray mapData = SquaremapAPI.mapData();
-        if (mapData.size() < 1) return;
+        JsonArray data = SquaremapAPI.mapData();
+        if (data.size() < 1) return;
     }
 
     public static void parsePlayerData() {
-        JsonArray pData = SquaremapAPI.playerData().getAsJsonArray("players");
-        if (pData.size() < 1) return;
+        JsonArray data = SquaremapAPI.playerData().getAsJsonArray("players");
+        if (data.size() < 1) return;
 
         rawPlayers.invalidateAll();
 
-        arrAsStream(pData).forEach(p -> {
+        arrAsStream(data).forEach(p -> {
             JsonObject curPlayer = p.getAsJsonObject();
             String name = keyAsStr(curPlayer, "name");
             String uuid = keyAsStr(curPlayer, "uuid");

@@ -1,8 +1,10 @@
-package io.github.emcw.utils.http;
+package io.github.emcw;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.utils.http.Endpoints;
+import io.github.emcw.utils.http.JSONRequest;
 
 import java.util.Objects;
 
@@ -14,7 +16,7 @@ public final class SquaremapAPI {
     }
 
     private static JsonElement get(String type) {
-        JsonObject endpoint = JSONRequest.getEndpoints().getIfPresent("squaremap");
+        JsonObject endpoint = Endpoints.get().getIfPresent("squaremap");
         if (endpoint != null) return JSONRequest.sendGet(endpoint.get(type).getAsString());
 
         throw new NullPointerException("Received `null` as endpoint URL.");

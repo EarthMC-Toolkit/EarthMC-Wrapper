@@ -30,7 +30,9 @@ public class GsonUtil {
     @Getter private static final Gson GSON = new GsonBuilder()
         .registerTypeAdapter(Color.class, new ColorAdapter())
         .registerTypeAdapter(Duration.class, new DurationAdapter())
-        .setPrettyPrinting().create();
+        .setPrettyPrinting()
+        .serializeNulls()
+        .create();
 
     public static String serialize(Object obj) {
         return GSON.toJson(obj, getType(obj));
@@ -93,14 +95,14 @@ public class GsonUtil {
         return convert(arr, int[].class);
     }
 
-    public static @NotNull JsonArray arrFromStrArr(String[] obj) {
-        JsonArray arr = new JsonArray();
-        for (String value : obj) {
-            arr.add(deserialize(value, JsonElement.class));
-        }
-
-        return arr;
-    }
+//    public static @NotNull JsonArray arrFromStrArr(String[] obj) {
+//        JsonArray arr = new JsonArray();
+//        for (String value : obj) {
+//            arr.add(deserialize(value, JsonElement.class));
+//        }
+//
+//        return arr;
+//    }
 
     public static Stream<String> strArrAsStream(@NotNull String[] arr) {
         return Stream.of(arr).toList().parallelStream();
@@ -204,5 +206,9 @@ public class GsonUtil {
         JsonObject obj = new JsonObject();
         map.forEach(obj::add);
         return obj;
+    }
+
+    public static JsonArray arrAsJsonArray(Object[] objects) {
+        return asTree(Arrays.asList(objects)).getAsJsonArray();
     }
 }

@@ -6,7 +6,8 @@ io.github.emcw.interfaces
 io.github.emcw.map.api
 io.github.emcw.map.entities
 io.github.emcw.oapi
-io.github.emcw.oapi.v3
+io.github.emcw.oapi.v3.types
+io.github.emcw.squaremap
 io.github.emcw.utils
 io.github.emcw.utils.http
 io.github.emcw.utils.parsers

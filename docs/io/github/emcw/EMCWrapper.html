@@ -78,7 +78,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EMCWrapper</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">The main entrypoint of this library. Allows initializing maps independently.
- <p>Holds an instance of <code>Aurora</code> map as well as itself.</p></div>
+ <p>Holds an instance of itself and a reference to all maps.</p></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -92,14 +92,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">EMCWrapper</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Returns a new wrapper instance.</div>
+<div class="block">Returns a new wrapper instance and initialize all maps.</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.EMCMap)" class="member-name-link">EMCWrapper</a><wbr>(<a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a>&nbsp;aurora)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.EMCMap...)" class="member-name-link">EMCWrapper</a><wbr>(<a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a>...&nbsp;maps)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Boolean)" class="member-name-link">EMCWrapper</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;aurora)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Returns a new <a href="EMCWrapper.html" title="class in io.github.emcw"><code>EMCWrapper</code></a> instance.</div>
-</div>
 </div>
 </section>
 </li>
@@ -108,15 +104,18 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="EMCWrapper.html" title="class in io.github.emcw">EMCWrapper</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#instance()" class="member-name-link">instance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMap(io.github.emcw.KnownMap)" class="member-name-link">getMap</a><wbr>(<a href="KnownMap.html" title="enum class in io.github.emcw">KnownMap</a>&nbsp;map)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="EMCWrapper.html" title="class in io.github.emcw">EMCWrapper</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#instance()" class="member-name-link">instance</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -138,25 +137,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>EMCWrapper</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span>()</div>
-<div class="block">Returns a new wrapper instance. Both maps are initialized by default.</div>
+<div class="block">Returns a new wrapper instance and initialize all maps.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.emcw.EMCMap)">
+<section class="detail" id="&lt;init&gt;(io.github.emcw.EMCMap...)">
 <h3>EMCWrapper</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span><wbr><span class="parameters">(<a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a>&nbsp;aurora)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(java.lang.Boolean)">
-<h3>EMCWrapper</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;aurora)</span></div>
-<div class="block">Returns a new <a href="EMCWrapper.html" title="class in io.github.emcw"><code>EMCWrapper</code></a> instance.
- Maps may be initialized independently by passing their respective boolean values.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>aurora</code> - Enable initialization of the <code>Aurora</code> map.</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span><wbr><span class="parameters">(<a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a>...&nbsp;maps)</span></div>
 </section>
 </li>
 </ul>
@@ -167,6 +154,12 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="getMap(io.github.emcw.KnownMap)">
+<h3>getMap</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a></span>&nbsp;<span class="element-name">getMap</span><wbr><span class="parameters">(<a href="KnownMap.html" title="enum class in io.github.emcw">KnownMap</a>&nbsp;map)</span></div>
+</section>
+</li>
 <li>
 <section class="detail" id="instance()">
 <h3>instance</h3>

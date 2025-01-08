@@ -13,27 +13,29 @@ import java.util.Map;
 import static io.github.emcw.utils.Funcs.collectEntities;
 import static io.github.emcw.utils.GsonUtil.streamValues;
 
-record Route(Nation nation, Integer distance, String direction) {}
-record RouteType(boolean avoidPvp, boolean avoidPublic) {
-    public static final RouteType SAFEST = new RouteType(true, true);
-    public static final RouteType FASTEST = new RouteType(false, false);
-    public static final RouteType AVOID_PUBLIC = new RouteType(false, true);
-    public static final RouteType AVOID_PVP = new RouteType(true, false);
-}
-
 public class GPS extends EventEmitter<Object> {
-    private final EMCMap parent;
-
     private final Location lastLoc = null;
     private final Location emittedHidden = null;
 
-    public GPS(EMCMap parent) {
-        this.parent = parent;
+    Towns towns;
+    Nations nations;
+
+    public record Route(Nation nation, Integer distance, String direction) {}
+    public record RouteType(boolean avoidPvp, boolean avoidPublic) {
+        public static final RouteType SAFEST = new RouteType(true, true);
+        public static final RouteType FASTEST = new RouteType(false, false);
+        public static final RouteType AVOID_PUBLIC = new RouteType(false, true);
+        public static final RouteType AVOID_PVP = new RouteType(true, false);
     }
 
-    public GPS track() {
-        return this;
+    public GPS(@NotNull EMCMap mapInstance) {
+        towns = mapInstance.Towns;
+        nations = mapInstance.Nations;
     }
+
+//    public GPS track() {
+//        return this;
+//    }
 
     public Route safestRoute(Location loc) {
         return findRoute(loc, RouteType.SAFEST);
@@ -49,8 +51,8 @@ public class GPS extends EventEmitter<Object> {
                 .printStackTrace();
         }
 
-        Map<String, Town> towns = this.parent.Towns.all();
-        Map<String, Nation> nations = this.parent.Nations.all();
+        Map<String, Town> towns = this.towns.all();
+        Map<String, Nation> nations = this.nations.all();
 
         Map<String, Nation> filtered = collectEntities(streamValues(nations).filter(nation -> {
             Town capital = nation.getCapital();

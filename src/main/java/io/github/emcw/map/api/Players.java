@@ -2,15 +2,17 @@ package io.github.emcw.map.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.gson.JsonObject;
+import io.github.emcw.EMCMap;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.EMCMap;
+
 import io.github.emcw.map.entities.Location;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.map.entities.Player;
 import io.github.emcw.map.entities.Resident;
 import io.github.emcw.utils.parsers.SquaremapParser;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,11 +25,11 @@ import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
 public class Players extends BaseCache<Player> implements ILocatable<Player> {
-    private final EMCMap parent;
+    Residents residents;
 
-    public Players(EMCMap parent, CacheOptions options) {
+    public Players(@NotNull EMCMap mapInstance, CacheOptions options) {
         super(options);
-        this.parent = parent;
+        residents = mapInstance.Residents;
 
         setUpdater(this::forceUpdate);
         build();
@@ -51,13 +53,14 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
         Cache<String, Player> players = SquaremapParser.parsedPlayers();
 
         // Make sure we have data to use.
-        if (!players.asMap().isEmpty())
+        if (players != null && !players.asMap().isEmpty()) {
             setCache(players);
+        }
     }
 
     public Map<String, Player> all() {
         // Merge residents & online players (townless will not include keys 'town', 'nation' and 'rank')
-        return mergeWith(parent.Residents.all());
+        return mergeWith(residents.all());
     }
 
     @Override

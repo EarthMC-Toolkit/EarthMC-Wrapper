@@ -1,16 +1,16 @@
-package io.github.emcw;
+package io.github.emcw.oapi;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import io.github.emcw.oapi.v3.Point2D;
+import io.github.emcw.KnownMap;
+import io.github.emcw.oapi.v3.types.DiscordReqObj;
+import io.github.emcw.oapi.v3.types.Point2D;
+import io.github.emcw.oapi.v3.types.RequestBodyV3;
 import io.github.emcw.utils.http.JSONRequest;
 
-import io.github.emcw.oapi.v3.DiscordReqObj;
-import io.github.emcw.oapi.v3.RequestBodyV3;
-
-
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,13 +22,10 @@ import org.jetbrains.annotations.Nullable;
 public class OfficialAPI {
     public static String DOMAIN = "https://api.earthmc.net";
 
-    private static String formattedUrl(String endpoint) {
+    @Contract(pure = true)
+    private static @NotNull String formattedUrl(String endpoint) {
         // Remove all leading slashes, ensuring only one exists.
         return DOMAIN + "/" + endpoint.replaceAll("^/+", "");
-    }
-
-    public enum Maps {
-        AURORA
     }
 
     /**
@@ -40,14 +37,15 @@ public class OfficialAPI {
     public static class V3 {
         public final String MAP_ENDPOINT;
 
-        public V3(Maps map) {
-            this.MAP_ENDPOINT = "/v3/" + map.name().toLowerCase();
+        @Contract(pure = true)
+        public V3(@NotNull KnownMap map) {
+            this.MAP_ENDPOINT = "/v3/" + map.getName();
         }
 
         /**
          * Sends a GET request to the given endpoint.<br><br>
          * To send a POST request, provide a {@link RequestBodyV3} as the second argument.
-         * @param endpoint The endpoint after the domain. Example: "/towns"
+         * @param endpoint The endpoint after the base endpoint. Ex: "/towns"
          * @see #sendRequest(String, RequestBodyV3)
          * @return The received response as a base element. See {@link JsonElement}.
          */
@@ -57,7 +55,7 @@ public class OfficialAPI {
 
         /**
          * Sends a POST request to the given endpoint with a valid body.
-         * @param endpoint The endpoint after the domain. Example: "/towns"
+         * @param endpoint The endpoint after the base endpoint. Ex: "/towns"
          * @param body The body to send along with the request - the schema must match what is required for the endpoint.
          * @return The received response as a base element. See {@link JsonElement}.
          */
@@ -72,7 +70,7 @@ public class OfficialAPI {
         }
 
         public @Nullable JsonArray discord(DiscordReqObj[] objs) {
-            JsonElement res = sendRequest("/players", new RequestBodyV3(objs));
+            JsonElement res = sendRequest("/discord", new RequestBodyV3(objs));
             return res == null ? null : res.getAsJsonArray();
         }
 

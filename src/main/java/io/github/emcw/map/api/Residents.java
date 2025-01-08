@@ -1,23 +1,20 @@
 package io.github.emcw.map.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
+
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.EMCMap;
 import io.github.emcw.map.entities.Resident;
 import io.github.emcw.exceptions.MissingEntryException;
-
 import io.github.emcw.utils.parsers.SquaremapParser;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 public class Residents extends BaseCache<Resident> {
-    private final EMCMap parent;
-
-    public Residents(EMCMap parent, CacheOptions options) {
+    public Residents(CacheOptions options) {
         super(options);
-        this.parent = parent;
 
         setUpdater(this::forceUpdate);
         forceUpdate();
@@ -42,7 +39,7 @@ public class Residents extends BaseCache<Resident> {
         Cache<String, Resident> residents = SquaremapParser.parsedResidents();
 
         // Make sure we're using valid data
-        if (!residents.asMap().isEmpty())
+        if (residents != null && !residents.asMap().isEmpty())
             setCache(residents);
     }
 

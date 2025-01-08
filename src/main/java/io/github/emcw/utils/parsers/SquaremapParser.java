@@ -2,13 +2,16 @@ package io.github.emcw.utils.parsers;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import io.github.emcw.map.entities.Nation;
 import io.github.emcw.map.entities.Player;
 import io.github.emcw.map.entities.Resident;
 import io.github.emcw.map.entities.Town;
-import io.github.emcw.SquaremapAPI;
+import io.github.emcw.squaremap.SquaremapAPI;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,12 +39,12 @@ public class SquaremapParser {
 
     public static void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
         JsonArray data = SquaremapAPI.mapData();
-        if (data.size() < 1) return;
+        if (data.isEmpty()) return;
     }
 
     public static void parsePlayerData() {
         JsonArray data = SquaremapAPI.playerData().getAsJsonArray("players");
-        if (data.size() < 1) return;
+        if (data.isEmpty()) return;
 
         rawPlayers.invalidateAll();
 

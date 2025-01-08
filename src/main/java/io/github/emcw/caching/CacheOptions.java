@@ -6,11 +6,13 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+@Setter
+@SuppressWarnings("unused")
 public class CacheOptions {
-    @Setter public long expiry = 3;
-    @Setter public TimeUnit unit = TimeUnit.MINUTES;
+    public long expiry = 3;
+    public TimeUnit unit = TimeUnit.MINUTES;
 
-    @Setter public CacheStrategy strategy = CacheStrategy.TIME_BASED;
+    public CacheStrategy strategy = CacheStrategy.TIME_BASED;
 
     public CacheOptions(CacheStrategy strategy) {
         setStrategy(strategy);

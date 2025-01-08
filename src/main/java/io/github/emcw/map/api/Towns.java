@@ -1,23 +1,22 @@
 package io.github.emcw.map.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
+
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.EMCMap;
 import io.github.emcw.map.entities.Town;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.utils.parsers.SquaremapParser;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 public class Towns extends BaseCache<Town> implements ILocatable<Town> {
-    private final EMCMap parent;
 
-    public Towns(EMCMap parent, CacheOptions options) {
+    public Towns(CacheOptions options) {
         super(options);
-        this.parent = parent;
 
         setUpdater(this::forceUpdate);
         build();
@@ -40,7 +39,7 @@ public class Towns extends BaseCache<Town> implements ILocatable<Town> {
         Cache<String, Town> towns = SquaremapParser.parsedTowns();
 
         // Make sure were using valid data.
-        if (!towns.asMap().isEmpty())
+        if (towns != null && !towns.asMap().isEmpty())
             setCache(towns);
     }
 

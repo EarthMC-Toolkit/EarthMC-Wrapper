@@ -13,6 +13,7 @@ import java.util.stream.StreamSupport;
 
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
+@SuppressWarnings("unused")
 public class Resident extends Player implements ISerializable {
     @Getter private String town, nation, rank;
 

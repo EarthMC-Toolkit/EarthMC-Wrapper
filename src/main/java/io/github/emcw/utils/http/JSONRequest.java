@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class JSONRequest {
-    public static final MediaType contentType = MediaType.parse("application/json; charset=utf-8");
-
     static final okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     private static final OkHttpClient client = new OkHttpClient.Builder()
             .callTimeout(10, TimeUnit.SECONDS)
@@ -27,15 +25,14 @@ public class JSONRequest {
             .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
             .build();
 
+    public static final MediaType contentType = MediaType.parse("application/json; charset=utf-8");
     static final List<Integer> CODES = List.of(new Integer[]{ 200, 203, 304 });
-
-    @SuppressWarnings("SameReturnValue")
-
 
     // Send GET request and get a JSON response back.
     public static @Nullable JsonElement sendGet(String url) {
         try {
-            return JsonParser.parseString(execGet(url));
+            String res = execGet(url);
+            return JsonParser.parseString(res);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -75,7 +72,7 @@ public class JSONRequest {
 
             return parseBody(response);
         } catch (Exception e) {
-            throw new APIException("Failed GET request!\n" + e.getMessage());
+            throw new APIException("Failed GET request! Endpoint: " + url + "\n" + e.getMessage());
         }
     }
 

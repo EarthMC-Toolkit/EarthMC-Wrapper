@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked, unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonUtil {
     @Getter private static final Gson GSON = new GsonBuilder()
@@ -94,15 +94,6 @@ public class GsonUtil {
     public static int[] arrToIntArr(@NotNull JsonArray arr) {
         return convert(arr, int[].class);
     }
-
-//    public static @NotNull JsonArray arrFromStrArr(String[] obj) {
-//        JsonArray arr = new JsonArray();
-//        for (String value : obj) {
-//            arr.add(deserialize(value, JsonElement.class));
-//        }
-//
-//        return arr;
-//    }
 
     public static Stream<String> strArrAsStream(@NotNull String[] arr) {
         return Stream.of(arr).toList().parallelStream();
@@ -209,6 +200,6 @@ public class GsonUtil {
     }
 
     public static JsonArray arrAsJsonArray(Object[] objects) {
-        return asTree(Arrays.asList(objects)).getAsJsonArray();
+        return asTree(List.of(objects)).getAsJsonArray();
     }
 }

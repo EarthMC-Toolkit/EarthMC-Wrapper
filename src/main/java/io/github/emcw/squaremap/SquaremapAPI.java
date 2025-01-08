@@ -1,4 +1,4 @@
-package io.github.emcw;
+package io.github.emcw.squaremap;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -47,7 +47,7 @@ public final class SquaremapAPI {
                   .orElseThrow();
             return towny.getAsJsonObject().get("markers").getAsJsonArray();
         } catch (Exception e) {
-            System.out.println("" +
+            System.out.println(
                 "Error fetching Squaremap map data!\n" +
                 "Received response may be incorrectly formatted.\n\n" + e.getMessage()
             );

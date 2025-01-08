@@ -1,4 +1,4 @@
-package io.github.emcw.oapi.v3;
+package io.github.emcw.oapi.v3.types;
 
 import io.github.emcw.interfaces.ISerializable;
 

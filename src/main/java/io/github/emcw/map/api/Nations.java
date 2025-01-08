@@ -1,23 +1,20 @@
 package io.github.emcw.map.api;
 
-import com.github.benmanes.caffeine.cache.Cache;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.EMCMap;
+
 import io.github.emcw.map.entities.Nation;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
-import io.github.emcw.utils.parsers.SquaremapParser;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 public class Nations extends BaseCache<Nation> implements ILocatable<Nation> {
-    private final EMCMap parent;
 
-    public Nations(EMCMap parent, CacheOptions options) {
+    public Nations(CacheOptions options) {
         super(options);
-        this.parent = parent;
 
         setUpdater(this::forceUpdate);
         build();

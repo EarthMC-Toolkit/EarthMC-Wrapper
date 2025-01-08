@@ -2,10 +2,9 @@ package io.github.emcw.map.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.emcw.KnownMap;
 import io.github.emcw.exceptions.MissingEntryException;
-import io.github.emcw.interfaces.IPlayerCollective;
 import io.github.emcw.interfaces.ISerializable;
-import io.github.emcw.map.api.Towns;
 import io.github.emcw.utils.Funcs;
 import io.github.emcw.utils.GsonUtil;
 import lombok.Getter;
@@ -15,11 +14,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
+import static io.github.emcw.EMCWrapper.instance;
 import static io.github.emcw.utils.Funcs.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
-public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISerializable {
+public class Nation extends BaseEntity<Nation> implements ISerializable {
     Capital capital;
     @Getter List<String> towns;
     @Getter List<Resident> residents;
@@ -28,17 +28,18 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
 
     // Not exposed to serialization.
     private transient List<String> residentNames;
-    private final transient String mapName;
+    private final transient KnownMap map;
 
     /**
      * Creates a new Nation by parsing raw data.<br>
      * <font color="#e38c1b">Should <b>NOT</b> be called explicitly unless you know what you are doing!</font>
      * @param obj The unparsed data required to build this object.
+     * @param map The map this nation currently resides in.
      */
-    public Nation(JsonObject obj, String mapName) {
+    public Nation(JsonObject obj, KnownMap map) {
         super();
 
-        this.mapName = mapName;
+        this.map = map;
         init(obj);
     }
 
@@ -56,9 +57,8 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
     }
 
     public Town getCapital() {
-        Towns towns = mapInstance(mapName).Towns;
         try {
-            return towns.single(capital.getName());
+            return instance().getMap(map).Towns.single(capital.getName());
         } catch (MissingEntryException e) {
             return new Town(capital);
         }
@@ -66,7 +66,7 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
 
     // TODO: Finish invitableTowns
     public Map<String, Town> invitableTowns() {
-        Stream<Entry<String, Town>> towns = GsonUtil.streamEntries(mapInstance(mapName).Towns.all());
+        Stream<Entry<String, Town>> towns = GsonUtil.streamEntries(instance().getMap(map).Towns.all());
         return collectEntities(towns.map(entry -> {
             Town town = entry.getValue();
             if (town.nation == null) {
@@ -74,7 +74,7 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
                 Location capitalLoc = getCapital().getLocation();
 
                 // In range, return the town
-                int inviteRange = mapName.equals("nova") ? 3000 : 3500;
+                int inviteRange = map == KnownMap.AURORA ? 3500 : 3000;
                 if (manhattan(capitalLoc, townLoc) < inviteRange) {
                     return town;
                 }
@@ -93,12 +93,4 @@ public class Nation extends BaseEntity<Nation> implements IPlayerCollective, ISe
         return residentNames;
     }
 
-    /**
-     * All residents that are online in this Nation.
-     * @return A map of Residents with their entity {@link #name} being used as their respective keys.
-     * @see #onlineResidents(List, BaseEntity)
-     */
-    public Map<String, Resident> onlineResidents() {
-        return onlineResidents(residents, parent);
-    }
 }

@@ -11,9 +11,11 @@ import io.github.emcw.map.api.GPS;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("unused")
 public class EMCMap {
     @Getter final String mapName;
 
@@ -26,8 +28,8 @@ public class EMCMap {
     final CacheOptions lazyOpts = new CacheOptions(2, TimeUnit.SECONDS, CacheStrategy.LAZY);
     final CacheOptions timedOpts = new CacheOptions(3, TimeUnit.MINUTES, CacheStrategy.TIME_BASED);
 
-    public EMCMap(String mapName) {
-        this.mapName = mapName;
+    public EMCMap(@NotNull KnownMap map) {
+        this.mapName = map.getName();
         initCaches();
 
         setGPS(new GPS(this));
@@ -40,9 +42,9 @@ public class EMCMap {
     public EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache, boolean prefill) {
         this.mapName = mapName;
 
-        setTowns(new Towns(this, mapDataCache));
-        setNations(new Nations(this, mapDataCache));
-        setResidents(new Residents(this, mapDataCache));
+        setTowns(new Towns(mapDataCache));
+        setNations(new Nations(mapDataCache));
+        setResidents(new Residents(mapDataCache));
         setPlayers(new Players(this, playerDataCache));
 
         if (prefill) prefill();
@@ -51,9 +53,9 @@ public class EMCMap {
     }
 
     private void initCaches() {
-        setTowns(new Towns(this, timedOpts));
-        setNations(new Nations(this, timedOpts));
-        setResidents(new Residents(this, timedOpts));
+        setTowns(new Towns(timedOpts));
+        setNations(new Nations(timedOpts));
+        setResidents(new Residents(timedOpts));
         setPlayers(new Players(this, lazyOpts));
 
         prefill();

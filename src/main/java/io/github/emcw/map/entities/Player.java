@@ -1,18 +1,15 @@
 package io.github.emcw.map.entities;
 
 import com.google.gson.JsonObject;
-import io.github.emcw.EMCMap;
-import io.github.emcw.exceptions.MissingEntryException;
+
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import static io.github.emcw.EMCWrapper.instance;
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
@@ -58,25 +55,10 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     }
 
     public void setLocation(JsonObject obj, @NotNull Boolean parsed) {
-        Location loc = parsed ? Location.fromObj(obj.getAsJsonObject("location")) : Location.fromObj(obj);
-        if (loc.valid()) location = loc;
-    }
-
-    private static EMCMap getMap(String name) {
-        return instance().getAurora();
-        //return Objects.equals(name, "nova") ? instance().getNova() : instance().getAurora();
-    }
-
-    /**
-     * <p>Converts this player into a {@link Resident}.<br>
-     * Essentially equivalent to a "downcast", adding new fields and methods found in {@link Resident},
-     * keeping all existing info the same. </p>
-     * @param mapName The map used to retrieve the resident from. If invalid, Aurora will be assumed.
-     * @return The {@link Resident} instance if found, otherwise a {@link MissingEntryException}.
-     */
-    public Resident asResident(String mapName) throws MissingEntryException {
-        Resident res = getMap(mapName).Residents.single(name);
-        return new Resident(asTree(res), this);
+        Location loc = Location.fromObj(parsed ? obj.getAsJsonObject("location") : obj);
+        if (loc.valid()) {
+            location = loc;
+        }
     }
 
     /**
@@ -118,23 +100,5 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
      */
     public boolean isResident() {
         return isResident != null && isResident;
-    }
-
-    /**
-     * <p>Check if this player is online for the given map.</p>
-     * @return true/false if the player is online.
-     */
-    public boolean online(String map) {
-        return getMap(map).Players.online().containsKey(name);
-    }
-
-    /**
-     * <p>Static helper method for retrieving an online {@link Player}.</p>
-     * @param mapName The map this player is online in.<br> If invalid map is inputted, Aurora will be assumed.
-     * @param playerName The name of the player we want to retrieve.
-     * @return A new instance of this class
-     */
-    public static @Nullable Player getOnline(String mapName, String playerName) {
-        return getMap(mapName).Players.getOnline(playerName);
     }
 }

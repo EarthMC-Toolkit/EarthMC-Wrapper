@@ -1,10 +1,9 @@
 package io.github.emcw.utils;
 
-import io.github.emcw.EMCMap;
-import io.github.emcw.EMCWrapper;
 import io.github.emcw.map.entities.BaseEntity;
 import io.github.emcw.map.entities.Location;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -22,11 +21,7 @@ import static io.github.emcw.utils.GsonUtil.strArrAsStream;
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
-    private static final Safelist whitelist = new Safelist().addAttributes("a", "href");
-
-    public static Safelist getWhitelist() {
-        return whitelist;
-    }
+    @Getter private static final Safelist whitelist = new Safelist().addAttributes("a", "href");
 
     public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
@@ -108,12 +103,6 @@ public class Funcs {
 
     public static @NotNull IntStream streamInts(int... ints) {
         return IntStream.of(ints).parallel();
-    }
-
-    public static EMCMap mapInstance(@NotNull String name) {
-        EMCWrapper wrapper = EMCWrapper.instance();
-        return wrapper.getAurora();
-        //return name.equals("nova") ? wrapper.getNova() : wrapper.getAurora();
     }
 
     @Contract(pure = true)

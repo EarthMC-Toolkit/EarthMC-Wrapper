@@ -1,7 +1,7 @@
 package io.github.emcw.map.entities;
 
 import com.google.gson.JsonObject;
-import io.github.emcw.interfaces.IPlayerCollective;
+
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
@@ -9,13 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
-public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerializable {
+public class Town extends BaseEntity<Town> implements ISerializable {
     @Getter String mayor, nation;
     @Getter Integer area;
     @Getter Location location;
@@ -28,7 +27,7 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
         init(obj);
     }
 
-    public Town(Capital capital) {
+    public Town(@NotNull Capital capital) {
         super();
 
         setInfo(this, capital.getName());
@@ -63,9 +62,9 @@ public class Town extends BaseEntity<Town> implements IPlayerCollective, ISerial
         }
     }
 
-    public Map<String, Resident> onlineResidents() {
-        return onlineResidents(residents, parent);
-    }
+//    public Map<String, Resident> onlineResidents() {
+//
+//    }
 
     public boolean nationless() {
         return nation == null;

@@ -7,8 +7,7 @@ plugins {
 group = project.maven_group
 version = project.wrapper_version
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_17
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(23))
 
 allprojects {
     repositories {
@@ -27,10 +26,13 @@ allprojects {
 }
 
 dependencies {
+    //#region Plugins
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    //#endregion
+
     //#region Implementations for 'main'
     compileOnly 'org.jetbrains:annotations:24.0.0'
-
-    implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.jsoup:jsoup:1.15.4'
@@ -41,6 +43,8 @@ dependencies {
 
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.5'
     implementation 'com.github.jafarlihi:eemit:0.1.0'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
     //#endregion
 
     //#region Implementations for 'test'
@@ -48,11 +52,6 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-    //#endregion
-
-    //#region Plugins
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
     //#endregion
 }
 
@@ -71,6 +70,7 @@ publishing {
     java {
         tasks.withType(Javadoc).configureEach {
             failOnError false
+
             options.addStringOption('Xdoclint:none', '-quiet')
             options.addStringOption('encoding', 'UTF-8')
             options.addStringOption('charSet', 'UTF-8')
@@ -103,6 +103,7 @@ publishing {
     }
 }
 
-test {
-    useJUnitPlatform()
-}
+// Uncomment when we have tests setup with JUnit.
+//test {
+//    useJUnitPlatform()
+//}

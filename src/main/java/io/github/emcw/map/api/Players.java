@@ -50,7 +50,7 @@ public class Players extends BaseCache<Player> implements ILocatable<Player> {
 
         // Parse player data into usable Player objects.
         SquaremapParser.parsePlayerData();
-        Cache<String, Player> players = SquaremapParser.parsedPlayers();
+        Cache<String, Player> players = SquaremapParser.getParsedPlayers();
 
         // Make sure we have data to use.
         if (players != null && !players.asMap().isEmpty()) {

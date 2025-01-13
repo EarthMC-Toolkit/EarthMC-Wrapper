@@ -12,47 +12,42 @@ import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location implements ISerializable {
     @Getter final Integer x;
+    @Getter final Integer y;
     @Getter final Integer z;
-    @Getter Integer yaw;
 
     /**
-     * <p>A location in 3D space.</p>
-     * @param x The coordinate on the x-axis (left/right)
-     * @param z The coordinate on the z-axis (forward/backward)
-     * @param yaw I have no fucking clue
-     */
-    public Location(Integer x, Integer z, Integer yaw) {
-        this(x, z);
-        this.yaw = yaw;
-    }
-
-    /**
-     * <p>A location in 2D space.</p>
-     * @param x The coordinate on the x-axis (left/right)
-     * @param z The coordinate on the z-axis (up/down)
+     * A point in 2D space.
+     * @param x The coordinate on the x-axis (left/right).
+     * @param z The coordinate on the z-axis (up/down).
      */
     public Location(Integer x, Integer z) {
         this.x = x;
+        this.y = null;
         this.z = z;
     }
 
     /**
-     * <p>Default location representing 0, 64, 0.</p>
+     * A point in 3D space.
+     * @param x The coordinate on the x-axis (left/right).
+     * @param y The coordinate on the z-axis (up/down).
+     * @param z The coordinate on the z-axis (forward/backward).
      */
-    public Location() {
-        this(0, 64, 0);
+    public Location(Integer x, Integer y, Integer z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     /**
-     * Check if this location is properly initialized.
-     * <br>Shorthand for <code>x != null && z != null;</code>
+     * Check if this location is properly initialized.<br><br>
+     * Shorthand for <code>x != null && z != null;</code>
      */
     public boolean valid() {
         return x != null && z != null;
     }
 
     /**
-     * Whether this location points to the map center.
+     * Whether this location points to the map center.<br><br>
      * Shorthand for <code>x == 0 && z == 0;</code>
      */
     public boolean isDefault() {

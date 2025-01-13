@@ -38,13 +38,14 @@ public final class SquaremapAPI {
     public static JsonArray mapData() {
         try {
             JsonElement data = get("map");
-
             JsonArray markersets = data.getAsJsonArray();
+
             JsonElement towny = arrAsStream(markersets)
                   .map(JsonElement::getAsJsonObject)
                   .filter(el -> Objects.equals(keyAsStr(el, "id"), "towny"))
                   .findFirst()
                   .orElseThrow();
+
             return towny.getAsJsonObject().get("markers").getAsJsonArray();
         } catch (Exception e) {
             System.out.println(

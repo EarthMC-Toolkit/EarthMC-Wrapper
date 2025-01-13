@@ -12,16 +12,22 @@ public class EMCWrapper {
     private static final java.util.Map<String, EMCMap> Maps = new HashMap<>();
 
     /**
-     * Returns a new wrapper instance and initialize all maps.
+     * Initializes all known maps.
+     * To only initialize the maps you need, simply provide any amount of KnownMap arguments.
+     * @see #EMCWrapper(KnownMap...) 
      */
     public EMCWrapper() {
-        initMap(new EMCMap(KnownMap.AURORA));
+        this(KnownMap.values());
         instance = this;
     }
 
-    public EMCWrapper(EMCMap... maps) {
-        for (EMCMap map : maps) {
-            initMap(map);
+    /**
+     * Initializes only the provided known maps.
+     * @see EMCWrapper
+     */
+    public EMCWrapper(KnownMap... maps) {
+        for (KnownMap map : maps) {
+            initMap(new EMCMap(map));
         }
     }
 
@@ -31,7 +37,6 @@ public class EMCWrapper {
 
     public EMCMap getMap(KnownMap map) {
         return Maps.get(map.getName());
-        //return Objects.equals(map.getName(), "nova") ? Nova : Aurora;
     }
 
     public static EMCWrapper instance() {

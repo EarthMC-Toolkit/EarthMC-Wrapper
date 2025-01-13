@@ -65,6 +65,10 @@ public class Funcs {
         return Math.abs(sum / div);
     }
 
+    public static int roundToNearest16(double value) {
+        return (int) (Math.round(value / 16) * 16);
+    }
+
     public static @NotNull Integer range(int[] args) {
         IntSummaryStatistics stat = streamInts(args).summaryStatistics();
         return Math.round((stat.getMin() + stat.getMax()) / 2f);
@@ -83,18 +87,13 @@ public class Funcs {
     }
 
     public static <T> List<T> removeListDuplicates(@NotNull List<T> list) {
-        return collectList(streamList(list), true);
+        return collectList(list.parallelStream(), true);
     }
 
-    public static <T> List<T> collectList(Stream<T> stream, Boolean noDuplicates) {
-        return (noDuplicates ? stream.distinct() : stream)
+    public static <T> List<T> collectList(Stream<T> stream, Boolean unique) {
+        return (unique ? stream.distinct() : stream)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
-    }
-
-    @Contract(pure = true)
-    public static <T> Stream<T> streamList(@NotNull List<T> list) {
-        return list.parallelStream();
     }
 
     public static @NotNull IntStream streamIntRange(int max, int @NotNull ... min) {

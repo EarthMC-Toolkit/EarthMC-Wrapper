@@ -2,6 +2,7 @@ package io.github.emcw.map.entities;
 
 import com.google.gson.JsonObject;
 
+import io.github.emcw.Direction;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.interfaces.ISerializable;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import static io.github.emcw.utils.GsonUtil.*;
 public class Player extends BaseEntity<Player> implements ISerializable, ILocatable<Player> {
     @Getter private String nickname;
     @Getter private Location location = null;
+    @Getter private Integer yaw;
 
     private transient String world = null;
     @Setter transient Boolean isResident = false;
@@ -100,5 +102,32 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
      */
     public boolean isResident() {
         return isResident != null && isResident;
+    }
+
+    public Direction facingDirection() throws IllegalArgumentException {
+        // Normalize the yaw to a value between 0 and 360 degrees
+        float normalized = (yaw % 360 + 360) % 360;
+
+        // Determine direction based on normalized value
+        if (337.5 <= normalized || 0 <= normalized && normalized < 22.5) {
+            return Direction.SOUTH;
+        } else if (22.5 <= normalized && normalized < 67.5) {
+            return Direction.SOUTHWEST;
+        } else if (67.5 <= normalized && normalized < 112.5) {
+            return Direction.WEST;
+        } else if (112.5 <= normalized && normalized < 157.5) {
+            return Direction.NORTHWEST;
+        } else if (157.5 <= normalized && normalized < 202.5) {
+            return Direction.NORTH;
+        } else if (202.5 <= normalized && normalized < 247.5) {
+            return Direction.NORTHEAST;
+        } else if (247.5 <= normalized && normalized < 292.5) {
+            return Direction.EAST;
+        } else if (292.5 <= normalized && normalized < 337.5) {
+            return Direction.SOUTHEAST;
+        }
+
+        // This should never occur since yaw is an integer and will always be
+        throw new IllegalArgumentException("Invalid yaw value: " + yaw);
     }
 }

@@ -36,11 +36,13 @@ public class Residents extends BaseCache<Resident> {
 
         // Parse player data into usable Player objects.
         SquaremapParser.parseMapData(false, false, true);
-        Cache<String, Resident> residents = SquaremapParser.parsedResidents();
+        Cache<String, Resident> residents = SquaremapParser.getParsedResidents();
 
-        // Make sure we're using valid data
-        if (residents != null && !residents.asMap().isEmpty())
-            setCache(residents);
+        // Make sure we're using valid data to populate the cache with.
+        if (residents == null) return;
+        if (residents.asMap().isEmpty()) return;
+
+        setCache(residents);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Towns extends BaseCache<Town> implements ILocatable<Town> {
 
         // Parse map data into usable Town objects.
         SquaremapParser.parseMapData(true, false, true);
-        Cache<String, Town> towns = SquaremapParser.parsedTowns();
+        Cache<String, Town> towns = SquaremapParser.getParsedTowns();
 
         // Make sure were using valid data.
         if (towns != null && !towns.asMap().isEmpty())

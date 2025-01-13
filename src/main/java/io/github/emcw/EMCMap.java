@@ -28,18 +28,18 @@ public class EMCMap {
     final CacheOptions lazyOpts = new CacheOptions(2, TimeUnit.SECONDS, CacheStrategy.LAZY);
     final CacheOptions timedOpts = new CacheOptions(3, TimeUnit.MINUTES, CacheStrategy.TIME_BASED);
 
-    public EMCMap(@NotNull KnownMap map) {
+    EMCMap(@NotNull KnownMap map) {
         this.mapName = map.getName();
         initCaches();
 
         setGPS(new GPS(this));
     }
 
-    public EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache) {
+    EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache) {
         this(mapName, mapDataCache, playerDataCache, false);
     }
 
-    public EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache, boolean prefill) {
+    EMCMap(String mapName, CacheOptions mapDataCache, CacheOptions playerDataCache, boolean prefill) {
         this.mapName = mapName;
 
         setTowns(new Towns(mapDataCache));

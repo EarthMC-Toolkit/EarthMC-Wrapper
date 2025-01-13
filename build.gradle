@@ -7,8 +7,6 @@ plugins {
 group = project.maven_group
 version = project.wrapper_version
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(23))
-
 allprojects {
     repositories {
         mavenCentral()
@@ -56,6 +54,11 @@ dependencies {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+        vendor = JvmVendorSpec.AZUL
+    }
+
     withSourcesJar()
     //withJavadocJar()
 }

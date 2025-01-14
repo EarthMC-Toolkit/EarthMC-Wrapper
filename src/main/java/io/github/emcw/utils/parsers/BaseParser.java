@@ -18,8 +18,8 @@ public class BaseParser {
     static final Cache<String, JsonObject> rawResidents = buildEmpty();
     static final Cache<String, JsonObject> rawPlayers = buildEmpty();
 
-    @Contract(" -> new")
-    static <K, V> @NotNull Cache<K, V> buildEmpty() {
+    @NotNull @Contract(" -> new")
+    static <K, V> Cache<K, V> buildEmpty() {
         return Caffeine.newBuilder().build();
     }
 

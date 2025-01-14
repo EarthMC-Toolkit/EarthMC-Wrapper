@@ -57,7 +57,7 @@ public class SquaremapParser extends BaseParser {
         JsonArray data = SquaremapAPI.mapData();
         if (data.isEmpty()) return;
 
-        // Remove all the data before computeIfAbsent runs - this ensures old data isn't kept.
+        // Remove all old data before computeIfAbsent runs.
         if (parseTowns) rawTowns.invalidateAll();
         if (parseNations) rawNations.invalidateAll();
         if (parseResidents) rawResidents.invalidateAll();

@@ -1,17 +1,15 @@
 # EarthMC-Wrapper
 [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://earthmc-toolkit.github.io/EarthMC-Wrapper/ "Go to project documentation")
 
-An unofficial Java API wrapper/client to interact with the [EarthMC Map](https://earthmc.net/map/aurora/) and [Official API](https://earthmc.net/docs/api).
-
-EMCW is built to be intuitive and optimized from the ground up.
-<br>This library takes advantage of the following:
+An unofficial Java API wrapper/client to interact with the [EarthMC Map](https://earthmc.net/map/aurora/) and [Official API](https://earthmc.net/docs/api).\
+EMCW is built to be intuitive and optimized as it takes advantage of the following:
 - Multithreading via the use of [Parallelism](https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html).
-- [Google GSON](https://github.com/google/gson) - For serialization/deserialization of classes and objects.
-- [Lombok Annotations](https://github.com/projectlombok/lombok) - Automates the process of writing getters/setters.
-- [Interfaces](https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html) and [Abstraction](https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html) to achieve multiple inheritance while increasing modularity and re-usability.
 - [Caffeine](https://github.com/ben-manes/caffeine) - High performance caching library built on top of `ConcurrentHashMap`, providing better concurrency & memory management with support for both size and time based eviction of entries.
+- [Google GSON](https://github.com/google/gson) - For serializing/deserializing objects to and from JSON.
+- [Lombok Annotations](https://github.com/projectlombok/lombok) - Automates the process of writing getters/setters.
+  
 ## Installation
-- ### Authenticate to GitHub Packages
+- ### Authenticate with GitHub Packages
 1. Head to `Account` -> `Developer Settings` -> `Personal Access Token (classic)` -> `Generate New Token`
 2. Give it any name and the appropriate repository permissions and hit 'Generate'
 3. On your local system, create two new system environment variables like so:
@@ -25,9 +23,9 @@ EMCW is built to be intuitive and optimized from the ground up.
     Value: yourTokenHere
     ```
 
-- ### Add package dependency to build file
-    #### Gradle (build.gradle)
-
+- ### Add package dependency to build file.
+  
+    `build.gradle`
     ```gradle
     repositories {
         maven {
@@ -45,8 +43,7 @@ EMCW is built to be intuitive and optimized from the ground up.
     }
     ```
 
-- ### Import and Initialize
-
+- ### Import and initialize.
     ```java
     import io.github.emcw.EMCMap;
     import io.github.emcw.EMCWrapper;
@@ -78,26 +75,25 @@ EMCW is built to be intuitive and optimized from the ground up.
 <br><br>
 > [Visit the Javadoc page.](https://earthmc-toolkit.github.io/EarthMC-Wrapper/index-all.html)
 
-<p><b>TLDR;</b><br>
-Since this library uses Lombok, it is most likely that fields you try to access are private, though public getters are provided.
-
-```java
-// Example EMCW class
-public class Nation {
-    @Getter String leader;
-}
-
-// Usage
-public class Test {
-    public static void main(String[] args) {
-        Nation exampleNation = Aurora.Nations.single("nationName");
-
-        // Here we can see Lombok in use.
-        String leader = exampleNation.leader; // Does not work
-        String leader = exampleNation.getLeader(); // Works
-    }
-}
-```
+> [!NOTE]
+> Since this library uses Lombok, it is most likely that fields you try to access are private, though public getters are provided.
+> ```java
+> // Example EMCW class
+> public class Nation {
+>     @Getter String leader;
+> }
+> 
+> // Usage
+> public class Test {
+>     public static void main(String[] args) {
+>         Nation exampleNation = Aurora.Nations.single("nationName");
+>
+>         // Here we can see Lombok in use.
+>         String leader = exampleNation.leader; // Does not work
+>         String leader = exampleNation.getLeader(); // Works
+>    }
+> }
+> ```
 </p>
 
 ### Map Classes

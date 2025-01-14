@@ -18,17 +18,18 @@ public class EMCWrapper {
      */
     public EMCWrapper() {
         this(KnownMap.values());
-        instance = this;
     }
 
     /**
-     * Initializes only the provided known maps.
+     * Initializes the provided known maps.
      * @see EMCWrapper
      */
     public EMCWrapper(KnownMap... maps) {
         for (KnownMap map : maps) {
             initMap(new EMCMap(map));
         }
+
+        instance = this;
     }
 
     private void initMap(EMCMap map) {

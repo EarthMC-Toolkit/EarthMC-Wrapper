@@ -1,7 +1,7 @@
+# EarthMC-Wrapper
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://earthmc-toolkit.github.io/EarthMC-Wrapper/ "Go to project documentation")
 
-
-# EarthMC-Wrapper [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://earthmc-toolkit.github.io/EarthMC-Wrapper/ "Go to project documentation")
-An unofficial Java API wrapper library allowing interaction with the [EarthMC Dynmap](https://earthmc.net/map/aurora/).
+An unofficial Java API wrapper/client to interact with the [EarthMC Map](https://earthmc.net/map/aurora/) and [Official API](https://earthmc.net/docs/api).
 
 EMCW is built to be intuitive and optimized from the ground up.
 <br>This library takes advantage of the following:
@@ -41,76 +41,71 @@ EMCW is built to be intuitive and optimized from the ground up.
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      api 'io.github.emcw:emc-wrapper:0.11.0'
+      api 'io.github.emcw:emc-wrapper:0.12.0'
     }
     ```
 
 - ### Import and Initialize
 
     ```java
-    import io.github.emcw.core.*;
-    import io.github.emcw.objects.*;
+    import io.github.emcw.EMCMap;
+    import io.github.emcw.EMCWrapper;
+    import io.github.emcw.KnownMap;
+    
     import java.util.Map;
 
     public class Main {
-        // Choose which maps we should initialize.
-        static EMCWrapper emc = new EMCWrapper(true, false);
-        static EMCMap Aurora, Nova;
-  
+        static final EMCWrapper emcw = new EMCWrapper(KnownMap.AURORA);
+        static final EMCMap auroraMap = emcw.getMap(KnownMap.AURORA);
+
+        static OfficialAPI.V3 auroraOAPI = new OfficialAPI.V3(KnownMap.AURORA);
+    
         public static void main(String[] args) {
-            Aurora = emc.getAurora(); // New instance of 'EMCMap'
-            Nova = emc.getNova(); // Will return 'null' since we set false
-  
-            doSomethingWithTowns();
-        }
-  
-        static void doSomethingWithTowns() {
-            Map<String, Town> all = Aurora.Towns.all();
+            // Call the map
+            Map<String, Town> all = auroraMap.Towns.all();
             System.out.println(all.size());
+
+            // Call the Official API
+            System.out.println(auroraOAPI.serverInfo());
         }
     }
     ```
   
 ## Documentation
-> **Javadoc**<br>
-> You currently won't see much documentation as you are using **EMCW**. However, I plan to gradually document new and existing fields, methods & classes post ***v1.0.0***.
+> [!NOTE]
+> You currently won't see much embedded documentation as you are using **EMCW**. However, I plan to gradually document new and existing fields, methods & classes post ***v1.0.0*** to give more context.
+> For now, the syntax should be closely similar to the [NPM Package](https://www.npmjs.com/package/earthmc) although wrapper/map initialization may slightly differ.
 <br><br>
-> [Go to Javadoc webpage.](https://earthmc-toolkit.github.io/EarthMC-Wrapper/index-all.html)
+> [Visit the Javadoc page.](https://earthmc-toolkit.github.io/EarthMC-Wrapper/index-all.html)
 
 <p><b>TLDR;</b><br>
-Since this library uses Lombok, it is most likely that fields you try to access are private.<br>
-Although public getters are provided which you can use like so:
+Since this library uses Lombok, it is most likely that fields you try to access are private, though public getters are provided.
 
 ```java
-// Example entity
+// Example EMCW class
 public class Nation {
-    @Getter List<String> towns;
     @Getter String leader;
 }
 
 // Usage
 public class Test {
-    // Here we can see Lombok in use.
-    // getAurora(), getTowns(), getLeader()
-    
-    EMCMap Aurora = new EMCWrapper(true, false).getAurora();
-    
     public static void main(String[] args) {
         Nation exampleNation = Aurora.Nations.single("nationName");
-        
-        String leader = exampleNation.getLeader();
-        Integer amtOfTowns = exampleNation.getTowns().size();
+
+        // Here we can see Lombok in use.
+        String leader = exampleNation.leader; // Does not work
+        String leader = exampleNation.getLeader(); // Works
     }
 }
 ```
 </p>
 
-- All map classes inherit methods:
+### Map Classes
+- All map classes inherit the following methods:
   - `.all()` - Retrieve the entire map of entities.
   - `.single("name")` - Retrieve a single entity by its name.
   - `.get("name", "anotherName")` - Returns a map of entities by inputting their names.
 
-### Map Classes
 <details>
   <summary><b>Towns</b></summary>
 </details>

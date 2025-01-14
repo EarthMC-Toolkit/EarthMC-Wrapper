@@ -1,11 +1,11 @@
 package io.github.emcw.utils;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import io.github.emcw.adapters.ColorAdapter;
 import io.github.emcw.adapters.DurationAdapter;
-import io.github.emcw.map.entities.BaseEntity;
-import io.github.emcw.map.entities.Player;
+
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,10 +95,6 @@ public class GsonUtil {
         return convert(arr, int[].class);
     }
 
-    public static Stream<String> strArrAsStream(@NotNull String[] arr) {
-        return Stream.of(arr).toList().parallelStream();
-    }
-
     public static Stream<JsonElement> arrAsStream(@NotNull JsonArray arr) {
         return arr.asList().parallelStream();
     }
@@ -122,31 +118,31 @@ public class GsonUtil {
         ).collect(Collectors.toMap(obj -> keyAsStr(obj, "name"), obj -> obj));
     }
 
-    public static Map<String, Player> difference(JsonArray ops, JsonArray residents) {
-        return difference(ops, residents, "name");
-    }
+//    public static Map<String, Player> difference(JsonArray ops, JsonArray residents) {
+//        return difference(ops, residents, "name");
+//    }
+//
+//    public static Map<String, Player> difference(JsonArray ops, JsonArray residents, String key) {
+//        Set<String> names = arrAsStream(residents).filter(Objects::nonNull)
+//                .map(res -> keyAsStr(res.getAsJsonObject(), key))
+//                .collect(Collectors.toSet());
+//
+//        Type playerListType = new TypeToken<List<Player>>(){}.getType();
+//        List<Player> playerList = deserialize(serialize(ops), playerListType);
+//
+//        return playerList.parallelStream()
+//                .filter(Objects::nonNull)
+//                .filter(op -> !names.contains(op.getName()))
+//                .collect(Collectors.toMap(BaseEntity::getName, Function.identity()));
+//    }
 
-    public static Map<String, Player> difference(JsonArray ops, JsonArray residents, String key) {
-        Set<String> names = arrAsStream(residents).filter(Objects::nonNull)
-                .map(res -> keyAsStr(res.getAsJsonObject(), key))
-                .collect(Collectors.toSet());
-
-        Type playerListType = new TypeToken<List<Player>>(){}.getType();
-        List<Player> playerList = deserialize(serialize(ops), playerListType);
-
-        return playerList.parallelStream()
-                .filter(Objects::nonNull)
-                .filter(op -> !names.contains(op.getName()))
-                .collect(Collectors.toMap(BaseEntity::getName, Function.identity()));
-    }
-
-    public static <T> JsonObject valueAsObj(Map.Entry<String, T> entry) {
-        return (JsonObject) entryVal(entry);
-    }
-
-    static <T> T entryVal(@NotNull Map.Entry<String, T> entry) {
-        return entry.getValue();
-    }
+//    public static <T> JsonObject valueAsObj(Map.Entry<String, T> entry) {
+//        return (JsonObject) entryVal(entry);
+//    }
+//
+//    static <T> T entryVal(@NotNull Map.Entry<String, T> entry) {
+//        return entry.getValue();
+//    }
 
     static JsonElement member(JsonObject o, String k) {
         return o == null ? null : o.get(k);
@@ -180,6 +176,12 @@ public class GsonUtil {
     public static String keyAsStr(JsonObject o, String k) {
         JsonElement key = member(o, k);
         return isNull(key) ? null : key.getAsString();
+    }
+
+    @Nullable
+    public static Double keyAsDouble(JsonObject o, String k) {
+        JsonElement key = member(o, k);
+        return isNull(key) ? null : key.getAsDouble();
     }
 
     public static JsonArray keyAsArr(JsonObject obj, String key) {

@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static io.github.emcw.utils.GsonUtil.strArrAsStream;
-
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
@@ -45,8 +43,8 @@ public class Funcs {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static boolean arrayHas(String[] arr, @NotNull String str) {
-       return strArrAsStream(arr).anyMatch(str::equals);
+    public static boolean strArrHas(String[] arr, @NotNull String str) {
+       return streamStrArr(arr).anyMatch(str::equals);
     }
 
     public static int calcArea(int[] X, int[] Z) {
@@ -65,13 +63,17 @@ public class Funcs {
         return Math.abs(sum / div);
     }
 
+    public static int roundToNearest16(int value) {
+        return Math.round((float) value / 16) * 16;
+    }
+
     public static int roundToNearest16(double value) {
         return (int) (Math.round(value / 16) * 16);
     }
 
-    public static @NotNull Integer range(int[] args) {
-        IntSummaryStatistics stat = streamInts(args).summaryStatistics();
-        return Math.round((stat.getMin() + stat.getMax()) / 2f);
+    public static @NotNull Integer range(int[] nums) {
+        IntSummaryStatistics stats = IntStream.of(nums).summaryStatistics();
+        return Math.round((stats.getMin() + stats.getMax()) / 2f);
     }
 
     public static Integer euclidean(int x1, int x2, int z1, int z2) {
@@ -100,8 +102,8 @@ public class Funcs {
         return IntStream.range(min.length < 1 ? 0 : min[0], max).parallel();
     }
 
-    public static @NotNull IntStream streamInts(int... ints) {
-        return IntStream.of(ints).parallel();
+    public static @NotNull Stream<String> streamStrArr(@NotNull String[] arr) {
+        return Stream.of(arr).toList().parallelStream();
     }
 
     @Contract(pure = true)

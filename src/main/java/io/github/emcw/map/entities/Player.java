@@ -13,7 +13,6 @@ import java.util.Objects;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-@SuppressWarnings("unused")
 public class Player extends BaseEntity<Player> implements ISerializable, ILocatable<Player> {
     @Getter private String nickname;
     @Getter private Location location = null;
@@ -22,30 +21,21 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
     private transient String world = null;
     @Setter transient Boolean isResident = false;
 
-    public Player(JsonObject obj) {
-        super();
-        init(obj, false);
-        setLocation(obj, false);
-    }
-
     public Player(JsonObject obj, Boolean resident) {
-        super();
         init(obj, resident);
         setLocation(obj, false);
     }
 
     public Player(JsonObject obj, Boolean resident, Boolean parsed) {
-        super();
         init(obj, resident);
         setLocation(obj, parsed);
     }
 
     public Player(@NotNull Player player) {
-        super();
-
         setInfo(this, player.getName());
         nickname = player.getNickname();
         location = player.getLocation();
+        yaw = player.getYaw();
         isResident = player.isResident();
     }
 

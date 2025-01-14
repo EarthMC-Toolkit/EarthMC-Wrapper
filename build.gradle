@@ -59,6 +59,10 @@ java {
         vendor = JvmVendorSpec.AZUL
     }
 
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs.add("-Xlint:unchecked")
+    }
+
     withSourcesJar()
     //withJavadocJar()
 }

@@ -1,7 +1,6 @@
 package io.github.emcw.squaremap;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import kotlin.Pair;
@@ -12,19 +11,20 @@ import io.github.emcw.map.entities.Location;
 
 import java.util.stream.IntStream;
 
+import static io.github.emcw.utils.Funcs.midrange;
 import static io.github.emcw.utils.Funcs.roundToNearest16;
 import static io.github.emcw.utils.GsonUtil.*;
 
 /**
- * Represents a map marker that gets "processed" when constructed, i.e. has its values set by
- * parsing info from its respective object (the passed argument) in the raw map response.
+ * Represents a map marker from the <a href="https://map.earthmc.net/tiles/minecraft_overworld/markers.json">Squaremap</a> API.
+ * When constructed, its values are set by parsing info from its respective object (the passed argument) in the response data.
  * <br><br>
  * You could look at this class as being somewhere between a raw JsonObject marker and a fully fledged
  * {@link io.github.emcw.map.entities.Town} or {@link io.github.emcw.map.entities.Nation}.
  * @see JsonObject
  */
 @SuppressWarnings("unused")
-public class ProcessedMarker {
+public class SquaremapMarker {
     public final String townName;
     public final String nationName;
     public final String board;
@@ -35,7 +35,7 @@ public class ProcessedMarker {
 
     final JsonArray points;
 
-    public ProcessedMarker(JsonObject rawMarkerObj) {
+    public SquaremapMarker(JsonObject rawMarkerObj) {
         var popup = parsePopup(keyAsStr(rawMarkerObj, "popup"));
         var tooltip = parseTooltip(keyAsStr(rawMarkerObj, "tooltip"));
 
@@ -52,25 +52,19 @@ public class ProcessedMarker {
     }
 
     /**
-     * Parses {@link #points} into two seperate arrays.<br><br>
+     * Parses {@link #points} into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
      * For example:<br>
      * <code>
-     *  [{
-     *      "x": 500,
-     *      "z": -200
-     *  }, {
-     *      "x": 7000,
-     *      "z: "80"
-     *  }]
+     *  [{ "x": 500, z": -200 }, { "x": 7000, "z: "80" }]
      * </code>
      * <br><br>
      * Would become:<br>
      * <code>
      *   Pair<[500, 7000], [-200, 80]>
      * </code>
-     * @return New pair of arrays. First is all X points, second is all Z points.
+     * @return New pair of int arrays. First = all points on the X axis. Second = all points on the Z axis.
      */
-    public Pair<int[], int[]> parsePoints() {
+    public Pair<int[], int[]> getBounds() {
         int size = points.size();
 
         int[] xPoints = new int[size];
@@ -90,10 +84,12 @@ public class ProcessedMarker {
     }
 
     public Location getLocation() {
-        Pair<int[], int[]> pointArrs = parsePoints();
-        
+        Pair<int[], int[]> bounds = getBounds();
 
-        return new Location();
+        Integer x = midrange(bounds.getFirst());
+        Integer z = midrange(bounds.getFirst());
+
+        return new Location(x, z);
     }
 
     public int getArea() {

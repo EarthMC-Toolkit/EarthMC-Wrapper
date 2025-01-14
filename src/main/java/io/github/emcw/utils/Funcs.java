@@ -28,15 +28,16 @@ public class Funcs {
         return map;
     }
 
-    @Contract("_ -> new")
-    public static <K, V> @NotNull List<V> mapToList(@NotNull Map<K, V> map) {
-        return new ArrayList<>(map.values());
-    }
+//    @Contract("_ -> new")
+//    public static <K, V> @NotNull List<V> mapToList(@NotNull Map<K, V> map) {
+//        return new ArrayList<>(map.values());
+//    }
 
     @SuppressWarnings("unchecked")
     public static <T> Map<String, T> collectEntities(@NotNull Stream<? extends BaseEntity<T>> stream) {
-        return (Map<String, T>) stream.filter(Objects::nonNull)
-                .collect(Collectors.toMap(BaseEntity::getName, Function.identity()));
+        return (Map<String, T>) stream.filter(Objects::nonNull).collect(
+            Collectors.toMap(BaseEntity::getName, Function.identity())
+        );
     }
 
     public static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
@@ -52,13 +53,13 @@ public class Funcs {
     }
 
     public static int calcArea(int[] X, int[] Z, int numPoints, int @NotNull ... divisor) {
-        IntStream ints = streamIntRange(numPoints).map(i -> {
+        IntStream ints = IntStream.range(0, numPoints).map(i -> {
             int j = (i + numPoints - 1) % numPoints;
             return (X[j] + X[i]) * (Z[j] - Z[i]);
         });
 
-        int sum = ints.sum() / 2,
-            div = divisor.length < 1 ? 256 : divisor[0];
+        int sum = ints.sum() / 2;
+        int div = divisor.length < 1 ? 256 : divisor[0];
 
         return Math.abs(sum / div);
     }
@@ -71,12 +72,18 @@ public class Funcs {
         return (int) (Math.round(value / 16) * 16);
     }
 
-    public static @NotNull Integer range(int[] nums) {
-        IntSummaryStatistics stats = IntStream.of(nums).summaryStatistics();
-        return Math.round((stats.getMin() + stats.getMax()) / 2f);
+    /**
+     * Applies the <a href="https://www.geeksforgeeks.org/mid-range/#mid-range-formula">Midrange Formula</a>
+     * to the input array, the result is then rounded to the nearest full integer.
+     * @param ints The input array of integers.
+     * @return The resulting int (rounded).
+     */
+    public static int midrange(int[] ints) {
+        IntSummaryStatistics stats = IntStream.of(ints).summaryStatistics();
+        return Math.round(stats.getMax() + stats.getMin() / 2f);
     }
 
-    public static Integer euclidean(int x1, int x2, int z1, int z2) {
+    public static int euclidean(int x1, int x2, int z1, int z2) {
         return (int) Math.hypot(x1 - x2, z1 - z2);
     }
 
@@ -96,10 +103,6 @@ public class Funcs {
         return (unique ? stream.distinct() : stream)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
-    }
-
-    public static @NotNull IntStream streamIntRange(int max, int @NotNull ... min) {
-        return IntStream.range(min.length < 1 ? 0 : min[0], max).parallel();
     }
 
     public static @NotNull Stream<String> streamStrArr(@NotNull String[] arr) {

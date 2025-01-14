@@ -1,6 +1,5 @@
 package io.github.emcw.utils.parsers;
 
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -10,7 +9,7 @@ import com.google.gson.JsonObject;
 
 import io.github.emcw.map.entities.*;
 import io.github.emcw.squaremap.SquaremapAPI;
-import io.github.emcw.squaremap.ProcessedMarker;
+import io.github.emcw.squaremap.SquaremapMarker;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -73,7 +72,7 @@ public class SquaremapParser extends BaseParser {
         Boolean parseTowns, Boolean parseNations, Boolean parseResidents
     ) {
         streamValues(mapData.asMap()).forEach(cur -> {
-            ProcessedMarker marker = new ProcessedMarker(cur.getAsJsonObject());
+            SquaremapMarker marker = new SquaremapMarker(cur.getAsJsonObject());
 
 //            if (parseTowns) {
 //                parseTowns(name, nation, mayorStr, wikiStr, residentNames, x, z, area, capital, info, fill, outline);

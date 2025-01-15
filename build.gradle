@@ -24,16 +24,11 @@ allprojects {
 }
 
 dependencies {
-    //#region Plugins
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
-    //#endregion
-
     //#region Implementations for 'main'
-    compileOnly 'org.jetbrains:annotations:24.0.0'
-
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.jsoup:jsoup:1.15.4'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.squareup.okhttp3:okhttp-brotli:4.12.0'
@@ -41,8 +36,6 @@ dependencies {
 
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
     //implementation 'com.github.jafarlihi:eemit:0.1.0' // TODO: Find maintained emitter lib or make own.
-
-    implementation 'com.google.code.gson:gson:2.10.1'
     //#endregion
 
     //#region Implementations for 'test'
@@ -51,16 +44,23 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
     //#endregion
+
+    //#region Plugins
+    compileOnly 'org.jetbrains:annotations:24.0.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    //#endregion
+}
+
+compileJava {
+    options.compilerArgs.add("-Xlint:unchecked")
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(jvm_version.toInteger())
         vendor = JvmVendorSpec.AZUL
-    }
-
-    tasks.withType(JavaCompile).configureEach {
-        options.compilerArgs.add("-Xlint:unchecked")
     }
 
     withSourcesJar()

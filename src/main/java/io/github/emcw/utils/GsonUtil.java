@@ -161,9 +161,10 @@ public class GsonUtil {
         return isNull(key) ? null : result;
     }
 
-    public static @NotNull Boolean keyAsBool(JsonObject o, String k) {
+    @Nullable
+    public static Boolean keyAsBool(JsonObject o, String k) {
         JsonElement key = member(o, k);
-        return key != null && key.getAsBoolean();
+        return isNull(key) ? null : key.getAsBoolean();
     }
 
     @Nullable

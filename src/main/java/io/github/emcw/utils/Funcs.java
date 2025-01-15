@@ -3,11 +3,10 @@ package io.github.emcw.utils;
 import io.github.emcw.map.entities.BaseEntity;
 import io.github.emcw.map.entities.Location;
 import lombok.AccessLevel;
-import lombok.Getter;
+
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jsoup.safety.Safelist;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,8 +18,6 @@ import java.util.stream.Stream;
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
-    @Getter private static final Safelist whitelist = new Safelist().addAttributes("a", "href");
-
     public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));

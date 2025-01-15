@@ -3,6 +3,7 @@ package io.github.emcw.caching;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.emcw.exceptions.MissingEntryException;
+import io.github.emcw.utils.Funcs;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -12,8 +13,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
-import static io.github.emcw.utils.GsonUtil.strArrAsStream;
 
 @SuppressWarnings("unused")
 public class BaseCache<V> {
@@ -56,7 +55,7 @@ public class BaseCache<V> {
     public Map<String, V> get(String @NotNull ... keys) {
         Map<String, V> result = new ConcurrentHashMap<>();
 
-        strArrAsStream(keys).forEach(k -> {
+        Funcs.streamStrArr(keys).forEach(k -> {
             V cur = _all().get(k);
             if (cur != null)
                 result.put(k, cur);

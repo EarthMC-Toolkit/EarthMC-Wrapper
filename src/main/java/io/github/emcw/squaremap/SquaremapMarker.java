@@ -3,6 +3,7 @@ package io.github.emcw.squaremap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import io.github.emcw.utils.Funcs;
 import kotlin.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,13 +26,13 @@ import static io.github.emcw.utils.GsonUtil.*;
  */
 @SuppressWarnings("unused")
 public class SquaremapMarker {
-    public final String townName;
-    public final String nationName;
-    public final String board;
-    public final boolean isCapital;
+    final String townName;
+    final String nationName;
+    final String board;
+    final boolean isCapital;
 
-    public final String type;
-    public final String fill, outline;
+    final String type;
+    final String fill, outline;
 
     final JsonArray points;
 
@@ -42,7 +43,7 @@ public class SquaremapMarker {
         this.townName = keyAsStr(tooltip, "townName");
         this.nationName = keyAsStr(tooltip, "nationName");
         this.board = keyAsStr(tooltip, "board");
-        this.isCapital = keyAsBool(tooltip, "capital");
+        this.isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
 
         this.fill = keyAsStr(rawMarkerObj, "fillcolor");
         this.outline = keyAsStr(rawMarkerObj, "color");
@@ -64,7 +65,7 @@ public class SquaremapMarker {
      * </code>
      * @return New pair of int arrays. First = all points on the X axis. Second = all points on the Z axis.
      */
-    public Pair<int[], int[]> getBounds() {
+    public static Pair<int[], int[]> getBounds(JsonArray points) {
         int size = points.size();
 
         int[] xPoints = new int[size];
@@ -83,24 +84,27 @@ public class SquaremapMarker {
         return new Pair<>(xPoints, zPoints);
     }
 
+    public Pair<int[], int[]> getBounds() {
+        return getBounds(this.points);
+    }
+
     public Location getLocation() {
         Pair<int[], int[]> bounds = getBounds();
 
         Integer x = midrange(bounds.getFirst());
-        Integer z = midrange(bounds.getFirst());
+        Integer z = midrange(bounds.getSecond());
 
         return new Location(x, z);
     }
 
     public int getArea() {
-        Location loc = getLocation();
-
-        return 0;
+        Pair<int[], int[]> bounds = getBounds();
+        return Funcs.calcArea(bounds.getFirst(), bounds.getSecond());
     }
 
     // Extracts mayor, residents, councillors, founded date, flags (pvp, public) and wiki links.
     // Can also extract what the tooltip can, but likely with more hassle.
-    public JsonObject parsePopup(String popupStr) {
+    public static JsonObject parsePopup(String popupStr) {
         JsonObject parsed = new JsonObject();
 
         return parsed;
@@ -108,7 +112,7 @@ public class SquaremapMarker {
 
     // Extracts town name, nation name and board.
     // We can also tell if it's a capital via the brackets content unlike the popup.
-    public JsonObject parseTooltip(String tooltipStr) {
+    public static JsonObject parseTooltip(String tooltipStr) {
         Document doc = Jsoup.parse(tooltipStr);
 
         // Town name is between the first set of <b></b>
@@ -116,13 +120,11 @@ public class SquaremapMarker {
 
         // Nation name is in the brackets, after the member/capital prefix.
         String divContent = doc.select("div").text();
-        int bracketIndex = divContent.indexOf(")");
 
         boolean isCapital = divContent.contains("Capital of");
         String nationName = divContent.substring(isCapital ?
-            divContent.indexOf("Capital of") + 10 :
-            divContent.indexOf("Member of") + 9,
-            bracketIndex
+            divContent.indexOf("Capital of ") + 11 : divContent.indexOf("Member of ") + 10,
+            divContent.lastIndexOf(")")
         );
 
         // Extract the board (text inside <i>)

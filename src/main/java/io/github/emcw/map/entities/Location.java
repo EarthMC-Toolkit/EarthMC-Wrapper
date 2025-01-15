@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import static io.github.emcw.utils.Funcs.range;
+import static io.github.emcw.utils.Funcs.midrange;
 import static io.github.emcw.utils.GsonUtil.*;
 
 public class Location implements ISerializable {
@@ -63,8 +63,8 @@ public class Location implements ISerializable {
         JsonArray xArr = keyAsArr(obj, "x");
         JsonArray zArr = keyAsArr(obj, "z");
 
-        Integer xAverage = range(arrToIntArr(xArr));
-        Integer zAverage = range(arrToIntArr(zArr));
+        Integer xAverage = midrange(arrToIntArr(xArr));
+        Integer zAverage = midrange(arrToIntArr(zArr));
 
         return new Location(xAverage, zAverage);
     }

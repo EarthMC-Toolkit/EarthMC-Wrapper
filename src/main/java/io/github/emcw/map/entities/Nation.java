@@ -2,6 +2,7 @@ package io.github.emcw.map.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.emcw.EMCMap;
 import io.github.emcw.KnownMap;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ISerializable;
@@ -56,9 +57,13 @@ public class Nation extends BaseEntity<Nation> implements ISerializable {
         residents = Resident.fromArr(residentArr, "name");
     }
 
+    public EMCMap currentMap() {
+        return instance().getMap(map);
+    }
+
     public Town getCapital() {
         try {
-            return instance().getMap(map).Towns.single(capital.getName());
+            return currentMap().Towns.single(capital.getName());
         } catch (MissingEntryException e) {
             return new Town(capital);
         }
@@ -66,7 +71,7 @@ public class Nation extends BaseEntity<Nation> implements ISerializable {
 
     // TODO: Finish invitableTowns
     public Map<String, Town> invitableTowns() {
-        Stream<Entry<String, Town>> towns = GsonUtil.streamEntries(instance().getMap(map).Towns.all());
+        Stream<Entry<String, Town>> towns = GsonUtil.streamEntries(currentMap().Towns.all());
         return collectEntities(towns.map(entry -> {
             Town town = entry.getValue();
             if (town.nation == null) {
@@ -92,5 +97,4 @@ public class Nation extends BaseEntity<Nation> implements ISerializable {
     public List<String> residentList() {
         return residentNames;
     }
-
 }

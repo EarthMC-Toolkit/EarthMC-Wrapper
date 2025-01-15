@@ -66,7 +66,7 @@ public class Town extends BaseEntity<Town> implements ISerializable {
 //
 //    }
 
-    public boolean nationless() {
+    public boolean isNationless() {
         return nation == null;
     }
 

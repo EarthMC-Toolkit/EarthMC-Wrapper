@@ -8,8 +8,8 @@ import java.util.HashMap;
  */
 @SuppressWarnings("unused, LombokGetterMayBeUsed")
 public class EMCWrapper {
-    private static EMCWrapper instance = null;
-    private static final java.util.Map<String, EMCMap> Maps = new HashMap<>();
+    static EMCWrapper instance = null;
+    static final java.util.Map<String, EMCMap> Maps = new HashMap<>();
 
     /**
      * Initializes all known maps.

@@ -65,7 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E()" tabindex="0">EMCWrapper()</a></li>
-<li><a href="#%3Cinit%3E(io.github.emcw.EMCMap...)" tabindex="0">EMCWrapper(EMCMap...)</a></li>
+<li><a href="#%3Cinit%3E(io.github.emcw.KnownMap...)" tabindex="0">EMCWrapper(KnownMap...)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -105,10 +105,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">EMCWrapper</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Returns a new wrapper instance and initialize all maps.</div>
+<div class="block">Initializes all known maps.</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.EMCMap...)" class="member-name-link">EMCWrapper</a><wbr>(<a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a>...&nbsp;maps)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.KnownMap...)" class="member-name-link">EMCWrapper</a><wbr>(<a href="KnownMap.html" title="enum class in io.github.emcw">KnownMap</a>...&nbsp;maps)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Initializes the provided known maps.</div>
+</div>
 </div>
 </section>
 </li>
@@ -151,15 +153,33 @@ loadScripts(document, 'script');</script>
 <h3>EMCWrapper</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span>()</div>
-<div class="block">Returns a new wrapper instance and initialize all maps.</div>
+<div class="block">Initializes all known maps.
+ To only initialize the maps you need, simply provide any amount of KnownMap arguments.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="#%3Cinit%3E(io.github.emcw.KnownMap...)"><code>EMCWrapper(KnownMap...)</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.emcw.EMCMap...)">
+<section class="detail" id="&lt;init&gt;(io.github.emcw.KnownMap...)">
 <h3>EMCWrapper</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span><wbr><span class="parameters">(<a href="EMCMap.html" title="class in io.github.emcw">EMCMap</a>...&nbsp;maps)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EMCWrapper</span><wbr><span class="parameters">(<a href="KnownMap.html" title="enum class in io.github.emcw">KnownMap</a>...&nbsp;maps)</span></div>
+<div class="block">Initializes the provided known maps.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="EMCWrapper.html" title="class in io.github.emcw"><code>EMCWrapper</code></a></li>
+</ul>
+</dd>
+</dl>
 </div>
 </section>
 </li>

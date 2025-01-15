@@ -69,13 +69,14 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#parseMapData()" tabindex="0">parseMapData()</a></li>
-<li><a href="#parseMapData(java.lang.Boolean,java.lang.Boolean,java.lang.Boolean)" tabindex="0">parseMapData(Boolean, Boolean, Boolean)</a></li>
 <li><a href="#parsePlayerData()" tabindex="0">parsePlayerData()</a></li>
-<li><a href="#parsedTowns()" tabindex="0">parsedTowns()</a></li>
-<li><a href="#parsedNations()" tabindex="0">parsedNations()</a></li>
-<li><a href="#parsedResidents()" tabindex="0">parsedResidents()</a></li>
-<li><a href="#parsedPlayers()" tabindex="0">parsedPlayers()</a></li>
+<li><a href="#parseMapData(java.lang.Boolean,java.lang.Boolean,java.lang.Boolean)" tabindex="0">parseMapData(Boolean, Boolean, Boolean)</a></li>
+<li><a href="#parseMapData()" tabindex="0">parseMapData()</a></li>
+<li><a href="#processMapData(com.google.gson.JsonObject,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean)" tabindex="0">processMapData(JsonObject, Boolean, Boolean, Boolean)</a></li>
+<li><a href="#getParsedTowns()" tabindex="0">getParsedTowns()</a></li>
+<li><a href="#getParsedNations()" tabindex="0">getParsedNations()</a></li>
+<li><a href="#getParsedResidents()" tabindex="0">getParsedResidents()</a></li>
+<li><a href="#getParsedPlayers()" tabindex="0">getParsedPlayers()</a></li>
 </ol>
 </li>
 </ol>
@@ -86,13 +87,15 @@ loadScripts(document, 'script');</script>
 <h1 title="Class SquaremapParser" class="title">Class SquaremapParser</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="BaseParser.html" title="class in io.github.emcw.utils.parsers">io.github.emcw.utils.parsers.BaseParser</a>
 <div class="inheritance">io.github.emcw.utils.parsers.SquaremapParser</div>
+</div>
 </div>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SquaremapParser</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="BaseParser.html" title="class in io.github.emcw.utils.parsers">BaseParser</a></span></div>
 </div>
 </section>
 <section class="summary">
@@ -122,16 +125,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.github.benmanes.caffeine.cache.Cache<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Nation.html" title="class in io.github.emcw.map.entities">Nation</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parsedNations()" class="member-name-link">parsedNations</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getParsedNations()" class="member-name-link">getParsedNations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.github.benmanes.caffeine.cache.Cache<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parsedPlayers()" class="member-name-link">parsedPlayers</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getParsedPlayers()" class="member-name-link">getParsedPlayers</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.github.benmanes.caffeine.cache.Cache<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parsedResidents()" class="member-name-link">parsedResidents</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getParsedResidents()" class="member-name-link">getParsedResidents</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.github.benmanes.caffeine.cache.Cache<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Town.html" title="class in io.github.emcw.map.entities">Town</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parsedTowns()" class="member-name-link">parsedTowns</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getParsedTowns()" class="member-name-link">getParsedTowns</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parseMapData()" class="member-name-link">parseMapData</a>()</code></div>
@@ -144,6 +147,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parsePlayerData()" class="member-name-link">parsePlayerData</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#processMapData(com.google.gson.JsonObject,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean)" class="member-name-link">processMapData</a><wbr>(@NotNull com.google.gson.JsonObject&nbsp;mapData,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parseTowns,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parseNations,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parseResidents)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -178,10 +187,10 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="parseMapData()">
-<h3>parseMapData</h3>
+<section class="detail" id="parsePlayerData()">
+<h3>parsePlayerData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">parseMapData</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">parsePlayerData</span>()</div>
 </div>
 </section>
 </li>
@@ -196,42 +205,54 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="parsePlayerData()">
-<h3>parsePlayerData</h3>
+<section class="detail" id="parseMapData()">
+<h3>parseMapData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">parsePlayerData</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">parseMapData</span>()</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="parsedTowns()">
-<h3>parsedTowns</h3>
+<section class="detail" id="processMapData(com.google.gson.JsonObject,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean)">
+<h3>processMapData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Town.html" title="class in io.github.emcw.map.entities">Town</a>&gt;</span>&nbsp;<span class="element-name">parsedTowns</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">processMapData</span><wbr><span class="parameters">(@NotNull
+ @NotNull com.google.gson.JsonObject&nbsp;mapData,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parseTowns,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parseNations,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;parseResidents)</span></div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="parsedNations()">
-<h3>parsedNations</h3>
+<section class="detail" id="getParsedTowns()">
+<h3>getParsedTowns</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Nation.html" title="class in io.github.emcw.map.entities">Nation</a>&gt;</span>&nbsp;<span class="element-name">parsedNations</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Town.html" title="class in io.github.emcw.map.entities">Town</a>&gt;</span>&nbsp;<span class="element-name">getParsedTowns</span>()</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="parsedResidents()">
-<h3>parsedResidents</h3>
+<section class="detail" id="getParsedNations()">
+<h3>getParsedNations</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;</span>&nbsp;<span class="element-name">parsedResidents</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Nation.html" title="class in io.github.emcw.map.entities">Nation</a>&gt;</span>&nbsp;<span class="element-name">getParsedNations</span>()</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="parsedPlayers()">
-<h3>parsedPlayers</h3>
+<section class="detail" id="getParsedResidents()">
+<h3>getParsedResidents</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">parsedPlayers</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a>&gt;</span>&nbsp;<span class="element-name">getParsedResidents</span>()</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getParsedPlayers()">
+<h3>getParsedPlayers</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../map/entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">getParsedPlayers</span>()</div>
 </div>
 </section>
 </li>

@@ -27,6 +27,9 @@ import static io.github.emcw.utils.GsonUtil.*;
  * Represents a map marker from the <a href="https://map.earthmc.net/tiles/minecraft_overworld/markers.json">Squaremap</a> API.
  * When constructed, its values are set by parsing info from its respective object (the passed argument) in the response data.
  * <br><br>
+ * It is responsible for extracting relevent info from the <code>tooltip</code>
+ * and <code>popup</code> HTML strings and holding the semi-raw data which will be later fully parsed.
+ * <br><br>
  * You could look at this class as being somewhere between a raw JsonObject marker and a fully fledged
  * {@link io.github.emcw.map.entities.Town} or {@link io.github.emcw.map.entities.Nation}.
  * @see JsonObject

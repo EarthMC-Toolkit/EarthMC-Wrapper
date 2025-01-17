@@ -60,8 +60,27 @@ loadScripts(document, 'script');</script>
 <button class="hide-sidebar"><span>Hide sidebar&nbsp;</span>&#10094;</button><button class="show-sidebar">&#10095;<span>&nbsp;Show sidebar</span></button>
 <ol class="toc-list">
 <li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#field-summary" tabindex="0">Field Summary</a></li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
+<li><a href="#field-detail" tabindex="0">Field Details</a>
+<ol class="toc-list">
+<li><a href="#townName" tabindex="0">townName</a></li>
+<li><a href="#nationName" tabindex="0">nationName</a></li>
+<li><a href="#board" tabindex="0">board</a></li>
+<li><a href="#color" tabindex="0">color</a></li>
+<li><a href="#fillColor" tabindex="0">fillColor</a></li>
+<li><a href="#residents" tabindex="0">residents</a></li>
+<li><a href="#councillors" tabindex="0">councillors</a></li>
+<li><a href="#townWiki" tabindex="0">townWiki</a></li>
+<li><a href="#nationWiki" tabindex="0">nationWiki</a></li>
+<li><a href="#founded" tabindex="0">founded</a></li>
+<li><a href="#points" tabindex="0">points</a></li>
+<li><a href="#isCapital" tabindex="0">isCapital</a></li>
+<li><a href="#PVP" tabindex="0">PVP</a></li>
+<li><a href="#Public" tabindex="0">Public</a></li>
+</ol>
+</li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(com.google.gson.JsonObject)" tabindex="0">SquaremapMarker(JsonObject)</a></li>
@@ -73,8 +92,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#getBounds()" tabindex="0">getBounds()</a></li>
 <li><a href="#getLocation()" tabindex="0">getLocation()</a></li>
 <li><a href="#getArea()" tabindex="0">getArea()</a></li>
-<li><a href="#parsePopup(java.lang.String)" tabindex="0">parsePopup(String)</a></li>
 <li><a href="#parseTooltip(java.lang.String)" tabindex="0">parseTooltip(String)</a></li>
+<li><a href="#parsePopup(java.lang.String)" tabindex="0">parsePopup(String)</a></li>
 </ol>
 </li>
 </ol>
@@ -109,6 +128,60 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#board" class="member-name-link">board</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#color" class="member-name-link">color</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#councillors" class="member-name-link">councillors</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#fillColor" class="member-name-link">fillColor</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#founded" class="member-name-link">founded</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#isCapital" class="member-name-link">isCapital</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#nationName" class="member-name-link">nationName</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#nationWiki" class="member-name-link">nationWiki</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final com.google.gson.JsonArray</code></div>
+<div class="col-second even-row-color"><code><a href="#points" class="member-name-link">points</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#Public" class="member-name-link">Public</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#PVP" class="member-name-link">PVP</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#residents" class="member-name-link">residents</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#townName" class="member-name-link">townName</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#townWiki" class="member-name-link">townWiki</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -142,7 +215,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static kotlin.Pair<wbr>&lt;int[],<wbr>int[]&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getBounds(com.google.gson.JsonArray)" class="member-name-link">getBounds</a><wbr>(com.google.gson.JsonArray&nbsp;points)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Parses <code>points</code> into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
+<div class="block">Parses <a href="#points"><code>points</code></a> into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
  For example:<br>
  <code>
   [{ "x": 500, z": -200 }, { "x": 7000, "z: "80" }]
@@ -174,6 +247,126 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="townName">
+<h3>townName</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">townName</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="nationName">
+<h3>nationName</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">nationName</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="board">
+<h3>board</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">board</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="color">
+<h3>color</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">color</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="fillColor">
+<h3>fillColor</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">fillColor</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="residents">
+<h3>residents</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">residents</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="councillors">
+<h3>councillors</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">councillors</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="townWiki">
+<h3>townWiki</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">townWiki</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="nationWiki">
+<h3>nationWiki</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">nationWiki</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="founded">
+<h3>founded</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">founded</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="points">
+<h3>points</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">com.google.gson.JsonArray</span>&nbsp;<span class="element-name">points</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isCapital">
+<h3>isCapital</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCapital</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="PVP">
+<h3>PVP</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">PVP</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="Public">
+<h3>Public</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">Public</span></div>
+</div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -200,7 +393,7 @@ loadScripts(document, 'script');</script>
 <h3>getBounds</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">kotlin.Pair&lt;int[],<wbr>int[]&gt;</span>&nbsp;<span class="element-name">getBounds</span><wbr><span class="parameters">(com.google.gson.JsonArray&nbsp;points)</span></div>
-<div class="block">Parses <code>points</code> into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
+<div class="block">Parses <a href="#points"><code>points</code></a> into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
  For example:<br>
  <code>
   [{ "x": 500, z": -200 }, { "x": 7000, "z: "80" }]
@@ -242,18 +435,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="parsePopup(java.lang.String)">
-<h3>parsePopup</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.google.gson.JsonObject</span>&nbsp;<span class="element-name">parsePopup</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;popupStr)</span></div>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="parseTooltip(java.lang.String)">
 <h3>parseTooltip</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.google.gson.JsonObject</span>&nbsp;<span class="element-name">parseTooltip</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tooltipStr)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="parsePopup(java.lang.String)">
+<h3>parsePopup</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.google.gson.JsonObject</span>&nbsp;<span class="element-name">parsePopup</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;popupStr)</span></div>
 </div>
 </section>
 </li>

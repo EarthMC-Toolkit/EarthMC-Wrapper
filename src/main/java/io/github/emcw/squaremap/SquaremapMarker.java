@@ -5,11 +5,18 @@ import com.google.gson.JsonObject;
 
 import io.github.emcw.utils.Funcs;
 import kotlin.Pair;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import io.github.emcw.map.entities.Location;
+import org.jsoup.nodes.Element;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import static io.github.emcw.utils.Funcs.midrange;
@@ -26,30 +33,45 @@ import static io.github.emcw.utils.GsonUtil.*;
  */
 @SuppressWarnings("unused")
 public class SquaremapMarker {
-    final String townName;
-    final String nationName;
-    final String board;
-    final boolean isCapital;
+    public final String townName;
+    public final String nationName;
+    public final String board;
 
-    final String type;
-    final String fill, outline;
+    public final String color, fillColor;
+    public final String residents, councillors;
+    public final String townWiki, nationWiki;
+    public final String founded;
 
-    final JsonArray points;
+    public final JsonArray points;
+
+    public final boolean isCapital;
+    public final boolean PVP, Public;
 
     public SquaremapMarker(JsonObject rawMarkerObj) {
+        // Parse methods extract only the data as seen on the map, nothing extra.
+        // All of their properties are primitives. Any additional parsing should be done later.
         var popup = parsePopup(keyAsStr(rawMarkerObj, "popup"));
         var tooltip = parseTooltip(keyAsStr(rawMarkerObj, "tooltip"));
 
         this.townName = keyAsStr(tooltip, "townName");
         this.nationName = keyAsStr(tooltip, "nationName");
         this.board = keyAsStr(tooltip, "board");
-        this.isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
 
-        this.fill = keyAsStr(rawMarkerObj, "fillcolor");
-        this.outline = keyAsStr(rawMarkerObj, "color");
-        this.type = keyAsStr(rawMarkerObj, "type");
+        this.color = keyAsStr(rawMarkerObj, "color");
+        this.fillColor = keyAsStr(rawMarkerObj, "fillColor");
 
         this.points = keyAsArr(rawMarkerObj, "points");
+
+        this.isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
+        this.PVP = Boolean.TRUE.equals(keyAsBool(popup, "pvp"));
+        this.Public = Boolean.TRUE.equals(keyAsBool(popup, "public"));
+
+        this.residents = keyAsStr(popup, "residents");
+        this.councillors = keyAsStr(popup, "councillors");
+        this.founded = keyAsStr(popup, "councillors");
+
+        this.townWiki = keyAsStr(popup, "townWiki");
+        this.nationWiki = keyAsStr(popup, "nationWiki");
     }
 
     /**
@@ -102,14 +124,6 @@ public class SquaremapMarker {
         return Funcs.calcArea(bounds.getFirst(), bounds.getSecond());
     }
 
-    // Extracts mayor, residents, councillors, founded date, flags (pvp, public) and wiki links.
-    // Can also extract what the tooltip can, but likely with more hassle.
-    public static JsonObject parsePopup(String popupStr) {
-        JsonObject parsed = new JsonObject();
-
-        return parsed;
-    }
-
     // Extracts town name, nation name and board.
     // We can also tell if it's a capital via the brackets content unlike the popup.
     public static JsonObject parseTooltip(String tooltipStr) {
@@ -121,13 +135,25 @@ public class SquaremapMarker {
         // Nation name is in the brackets, after the member/capital prefix.
         String divContent = doc.select("div").text();
 
-        boolean isCapital = divContent.contains("Capital of");
-        String nationName = divContent.substring(isCapital ?
-            divContent.indexOf("Capital of ") + 11 : divContent.indexOf("Member of ") + 10,
-            divContent.lastIndexOf(")")
-        );
+        boolean isCapital = divContent.contains("(Capital of");
+        boolean isMember = divContent.contains("(Member of");
 
-        // Extract the board (text inside <i>)
+        String nationName = null;
+        if (isCapital || isMember) {
+            try {
+                nationName = divContent.substring(isCapital ?
+                    divContent.indexOf("(Capital of ") + 12 : divContent.indexOf("(Member of ") + 11,
+                    divContent.lastIndexOf(")")
+                );
+            } catch (Exception e) {
+                new Throwable(
+                    "\n  Nation name not set. Index of div content out of bounds.\n  " +
+                    "Content: " + divContent + "\n"
+                ).printStackTrace();
+            }
+        }
+
+        // Extract the board (text inside the <i> tag).
         String board = doc.select("i").text();
 
         JsonObject parsed = new JsonObject();
@@ -137,5 +163,86 @@ public class SquaremapMarker {
         parsed.addProperty("capital", isCapital);
 
         return parsed;
+    }
+
+    // Extracts mayor, residents, councillors, founded date, flags (pvp, public) and wiki links.
+    // Can also extract what the tooltip can, but likely with more hassle.
+    public static JsonObject parsePopup(String popupStr) {
+        Document doc = Jsoup.parse(popupStr);
+
+        Element div = tryGetDiv(doc);
+        if (div == null) return null; // Something went wrong.
+
+        //#region Extract info from town/nation elements
+        Element span = div.selectFirst("span");
+
+        // As long as we have a <span>, get it's first and second <a> tags.
+        Element townEl = span == null ? null : span.selectFirst("a");
+        Element nationEl = span == null ? null : span.selectFirst("a:nth-of-type(2)");
+
+        String townHref = townEl != null ? townEl.attr("href") : null;
+        String nationHref = nationEl != null ? nationEl.attr("href") : null;
+
+        // These work, but not needed because tooltip handles it.
+        // String townText = townEl != null ? townEl.text() : null;
+        // String nationText = nationEl != null ? nationEl.text() : null;
+        //#endregion
+
+        //#region Extract fields ("Key: value") from the div
+        String divContent = div.wholeText();
+        Map<String, String> fields = extractFields(divContent);
+        //#endregion
+
+        //#region Build parsed object
+        JsonObject parsed = new JsonObject();
+        parsed.addProperty("townWiki", townHref);
+        parsed.addProperty("nationWiki", nationHref);
+        parsed.addProperty("mayor", fields.get("Mayor"));
+        parsed.addProperty("founded", fields.get("Founded"));
+        parsed.addProperty("residents", fields.get("Residents"));
+        parsed.addProperty("councillors", fields.get("Councillors"));
+        parsed.addProperty("pvp", fields.get("PVP"));
+        parsed.addProperty("public", fields.get("Public"));
+        //#endregion
+
+        return parsed;
+    }
+
+    @Nullable
+    static Element tryGetDiv(Document doc) {
+        Element div = doc.selectFirst("div.infowindow");
+        if (div != null) return div;
+
+        // Fallback to regular div since infowindow class could be removed at any point.
+        return doc.selectFirst("div");
+    }
+
+    @NotNull
+    private static Map<String, String> extractFields(String text) {
+        Map<String, String> details = new HashMap<>();
+
+        // Define regex pattern to match the "label: value" format
+        Pattern pattern = Pattern.compile("(Mayor|Councillors|Founded|PVP|Public):\\s*(.*)");
+        Matcher matcher = pattern.matcher(text);
+
+        // Extract matches and put them in the map
+        while (matcher.find()) {
+            String label = matcher.group(1);
+            String value = matcher.group(2).trim();
+
+            details.put(label, value);
+        }
+
+        // Handle the Residents field separately as it contains the count
+        // as the first element, which we dont want - only the names.
+        pattern = Pattern.compile("Residents:\\s*(\\d+)\\s*(.*)");
+        matcher = pattern.matcher(text);
+
+        if (matcher.find()) {
+            String residents = matcher.group(2).trim();
+            details.put("Residents", residents);
+        }
+
+        return details;
     }
 }

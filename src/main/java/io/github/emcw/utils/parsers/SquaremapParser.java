@@ -11,6 +11,8 @@ import io.github.emcw.map.entities.*;
 import io.github.emcw.squaremap.SquaremapAPI;
 import io.github.emcw.squaremap.SquaremapMarker;
 
+import java.util.Objects;
+
 import static io.github.emcw.utils.GsonUtil.*;
 
 // TODO: Remove annotation when the class is fully complete.
@@ -61,18 +63,24 @@ public class SquaremapParser extends BaseParser {
         if (parseNations) rawNations.invalidateAll();
         if (parseResidents) rawResidents.invalidateAll();
 
-        //processMapData(data, parseTowns, parseNations, parseResidents);
+        processMapData(data, parseTowns, parseNations, parseResidents);
     }
 
     public static void parseMapData() {
         parseMapData(true, true, true);
     }
 
-    public static void processMapData(@NotNull JsonObject mapData,
+    public static void processMapData(@NotNull JsonArray mapData,
         Boolean parseTowns, Boolean parseNations, Boolean parseResidents
     ) {
-        streamValues(mapData.asMap()).forEach(cur -> {
-            SquaremapMarker marker = new SquaremapMarker(cur.getAsJsonObject());
+        arrAsStream(mapData).forEach(markerEl -> {
+            String type = keyAsStr(markerEl.getAsJsonObject(), "type");
+            if (Objects.equals(type, "icon")) return;
+
+            SquaremapMarker marker = new SquaremapMarker(markerEl.getAsJsonObject());
+            if (Objects.equals(marker.nationName, "Poland") && marker.isCapital) {
+                System.out.println(serialize(marker));
+            }
 
 //            if (parseTowns) {
 //                parseTowns(name, nation, mayorStr, wikiStr, residentNames, x, z, area, capital, info, fill, outline);

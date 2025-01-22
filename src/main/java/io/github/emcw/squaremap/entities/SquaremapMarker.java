@@ -1,4 +1,4 @@
-package io.github.emcw.squaremap;
+package io.github.emcw.squaremap.entities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,16 +10,16 @@ import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import io.github.emcw.map.entities.Location;
 import org.jsoup.nodes.Element;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
-import static io.github.emcw.utils.Funcs.midrange;
 import static io.github.emcw.utils.Funcs.roundToNearest16;
 import static io.github.emcw.utils.GsonUtil.*;
 
@@ -27,54 +27,63 @@ import static io.github.emcw.utils.GsonUtil.*;
  * Represents a map marker from the <a href="https://map.earthmc.net/tiles/minecraft_overworld/markers.json">Squaremap</a> API.
  * When constructed, its values are set by parsing info from its respective object (the passed argument) in the response data.
  * <br><br>
- * It is responsible for extracting relevent info from the <code>tooltip</code>
- * and <code>popup</code> HTML strings and holding the semi-raw data which will be later fully parsed.
+ * It is responsible for extracting relevent info from the {@code tooltip} and {@code popup} HTML strings
+ * and then storing the semi-raw data which should be fully parsed later.
  * <br><br>
  * You could look at this class as being somewhere between a raw JsonObject marker and a fully fledged
- * {@link io.github.emcw.map.entities.Town} or {@link io.github.emcw.map.entities.Nation}.
+ * {@link SquaremapTown} or {@link SquaremapNation}.
  * @see JsonObject
  */
 @SuppressWarnings("unused")
 public class SquaremapMarker {
-    public final String townName;
-    public final String nationName;
-    public final String board;
+    public final String townName, nationName;
 
     public final String color, fillColor;
     public final String residents, councillors;
     public final String townWiki, nationWiki;
-    public final String founded;
 
-    public final JsonArray points;
+    public final String mayor;
+    public final String founded;
+    public final String board;
 
     public final boolean isCapital;
     public final boolean PVP, Public;
 
+    public final JsonArray points;
+    public final Pair<int[], int[]> bounds;
+
+    public final SquaremapLocation location;
+    public final int area;
+
     public SquaremapMarker(JsonObject rawMarkerObj) {
         // Parse methods extract only the data as seen on the map, nothing extra.
         // All of their properties are primitives. Any additional parsing should be done later.
-        var popup = parsePopup(keyAsStr(rawMarkerObj, "popup"));
-        var tooltip = parseTooltip(keyAsStr(rawMarkerObj, "tooltip"));
+        JsonObject popup = parsePopup(keyAsStr(rawMarkerObj, "popup"));
+        JsonObject tooltip = parseTooltip(keyAsStr(rawMarkerObj, "tooltip"));
 
-        this.townName = keyAsStr(tooltip, "townName");
-        this.nationName = keyAsStr(tooltip, "nationName");
-        this.board = keyAsStr(tooltip, "board");
+        townName = keyAsStr(tooltip, "townName");
+        nationName = keyAsStr(tooltip, "nationName");
+        board = keyAsStr(tooltip, "board");
 
-        this.color = keyAsStr(rawMarkerObj, "color");
-        this.fillColor = keyAsStr(rawMarkerObj, "fillColor");
+        points = keyAsArr(rawMarkerObj, "points");
+        bounds = getBounds(flattenJsonArr(points, 2));
 
-        this.points = keyAsArr(rawMarkerObj, "points");
+        location = SquaremapLocation.of(bounds);
+        area = Funcs.calcArea(bounds.getFirst(), bounds.getSecond());
 
-        this.isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
-        this.PVP = Boolean.TRUE.equals(keyAsBool(popup, "pvp"));
-        this.Public = Boolean.TRUE.equals(keyAsBool(popup, "public"));
+        color = keyAsStr(rawMarkerObj, "color");
+        fillColor = keyAsStr(rawMarkerObj, "fillColor");
 
-        this.residents = keyAsStr(popup, "residents");
-        this.councillors = keyAsStr(popup, "councillors");
-        this.founded = keyAsStr(popup, "councillors");
+        mayor = keyAsStr(popup, "mayor");
+        residents = keyAsStr(popup, "residents");
+        councillors = keyAsStr(popup, "councillors");
+        founded = keyAsStr(popup, "founded");
+        townWiki = keyAsStr(popup, "townWiki");
+        nationWiki = keyAsStr(popup, "nationWiki");
 
-        this.townWiki = keyAsStr(popup, "townWiki");
-        this.nationWiki = keyAsStr(popup, "nationWiki");
+        isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
+        PVP = Boolean.TRUE.equals(keyAsBool(popup, "pvp"));
+        Public = Boolean.TRUE.equals(keyAsBool(popup, "public"));
     }
 
     /**
@@ -107,24 +116,6 @@ public class SquaremapMarker {
         });
 
         return new Pair<>(xPoints, zPoints);
-    }
-
-    public Pair<int[], int[]> getBounds() {
-        return getBounds(this.points);
-    }
-
-    public Location getLocation() {
-        Pair<int[], int[]> bounds = getBounds();
-
-        Integer x = midrange(bounds.getFirst());
-        Integer z = midrange(bounds.getSecond());
-
-        return new Location(x, z);
-    }
-
-    public int getArea() {
-        Pair<int[], int[]> bounds = getBounds();
-        return Funcs.calcArea(bounds.getFirst(), bounds.getSecond());
     }
 
     // Extracts town name, nation name and board.

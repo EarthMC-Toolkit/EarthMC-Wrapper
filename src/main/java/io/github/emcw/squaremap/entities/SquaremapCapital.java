@@ -1,4 +1,4 @@
-package io.github.emcw.map.entities;
+package io.github.emcw.squaremap.entities;
 
 import com.google.gson.JsonObject;
 import io.github.emcw.interfaces.ISerializable;
@@ -7,12 +7,12 @@ import lombok.Getter;
 import static io.github.emcw.utils.GsonUtil.keyAsInt;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
-public class Capital implements ISerializable {
+public class SquaremapCapital implements ISerializable {
     @Getter final String name;
-    @Getter final Location location;
+    @Getter final SquaremapLocation location;
 
-    public Capital(JsonObject obj) {
+    public SquaremapCapital(JsonObject obj) {
         name = keyAsStr(obj, "name");
-        location = new Location(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
+        location = new SquaremapLocation(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
     }
 }

@@ -63,12 +63,17 @@ public class GsonUtil {
     }
 
     public static <T extends JsonElement> T asTree(Object input) {
-        JsonElement tree = getGSON().toJsonTree(input);
+        JsonElement tree = GSON.toJsonTree(input);
         return tree.isJsonObject() ? (T) tree.getAsJsonObject() : (T) tree;
     }
 
-    public static <T> List<T> toList(Object obj) {
-       return convert(obj, List.class);
+    /**
+     * Serializes the input {@code el}, and deserializes it back as a list of {@link T}.
+     * @param el The input {@link JsonElement}.
+     * @param <T> The type of the list elements.
+     */
+    public static <T> List<T> toList(JsonElement el) {
+       return convert(el, List.class);
     }
 
     public static <T> @NotNull JsonArray mapToArr(@NotNull Map<String, T> map) {
@@ -78,7 +83,7 @@ public class GsonUtil {
         return arr;
     }
 
-    public static <T> @NotNull Map<String, T> arrToMap(@NotNull JsonArray arr, String key) {
+    public static <T> @NotNull Map<String, T> jsonArrToMap(@NotNull JsonArray arr, String key) {
         ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
         arrAsStream(arr).forEach(el -> {
             JsonObject obj = el.getAsJsonObject();
@@ -204,5 +209,19 @@ public class GsonUtil {
 
     public static JsonArray arrAsJsonArray(Object[] objects) {
         return asTree(List.of(objects)).getAsJsonArray();
+    }
+
+    public static JsonArray flattenJsonArr(JsonArray arr, int depth) {
+        JsonArray flattened = new JsonArray();
+
+        for (JsonElement element : arr) {
+            if (element.isJsonArray() && depth > 0) {
+                flattened.addAll(flattenJsonArr(element.getAsJsonArray(), depth - 1));
+            } else {
+                flattened.add(element);
+            }
+        }
+
+        return flattened;
     }
 }

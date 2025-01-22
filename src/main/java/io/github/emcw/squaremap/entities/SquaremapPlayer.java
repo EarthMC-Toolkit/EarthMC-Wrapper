@@ -1,4 +1,4 @@
-package io.github.emcw.map.entities;
+package io.github.emcw.squaremap.entities;
 
 import com.google.gson.JsonObject;
 
@@ -13,41 +13,41 @@ import java.util.Objects;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-public class Player extends BaseEntity<Player> implements ISerializable, ILocatable<Player> {
-    @Getter private String nickname;
-    @Getter private Location location = null;
+@SuppressWarnings("unused")
+public class SquaremapPlayer implements ISerializable, ILocatable<SquaremapPlayer> {
+    @Getter private String name, nickname;
+    @Getter private SquaremapLocation location = null;
     @Getter private Integer yaw;
 
     private transient String world = null;
-    @Setter transient Boolean isResident = false;
+    @Setter transient boolean isResident = false;
 
-    public Player(JsonObject obj, Boolean resident) {
+    public SquaremapPlayer(JsonObject obj, Boolean resident) {
         init(obj, resident);
         setLocation(obj, false);
     }
 
-    public Player(JsonObject obj, Boolean resident, Boolean parsed) {
+    SquaremapPlayer(JsonObject obj, Boolean resident, boolean parsed) {
         init(obj, resident);
         setLocation(obj, parsed);
     }
 
-    public Player(@NotNull Player player) {
-        setInfo(this, player.getName());
+    public SquaremapPlayer(@NotNull SquaremapPlayer player) {
+        name = player.getName();
         nickname = player.getNickname();
         location = player.getLocation();
         yaw = player.getYaw();
-        isResident = player.isResident();
     }
 
-    private void init(JsonObject obj, @NotNull Boolean resident) {
-        setInfo(this, keyAsStr(obj, "name"));
+    private void init(JsonObject obj, boolean resident) {
+        name = keyAsStr(obj, "name");
         nickname = keyAsStr(obj, "nickname");
         world = keyAsStr(obj, "world");
         isResident = resident;
     }
 
-    public void setLocation(JsonObject obj, @NotNull Boolean parsed) {
-        Location loc = Location.fromObj(parsed ? obj.getAsJsonObject("location") : obj);
+    void setLocation(JsonObject obj, boolean parsed) {
+        SquaremapLocation loc = SquaremapLocation.fromObj(parsed ? obj.getAsJsonObject("location") : obj);
         if (loc.valid()) {
             location = loc;
         }
@@ -91,7 +91,7 @@ public class Player extends BaseEntity<Player> implements ISerializable, ILocata
      * Check if this player is also a resident on the map this instance was retrieved from.
      */
     public boolean isResident() {
-        return isResident != null && isResident;
+        return isResident;
     }
 
     public Direction facingDirection() throws IllegalArgumentException {

@@ -10,11 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted"})
 public class BaseCache<V> {
     @Setter(AccessLevel.PROTECTED) protected Cache<String, V> cache;
     protected final CacheOptions options;
@@ -22,7 +23,7 @@ public class BaseCache<V> {
     final Caffeine<Object, Object> builder = Caffeine.newBuilder();
     final Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
-    ScheduledExecutorService service = null;
+    ScheduledExecutorService scheduler = null; // Calls the updater at a fixed rate.
     @Setter protected Runnable updater = null;
 
     /**
@@ -36,32 +37,52 @@ public class BaseCache<V> {
         options = cacheOptions;
     }
 
-    protected void build() {
-        if (options.strategy != CacheStrategy.LAZY) {
-            initRefreshScheduler();
-            setCache(builder.build());
+    /**
+     * Creates the {@link #cache}, with some pre-setup according to {@link #options}.
+     * <br><br>
+     * If the strategy is {@link CacheStrategy#LAZY}, we simply set the expiry after write and build.
+     * <br><br>
+     * If the strategy is {@link CacheStrategy#TIME_BASED} or {@link CacheStrategy#HYBRID}
+     * we initialize a scheduler to update
+     */
+    protected void buildCache() {
+        if (options.strategy == CacheStrategy.LAZY) {
+            builder.expireAfterWrite(options.expiry, options.unit);
+        } else {
+            initUpdateScheduler();
         }
-        else {
-            setCache(builder.expireAfterWrite(options.expiry, options.unit).build());
-        }
+
+        setCache(builder.build());
     }
 
+    private void initUpdateScheduler() {
+        scheduler = Executors.newScheduledThreadPool(CONCURRENCY);
+        scheduler.scheduleAtFixedRate(() -> {
+            try { updater.run(); }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }, options.expiry, options.expiry, options.unit);
+    }
+
+    private void stopUpdateScheduler() {
+        scheduler = null;
+    }
+
+    /**
+     * Runs the {@link #updater} if the cache strategy matches in the given one.
+     */
     protected void updateIf(CacheStrategy strategy) {
-        if (options.strategy == strategy) {
-            updater.run(); // Updates the cache before accessing it
-        }
+        if (options.strategy != strategy) return;
+        updater.run();
     }
 
     public Map<String, V> get(String @NotNull ... keys) {
-        Map<String, V> result = new ConcurrentHashMap<>();
+        Map<String, V> all = all();
 
-        Funcs.streamStrArr(keys).forEach(k -> {
-            V cur = _all().get(k);
-            if (cur != null)
-                result.put(k, cur);
-        });
-
-        return result;
+        return Funcs.streamStrArr(keys)
+            .filter(all::containsKey)
+            .collect(Collectors.toMap(k -> k, all::get));
     }
 
     public V single(String key) throws MissingEntryException {
@@ -69,7 +90,7 @@ public class BaseCache<V> {
 
         V val = cache.getIfPresent(key);
         if (val == null) {
-            // Expired and lazy, force update.
+            // Expired and lazy, update.
             updateIf(CacheStrategy.LAZY);
 
             val = cache.getIfPresent(key);
@@ -79,35 +100,27 @@ public class BaseCache<V> {
         return val;
     }
 
+    /**
+     * Gets all elements from this cache in a case-insensitive order.
+     * <br>Some subclasses may override this to implement additional behaviour.
+     */
     public Map<String, V> all() {
-        return _all();
+        return cacheAsMap();
     }
 
-    private @NotNull Map<String, V> _all() {
+    private @NotNull Map<String, V> cacheAsMap() {
         Map<String, V> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         map.putAll(cache.asMap());
 
         return map;
     }
 
-    public boolean has(String key) {
-        if (cache.asMap().containsKey(key)) return true;
-        else return _all().get(key) != null;
-    }
-
-    private void initRefreshScheduler() {
-        service = Executors.newScheduledThreadPool(CONCURRENCY);
-        service.scheduleAtFixedRate(() -> {
-            try { updater.run(); }
-            catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
-            }
-        }, options.expiry, options.expiry, options.unit);
-    }
-
-    private void stopRefreshScheduler() {
-        service = null;
-    }
+//    public boolean has(String key) {
+//        var all = all();
+//
+//        if (cache.asMap().containsKey(key)) return true;
+//        return all().get(key) != null;
+//    }
 
     public void clear() {
         cache.invalidateAll();

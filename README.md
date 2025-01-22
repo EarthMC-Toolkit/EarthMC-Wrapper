@@ -45,7 +45,7 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
 
 - ### Import and initialize.
     ```java
-    import io.github.emcw.EMCMap;
+    import io.github.emcw.Squaremap;
     import io.github.emcw.EMCWrapper;
     import io.github.emcw.KnownMap;
     

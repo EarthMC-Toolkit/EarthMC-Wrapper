@@ -1,25 +1,28 @@
-package io.github.emcw.map.api;
+package io.github.emcw.squaremap.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
 
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
-import io.github.emcw.map.entities.Resident;
+import io.github.emcw.squaremap.entities.SquaremapResident;
 import io.github.emcw.exceptions.MissingEntryException;
-import io.github.emcw.utils.parsers.SquaremapParser;
+import io.github.emcw.squaremap.SquaremapParser;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class Residents extends BaseCache<Resident> {
-    public Residents(CacheOptions options) {
+public class Residents extends BaseCache<SquaremapResident> {
+    SquaremapParser parser;
+
+    public Residents(SquaremapParser parser, CacheOptions options) {
         super(options);
+        this.parser = parser;
 
         setUpdater(this::forceUpdate);
         forceUpdate();
 
-        build();
+        buildCache();
     }
 
     public void tryUpdate() {
@@ -31,12 +34,12 @@ public class Residents extends BaseCache<Resident> {
         updateCache(true);
     }
 
-    private void updateCache(Boolean force) {
+    void updateCache(Boolean force) {
         if (!empty() && !force) return;
 
         // Parse player data into usable Player objects.
-        SquaremapParser.parseMapData(false, false, true);
-        Cache<String, Resident> residents = SquaremapParser.getParsedResidents();
+        parser.parseMapData(false, false, true);
+        Cache<String, SquaremapResident> residents = parser.getResidents();
 
         // Make sure we're using valid data to populate the cache with.
         if (residents == null) return;
@@ -46,18 +49,18 @@ public class Residents extends BaseCache<Resident> {
     }
 
     @Override
-    public Map<String, Resident> all() {
+    public Map<String, SquaremapResident> all() {
         tryUpdate();
         return super.all();
     }
 
     @Override
-    public Resident single(String name) throws MissingEntryException {
+    public SquaremapResident single(String name) throws MissingEntryException {
         tryUpdate();
         return super.single(name);
     }
 
-    public Map<String, Resident> get(String @NotNull ... keys) {
+    public Map<String, SquaremapResident> get(String @NotNull ... keys) {
         tryUpdate();
         return super.get(keys);
     }

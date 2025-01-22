@@ -1,35 +1,32 @@
 package io.github.emcw.caching;
 
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-@Setter
-@SuppressWarnings("unused")
 public class CacheOptions {
-    public long expiry = 3;
-    public TimeUnit unit = TimeUnit.MINUTES;
+    long expiry;
+    TimeUnit unit;
 
-    public CacheStrategy strategy = CacheStrategy.TIME_BASED;
+    final CacheStrategy strategy;
 
-    public CacheOptions(CacheStrategy strategy) {
-        setStrategy(strategy);
+//    public CacheOptions(CacheStrategy strategy) {
+//        this.strategy = strategy;
+//    }
+//
+//    public CacheOptions(long expireAfterWrite, @NotNull TimeUnit unit) {
+//        this.expiry = expireAfterWrite;
+//        this.unit = unit;
+//    }
+
+    public CacheOptions(CacheStrategy strategy, long expireAfterWrite, @NotNull TimeUnit unit) {
+        this.strategy = strategy;
+        this.expiry = expireAfterWrite;
+        this.unit = unit;
     }
 
-    public CacheOptions(long expireAfterWrite, @NotNull TimeUnit unit) {
-        setExpiry(expireAfterWrite);
-        setUnit(unit);
-    }
-
-    public CacheOptions(long expireAfterWrite, @NotNull TimeUnit unit, CacheStrategy strategy) {
-        setExpiry(expireAfterWrite);
-        setUnit(unit);
-
-        setStrategy(strategy);
-    }
-
+    @SuppressWarnings("unused")
     Duration expiryAsDuration(long time, @NotNull TimeUnit unit) {
         return Duration.of(time, unit.toChronoUnit());
     }

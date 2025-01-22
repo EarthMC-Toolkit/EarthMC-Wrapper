@@ -1,16 +1,14 @@
 package io.github.emcw.utils;
 
-import io.github.emcw.map.entities.BaseEntity;
-import io.github.emcw.map.entities.Location;
-import lombok.AccessLevel;
+import io.github.emcw.squaremap.entities.SquaremapLocation;
 
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -18,24 +16,17 @@ import java.util.stream.Stream;
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
-    public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
-        ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
-        list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));
-
-        return map;
-    }
+//    public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
+//        ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
+//        list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));
+//
+//        return map;
+//    }
 
 //    @Contract("_ -> new")
 //    public static <K, V> @NotNull List<V> mapToList(@NotNull Map<K, V> map) {
 //        return new ArrayList<>(map.values());
 //    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> Map<String, T> collectEntities(@NotNull Stream<? extends BaseEntity<T>> stream) {
-        return (Map<String, T>) stream.filter(Objects::nonNull).collect(
-            Collectors.toMap(BaseEntity::getName, Function.identity())
-        );
-    }
 
     public static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -84,7 +75,7 @@ public class Funcs {
         return (int) Math.hypot(x1 - x2, z1 - z2);
     }
 
-    public static @NotNull Integer manhattan(@NotNull Location loc1, @NotNull Location loc2) {
+    public static @NotNull Integer manhattan(@NotNull SquaremapLocation loc1, @NotNull SquaremapLocation loc2) {
         return manhattan(loc1.getX(), loc2.getX(), loc1.getZ(), loc2.getZ());
     }
 

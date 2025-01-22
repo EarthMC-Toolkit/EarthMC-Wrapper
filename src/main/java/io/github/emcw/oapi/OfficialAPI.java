@@ -32,7 +32,6 @@ public class OfficialAPI {
      * Simple class for interacting with the 3rd version of the API.<br>
      * @see <a href="https://api.earthmc.net/v3/aurora/">api.earthmc.net/v3/aurora/</a>
      */
-
     // TODO: Add support for templates
     public static class V3 {
         public final String MAP_ENDPOINT;

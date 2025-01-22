@@ -37,10 +37,8 @@ public final class SquaremapAPI {
 
     public static JsonArray mapData() {
         try {
-            JsonElement data = get("map");
-            JsonArray markersets = data.getAsJsonArray();
-
-            JsonElement towny = arrAsStream(markersets)
+            JsonArray data = get("map").getAsJsonArray();
+            JsonElement towny = arrAsStream(data)
                   .map(JsonElement::getAsJsonObject)
                   .filter(el -> Objects.equals(keyAsStr(el, "id"), "towny"))
                   .findFirst()

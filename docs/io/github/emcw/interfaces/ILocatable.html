@@ -86,11 +86,11 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Type Parameters:</dt>
 <dd><code>T</code> - The type of entity we are implementing this interface into.
-            Must be specified so the correct locations are returned when checking nearby.</dd>
+  Must be specified so the correct locations are returned when checking nearby.</dd>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../map/api/Nations.html" title="class in io.github.emcw.map.api">Nations</a></code>, <code><a href="../map/entities/Player.html" title="class in io.github.emcw.map.entities">Player</a></code>, <code><a href="../map/api/Players.html" title="class in io.github.emcw.map.api">Players</a></code>, <code><a href="../map/entities/Resident.html" title="class in io.github.emcw.map.entities">Resident</a></code>, <code><a href="../map/api/Towns.html" title="class in io.github.emcw.map.api">Towns</a></code></dd>
+<dd><code><a href="../squaremap/api/Nations.html" title="class in io.github.emcw.squaremap.api">Nations</a></code>, <code><a href="../squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></code>, <code><a href="../squaremap/entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a></code>, <code><a href="../squaremap/entities/SquaremapResident.html" title="class in io.github.emcw.squaremap.entities">SquaremapResident</a></code>, <code><a href="../squaremap/api/Towns.html" title="class in io.github.emcw.squaremap.api">Towns</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ILocatable&lt;T&gt;</span></div>
@@ -136,10 +136,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ILocatable.html" title="type parameter in ILocatable">T</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ILocatable.html" title="type parameter in ILocatable">T</a>&gt;&nbsp;map,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zCoord,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xPos,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zPos,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRad,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRad)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Returns a new map of entities that are within the specified x and z radii given the coordinates.</div>
 </div>
@@ -197,10 +197,10 @@ loadScripts(document, 'script');</script>
 <h3>getNearby</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ILocatable.html" title="type parameter in ILocatable">T</a>&gt;</span>&nbsp;<span class="element-name">getNearby</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ILocatable.html" title="type parameter in ILocatable">T</a>&gt;&nbsp;map,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zCoord,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xPos,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zPos,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRad,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRad)</span></div>
 <div class="block">Returns a new map of entities that are within the specified x and z radii given the coordinates.
  <p></p>
  <p><b>Important notes: </b></p>
@@ -209,10 +209,10 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>map</code> - The map of entities to be checked against. Usually online players, but accepts a mix of Player, Resident, Town or Nation.</dd>
-<dd><code>xCoord</code> - The x coordinate.</dd>
-<dd><code>zCoord</code> - The z coordinate.</dd>
-<dd><code>xRadius</code> - The radius to check within on the x-axis. (Left/Right)</dd>
-<dd><code>zRadius</code> - The radius to check within on the z-axis. (Up/Down)</dd>
+<dd><code>xPos</code> - The x coordinate.</dd>
+<dd><code>zPos</code> - The z coordinate.</dd>
+<dd><code>xRad</code> - The radius to check within on the x-axis. (Left/Right)</dd>
+<dd><code>zRad</code> - The radius to check within on the z-axis. (Up/Down)</dd>
 <dt>Returns:</dt>
 <dd>A new map of entities where each entry key is its name, and the value is itself.</dd>
 </dl>

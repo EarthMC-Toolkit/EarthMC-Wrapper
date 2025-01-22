@@ -69,8 +69,6 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#listToMap(java.util.List)" tabindex="0">listToMap(List)</a></li>
-<li><a href="#collectEntities(java.util.stream.Stream)" tabindex="0">collectEntities(Stream)</a></li>
 <li><a href="#collectAsMap(java.util.stream.Stream)" tabindex="0">collectAsMap(Stream)</a></li>
 <li><a href="#strArrHas(java.lang.String%5B%5D,java.lang.String)" tabindex="0">strArrHas(String[], String)</a></li>
 <li><a href="#calcArea(int%5B%5D,int%5B%5D)" tabindex="0">calcArea(int[], int[])</a></li>
@@ -79,7 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#roundToNearest16(double)" tabindex="0">roundToNearest16(double)</a></li>
 <li><a href="#midrange(int%5B%5D)" tabindex="0">midrange(int[])</a></li>
 <li><a href="#euclidean(int,int,int,int)" tabindex="0">euclidean(int, int, int, int)</a></li>
-<li><a href="#manhattan(io.github.emcw.map.entities.Location,io.github.emcw.map.entities.Location)" tabindex="0">manhattan(Location, Location)</a></li>
+<li><a href="#manhattan(io.github.emcw.squaremap.entities.SquaremapLocation,io.github.emcw.squaremap.entities.SquaremapLocation)" tabindex="0">manhattan(SquaremapLocation, SquaremapLocation)</a></li>
 <li><a href="#manhattan(int,int,int,int)" tabindex="0">manhattan(int, int, int, int)</a></li>
 <li><a href="#removeListDuplicates(java.util.List)" tabindex="0">removeListDuplicates(List)</a></li>
 <li><a href="#collectList(java.util.stream.Stream,java.lang.Boolean)" tabindex="0">collectList(Stream, Boolean)</a></li>
@@ -144,21 +142,15 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>T&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#collectAsMap(java.util.stream.Stream)" class="member-name-link">collectAsMap</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>T&gt;&gt;&nbsp;stream)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#collectEntities(java.util.stream.Stream)" class="member-name-link">collectEntities</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a>&lt;? extends <a href="../map/entities/BaseEntity.html" title="class in io.github.emcw.map.entities">BaseEntity</a>&lt;T&gt;&gt;&nbsp;stream)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#collectList(java.util.stream.Stream,java.lang.Boolean)" class="member-name-link">collectList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a>&lt;T&gt;&nbsp;stream,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#collectList(java.util.stream.Stream,java.lang.Boolean)" class="member-name-link">collectList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a>&lt;T&gt;&nbsp;stream,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;unique)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#euclidean(int,int,int,int)" class="member-name-link">euclidean</a><wbr>(int&nbsp;x1,
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#euclidean(int,int,int,int)" class="member-name-link">euclidean</a><wbr>(int&nbsp;x1,
  int&nbsp;x2,
  int&nbsp;z1,
  int&nbsp;z2)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#listToMap(java.util.List)" class="member-name-link">listToMap</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../map/entities/BaseEntity.html" title="class in io.github.emcw.map.entities">BaseEntity</a>&lt;T&gt;&gt;&nbsp;list)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#manhattan(int,int,int,int)" class="member-name-link">manhattan</a><wbr>(int&nbsp;x1,
@@ -167,8 +159,8 @@ loadScripts(document, 'script');</script>
  int&nbsp;z2)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#manhattan(io.github.emcw.map.entities.Location,io.github.emcw.map.entities.Location)" class="member-name-link">manhattan</a><wbr>(@NotNull <a href="../map/entities/Location.html" title="class in io.github.emcw.map.entities">Location</a>&nbsp;loc1,
- @NotNull <a href="../map/entities/Location.html" title="class in io.github.emcw.map.entities">Location</a>&nbsp;loc2)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#manhattan(io.github.emcw.squaremap.entities.SquaremapLocation,io.github.emcw.squaremap.entities.SquaremapLocation)" class="member-name-link">manhattan</a><wbr>(@NotNull <a href="../squaremap/entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;loc1,
+ @NotNull <a href="../squaremap/entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;loc2)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#midrange(int%5B%5D)" class="member-name-link">midrange</a><wbr>(int[]&nbsp;ints)</code></div>
@@ -234,25 +226,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="listToMap(java.util.List)">
-<h3>listToMap</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>T&gt;</span>&nbsp;<span class="element-name">listToMap</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../map/entities/BaseEntity.html" title="class in io.github.emcw.map.entities">BaseEntity</a>&lt;T&gt;&gt;&nbsp;list)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="collectEntities(java.util.stream.Stream)">
-<h3>collectEntities</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>T&gt;</span>&nbsp;<span class="element-name">collectEntities</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a>&lt;? extends <a href="../map/entities/BaseEntity.html" title="class in io.github.emcw.map.entities">BaseEntity</a>&lt;T&gt;&gt;&nbsp;stream)</span></div>
-</div>
-</section>
-</li>
 <li>
 <section class="detail" id="collectAsMap(java.util.stream.Stream)">
 <h3>collectAsMap</h3>
@@ -336,14 +309,14 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="manhattan(io.github.emcw.map.entities.Location,io.github.emcw.map.entities.Location)">
+<section class="detail" id="manhattan(io.github.emcw.squaremap.entities.SquaremapLocation,io.github.emcw.squaremap.entities.SquaremapLocation)">
 <h3>manhattan</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">manhattan</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../map/entities/Location.html" title="class in io.github.emcw.map.entities">Location</a>&nbsp;loc1,
+ @NotNull <a href="../squaremap/entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;loc1,
  @NotNull
- @NotNull <a href="../map/entities/Location.html" title="class in io.github.emcw.map.entities">Location</a>&nbsp;loc2)</span></div>
+ @NotNull <a href="../squaremap/entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;loc2)</span></div>
 </div>
 </section>
 </li>

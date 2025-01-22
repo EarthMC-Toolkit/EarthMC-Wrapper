@@ -77,12 +77,11 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#build()" tabindex="0">build()</a></li>
+<li><a href="#buildCache()" tabindex="0">buildCache()</a></li>
 <li><a href="#updateIf(io.github.emcw.caching.CacheStrategy)" tabindex="0">updateIf(CacheStrategy)</a></li>
 <li><a href="#get(java.lang.String...)" tabindex="0">get(String...)</a></li>
 <li><a href="#single(java.lang.String)" tabindex="0">single(String)</a></li>
 <li><a href="#all()" tabindex="0">all()</a></li>
-<li><a href="#has(java.lang.String)" tabindex="0">has(String)</a></li>
 <li><a href="#clear()" tabindex="0">clear()</a></li>
 <li><a href="#empty()" tabindex="0">empty()</a></li>
 <li><a href="#put(java.lang.String,V)" tabindex="0">put(String, V)</a></li>
@@ -104,7 +103,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="../map/api/Nations.html" title="class in io.github.emcw.map.api">Nations</a></code>, <code><a href="../map/api/Players.html" title="class in io.github.emcw.map.api">Players</a></code>, <code><a href="../map/api/Residents.html" title="class in io.github.emcw.map.api">Residents</a></code>, <code><a href="../map/api/Towns.html" title="class in io.github.emcw.map.api">Towns</a></code></dd>
+<dd><code><a href="../squaremap/api/Nations.html" title="class in io.github.emcw.squaremap.api">Nations</a></code>, <code><a href="../squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></code>, <code><a href="../squaremap/api/Residents.html" title="class in io.github.emcw.squaremap.api">Residents</a></code>, <code><a href="../squaremap/api/Towns.html" title="class in io.github.emcw.squaremap.api">Towns</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseCache&lt;V&gt;</span>
@@ -163,10 +162,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#all()" class="member-name-link">all</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets all elements from this cache in a case-insensitive order.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildCache()" class="member-name-link">buildCache</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates the <a href="#cache"><code>cache</code></a>, with some pre-setup according to <a href="#options"><code>options</code></a>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -176,25 +179,24 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(java.lang.String...)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a> @NotNull ...&nbsp;keys)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#has(java.lang.String)" class="member-name-link">has</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#put(java.lang.String,V)" class="member-name-link">put</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="BaseCache.html" title="type parameter in BaseCache">V</a>&nbsp;val)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#put(java.lang.String,V)" class="member-name-link">put</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="BaseCache.html" title="type parameter in BaseCache">V</a>&nbsp;val)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putAll(java.util.Map)" class="member-name-link">putAll</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>? extends <a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;&nbsp;map)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putAll(java.util.Map)" class="member-name-link">putAll</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>? extends <a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;&nbsp;map)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseCache.html" title="type parameter in BaseCache">V</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#single(java.lang.String)" class="member-name-link">single</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="BaseCache.html" title="type parameter in BaseCache">V</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#single(java.lang.String)" class="member-name-link">single</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryExpire()" class="member-name-link">tryExpire</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryExpire()" class="member-name-link">tryExpire</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateIf(io.github.emcw.caching.CacheStrategy)" class="member-name-link">updateIf</a><wbr>(<a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a>&nbsp;strategy)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateIf(io.github.emcw.caching.CacheStrategy)" class="member-name-link">updateIf</a><wbr>(<a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a>&nbsp;strategy)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Runs the <a href="#updater"><code>updater</code></a> if the cache strategy matches in the given one.</div>
+</div>
 </div>
 </div>
 </div>
@@ -273,10 +275,16 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="build()">
-<h3>build</h3>
+<section class="detail" id="buildCache()">
+<h3>buildCache</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">build</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">buildCache</span>()</div>
+<div class="block">Creates the <a href="#cache"><code>cache</code></a>, with some pre-setup according to <a href="#options"><code>options</code></a>.
+ <br><br>
+ If the strategy is <a href="CacheStrategy.html#LAZY"><code>CacheStrategy.LAZY</code></a>, we simply set the expiry after write and build.
+ <br><br>
+ If the strategy is <a href="CacheStrategy.html#TIME_BASED"><code>CacheStrategy.TIME_BASED</code></a> or <a href="CacheStrategy.html#HYBRID"><code>CacheStrategy.HYBRID</code></a>
+ we initialize a scheduler to update</div>
 </div>
 </section>
 </li>
@@ -285,6 +293,7 @@ loadScripts(document, 'script');</script>
 <h3>updateIf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateIf</span><wbr><span class="parameters">(<a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a>&nbsp;strategy)</span></div>
+<div class="block">Runs the <a href="#updater"><code>updater</code></a> if the cache strategy matches in the given one.</div>
 </div>
 </section>
 </li>
@@ -314,14 +323,8 @@ loadScripts(document, 'script');</script>
 <h3>all</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</span>&nbsp;<span class="element-name">all</span>()</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="has(java.lang.String)">
-<h3>has</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">has</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</span></div>
+<div class="block">Gets all elements from this cache in a case-insensitive order.
+ <br>Some subclasses may override this to implement additional behaviour.</div>
 </div>
 </section>
 </li>

@@ -5,7 +5,7 @@
 <title>Players (EarthMC-Wrapper 0.11.5 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: io.github.emcw.map.api, class: Players">
+<meta name="description" content="declaration: package: io.github.emcw.squaremap.api, class: Players">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../../../resource-files/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../resource-files/stylesheet.css" title="Style">
@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">io.github.emcw.map.api</a></li>
+<li><a href="package-summary.html">io.github.emcw.squaremap.api</a></li>
 <li><a href="Players.html" class="current-selection">Players</a></li>
 </ol>
 <div class="nav-list-search">
@@ -65,22 +65,21 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.emcw.EMCMap,io.github.emcw.caching.CacheOptions)" tabindex="0">Players(EMCMap, CacheOptions)</a></li>
+<li><a href="#%3Cinit%3E(io.github.emcw.squaremap.SquaremapParser,io.github.emcw.squaremap.api.Residents,io.github.emcw.caching.CacheOptions)" tabindex="0">Players(SquaremapParser, Residents, CacheOptions)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#tryUpdate()" tabindex="0">tryUpdate()</a></li>
 <li><a href="#forceUpdate()" tabindex="0">forceUpdate()</a></li>
-<li><a href="#updateCache(java.lang.Boolean)" tabindex="0">updateCache(Boolean)</a></li>
-<li><a href="#all()" tabindex="0">all()</a></li>
 <li><a href="#single(java.lang.String)" tabindex="0">single(String)</a></li>
 <li><a href="#get(java.lang.String...)" tabindex="0">get(String...)</a></li>
+<li><a href="#all()" tabindex="0">all()</a></li>
 <li><a href="#online()" tabindex="0">online()</a></li>
 <li><a href="#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer)" tabindex="0">nearby(Integer, Integer, Integer)</a></li>
 <li><a href="#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" tabindex="0">nearby(Integer, Integer, Integer, Integer)</a></li>
-<li><a href="#nearby(io.github.emcw.map.entities.Player,java.lang.Integer,java.lang.Integer)" tabindex="0">nearby(Player, Integer, Integer)</a></li>
-<li><a href="#nearby(io.github.emcw.map.entities.Location,java.lang.Integer,java.lang.Integer)" tabindex="0">nearby(Location, Integer, Integer)</a></li>
+<li><a href="#nearby(io.github.emcw.squaremap.entities.SquaremapPlayer,java.lang.Integer,java.lang.Integer)" tabindex="0">nearby(SquaremapPlayer, Integer, Integer)</a></li>
+<li><a href="#nearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)" tabindex="0">nearby(SquaremapLocation, Integer, Integer)</a></li>
 <li><a href="#townless()" tabindex="0">townless()</a></li>
 <li><a href="#getOnline(java.lang.String)" tabindex="0">getOnline(String)</a></li>
 </ol>
@@ -93,20 +92,20 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Players" class="title">Class Players</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">io.github.emcw.caching.BaseCache</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;
-<div class="inheritance">io.github.emcw.map.api.Players</div>
+<div class="inheritance"><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">io.github.emcw.caching.BaseCache</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;
+<div class="inheritance">io.github.emcw.squaremap.api.Players</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></dd>
+<dd><code><a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Players</span>
-<span class="extends-implements">extends <a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;
-implements <a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span></div>
+<span class="extends-implements">extends <a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;
+implements <a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span></div>
 </div>
 </section>
 <section class="summary">
@@ -131,7 +130,8 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.EMCMap,io.github.emcw.caching.CacheOptions)" class="member-name-link">Players</a><wbr>(@NotNull <a href="../../EMCMap.html" title="class in io.github.emcw">EMCMap</a>&nbsp;mapInstance,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.squaremap.SquaremapParser,io.github.emcw.squaremap.api.Residents,io.github.emcw.caching.CacheOptions)" class="member-name-link">Players</a><wbr>(@NotNull <a href="../SquaremapParser.html" title="class in io.github.emcw.squaremap">SquaremapParser</a>&nbsp;parser,
+ <a href="Residents.html" title="class in io.github.emcw.squaremap.api">Residents</a>&nbsp;residents,
  <a href="../../caching/CacheOptions.html" title="class in io.github.emcw.caching">CacheOptions</a>&nbsp;options)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -148,60 +148,60 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#all()" class="member-name-link">all</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retreives all the online players, and merges them with residents.<br><br>
+ Townless players will strictly be <a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapPlayer</code></a>, while residents can be <a href="../entities/SquaremapResident.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapResident</code></a>.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forceUpdate()" class="member-name-link">forceUpdate</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(java.lang.String...)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a> @NotNull ...&nbsp;keys)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOnline(java.lang.String)" class="member-name-link">getOnline</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerName)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nearby(io.github.emcw.map.entities.Location,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby</a><wbr>(@NotNull <a href="../entities/Location.html" title="class in io.github.emcw.map.entities">Location</a>&nbsp;location,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby</a><wbr>(@NotNull <a href="../entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;location,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nearby(io.github.emcw.map.entities.Player,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby</a><wbr>(@NotNull <a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&nbsp;p,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nearby(io.github.emcw.squaremap.entities.SquaremapPlayer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby</a><wbr>(@NotNull <a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&nbsp;p,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;radius)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#online()" class="member-name-link">online</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#single(java.lang.String)" class="member-name-link">single</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#townless()" class="member-name-link">townless</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryUpdate()" class="member-name-link">tryUpdate</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCache(java.lang.Boolean)" class="member-name-link">updateCache</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;force)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.emcw.caching.BaseCache">Methods inherited from class&nbsp;io.github.emcw.caching.<a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></h3>
-<code><a href="../../caching/BaseCache.html#build()">build</a>, <a href="../../caching/BaseCache.html#clear()">clear</a>, <a href="../../caching/BaseCache.html#empty()">empty</a>, <a href="../../caching/BaseCache.html#has(java.lang.String)">has</a>, <a href="../../caching/BaseCache.html#put(java.lang.String,V)">put</a>, <a href="../../caching/BaseCache.html#putAll(java.util.Map)">putAll</a>, <a href="../../caching/BaseCache.html#tryExpire()">tryExpire</a>, <a href="../../caching/BaseCache.html#updateIf(io.github.emcw.caching.CacheStrategy)">updateIf</a></code></div>
+<code><a href="../../caching/BaseCache.html#buildCache()">buildCache</a>, <a href="../../caching/BaseCache.html#clear()">clear</a>, <a href="../../caching/BaseCache.html#empty()">empty</a>, <a href="../../caching/BaseCache.html#put(java.lang.String,V)">put</a>, <a href="../../caching/BaseCache.html#putAll(java.util.Map)">putAll</a>, <a href="../../caching/BaseCache.html#tryExpire()">tryExpire</a>, <a href="../../caching/BaseCache.html#updateIf(io.github.emcw.caching.CacheStrategy)">updateIf</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -220,11 +220,12 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.emcw.EMCMap,io.github.emcw.caching.CacheOptions)">
+<section class="detail" id="&lt;init&gt;(io.github.emcw.squaremap.SquaremapParser,io.github.emcw.squaremap.api.Residents,io.github.emcw.caching.CacheOptions)">
 <h3>Players</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Players</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../../EMCMap.html" title="class in io.github.emcw">EMCMap</a>&nbsp;mapInstance,
+ @NotNull <a href="../SquaremapParser.html" title="class in io.github.emcw.squaremap">SquaremapParser</a>&nbsp;parser,
+ <a href="Residents.html" title="class in io.github.emcw.squaremap.api">Residents</a>&nbsp;residents,
  <a href="../../caching/CacheOptions.html" title="class in io.github.emcw.caching">CacheOptions</a>&nbsp;options)</span></div>
 </div>
 </section>
@@ -254,34 +255,14 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 </section>
 </li>
 <li>
-<section class="detail" id="updateCache(java.lang.Boolean)">
-<h3>updateCache</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateCache</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;force)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="all()">
-<h3>all</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">all</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="../../caching/BaseCache.html#all()">all</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="single(java.lang.String)">
 <h3>single</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a></span>&nbsp;<span class="element-name">single</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span>
-              throws <span class="exceptions"><a href="../../exceptions/MissingEntryException.html" title="class in io.github.emcw.exceptions">MissingEntryException</a></span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a></span>&nbsp;<span class="element-name">single</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span>
+                       throws <span class="exceptions"><a href="../../exceptions/MissingEntryException.html" title="class in io.github.emcw.exceptions">MissingEntryException</a></span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="../../caching/BaseCache.html#single(java.lang.String)">single</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></dd>
+<dd><code><a href="../../caching/BaseCache.html#single(java.lang.String)">single</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></dd>
 <dt>Throws:</dt>
 <dd><code><a href="../../exceptions/MissingEntryException.html" title="class in io.github.emcw.exceptions">MissingEntryException</a></code></dd>
 </dl>
@@ -292,10 +273,27 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <section class="detail" id="get(java.lang.String...)">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a> @NotNull ...&nbsp;keys)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a> @NotNull ...&nbsp;keys)</span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="../../caching/BaseCache.html#get(java.lang.String...)">get</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</code></dd>
+<dd><code><a href="../../caching/BaseCache.html#get(java.lang.String...)">get</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="all()">
+<h3>all</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">all</span>()</div>
+<div class="block">Retreives all the online players, and merges them with residents.<br><br>
+ Townless players will strictly be <a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapPlayer</code></a>, while residents can be <a href="../entities/SquaremapResident.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapResident</code></a>.
+ You can check if a value is a resident by using the <a href="../entities/SquaremapPlayer.html#isResident()"><code>SquaremapPlayer.isResident()</code></a> method.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../../caching/BaseCache.html#all()">all</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>A map of players where the key is the player name and value is the merged player object.</dd>
 </dl>
 </div>
 </section>
@@ -304,7 +302,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <section class="detail" id="online()">
 <h3>online</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">online</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">online</span>()</div>
 </div>
 </section>
 </li>
@@ -312,7 +310,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <section class="detail" id="nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer)">
 <h3>nearby</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;radius)</span></div>
 </div>
@@ -322,7 +320,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <section class="detail" id="nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)">
 <h3>nearby</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</span></div>
@@ -330,22 +328,22 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 </section>
 </li>
 <li>
-<section class="detail" id="nearby(io.github.emcw.map.entities.Player,java.lang.Integer,java.lang.Integer)">
+<section class="detail" id="nearby(io.github.emcw.squaremap.entities.SquaremapPlayer,java.lang.Integer,java.lang.Integer)">
 <h3>nearby</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&nbsp;p,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&nbsp;p,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</span></div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="nearby(io.github.emcw.map.entities.Location,java.lang.Integer,java.lang.Integer)">
+<section class="detail" id="nearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)">
 <h3>nearby</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../entities/Location.html" title="class in io.github.emcw.map.entities">Location</a>&nbsp;location,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">nearby</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;location,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;xRadius,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;zRadius)</span></div>
 </div>
@@ -355,7 +353,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <section class="detail" id="townless()">
 <h3>townless</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a>&gt;</span>&nbsp;<span class="element-name">townless</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</span>&nbsp;<span class="element-name">townless</span>()</div>
 </div>
 </section>
 </li>
@@ -364,7 +362,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <h3>getOnline</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="../entities/Player.html" title="class in io.github.emcw.map.entities">Player</a></span>&nbsp;<span class="element-name">getOnline</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerName)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="../entities/SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a></span>&nbsp;<span class="element-name">getOnline</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerName)</span></div>
 </div>
 </section>
 </li>

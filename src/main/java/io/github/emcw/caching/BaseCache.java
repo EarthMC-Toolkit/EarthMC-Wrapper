@@ -80,7 +80,7 @@ public class BaseCache<V> {
     public Map<String, V> get(String @NotNull ... keys) {
         Map<String, V> all = all();
 
-        return Funcs.streamStrArr(keys)
+        return Funcs.parallelStreamArr(keys)
             .filter(all::containsKey)
             .collect(Collectors.toMap(k -> k, all::get));
     }

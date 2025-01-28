@@ -12,9 +12,6 @@ import static io.github.emcw.utils.GsonUtil.arrAsStream;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public final class SquaremapAPI {
-    private SquaremapAPI() {
-    }
-
     private static JsonElement get(String type) {
         JsonObject endpoint = Endpoints.get().getIfPresent("squaremap");
         if (endpoint != null) return JSONRequest.sendGet(endpoint.get(type).getAsString());

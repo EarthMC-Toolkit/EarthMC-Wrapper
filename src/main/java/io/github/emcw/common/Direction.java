@@ -1,4 +1,4 @@
-package io.github.emcw;
+package io.github.emcw.common;
 
 import java.io.Serializable;
 

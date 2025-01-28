@@ -1,17 +1,12 @@
 package io.github.emcw.squaremap.entities;
 
 import lombok.Getter;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
-import kotlin.Pair;
-import com.google.gson.JsonObject;
-
-import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.interfaces.IGsonSerializable;
 import static io.github.emcw.utils.Funcs.midrange;
-import static io.github.emcw.utils.GsonUtil.*;
 
-public class SquaremapLocation implements ISerializable {
+@SuppressWarnings("unused")
+public class SquaremapLocation implements IGsonSerializable {
     @Getter final Integer x;
     @Getter final Integer y;
     @Getter final Integer z;
@@ -55,15 +50,10 @@ public class SquaremapLocation implements ISerializable {
         return x == 0 && z == 0;
     }
 
-    @Contract("_ -> new")
-    protected static @NotNull SquaremapLocation fromObj(JsonObject obj) {
-        return new SquaremapLocation(keyAsInt(obj, "x"), keyAsInt(obj, "y"), keyAsInt(obj, "z"));
-    }
-
     // TODO: Try to use capital X and Z, with midrange as fallback.
-    public static SquaremapLocation of(Pair<int[], int[]> bounds) {
-        Integer x = midrange(bounds.getFirst());
-        Integer z = midrange(bounds.getSecond());
+    public static SquaremapLocation of(int[] xArr, int[] zArr) {
+        Integer x = midrange(xArr);
+        Integer z = midrange(zArr);
 
         return new SquaremapLocation(x, z);
     }

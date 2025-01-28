@@ -1,44 +1,40 @@
 package io.github.emcw.squaremap.entities;
 
-import com.google.gson.JsonObject;
-import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.interfaces.IGsonSerializable;
+
 import lombok.Getter;
 
-import java.util.Objects;
-
-import static io.github.emcw.utils.GsonUtil.keyAsStr;
-
 @SuppressWarnings("unused")
-public class SquaremapResident extends SquaremapPlayer implements ISerializable {
-    @Getter private String town, nation, rank;
+public class SquaremapResident implements IGsonSerializable {
+    @Getter private final String name, town, nation, rank;
 
-    public SquaremapResident(JsonObject res, JsonObject op) {
-        super(op, true, true);
-        setFields(res);
+    public SquaremapResident(String resName, SquaremapMarker marker, boolean isCouncillor) {
+        this.name = resName;
+        this.town = marker.townName;
+        this.nation = marker.nationName;
+
+        boolean isMayor = marker.mayor.equals(getName());
+        this.rank = isMayor ? (marker.isCapital ? "Nation Leader" : "Mayor") : "Resident";
     }
 
-    public SquaremapResident(JsonObject res, SquaremapPlayer op) {
-        super(op);
-        setFields(res);
+    public boolean isMayor() {
+        return this.rank.equals("Mayor");
     }
 
-    public SquaremapResident(JsonObject obj) {
-        super(obj, true);
-        setFields(obj);
+    public boolean isNationLeader() {
+        return this.rank.equals("Nation Leader");
     }
 
-    void setFields(JsonObject obj) {
-        town = keyAsStr(obj, "town");
-        nation = keyAsStr(obj, "nation");
-        rank = keyAsStr(obj, "rank");
+    public boolean isCouncillor() {
+        return this.rank.equals("Councillor");
     }
 
     /**
-     * <p>Determines whether this resident has more permissions than a regular resident.</p>
-     * @return <font color="green">true</font> if {@link #rank} is 'Mayor' or 'Leader', otherwise <font color="red">false</font>.
+     * <p>Checks whether this resident has more permissions than a regular resident.</p>
+     * @return true if {@link #rank} is a {@code Mayor}, {@code Nation Leader} or {@code Councillor} - false otherwise.
      */
     public boolean hasAuthority() {
-        return Objects.equals(rank, "Mayor") || Objects.equals(rank, "Leader");
+        return isNationLeader() || isCouncillor() || isMayor();
     }
 
 //    @SuppressWarnings("SameParameterValue")

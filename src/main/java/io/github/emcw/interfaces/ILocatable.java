@@ -2,7 +2,7 @@ package io.github.emcw.interfaces;
 
 import io.github.emcw.squaremap.entities.SquaremapLocation;
 import io.github.emcw.squaremap.entities.SquaremapNation;
-import io.github.emcw.squaremap.entities.SquaremapPlayer;
+import io.github.emcw.squaremap.entities.SquaremapOnlinePlayer;
 import io.github.emcw.squaremap.entities.SquaremapTown;
 
 import java.util.Map;
@@ -51,7 +51,7 @@ public interface ILocatable<T> {
     private boolean checkNearby(T val) {
         SquaremapLocation loc = null;
 
-        if (val instanceof SquaremapPlayer player) {
+        if (val instanceof SquaremapOnlinePlayer player) {
             if (!player.visible()) return false;
             loc = player.getLocation();
         }

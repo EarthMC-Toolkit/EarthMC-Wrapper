@@ -12,13 +12,12 @@ import org.jsoup.nodes.Document;
 
 import org.jsoup.nodes.Element;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-import java.util.stream.StreamSupport;
 
 import static io.github.emcw.utils.Funcs.roundToNearest16;
 import static io.github.emcw.utils.GsonUtil.*;
@@ -47,7 +46,7 @@ public class SquaremapMarker {
     public final String board;
 
     public final boolean isCapital;
-    public final boolean PVP, Public;
+    public final boolean PVP, PUBLIC;
 
     public final JsonArray points;
     public final Pair<int[], int[]> bounds;
@@ -66,10 +65,15 @@ public class SquaremapMarker {
         board = keyAsStr(tooltip, "board");
 
         points = keyAsArr(rawMarkerObj, "points");
+
+        // Not sure how exactly points work yet and if we should even flatten them, but oh well.
         bounds = getBounds(flattenJsonArr(points, 2));
 
-        location = SquaremapLocation.of(bounds);
-        area = Funcs.calcArea(bounds.getFirst(), bounds.getSecond());
+        int[] xBounds = bounds.getFirst();
+        int[] zBounds = bounds.getSecond();
+
+        location = SquaremapLocation.of(xBounds, zBounds);
+        area = Funcs.calcArea(xBounds, zBounds);
 
         color = keyAsStr(rawMarkerObj, "color");
         fillColor = keyAsStr(rawMarkerObj, "fillColor");
@@ -82,8 +86,10 @@ public class SquaremapMarker {
         nationWiki = keyAsStr(popup, "nationWiki");
 
         isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
+
+        // Flags
         PVP = Boolean.TRUE.equals(keyAsBool(popup, "pvp"));
-        Public = Boolean.TRUE.equals(keyAsBool(popup, "public"));
+        PUBLIC = Boolean.TRUE.equals(keyAsBool(popup, "public"));
     }
 
     /**
@@ -116,6 +122,22 @@ public class SquaremapMarker {
         });
 
         return new Pair<>(xPoints, zPoints);
+    }
+
+    @Nullable
+    public static Set<String> getNamesFromString(String names) {
+        if (names == null || names.isEmpty()) return null;
+        return Set.of(names.split(", "));
+    }
+
+    @Nullable
+    public Set<String> getResidentNames() {
+        return getNamesFromString(this.residents);
+    }
+
+    @Nullable
+    public Set<String> getCouncillorNames() {
+        return getNamesFromString(this.councillors);
     }
 
     // Extracts town name, nation name and board.

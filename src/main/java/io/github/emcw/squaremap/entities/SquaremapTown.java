@@ -1,41 +1,41 @@
 package io.github.emcw.squaremap.entities;
 
+import io.github.emcw.interfaces.IGsonSerializable;
+import static io.github.emcw.utils.GsonUtil.*;
+
 import com.google.gson.JsonObject;
 
-import io.github.emcw.interfaces.ISerializable;
+import java.awt.*;
+import java.util.Set;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-
-import java.util.Objects;
-import java.util.Set;
-
-import static io.github.emcw.utils.GsonUtil.*;
-
 @SuppressWarnings("unused")
-public class SquaremapTown implements ISerializable {
+public class SquaremapTown implements IGsonSerializable {
     @Getter String name, nation, mayor;
     @Getter Integer area;
     @Getter SquaremapLocation location;
-    @Getter Set<String> residentNames;
+    @Getter Set<SquaremapResident> residents;
     @Getter Flags flags;
     @Getter Color fill, outline;
 
+    /**
+     * Takes a basic parsed marker and parses it further to create a full object representative
+     * of a Town on a Squaremap map, with some helper methods attached.
+     */
     public SquaremapTown(SquaremapMarker marker) {
-        name = marker.townName;
-        nation = marker.nationName;
-        mayor = marker.mayor;
-        location = marker.location;
-        area = marker.area;
+        this.name = marker.townName;
+        this.nation = marker.nationName;
+        this.mayor = marker.mayor;
+        this.location = marker.location;
+        this.area = marker.area;
 
-        residentNames = Set.of(marker.residents.split(", "));
+        this.flags = new Flags(marker.PUBLIC, marker.PVP);
 
-        flags = new Flags(marker.Public, marker.PVP);
-
-        fill = getColour(marker.fillColor);
-        outline = getColour(marker.color);
+        this.fill = getColour(marker.fillColor);
+        this.outline = getColour(marker.color);
     }
 
     public static class Flags {
@@ -43,8 +43,8 @@ public class SquaremapTown implements ISerializable {
 //        public final boolean EXPLOSIONS, FIRE, CAPITAL, MOBS;
 
         public Flags(JsonObject obj) {
-            PUBLIC = Boolean.TRUE.equals(keyAsBool(obj, "public"));
-            PVP = Boolean.TRUE.equals(keyAsBool(obj, "pvp"));
+            this.PUBLIC = Boolean.TRUE.equals(keyAsBool(obj, "public"));
+            this.PVP = Boolean.TRUE.equals(keyAsBool(obj, "pvp"));
 //            EXPLOSIONS = keyAsBool(obj, "explosions");
 //            FIRE = keyAsBool(obj, "fire");
 //            CAPITAL = keyAsBool(obj, "capital");
@@ -52,8 +52,8 @@ public class SquaremapTown implements ISerializable {
         }
 
         public Flags(boolean PUBLIC, boolean PVP) {
-            this.PUBLIC = Boolean.TRUE.equals(PUBLIC);
-            this.PVP = Boolean.TRUE.equals(PVP);
+            this.PUBLIC = PUBLIC;
+            this.PVP = PVP;
         }
     }
 
@@ -62,7 +62,7 @@ public class SquaremapTown implements ISerializable {
 //    }
 
     public boolean isNationless() {
-        return nation == null;
+        return this.nation == null || this.nation.isEmpty();
     }
 
     Color getColour(String hex) {
@@ -70,11 +70,11 @@ public class SquaremapTown implements ISerializable {
     }
 
     String defaultColour() {
-        return defaultColour(nation);
+        return defaultColour(this.nation);
     }
 
     @Contract(pure = true)
     private static @NotNull String defaultColour(String nationName) {
-        return Objects.equals(nationName, "No Nation") ? "#89C500" : "#3FB4FF";
+        return nationName.equals("No Nation") ? "#89C500" : "#3FB4FF";
     }
 }

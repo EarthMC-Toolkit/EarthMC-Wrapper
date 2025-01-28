@@ -2,63 +2,38 @@ package io.github.emcw.squaremap.entities;
 
 import com.google.gson.JsonObject;
 
-import io.github.emcw.Direction;
+import io.github.emcw.common.Direction;
+import io.github.emcw.common.Entity;
 import io.github.emcw.interfaces.ILocatable;
-import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.interfaces.IGsonSerializable;
 import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
 @SuppressWarnings("unused")
-public class SquaremapPlayer implements ISerializable, ILocatable<SquaremapPlayer> {
-    @Getter private String name, nickname;
-    @Getter private SquaremapLocation location = null;
-    @Getter private Integer yaw;
+public class SquaremapOnlinePlayer extends Entity implements ILocatable<SquaremapOnlinePlayer>, IGsonSerializable {
+    @Getter private final String displayName;
+    @Getter private final SquaremapLocation location;
+    @Getter private final Integer yaw;
+    @Getter private final String world;
 
-    private transient String world = null;
-    @Setter transient boolean isResident = false;
+    public SquaremapOnlinePlayer(JsonObject opInfo) {
+        super(keyAsStr(opInfo, "uuid"), keyAsStr(opInfo, "name"));
 
-    public SquaremapPlayer(JsonObject obj, Boolean resident) {
-        init(obj, resident);
-        setLocation(obj, false);
-    }
+        this.displayName = keyAsStr(opInfo, "displayName");
+        this.world = keyAsStr(opInfo, "world");
+        this.yaw = keyAsInt(opInfo, "yaw");
 
-    SquaremapPlayer(JsonObject obj, Boolean resident, boolean parsed) {
-        init(obj, resident);
-        setLocation(obj, parsed);
-    }
-
-    public SquaremapPlayer(@NotNull SquaremapPlayer player) {
-        name = player.getName();
-        nickname = player.getNickname();
-        location = player.getLocation();
-        yaw = player.getYaw();
-    }
-
-    private void init(JsonObject obj, boolean resident) {
-        name = keyAsStr(obj, "name");
-        nickname = keyAsStr(obj, "nickname");
-        world = keyAsStr(obj, "world");
-        isResident = resident;
-    }
-
-    void setLocation(JsonObject obj, boolean parsed) {
-        SquaremapLocation loc = SquaremapLocation.fromObj(parsed ? obj.getAsJsonObject("location") : obj);
-        if (loc.valid()) {
-            location = loc;
-        }
+        this.location = new SquaremapLocation(keyAsInt(opInfo, "x"), keyAsInt(opInfo, "z"));
     }
 
     /**
      * If this player has set a nickname.
-     * @return true/false if {@link #nickname} is same as their account {@link #name}.
+     * @return true/false if {@link #displayName} is same as their account {@link #name}.
      */
-    public boolean hasCustomNickname() {
-        return nickname != null && !Objects.equals(nickname, name);
+    public boolean hasCustomName() {
+        String realName = this.name == null ? "" : this.name;
+        return displayName != null && !displayName.equals(realName);
     }
 
     /**
@@ -66,7 +41,7 @@ public class SquaremapPlayer implements ISerializable, ILocatable<SquaremapPlaye
      * @return true/false if {@link #world} is "earth" and player is not under a block.
      */
     public boolean visible() {
-        return Objects.equals(world, "earth");
+        return this.world.equals("minecraft_overworld");
     }
 
     /**
@@ -84,19 +59,12 @@ public class SquaremapPlayer implements ISerializable, ILocatable<SquaremapPlaye
      * @return true/false if {@link #location} is 0, 0
      */
     public boolean locationIsDefault() {
-        return location.x == 0 && location.z == 0;
-    }
-
-    /**
-     * Check if this player is also a resident on the map this instance was retrieved from.
-     */
-    public boolean isResident() {
-        return isResident;
+        return this.location.x == 0 && this.location.z == 0;
     }
 
     public Direction facingDirection() throws IllegalArgumentException {
         // Normalize the yaw to a value between 0 and 360 degrees
-        float normalized = (yaw % 360 + 360) % 360;
+        float normalized = (this.yaw % 360 + 360) % 360;
 
         // Determine direction based on normalized value
         if (337.5 <= normalized || 0 <= normalized && normalized < 22.5) {
@@ -118,6 +86,6 @@ public class SquaremapPlayer implements ISerializable, ILocatable<SquaremapPlaye
         }
 
         // This should never occur since yaw is an integer and will always be
-        throw new IllegalArgumentException("Invalid yaw value: " + yaw);
+        throw new IllegalArgumentException("Invalid yaw value: " + this.yaw);
     }
 }

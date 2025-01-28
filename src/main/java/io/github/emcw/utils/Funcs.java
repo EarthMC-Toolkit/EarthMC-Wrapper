@@ -32,10 +32,6 @@ public class Funcs {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static boolean strArrHas(String[] arr, @NotNull String str) {
-       return streamStrArr(arr).anyMatch(str::equals);
-    }
-
     public static int calcArea(int[] X, int[] Z) {
         return calcArea(X, Z, X.length);
     }
@@ -93,8 +89,12 @@ public class Funcs {
             .collect(Collectors.toList());
     }
 
-    public static @NotNull Stream<String> streamStrArr(@NotNull String[] arr) {
+    public static @NotNull <T> Stream<T> parallelStreamArr(@NotNull T[] arr) {
         return Stream.of(arr).toList().parallelStream();
+    }
+
+    public static boolean strArrHas(String[] arr, @NotNull String str) {
+        return parallelStreamArr(arr).anyMatch(str::equals);
     }
 
     @Contract(pure = true)

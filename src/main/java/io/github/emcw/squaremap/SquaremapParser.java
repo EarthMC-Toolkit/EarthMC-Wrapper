@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 // TODO: Remove annotation when the class is fully complete.
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapParser {
     @Getter final Cache<String, SquaremapTown> towns = Caffeine.newBuilder().build();
     @Getter final Cache<String, SquaremapNation> nations = Caffeine.newBuilder().build();

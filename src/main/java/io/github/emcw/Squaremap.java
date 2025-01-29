@@ -50,9 +50,9 @@ public class Squaremap {
     }
 
     private void prefill() {
-        Towns.forceUpdate();
-        Nations.forceUpdate();
-        Residents.forceUpdate();
-        Players.forceUpdate();
+        Towns.forceUpdateCache();
+        Nations.forceUpdateCache();
+        Residents.forceUpdateCache();
+        Players.forceUpdateCache();
     }
 }

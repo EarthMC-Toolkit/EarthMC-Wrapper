@@ -15,15 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static io.github.emcw.utils.GsonUtil.*;
-
-@SuppressWarnings("unused")
 public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocatable<SquaremapOnlinePlayer> {
     SquaremapParser parser;
     Residents residents;
@@ -38,16 +32,8 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         buildCache();
     }
 
-    public void tryUpdateCache() {
-        tryExpireCache();
-        updateCache(false);
-    }
-
-    public void forceUpdateCache() {
-        updateCache(true);
-    }
-
-    void updateCache(Boolean force) {
+    @Override
+    protected void updateCache(Boolean force) {
         // We aren't forcing an update, and not expired.
         if (!cacheIsEmpty() && !force) return;
 
@@ -80,19 +66,18 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer radius) {
-        return getNearby(all(), xCoord, zCoord, radius);
+        return getNearby(this.all(), xCoord, zCoord, radius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
-        return getNearby(all(), xCoord, zCoord, xRadius, zRadius);
+        return getNearby(this.all(), xCoord, zCoord, xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
         SquaremapLocation playerLoc = p.getLocation();
-
         if (playerLoc.isDefault()) return Map.of();
 
-        Map<String, SquaremapOnlinePlayer> nearby = getNearby(all(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
+        Map<String, SquaremapOnlinePlayer> nearby = getNearby(this.all(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
         nearby.remove(p.getName());
 
         return nearby;
@@ -100,14 +85,17 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
         if (!location.valid()) return Map.of();
-        return getNearby(all(), location.getX(), location.getZ(), xRadius, zRadius);
+        return getNearby(this.all(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> townless() {
-        Set<String> ops = all().keySet();
+        Map<String, SquaremapOnlinePlayer> ops = this.all();
+        Set<String> residents = this.residents.all().keySet(); // Dont care abt value, we only need to know if they exist.
 
-        Stream<SquaremapOnlinePlayer> players = streamValues(all()).filter(p -> !ops.contains(p));
-        return players.collect(Collectors.toMap(SquaremapOnlinePlayer::getName, Function.identity()));
+        // Single pass over entrySet is preferred in this case since we need both key and value.
+        return ops.entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
+            .filter(opEntry -> residents.contains(opEntry.getKey())) // O(1) lookup. Key is the player's name.
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // This is why I hate Java.
     }
 
     /**

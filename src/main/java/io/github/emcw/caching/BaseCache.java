@@ -13,10 +13,11 @@ import java.util.TreeMap;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted"})
-public class BaseCache<V> {
+public abstract class BaseCache<V> {
     @Setter(AccessLevel.PROTECTED) protected Cache<String, V> cache;
     protected final CacheOptions options;
 
@@ -148,4 +149,15 @@ public class BaseCache<V> {
         // Only clear if lazy or hybrid.
         clearCache();
     }
+
+    public void tryUpdateCache() {
+        tryExpireCache();
+        updateCache(false);
+    }
+
+    public void forceUpdateCache() {
+        updateCache(true);
+    }
+
+    protected abstract void updateCache(Boolean force);
 }

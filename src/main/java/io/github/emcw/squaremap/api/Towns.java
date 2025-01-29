@@ -24,16 +24,8 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         buildCache();
     }
 
-    public void tryUpdateCache() {
-        tryExpireCache();
-        updateCache(false);
-    }
-
-    public void forceUpdateCache() {
-        updateCache(true);
-    }
-
-    void updateCache(Boolean force) {
+    @Override
+    protected void updateCache(Boolean force) {
         if (!cacheIsEmpty() && !force) return;
 
         // Parse map data into usable Town objects.
@@ -44,6 +36,7 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         if (towns == null) return;
         if (towns.asMap().isEmpty()) return;
 
+        // TODO: Remove logging when done
         System.out.print(towns);
 
         setCache(towns);

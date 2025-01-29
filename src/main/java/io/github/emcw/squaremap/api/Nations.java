@@ -24,16 +24,8 @@ public class Nations extends BaseCache<SquaremapNation> implements ILocatable<Sq
         buildCache();
     }
 
-    public void tryUpdateCache() {
-        tryExpireCache();
-        updateCache(false);
-    }
-
-    public void forceUpdateCache() {
-        updateCache(true);
-    }
-
-    void updateCache(Boolean force) {
+    @Override
+    protected void updateCache(Boolean force) {
         if (!cacheIsEmpty() && !force) return;
 
         // Parse map data into usable Nation objects.

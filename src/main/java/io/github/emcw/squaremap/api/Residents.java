@@ -25,16 +25,8 @@ public class Residents extends BaseCache<SquaremapResident> {
         buildCache();
     }
 
-    public void tryUpdateCache() {
-        tryExpireCache();
-        updateCache(false);
-    }
-
-    public void forceUpdateCache() {
-        updateCache(true);
-    }
-
-    void updateCache(Boolean force) {
+    @Override
+    protected void updateCache(Boolean force) {
         if (!cacheIsEmpty() && !force) return;
 
         // Parse player data into usable Player objects.

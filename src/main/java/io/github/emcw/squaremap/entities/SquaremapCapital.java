@@ -7,6 +7,7 @@ import lombok.Getter;
 import static io.github.emcw.utils.GsonUtil.keyAsInt;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
+@SuppressWarnings("LombokGetterMayBeUsed")
 public class SquaremapCapital implements IGsonSerializable {
     @Getter final String name;
     @Getter final SquaremapLocation location;
@@ -14,5 +15,10 @@ public class SquaremapCapital implements IGsonSerializable {
     public SquaremapCapital(JsonObject obj) {
         name = keyAsStr(obj, "name");
         location = new SquaremapLocation(keyAsInt(obj, "x"), keyAsInt(obj, "z"));
+    }
+
+    public SquaremapCapital(SquaremapMarker marker) {
+        name = marker.townName;
+        location = marker.location;
     }
 }

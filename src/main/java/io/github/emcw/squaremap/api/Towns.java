@@ -53,6 +53,7 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         return super.single(name);
     }
 
+    @Override
     public Map<String, SquaremapTown> get(String @NotNull ... keys) {
         tryUpdateCache();
         return super.get(keys);

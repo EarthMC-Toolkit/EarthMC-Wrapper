@@ -52,6 +52,7 @@ public class Residents extends BaseCache<SquaremapResident> {
         return super.single(name);
     }
 
+    @Override
     public Map<String, SquaremapResident> get(String @NotNull ... keys) {
         tryUpdateCache();
         return super.get(keys);

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.util.Set;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapNation implements IGsonSerializable {
     @Getter String name;
     @Getter SquaremapCapital capital; // See getCapital()
@@ -16,6 +16,7 @@ public class SquaremapNation implements IGsonSerializable {
     @Getter Set<String> councillors;
     @Getter String leader; // King
     @Getter Integer area;
+    @Getter String wiki;
 
     /**
      * Creates a new Nation whose info should be subsequently set with {@link #updateInfo(SquaremapMarker, Set, Set)}.<br><br>
@@ -38,14 +39,10 @@ public class SquaremapNation implements IGsonSerializable {
 
         this.area += marker.area;
 
-        // Update leader
-        if (marker.mayor != null) {
-            this.leader = marker.mayor;
-        }
-
-        // Update capital
         if (marker.isCapital) {
-            this.capital = new SquaremapCapital();
+            this.capital = new SquaremapCapital(marker);
+            this.leader = marker.mayor;
+            this.wiki = marker.nationWiki;
         }
     }
 

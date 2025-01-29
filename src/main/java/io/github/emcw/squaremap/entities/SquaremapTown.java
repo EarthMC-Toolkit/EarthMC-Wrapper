@@ -12,9 +12,9 @@ import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapTown implements IGsonSerializable {
-    @Getter String name, nation, mayor;
+    @Getter String name, nation, mayor, wiki;
     @Getter Integer area;
     @Getter SquaremapLocation location;
     @Getter Set<SquaremapResident> residents;
@@ -29,6 +29,8 @@ public class SquaremapTown implements IGsonSerializable {
         this.name = marker.townName;
         this.nation = marker.nationName;
         this.mayor = marker.mayor;
+        this.wiki = marker.townWiki;
+
         this.location = marker.location;
         this.area = marker.area;
 

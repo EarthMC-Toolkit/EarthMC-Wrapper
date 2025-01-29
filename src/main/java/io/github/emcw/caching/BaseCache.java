@@ -24,7 +24,7 @@ public class BaseCache<V> {
     final Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
     ScheduledExecutorService scheduler = null; // Calls the updater at a fixed rate.
-    @Setter protected Runnable updater = null;
+    @Setter(AccessLevel.PROTECTED) protected Runnable updater = null;
 
     /**
     * Abstract class acting as a parent to other cache classes and holds a reference to a Caffeine cache.<br>
@@ -122,26 +122,30 @@ public class BaseCache<V> {
 //        return all().get(key) != null;
 //    }
 
-    public void clear() {
+    /**
+     * Invalidates all cache entries that are not being loaded, effectively clearing it.
+     */
+    protected void clearCache() {
         cache.invalidateAll();
     }
 
-    public boolean empty() {
+    public boolean cacheIsEmpty() {
         return cache == null || cache.asMap().isEmpty();
     }
 
-    public void put(String key, V val) {
-        cache.put(key, val);
-    }
+//    public void put(String key, V val) {
+//        cache.put(key, val);
+//    }
+//
+//    public void putAll(Map<? extends String, ? extends V> map) {
+//        cache.putAll(map);
+//    }
 
-    public void putAll(Map<? extends String, ? extends V> map) {
-        cache.putAll(map);
-    }
+    public void tryExpireCache() {
+        boolean timeBased = options.strategy.equals(CacheStrategy.TIME_BASED);
+        if (!timeBased) return;
 
-    public void tryExpire() {
-        if (options.strategy.equals(CacheStrategy.LAZY) ||
-            options.strategy.equals(CacheStrategy.HYBRID)) {
-            clear();
-        }
+        // Only clear if lazy or hybrid.
+        clearCache();
     }
 }

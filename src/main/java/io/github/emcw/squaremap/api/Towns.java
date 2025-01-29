@@ -20,21 +20,21 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         super(options);
         this.parser = parser;
 
-        setUpdater(this::forceUpdate);
+        setUpdater(this::forceUpdateCache); // Cache will be force updated each time update.run() is called.
         buildCache();
     }
 
-    public void tryUpdate() {
-        tryExpire();
+    public void tryUpdateCache() {
+        tryExpireCache();
         updateCache(false);
     }
 
-    public void forceUpdate() {
+    public void forceUpdateCache() {
         updateCache(true);
     }
 
     void updateCache(Boolean force) {
-        if (!empty() && !force) return;
+        if (!cacheIsEmpty() && !force) return;
 
         // Parse map data into usable Town objects.
         parser.parseMapData(true, false, true);
@@ -50,18 +50,18 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
     }
 
     public Map<String, SquaremapTown> all() {
-        tryUpdate();
+        tryUpdateCache();
         return super.all();
     }
 
     @Override
     public SquaremapTown single(String name) throws MissingEntryException {
-        tryUpdate();
+        tryUpdateCache();
         return super.single(name);
     }
 
     public Map<String, SquaremapTown> get(String @NotNull ... keys) {
-        tryUpdate();
+        tryUpdateCache();
         return super.get(keys);
     }
 }

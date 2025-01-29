@@ -19,23 +19,23 @@ public class Residents extends BaseCache<SquaremapResident> {
         super(options);
         this.parser = parser;
 
-        setUpdater(this::forceUpdate);
-        forceUpdate();
+        setUpdater(this::forceUpdateCache); // Cache will be force updated each time update.run() is called.
+        //forceUpdateCache(); // TODO: Investigate if pre-populating is necessary? I forgor lmao.
 
         buildCache();
     }
 
-    public void tryUpdate() {
-        tryExpire();
+    public void tryUpdateCache() {
+        tryExpireCache();
         updateCache(false);
     }
 
-    public void forceUpdate() {
+    public void forceUpdateCache() {
         updateCache(true);
     }
 
     void updateCache(Boolean force) {
-        if (!empty() && !force) return;
+        if (!cacheIsEmpty() && !force) return;
 
         // Parse player data into usable Player objects.
         parser.parseMapData(false, false, true);
@@ -50,18 +50,18 @@ public class Residents extends BaseCache<SquaremapResident> {
 
     @Override
     public Map<String, SquaremapResident> all() {
-        tryUpdate();
+        tryUpdateCache();
         return super.all();
     }
 
     @Override
     public SquaremapResident single(String name) throws MissingEntryException {
-        tryUpdate();
+        tryUpdateCache();
         return super.single(name);
     }
 
     public Map<String, SquaremapResident> get(String @NotNull ... keys) {
-        tryUpdate();
+        tryUpdateCache();
         return super.get(keys);
     }
 }

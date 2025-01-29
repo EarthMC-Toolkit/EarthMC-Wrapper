@@ -4,7 +4,6 @@ import io.github.emcw.squaremap.entities.*;
 import static io.github.emcw.utils.GsonUtil.*;
 
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -17,7 +16,7 @@ import java.util.Set;
 
 // TODO: Remove annotation when the class is fully complete.
 @SuppressWarnings("unused")
-public abstract class SquaremapParser {
+public class SquaremapParser {
     @Getter final Cache<String, SquaremapTown> towns = Caffeine.newBuilder().build();
     @Getter final Cache<String, SquaremapNation> nations = Caffeine.newBuilder().build();
     @Getter final Cache<String, SquaremapResident> residents = Caffeine.newBuilder().build();
@@ -53,34 +52,34 @@ public abstract class SquaremapParser {
         });
     }
 
-    public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        JsonArray data = SquaremapAPI.mapData();
-        if (data.isEmpty()) return;
-
-        // Remove all old data before computeIfAbsent runs.
-        if (parseTowns) towns.invalidateAll();
-        if (parseNations) nations.invalidateAll();
-        if (parseResidents) residents.invalidateAll();
-
-        processMapData(data, parseTowns, parseNations, parseResidents);
-    }
-
     public void parseMapData() {
         parseMapData(true, true, true);
     }
 
-    public void processMapData(@NotNull JsonArray mapData, Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        arrAsStream(mapData).forEach(markerEl -> {
-            JsonObject markerObj = markerEl.getAsJsonObject();
+    public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
+        JsonArray data = SquaremapAPI.mapData();
+        if (data.isEmpty()) return;
+
+        // Remove all old entries so caches will always contain fresh data.
+        if (parseTowns) towns.invalidateAll();
+        if (parseNations) nations.invalidateAll();
+        if (parseResidents) residents.invalidateAll();
+
+        //#region Process the marker and use it to parse town, nation and residents in same pass.
+        arrAsStream(data).forEach(markerEl -> {
+            JsonObject markerObj =  markerEl.getAsJsonObject();
 
             String type = keyAsStr(markerObj, "type");
             if (Objects.equals(type, "icon")) return;
 
+            // Takes HTML from the popup and tooltip of the raw marker and
+            // uses JSoup to turn it into very basic 'intermediate' data.
             SquaremapMarker marker = new SquaremapMarker(markerObj);
-            // TODO: Maybe return here if townName is null?
+
+            // TODO: Maybe return here if `marker.townName` is null?
 
             // TODO: TEMPORARY TESTING - REMOVE WHEN FINISHED.
-//            if (Objects.equals(marker.nationName, "Poland") && marker.isCapital) {
+//            if (marker.nationName.equals("Poland") && marker.isCapital) {
 //                System.out.println(serialize(marker));
 //            }
 
@@ -99,6 +98,7 @@ public abstract class SquaremapParser {
                 parseResidents(marker, residentNames, councillorNames);
             }
         });
+        //#endregion
     }
 
     void parseResidents(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {
@@ -108,13 +108,11 @@ public abstract class SquaremapParser {
     }
 
     void parseTown(SquaremapMarker marker) {
-        //name, nation, mayorStr, wikiStr, residentNames, x, z, area, capital, info, fill, outline
         if (marker.townName == null) return;
         towns.asMap().putIfAbsent(marker.townName, new SquaremapTown(marker));
     }
 
     void parseNation(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {
-        //nation, name, residentNames, mayorStr, area, x, z, capital
         if (marker.nationName == null) return;
 
         nations.asMap().compute(marker.nationName, (key, cachedNation) -> {

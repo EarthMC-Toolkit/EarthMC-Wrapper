@@ -34,16 +34,16 @@ public class GsonUtil {
         .serializeNulls()
         .create();
 
-    public static String serialize(Object obj) {
-        return GSON.toJson(obj, getType(obj));
-    }
-
     public static <T> Type getType(@NotNull T obj) {
         return TypeToken.get(obj.getClass()).getType();
     }
 
     public static <T> Type getType(Class<T> clazz) {
         return TypeToken.getParameterized(clazz).getType();
+    }
+
+    public static String serialize(Object obj) {
+        return GSON.toJson(obj, getType(obj));
     }
 
     public static <T> T deserialize(String str, Class<T> c) {
@@ -62,6 +62,9 @@ public class GsonUtil {
         return deserialize(serialize(obj), clazz);
     }
 
+    /**
+     * Serializes the specified object into its equivalent representation as a tree of {@link JsonElement}s.
+     */
     public static <T extends JsonElement> T asTree(Object input) {
         JsonElement tree = GSON.toJsonTree(input);
         return tree.isJsonObject() ? (T) tree.getAsJsonObject() : (T) tree;

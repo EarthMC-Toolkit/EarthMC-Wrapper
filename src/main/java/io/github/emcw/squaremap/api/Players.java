@@ -1,7 +1,6 @@
 package io.github.emcw.squaremap.api;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.google.gson.JsonObject;
 
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
@@ -11,14 +10,13 @@ import io.github.emcw.squaremap.entities.SquaremapLocation;
 import io.github.emcw.exceptions.MissingEntryException;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.squaremap.entities.SquaremapOnlinePlayer;
-import io.github.emcw.squaremap.entities.SquaremapResident;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,67 +34,57 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         this.parser = parser;
         this.residents = residents;
 
-        setUpdater(this::forceUpdate);
+        setUpdater(this::forceUpdateCache); // Cache will be force updated each time update.run() is called.
         buildCache();
     }
 
-    public void tryUpdate() {
-        tryExpire();
+    public void tryUpdateCache() {
+        tryExpireCache();
         updateCache(false);
     }
 
-    public void forceUpdate() {
+    public void forceUpdateCache() {
         updateCache(true);
     }
 
     void updateCache(Boolean force) {
         // We aren't forcing an update, and not expired.
-        if (!empty() && !force) return;
+        if (!cacheIsEmpty() && !force) return;
 
         // Parse player data into usable Player objects.
         parser.parsePlayerData();
-        Cache<String, SquaremapOnlinePlayer> players = parser.getPlayers();
+        Cache<String, SquaremapOnlinePlayer> ops = parser.getOnlinePlayers(); // TODO: Replacing one cache with another. Just use parser caches directly?
 
         // Make sure we're using valid data to populate the cache with.
-        if (players == null) return;
-        if (players.asMap().isEmpty()) return;
+        if (ops == null) return;
+        if (ops.asMap().isEmpty()) return;
 
-        setCache(players);
+        setCache(ops);
     }
 
     @Override
     public SquaremapOnlinePlayer single(String name) throws MissingEntryException {
-        tryUpdate();
+        tryUpdateCache();
         return super.single(name);
     }
 
     @Override
     public Map<String, SquaremapOnlinePlayer> get(String @NotNull ... keys) {
-        tryUpdate();
+        tryUpdateCache();
         return super.get(keys);
     }
 
-    /**
-     * Retreives all the online players, and merges them with residents.<br><br>
-     * Townless players will strictly be {@link SquaremapOnlinePlayer}, while residents can be {@link SquaremapResident}.
-     * You can check if a value is a resident by using the {@link SquaremapPlayer#isResident()} method.
-     * @return A map of players where the key is the player name and value is the merged player object.
-     */
-    public Map<String, SquaremapPlayer> all() {
-        return mergeWith(residents.all());
-    }
-
-    public Map<String, SquaremapOnlinePlayer> online() {
-        tryUpdate();
+    public Map<String, SquaremapOnlinePlayer> all() {
+        tryUpdateCache();
         return cache.asMap();
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer radius) {
-        return getNearby(online(), xCoord, zCoord, radius);
+        return getNearby(all(), xCoord, zCoord, radius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
-        return getNearby(online(), xCoord, zCoord, xRadius, zRadius);
+        return getNearby(all(), xCoord, zCoord, xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
@@ -104,7 +92,7 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
 
         if (playerLoc.isDefault()) return Map.of();
 
-        Map<String, SquaremapOnlinePlayer> nearby = getNearby(online(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
+        Map<String, SquaremapOnlinePlayer> nearby = getNearby(all(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
         nearby.remove(p.getName());
 
         return nearby;
@@ -112,38 +100,21 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
         if (!location.valid()) return Map.of();
-        return getNearby(online(), location.getX(), location.getZ(), xRadius, zRadius);
-    }
-
-    private @NotNull Map<String, SquaremapOnlinePlayer> mergeWith(Map<String, SquaremapResident> residents) {
-        Map<String, SquaremapOnlinePlayer> ops = online();
-        Map<String, SquaremapPlayer> merged = new ConcurrentHashMap<>(ops);
-
-        // Loop through residents in parallel
-        streamValues(residents).forEach(res -> {
-            String resName = res.getName();
-            JsonObject resObj = asTree(res);
-
-            SquaremapOnlinePlayer found = ops.get(resName);
-            SquaremapResident player = found == null ? new SquaremapResident(resObj) : new SquaremapResident(asTree(resObj), found);
-
-            merged.put(resName, player);
-        });
-
-        // Remove null values from resulting map
-        merged.values().removeIf(Objects::isNull);
-
-        return merged;
+        return getNearby(all(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> townless() {
-        Stream<SquaremapOnlinePlayer> players = streamValues(all()).filter(p -> !p.isSquaremapResident());
+        Set<String> ops = all().keySet();
+
+        Stream<SquaremapOnlinePlayer> players = streamValues(all()).filter(p -> !ops.contains(p));
         return players.collect(Collectors.toMap(SquaremapOnlinePlayer::getName, Function.identity()));
     }
 
+    /**
+     * Equivalent to {@code Players.all().getOrDefault("PlayerName", null)}.
+     */
     @Nullable
-    public SquaremapOnlinePlayer getOnline(String playerName) {
-        Map<String, SquaremapOnlinePlayer> map = online();
-        return map.getOrDefault(playerName, null);
+    public SquaremapOnlinePlayer getOnlinePlayer(String playerName) {
+        return all().getOrDefault(playerName, null);
     }
 }

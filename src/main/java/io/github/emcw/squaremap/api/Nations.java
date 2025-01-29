@@ -20,21 +20,21 @@ public class Nations extends BaseCache<SquaremapNation> implements ILocatable<Sq
         super(options);
         this.parser = parser;
 
-        setUpdater(this::forceUpdate); // updater.run() will then call forceUpdate
+        setUpdater(this::forceUpdateCache); // Cache will be force updated each time update.run() is called.
         buildCache();
     }
 
-    public void tryUpdate() {
-        tryExpire();
+    public void tryUpdateCache() {
+        tryExpireCache();
         updateCache(false);
     }
 
-    public void forceUpdate() {
+    public void forceUpdateCache() {
         updateCache(true);
     }
 
     void updateCache(Boolean force) {
-        if (!empty() && !force) return;
+        if (!cacheIsEmpty() && !force) return;
 
         // Parse map data into usable Nation objects.
         parser.parseMapData(true, true, false);
@@ -49,19 +49,19 @@ public class Nations extends BaseCache<SquaremapNation> implements ILocatable<Sq
 
     @Override
     public Map<String, SquaremapNation> all() {
-        tryUpdate();
+        tryUpdateCache();
         return super.all();
     }
 
     @Override
     public SquaremapNation single(String name) throws MissingEntryException {
-        tryUpdate();
+        tryUpdateCache();
         return super.single(name);
     }
 
     @Override
     public Map<String, SquaremapNation> get(String @NotNull ... keys) {
-        tryUpdate();
+        tryUpdateCache();
         return super.get(keys);
     }
 }

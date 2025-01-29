@@ -1,13 +1,14 @@
 package io.github.emcw.oapi.v3.types;
 
 import com.google.gson.JsonObject;
-import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.interfaces.IGsonSerializable;
 import org.jetbrains.annotations.Nullable;
 
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 @SuppressWarnings("unused")
-public class ServerInfo implements ISerializable {
+public class ServerInfo implements IGsonSerializable {
+    /** The Minecraft version this server is on. */
     @Nullable public final String version;
 
     /**

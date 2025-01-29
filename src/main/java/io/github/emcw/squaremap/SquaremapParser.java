@@ -80,9 +80,9 @@ public abstract class SquaremapParser {
             // TODO: Maybe return here if townName is null?
 
             // TODO: TEMPORARY TESTING - REMOVE WHEN FINISHED.
-            if (Objects.equals(marker.nationName, "Poland") && marker.isCapital) {
-                System.out.println(serialize(marker));
-            }
+//            if (Objects.equals(marker.nationName, "Poland") && marker.isCapital) {
+//                System.out.println(serialize(marker));
+//            }
 
             Set<String> residentNames = marker.getResidentNames();
             Set<String> councillorNames = marker.getCouncillorNames();

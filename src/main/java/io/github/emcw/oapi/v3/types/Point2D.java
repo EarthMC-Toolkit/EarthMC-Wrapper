@@ -1,8 +1,8 @@
 package io.github.emcw.oapi.v3.types;
 
-import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.interfaces.IGsonSerializable;
 
-public class Point2D implements ISerializable {
+public class Point2D implements IGsonSerializable {
     public final int X;
     public final int Z;
 

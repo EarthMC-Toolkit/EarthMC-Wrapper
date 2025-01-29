@@ -1,13 +1,13 @@
 package io.github.emcw.common;
 
-import io.github.emcw.interfaces.ISerializable;
+import io.github.emcw.interfaces.IGsonSerializable;
 
 import org.jetbrains.annotations.Nullable;
 import lombok.Getter;
 
 import java.util.UUID;
 
-public class Entity implements ISerializable {
+public class Entity implements IGsonSerializable {
     @Getter @Nullable
     protected final UUID uuid; // TODO: Use `UUID` type instead to do validation.
 

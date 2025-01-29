@@ -60,18 +60,18 @@ loadScripts(document, 'script');</script>
 <button class="hide-sidebar"><span>Hide sidebar&nbsp;</span>&#10094;</button><button class="show-sidebar">&#10095;<span>&nbsp;Show sidebar</span></button>
 <ol class="toc-list">
 <li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#field-summary" tabindex="0">Field Summary</a></li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(com.google.gson.JsonObject,com.google.gson.JsonObject)" tabindex="0">SquaremapResident(JsonObject, JsonObject)</a></li>
-<li><a href="#%3Cinit%3E(com.google.gson.JsonObject,io.github.emcw.squaremap.entities.SquaremapPlayer)" tabindex="0">SquaremapResident(JsonObject, SquaremapPlayer)</a></li>
-<li><a href="#%3Cinit%3E(com.google.gson.JsonObject)" tabindex="0">SquaremapResident(JsonObject)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,io.github.emcw.squaremap.entities.SquaremapMarker,boolean)" tabindex="0">SquaremapResident(String, SquaremapMarker, boolean)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#isMayor()" tabindex="0">isMayor()</a></li>
+<li><a href="#isNationLeader()" tabindex="0">isNationLeader()</a></li>
+<li><a href="#isCouncillor()" tabindex="0">isCouncillor()</a></li>
 <li><a href="#hasAuthority()" tabindex="0">hasAuthority()</a></li>
 </ol>
 </li>
@@ -83,33 +83,22 @@ loadScripts(document, 'script');</script>
 <h1 title="Class SquaremapResident" class="title">Class SquaremapResident</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">io.github.emcw.squaremap.entities.SquaremapPlayer</a>
 <div class="inheritance">io.github.emcw.squaremap.entities.SquaremapResident</div>
-</div>
 </div>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;<a href="SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&gt;</code>, <code><a href="../../interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a></code></dd>
+<dd><code><a href="../../interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SquaremapResident</span>
-<span class="extends-implements">extends <a href="SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>
-implements <a href="../../interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="../../interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a></span></div>
 </div>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- =========== FIELD SUMMARY =========== -->
-<li>
-<section class="field-summary" id="field-summary">
-<h2>Field Summary</h2>
-<div class="inherited-list">
-<h3 id="fields-inherited-from-class-io.github.emcw.interfaces.ILocatable">Fields inherited from interface&nbsp;io.github.emcw.interfaces.<a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></h3>
-<code><a href="../../interfaces/ILocatable.html#INT_ARRAY_X">INT_ARRAY_X</a>, <a href="../../interfaces/ILocatable.html#INT_ARRAY_Z">INT_ARRAY_Z</a></code></div>
-</section>
-</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -118,13 +107,9 @@ implements <a href="../../interfaces/ISerializable.html" title="interface in io.
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.google.gson.JsonObject)" class="member-name-link">SquaremapResident</a><wbr>(com.google.gson.JsonObject&nbsp;obj)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.google.gson.JsonObject,com.google.gson.JsonObject)" class="member-name-link">SquaremapResident</a><wbr>(com.google.gson.JsonObject&nbsp;res,
- com.google.gson.JsonObject&nbsp;op)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.google.gson.JsonObject,io.github.emcw.squaremap.entities.SquaremapPlayer)" class="member-name-link">SquaremapResident</a><wbr>(com.google.gson.JsonObject&nbsp;res,
- <a href="SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&nbsp;op)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,io.github.emcw.squaremap.entities.SquaremapMarker,boolean)" class="member-name-link">SquaremapResident</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;resName,
+ <a href="SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a>&nbsp;marker,
+ boolean&nbsp;isCouncillor)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -143,23 +128,26 @@ implements <a href="../../interfaces/ISerializable.html" title="interface in io.
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasAuthority()" class="member-name-link">hasAuthority</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Determines whether this resident has more permissions than a regular resident.</div>
+<div class="block">Checks whether this resident has more permissions than a regular resident.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCouncillor()" class="member-name-link">isCouncillor</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMayor()" class="member-name-link">isMayor</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNationLeader()" class="member-name-link">isNationLeader</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
-</div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.emcw.squaremap.entities.SquaremapPlayer">Methods inherited from class&nbsp;io.github.emcw.squaremap.entities.<a href="SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a></h3>
-<code><a href="SquaremapPlayer.html#facingDirection()">facingDirection</a>, <a href="SquaremapPlayer.html#hasCustomNickname()">hasCustomNickname</a>, <a href="SquaremapPlayer.html#hidden()">hidden</a>, <a href="SquaremapPlayer.html#isResident()">isResident</a>, <a href="SquaremapPlayer.html#locationIsDefault()">locationIsDefault</a>, <a href="SquaremapPlayer.html#visible()">visible</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.emcw.interfaces.ILocatable">Methods inherited from interface&nbsp;io.github.emcw.interfaces.<a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></h3>
-<code><a href="../../interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)">getNearby</a>, <a href="../../interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)">getNearby</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.emcw.interfaces.ISerializable">Methods inherited from interface&nbsp;io.github.emcw.interfaces.<a href="../../interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a></h3>
-<code><a href="../../interfaces/ISerializable.html#asString()">asString</a></code></div>
+<h3 id="methods-inherited-from-class-io.github.emcw.interfaces.IGsonSerializable">Methods inherited from interface&nbsp;io.github.emcw.interfaces.<a href="../../interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a></h3>
+<code><a href="../../interfaces/IGsonSerializable.html#asString()">asString</a></code></div>
 </section>
 </li>
 </ul>
@@ -172,28 +160,12 @@ implements <a href="../../interfaces/ISerializable.html" title="interface in io.
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.google.gson.JsonObject,com.google.gson.JsonObject)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,io.github.emcw.squaremap.entities.SquaremapMarker,boolean)">
 <h3>SquaremapResident</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapResident</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;res,
- com.google.gson.JsonObject&nbsp;op)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(com.google.gson.JsonObject,io.github.emcw.squaremap.entities.SquaremapPlayer)">
-<h3>SquaremapResident</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapResident</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;res,
- <a href="SquaremapPlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a>&nbsp;op)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(com.google.gson.JsonObject)">
-<h3>SquaremapResident</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapResident</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;obj)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapResident</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;resName,
+ <a href="SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a>&nbsp;marker,
+ boolean&nbsp;isCouncillor)</span></div>
 </div>
 </section>
 </li>
@@ -206,14 +178,38 @@ implements <a href="../../interfaces/ISerializable.html" title="interface in io.
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="isMayor()">
+<h3>isMayor</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isMayor</span>()</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isNationLeader()">
+<h3>isNationLeader</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isNationLeader</span>()</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isCouncillor()">
+<h3>isCouncillor</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCouncillor</span>()</div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="hasAuthority()">
 <h3>hasAuthority</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasAuthority</span>()</div>
-<div class="block"><p>Determines whether this resident has more permissions than a regular resident.</p></div>
+<div class="block"><p>Checks whether this resident has more permissions than a regular resident.</p></div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd><font color="green">true</font> if <code>rank</code> is 'Mayor' or 'Leader', otherwise <font color="red">false</font>.</dd>
+<dd>true if <code>rank</code> is a <code>Mayor</code>, <code>Nation Leader</code> or <code>Councillor</code> - false otherwise.</dd>
 </dl>
 </div>
 </section>

@@ -1,6 +1,7 @@
 io.github.emcw
 io.github.emcw.adapters
 io.github.emcw.caching
+io.github.emcw.common
 io.github.emcw.exceptions
 io.github.emcw.interfaces
 io.github.emcw.oapi

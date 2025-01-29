@@ -70,8 +70,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#tryUpdate()" tabindex="0">tryUpdate()</a></li>
-<li><a href="#forceUpdate()" tabindex="0">forceUpdate()</a></li>
+<li><a href="#updateCache(java.lang.Boolean)" tabindex="0">updateCache(Boolean)</a></li>
 <li><a href="#all()" tabindex="0">all()</a></li>
 <li><a href="#single(java.lang.String)" tabindex="0">single(String)</a></li>
 <li><a href="#get(java.lang.String...)" tabindex="0">get(String...)</a></li>
@@ -145,24 +144,21 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets all elements from this cache in a case-insensitive order.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forceUpdate()" class="member-name-link">forceUpdate</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapTown.html" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(java.lang.String...)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a> @NotNull ...&nbsp;keys)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapTown.html" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(java.lang.String...)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a> @NotNull ...&nbsp;keys)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/SquaremapTown.html" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#single(java.lang.String)" class="member-name-link">single</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/SquaremapTown.html" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#single(java.lang.String)" class="member-name-link">single</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCache(java.lang.Boolean)" class="member-name-link">updateCache</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;force)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryUpdate()" class="member-name-link">tryUpdate</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.emcw.caching.BaseCache">Methods inherited from class&nbsp;io.github.emcw.caching.<a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></h3>
-<code><a href="../../caching/BaseCache.html#buildCache()">buildCache</a>, <a href="../../caching/BaseCache.html#clear()">clear</a>, <a href="../../caching/BaseCache.html#empty()">empty</a>, <a href="../../caching/BaseCache.html#put(java.lang.String,V)">put</a>, <a href="../../caching/BaseCache.html#putAll(java.util.Map)">putAll</a>, <a href="../../caching/BaseCache.html#tryExpire()">tryExpire</a>, <a href="../../caching/BaseCache.html#updateIf(io.github.emcw.caching.CacheStrategy)">updateIf</a></code></div>
+<code><a href="../../caching/BaseCache.html#buildCache()">buildCache</a>, <a href="../../caching/BaseCache.html#cacheIsEmpty()">cacheIsEmpty</a>, <a href="../../caching/BaseCache.html#clearCache()">clearCache</a>, <a href="../../caching/BaseCache.html#forceUpdateCache()">forceUpdateCache</a>, <a href="../../caching/BaseCache.html#tryExpireCache()">tryExpireCache</a>, <a href="../../caching/BaseCache.html#tryUpdateCache()">tryUpdateCache</a>, <a href="../../caching/BaseCache.html#updateIf(io.github.emcw.caching.CacheStrategy)">updateIf</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -198,18 +194,14 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="tryUpdate()">
-<h3>tryUpdate</h3>
+<section class="detail" id="updateCache(java.lang.Boolean)">
+<h3>updateCache</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">tryUpdate</span>()</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="forceUpdate()">
-<h3>forceUpdate</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">forceUpdate</span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateCache</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;force)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../caching/BaseCache.html#updateCache(java.lang.Boolean)">updateCache</a></code>&nbsp;in class&nbsp;<code><a href="../../caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a>&lt;<a href="../entities/SquaremapTown.html" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a>&gt;</code></dd>
+</dl>
 </div>
 </section>
 </li>

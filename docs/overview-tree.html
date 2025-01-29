@@ -57,6 +57,7 @@ loadScripts(document, 'script');</script>
 <li><a href="io/github/emcw/package-tree.html">io.github.emcw</a>, </li>
 <li><a href="io/github/emcw/adapters/package-tree.html">io.github.emcw.adapters</a>, </li>
 <li><a href="io/github/emcw/caching/package-tree.html">io.github.emcw.caching</a>, </li>
+<li><a href="io/github/emcw/common/package-tree.html">io.github.emcw.common</a>, </li>
 <li><a href="io/github/emcw/exceptions/package-tree.html">io.github.emcw.exceptions</a>, </li>
 <li><a href="io/github/emcw/interfaces/package-tree.html">io.github.emcw.interfaces</a>, </li>
 <li><a href="io/github/emcw/oapi/package-tree.html">io.github.emcw.oapi</a>, </li>
@@ -85,9 +86,14 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.github.emcw.adapters.<a href="io/github/emcw/adapters/DurationAdapter.html" class="type-name-link" title="class in io.github.emcw.adapters">DurationAdapter</a> (implements com.google.gson.JsonDeserializer&lt;T&gt;, com.google.gson.JsonSerializer&lt;T&gt;)</li>
 <li class="circle">io.github.emcw.<a href="io/github/emcw/EMCWrapper.html" class="type-name-link" title="class in io.github.emcw">EMCWrapper</a></li>
 <li class="circle">io.github.emcw.utils.http.<a href="io/github/emcw/utils/http/Endpoints.html" class="type-name-link" title="class in io.github.emcw.utils.http">Endpoints</a></li>
-<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/Entity.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">Entity</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)
+<li class="circle">io.github.emcw.common.<a href="io/github/emcw/common/Entity.html" class="type-name-link" title="class in io.github.emcw.common">Entity</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)
 <ul>
 <li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/Player.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">Player</a></li>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>, io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;T&gt;)
+<ul>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlineResident.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapOnlineResident</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="circle">io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" class="type-name-link" title="class in io.github.emcw.utils">Funcs</a></li>
@@ -95,22 +101,18 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.github.emcw.utils.http.<a href="io/github/emcw/utils/http/JSONRequest.html" class="type-name-link" title="class in io.github.emcw.utils.http">JSONRequest</a></li>
 <li class="circle">io.github.emcw.oapi.<a href="io/github/emcw/oapi/OfficialAPI.html" class="type-name-link" title="class in io.github.emcw.oapi">OfficialAPI</a></li>
 <li class="circle">io.github.emcw.oapi.<a href="io/github/emcw/oapi/OfficialAPI.V3.html" class="type-name-link" title="class in io.github.emcw.oapi">OfficialAPI.V3</a></li>
-<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/Point2D.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">Point2D</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
+<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/Point2D.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">Point2D</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
 <li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/RequestBodyV3.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">RequestBodyV3</a></li>
-<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/ServerInfo.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">ServerInfo</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
+<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/ServerInfo.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">ServerInfo</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
 <li class="circle">io.github.emcw.<a href="io/github/emcw/Squaremap.html" class="type-name-link" title="class in io.github.emcw">Squaremap</a></li>
 <li class="circle">io.github.emcw.squaremap.<a href="io/github/emcw/squaremap/SquaremapAPI.html" class="type-name-link" title="class in io.github.emcw.squaremap">SquaremapAPI</a></li>
-<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapCapital.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapCapital</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
-<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapLocation.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapCapital.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapCapital</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapLocation.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
 <li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></li>
-<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapNation.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapNation</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapNation.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapNation</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
 <li class="circle">io.github.emcw.squaremap.<a href="io/github/emcw/squaremap/SquaremapParser.html" class="type-name-link" title="class in io.github.emcw.squaremap">SquaremapParser</a></li>
-<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapPlayer.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapPlayer</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;T&gt;, io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)
-<ul>
-<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapResident.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapResident</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
-</ul>
-</li>
-<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapTown.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapResident.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapResident</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
+<li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapTown.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapTown</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
 <li class="circle">io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapTown.Flags.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapTown.Flags</a></li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Throwable.html" class="type-name-link external-link" title="class or interface in java.lang">Throwable</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
@@ -129,9 +131,8 @@ loadScripts(document, 'script');</script>
 <section class="hierarchy">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
+<li class="circle">io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" class="type-name-link" title="interface in io.github.emcw.interfaces">IGsonSerializable</a></li>
 <li class="circle">io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" class="type-name-link" title="interface in io.github.emcw.interfaces">ILocatable</a>&lt;T&gt;</li>
-<li class="circle">io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IMapParser.html" class="type-name-link" title="interface in io.github.emcw.interfaces">IMapParser</a></li>
-<li class="circle">io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" class="type-name-link" title="interface in io.github.emcw.interfaces">ISerializable</a></li>
 </ul>
 </section>
 <section class="hierarchy">
@@ -142,7 +143,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Enum.html" class="type-name-link external-link" title="class or interface in java.lang">Enum</a>&lt;E&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;T&gt;, java.lang.constant.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/constant/Constable.html" title="class or interface in java.lang.constant" class="external-link">Constable</a>, java.io.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
 <li class="circle">io.github.emcw.caching.<a href="io/github/emcw/caching/CacheStrategy.html" class="type-name-link" title="enum class in io.github.emcw.caching">CacheStrategy</a></li>
-<li class="circle">io.github.emcw.<a href="io/github/emcw/Direction.html" class="type-name-link" title="enum class in io.github.emcw">Direction</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
+<li class="circle">io.github.emcw.common.<a href="io/github/emcw/common/Direction.html" class="type-name-link" title="enum class in io.github.emcw.common">Direction</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
 <li class="circle">io.github.emcw.<a href="io/github/emcw/KnownMap.html" class="type-name-link" title="enum class in io.github.emcw">KnownMap</a></li>
 </ul>
 </li>
@@ -157,8 +158,8 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Record.html" class="type-name-link external-link" title="class or interface in java.lang">Record</a>
 <ul>
-<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">DiscordReqObj</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
-<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordResObj.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">DiscordResObj</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ISerializable.html" title="interface in io.github.emcw.interfaces">ISerializable</a>)</li>
+<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">DiscordReqObj</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
+<li class="circle">io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordResObj.html" class="type-name-link" title="class in io.github.emcw.oapi.v3.types">DiscordResObj</a> (implements io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/IGsonSerializable.html" title="interface in io.github.emcw.interfaces">IGsonSerializable</a>)</li>
 </ul>
 </li>
 </ul>

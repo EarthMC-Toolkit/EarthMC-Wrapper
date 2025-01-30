@@ -15,7 +15,8 @@ public class Residents extends BaseCache<SquaremapResident> {
         super(options);
         this.parser = parser;
 
-        //forceUpdateCache(); // TODO: Investigate if pre-populating is necessary? I forgor lmao.
+        // TODO: Investigate if this is truly necessary. `prefillCaches` should handle this?
+        //forceUpdateCache();
 
         buildCache();
     }
@@ -25,8 +26,8 @@ public class Residents extends BaseCache<SquaremapResident> {
         if (!cacheIsEmpty() && !force) return;
 
         // Parse player data into usable Player objects.
-        parser.parseMapData(false, false, true);
-        Cache<String, SquaremapResident> residents = parser.getResidents();
+        this.parser.parseMapData(false, false, true);
+        Cache<String, SquaremapResident> residents = this.parser.getResidents();
 
         // Make sure we're using valid data to populate the cache with.
         if (residents == null) return;

@@ -14,6 +14,7 @@ import io.github.emcw.squaremap.entities.SquaremapOnlinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,30 +52,30 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer radius) {
-        return getNearby(this.getAll(), xCoord, zCoord, radius);
+        return getNearby(getAll(), xCoord, zCoord, radius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
-        return getNearby(this.getAll(), xCoord, zCoord, xRadius, zRadius);
+        return getNearby(getAll(), xCoord, zCoord, xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
         SquaremapLocation playerLoc = p.getLocation();
-        if (playerLoc.isDefault()) return Map.of();
+        if (playerLoc.isDefault()) return new HashMap<>();
 
-        Map<String, SquaremapOnlinePlayer> nearby = getNearby(this.getAll(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
+        Map<String, SquaremapOnlinePlayer> nearby = getNearby(getAll(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
         nearby.remove(p.getName());
 
         return nearby;
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
-        if (!location.valid()) return Map.of();
-        return getNearby(this.getAll(), location.getX(), location.getZ(), xRadius, zRadius);
+        if (!location.valid()) return new HashMap<>();
+        return getNearby(getAll(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> townless() {
-        Map<String, SquaremapOnlinePlayer> ops = this.getAll();
+        Map<String, SquaremapOnlinePlayer> ops = getAll();
         Set<String> residents = this.residents.getAll().keySet(); // Dont care abt value, we only need to know if they exist.
 
         // Single pass over entrySet is preferred in this case since we need both key and value.
@@ -88,6 +89,6 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
      */
     @Nullable
     public SquaremapOnlinePlayer getOnlinePlayer(String playerName) {
-        return this.getAll().getOrDefault(playerName, null);
+        return getAll().getOrDefault(playerName, null);
     }
 }

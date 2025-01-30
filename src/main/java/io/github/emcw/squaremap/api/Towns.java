@@ -24,8 +24,8 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         if (!cacheIsEmpty() && !force) return;
 
         // Parse map data into usable Town objects.
-        parser.parseMapData(true, false, true);
-        Cache<String, SquaremapTown> towns = parser.getTowns();
+        this.parser.parseMapData(true, false, true);
+        Cache<String, SquaremapTown> towns = this.parser.getTowns();
 
         // Make sure we're using valid data to populate the cache with.
         if (towns == null) return;

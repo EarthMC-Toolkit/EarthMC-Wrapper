@@ -24,8 +24,8 @@ public class Nations extends BaseCache<SquaremapNation> implements ILocatable<Sq
         if (!cacheIsEmpty() && !force) return;
 
         // Parse map data into usable Nation objects.
-        parser.parseMapData(true, true, false);
-        Cache<String, SquaremapNation> nations = parser.getNations();
+        this.parser.parseMapData(true, true, false);
+        Cache<String, SquaremapNation> nations = this.parser.getNations();
 
         // Make sure we're using valid data to populate the cache with.
         if (nations == null) return;

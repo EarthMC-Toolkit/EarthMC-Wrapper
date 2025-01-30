@@ -62,7 +62,10 @@ public class SquaremapParser {
 
     public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
         JsonArray data = SquaremapAPI.mapData(this.mapName);
-        if (data.isEmpty()) return;
+        if (data.isEmpty()) {
+            System.err.println("Cannot parse map data! Received empty array.");
+            return;
+        }
 
         // Remove all old entries so caches will always contain fresh data.
         if (parseTowns) towns.invalidateAll();
@@ -70,7 +73,7 @@ public class SquaremapParser {
         if (parseResidents) residents.invalidateAll();
 
         //#region Process the marker and use it to parse town, nation and residents in same pass.
-        arrAsStream(data).forEach(markerEl -> {
+        data.forEach(markerEl -> {
             JsonObject markerObj =  markerEl.getAsJsonObject();
 
             String type = keyAsStr(markerObj, "type");

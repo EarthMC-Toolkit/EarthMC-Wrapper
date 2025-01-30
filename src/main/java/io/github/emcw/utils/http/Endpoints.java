@@ -16,7 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Endpoints {
-    static final String ENDPOINTS_URL = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-Wrapper/main/src/resources/endpoints.json";
+    static final String ENDPOINTS_URL =
+        "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-Wrapper/" +
+        "main/src/main/resources/endpoints.json";
+
     static final Map<String, JsonObject> endpoints = new HashMap<>();
 
     @NotNull

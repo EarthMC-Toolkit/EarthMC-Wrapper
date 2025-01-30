@@ -5,13 +5,9 @@ import com.github.benmanes.caffeine.cache.Cache;
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.squaremap.entities.SquaremapTown;
-import io.github.emcw.exceptions.MissingEntryException;
+
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.squaremap.SquaremapParser;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 public class Towns extends BaseCache<SquaremapTown> implements ILocatable<SquaremapTown> {
     SquaremapParser parser;
@@ -20,7 +16,6 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         super(options);
         this.parser = parser;
 
-        setUpdater(this::forceUpdateCache); // Cache will be force updated each time update.run() is called.
         buildCache();
     }
 
@@ -36,26 +31,6 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
         if (towns == null) return;
         if (towns.asMap().isEmpty()) return;
 
-        // TODO: Remove logging when done
-        System.out.print(towns);
-
         setCache(towns);
-    }
-
-    public Map<String, SquaremapTown> all() {
-        tryUpdateCache();
-        return super.all();
-    }
-
-    @Override
-    public SquaremapTown single(String name) throws MissingEntryException {
-        tryUpdateCache();
-        return super.single(name);
-    }
-
-    @Override
-    public Map<String, SquaremapTown> get(String @NotNull ... keys) {
-        tryUpdateCache();
-        return super.get(keys);
     }
 }

@@ -49,6 +49,7 @@ public class Squaremap {
         //GPS = new GPS(this));
     }
 
+    // Essentially calls .updateCache(true) to force update using their respective implementation.
     private void prefillCaches() {
         this.Towns.forceUpdateCache();
         this.Nations.forceUpdateCache();

@@ -18,7 +18,7 @@ public final class SquaremapAPI {
             throw new NullPointerException("Could not find key in endpoints obj: " + mapName);
         }
 
-        JsonObject squaremapEndpoints = Endpoints.get().getOrDefault("squaremap", null);
+        JsonObject squaremapEndpoints = mapObj.get("squaremap").getAsJsonObject();
         if (squaremapEndpoints == null) {
             throw new NullPointerException("Could not find key in endpoints obj: " + mapName + "/squaremap");
         }

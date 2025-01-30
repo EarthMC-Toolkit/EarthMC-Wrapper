@@ -90,7 +90,7 @@ public class Funcs {
     }
 
     public static @NotNull <T> Stream<T> parallelStreamArr(@NotNull T[] arr) {
-        return Stream.of(arr).toList().parallelStream();
+        return Stream.of(arr).parallel();
     }
 
     public static boolean strArrHas(String[] arr, @NotNull String str) {
@@ -105,5 +105,31 @@ public class Funcs {
 
     public static boolean withinRadius(Integer sourceCoord, Integer targetCoord, Integer radius) {
         return (sourceCoord <= targetCoord+radius) && (sourceCoord >= targetCoord-radius);
+    }
+
+    /**
+     * Ensures a {@link UUID} is full (with hyphens) by inserting them at known points in the string.<br><br>
+     * If the given string is 36 characters (full uuid), it will use that one without inserting.
+     * @param uuidStr A trimmed or full UUID in string representation.
+     * @return A new {@link UUID} with hyphens inserted if not already.
+     */
+    public static UUID stringToFullUUID(@NotNull String uuidStr) throws IllegalArgumentException {
+        if (uuidStr.length() == 36) {
+            return UUID.fromString(uuidStr);
+        }
+
+        StringBuilder builder = new StringBuilder(uuidStr.trim());
+
+        try {
+            /* Backwards adding to avoid index adjustments */
+            builder.insert(20, "-");
+            builder.insert(16, "-");
+            builder.insert(12, "-");
+            builder.insert(8, "-");
+        } catch (StringIndexOutOfBoundsException e){
+            throw new IllegalArgumentException();
+        }
+
+        return UUID.fromString(builder.toString());
     }
 }

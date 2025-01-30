@@ -7,7 +7,7 @@ import io.github.emcw.caching.CacheOptions;
 
 import io.github.emcw.squaremap.SquaremapParser;
 import io.github.emcw.squaremap.entities.SquaremapLocation;
-import io.github.emcw.exceptions.MissingEntryException;
+
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.squaremap.entities.SquaremapOnlinePlayer;
 
@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocatable<SquaremapOnlinePlayer> {
     SquaremapParser parser;
     Residents residents;
@@ -28,7 +29,6 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         this.parser = parser;
         this.residents = residents;
 
-        setUpdater(this::forceUpdateCache); // Cache will be force updated each time update.run() is called.
         buildCache();
     }
 
@@ -38,10 +38,10 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         if (!cacheIsEmpty() && !force) return;
 
         // Parse player data into usable Player objects.
-        parser.parsePlayerData();
+        this.parser.parsePlayerData();
 
-        // TODO: Replacing one cache with another. Just use parser caches directly?
-        Cache<String, SquaremapOnlinePlayer> ops = parser.getOnlinePlayers();
+        // TODO: Replacing one cache with another. Is this redundant?
+        Cache<String, SquaremapOnlinePlayer> ops = this.parser.getOnlinePlayers();
 
         // Make sure we're using valid data to populate the cache with.
         if (ops == null) return;
@@ -50,36 +50,19 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         setCache(ops);
     }
 
-    @Override
-    public SquaremapOnlinePlayer single(String name) throws MissingEntryException {
-        tryUpdateCache();
-        return super.single(name);
-    }
-
-    @Override
-    public Map<String, SquaremapOnlinePlayer> get(String @NotNull ... keys) {
-        tryUpdateCache();
-        return super.get(keys);
-    }
-
-    public Map<String, SquaremapOnlinePlayer> all() {
-        tryUpdateCache();
-        return cache.asMap();
-    }
-
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer radius) {
-        return getNearby(this.all(), xCoord, zCoord, radius);
+        return getNearby(this.getAll(), xCoord, zCoord, radius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
-        return getNearby(this.all(), xCoord, zCoord, xRadius, zRadius);
+        return getNearby(this.getAll(), xCoord, zCoord, xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
         SquaremapLocation playerLoc = p.getLocation();
         if (playerLoc.isDefault()) return Map.of();
 
-        Map<String, SquaremapOnlinePlayer> nearby = getNearby(this.all(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
+        Map<String, SquaremapOnlinePlayer> nearby = getNearby(this.getAll(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
         nearby.remove(p.getName());
 
         return nearby;
@@ -87,12 +70,12 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
         if (!location.valid()) return Map.of();
-        return getNearby(this.all(), location.getX(), location.getZ(), xRadius, zRadius);
+        return getNearby(this.getAll(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> townless() {
-        Map<String, SquaremapOnlinePlayer> ops = this.all();
-        Set<String> residents = this.residents.all().keySet(); // Dont care abt value, we only need to know if they exist.
+        Map<String, SquaremapOnlinePlayer> ops = this.getAll();
+        Set<String> residents = this.residents.getAll().keySet(); // Dont care abt value, we only need to know if they exist.
 
         // Single pass over entrySet is preferred in this case since we need both key and value.
         return ops.entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
@@ -105,6 +88,6 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
      */
     @Nullable
     public SquaremapOnlinePlayer getOnlinePlayer(String playerName) {
-        return all().getOrDefault(playerName, null);
+        return this.getAll().getOrDefault(playerName, null);
     }
 }

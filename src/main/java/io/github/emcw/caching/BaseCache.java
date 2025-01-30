@@ -2,19 +2,20 @@ package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import io.github.emcw.exceptions.MissingEntryException;
-import io.github.emcw.utils.Funcs;
+
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted"})
 public abstract class BaseCache<V> {
@@ -25,7 +26,6 @@ public abstract class BaseCache<V> {
     final Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
     ScheduledExecutorService scheduler = null; // Calls the updater at a fixed rate.
-    @Setter(AccessLevel.PROTECTED) protected Runnable updater = null;
 
     /**
     * Abstract class acting as a parent to other cache classes and holds a reference to a Caffeine cache.<br>
@@ -43,85 +43,74 @@ public abstract class BaseCache<V> {
      * <br><br>
      * If the strategy is {@link CacheStrategy#LAZY}, we simply set the expiry after write and build.
      * <br><br>
-     * If the strategy is {@link CacheStrategy#TIME_BASED} or {@link CacheStrategy#HYBRID}
-     * we initialize a scheduler to update
+     * If the strategy is {@link CacheStrategy#TIME_BASED} we initialize a scheduler to update instead.
      */
     protected void buildCache() {
         if (options.strategy == CacheStrategy.LAZY) {
             builder.expireAfterWrite(options.expiry, options.unit);
         } else {
-            initUpdateScheduler();
+            // Initialize a scheduler that will cache update method we specified.
+            scheduler = Executors.newScheduledThreadPool(CONCURRENCY);
+            scheduler.scheduleAtFixedRate(() -> {
+                try {
+                    forceUpdateCache();
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            }, options.expiry, options.expiry, options.unit);
         }
 
         setCache(builder.build());
     }
 
-    private void initUpdateScheduler() {
-        scheduler = Executors.newScheduledThreadPool(CONCURRENCY);
-        scheduler.scheduleAtFixedRate(() -> {
-            try { updater.run(); }
-            catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
-            }
-        }, options.expiry, options.expiry, options.unit);
-    }
-
-    private void stopUpdateScheduler() {
-        scheduler = null;
+    @Nullable
+    public V getSingle(String key) {
+        tryUpdateCache();
+        return cache.getIfPresent(key);
     }
 
     /**
-     * Runs the {@link #updater} if the cache strategy matches in the given one.
+     * Returns a new list containing only the values of the specified keys by calling `getAll()`,
+     * filtering out any that aren't in {@code keys} and getting the values of those left as a list.
+     * <br><br>
+     * For a small amount of keys, calling `getSingle` for each one may be quicker than filtering.
+     *
+     * <br><br>
+     * Some subclasses may override this to implement additional behaviour.
      */
-    protected void updateIf(CacheStrategy strategy) {
-        if (options.strategy != strategy) return;
-        updater.run();
-    }
-
-    public Map<String, V> get(String @NotNull ... keys) {
-        Map<String, V> all = all();
-
-        return Funcs.parallelStreamArr(keys)
+    public List<V> getMultiple(String @NotNull ... keys) {
+        tryUpdateCache();
+        
+        Map<String, V> all = getAll();
+        return Stream.of(keys)
             .filter(all::containsKey)
-            .collect(Collectors.toMap(k -> k, all::get));
-    }
-
-    public V single(String key) throws MissingEntryException {
-        updateIf(CacheStrategy.HYBRID);
-
-        V val = cache.getIfPresent(key);
-        if (val == null) {
-            // Expired and lazy, update.
-            updateIf(CacheStrategy.LAZY);
-
-            val = cache.getIfPresent(key);
-            if (val == null) throw new MissingEntryException("Could not find entry by key '" + key + "'");
-        }
-
-        return val;
+            .map(all::get)
+            .collect(Collectors.toList());
     }
 
     /**
-     * Gets all elements from this cache in a case-insensitive order.
-     * <br>Some subclasses may override this to implement additional behaviour.
+     * Returns a thread-safe view of this cache as a {@link Map}.<br><br>
+     * Some subclasses may override this to implement additional behaviour.
      */
-    public Map<String, V> all() {
-        return cacheAsMap();
+    public Map<String, V> getAll() {
+        tryUpdateCache();
+        return cache.asMap();
     }
 
-    private @NotNull Map<String, V> cacheAsMap() {
-        Map<String, V> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        map.putAll(cache.asMap());
-
-        return map;
-    }
-
-//    public boolean has(String key) {
-//        var all = all();
+//    /**
+//     * Gets all elements from this cache where null keys are not permitted and are case-insensitive.<br>
+//     */
+//    private @NotNull Map<String, V> cacheAsCaseInsensitiveMap() {
+//        Map<String, V> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+//        map.putAll(cache.asMap());
 //
-//        if (cache.asMap().containsKey(key)) return true;
-//        return all().get(key) != null;
+//        return map;
 //    }
+
+    public boolean cacheIsEmpty() {
+        return cache == null || cache.asMap().isEmpty();
+    }
 
     /**
      * Invalidates all cache entries that are not being loaded, effectively clearing it.
@@ -130,28 +119,16 @@ public abstract class BaseCache<V> {
         cache.invalidateAll();
     }
 
-    public boolean cacheIsEmpty() {
-        return cache == null || cache.asMap().isEmpty();
-    }
+    // NOTE: Clearing might be redundant if we always do setCache in updateCache anyway.
+    //       This method would only matter if we were *putting* data, not overwriting.
+    protected void clearCacheIfLazy() {
+        boolean lazy = options.strategy.equals(CacheStrategy.LAZY);
+        if (!lazy) return;
 
-//    public void put(String key, V val) {
-//        cache.put(key, val);
-//    }
-//
-//    public void putAll(Map<? extends String, ? extends V> map) {
-//        cache.putAll(map);
-//    }
-
-    public void tryExpireCache() {
-        boolean timeBased = options.strategy.equals(CacheStrategy.TIME_BASED);
-        if (!timeBased) return;
-
-        // Only clear if lazy or hybrid.
         clearCache();
     }
 
     public void tryUpdateCache() {
-        tryExpireCache();
         updateCache(false);
     }
 

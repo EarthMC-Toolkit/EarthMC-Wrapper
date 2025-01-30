@@ -2,7 +2,7 @@ package io.github.emcw.caching;
 
 /**
  * Specifies the caching strategy to use.<b></b>
- * <p><b>Items: </b> {@link #LAZY}, {@link #TIME_BASED}, {@link #HYBRID}
+ * <p><b>Items: </b> {@link #LAZY}, {@link #TIME_BASED}
  */
 public enum CacheStrategy {
     /**
@@ -12,9 +12,5 @@ public enum CacheStrategy {
     /**
      * Always update at an interval (expiry not needed)
      */
-    TIME_BASED,
-    /**
-     * Time based, but forces update if called before interval.
-     */
-    HYBRID
+    TIME_BASED
 }

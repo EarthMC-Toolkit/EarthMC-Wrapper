@@ -1,18 +1,28 @@
 package io.github.emcw.utils.http;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Endpoints {
-    static final String ENDPOINTS_URL = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-NPM/main/src/endpoints.json";
-    static final Cache<String, JsonObject> endpoints = Caffeine.newBuilder().build();
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
-    public static Cache<String, JsonObject> get() {
-        if (endpoints.asMap().isEmpty()) {
-            JsonObject eps = update();
+import java.util.HashMap;
+import java.util.Map;
+
+public class Endpoints {
+    static final String ENDPOINTS_URL = "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-Wrapper/main/src/resources/endpoints.json";
+    static final Map<String, JsonObject> endpoints = new HashMap<>();
+
+    @NotNull
+    public static Map<String, JsonObject> get() {
+        if (endpoints.isEmpty()) {
+            JsonObject eps = fetchEndpoints();
             if (eps != null) {
                 eps.asMap().forEach((k, v) -> endpoints.put(k, v.getAsJsonObject()));
             }
@@ -21,12 +31,30 @@ public class Endpoints {
         return endpoints;
     }
 
-    static @Nullable JsonObject update() {
+    private static @Nullable JsonObject fetchEndpoints() {
+        // Try get endpoints from external source first.
         JsonElement el = JSONRequest.sendGet(ENDPOINTS_URL);
-        if (el == null) {
+        if (el != null) return el.getAsJsonObject();
+
+        // Fall back to built-in json file instead. Could be null if err occurs.
+        return readJsonFromResource("endpoints.json");
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static JsonObject readJsonFromResource(String resourcePath) {
+        // Another reason I fucking despise Java.
+        InputStream is = Endpoints.class.getClassLoader().getResourceAsStream(resourcePath);
+        if (is == null) {
+            System.err.println("Could not find resource: " + resourcePath);
             return null;
         }
 
-        return el.getAsJsonObject();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            return JsonParser.parseReader(reader).getAsJsonObject();
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
     }
 }

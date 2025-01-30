@@ -29,22 +29,22 @@ public class JSONRequest {
     static final List<Integer> CODES = List.of(new Integer[]{ 200, 203, 304 });
 
     // Send GET request and get a JSON response back.
-    public static @Nullable JsonElement sendGet(String url) {
+    public static @Nullable JsonElement sendGet(@NotNull String url) {
         try {
             String res = execGet(url);
             return JsonParser.parseString(res);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return null;
         }
     }
 
     // Send POST request with JSON body and get a JSON response back.
-    public static @Nullable JsonElement sendPost(String url, String body) {
+    public static @Nullable JsonElement sendPost(@NotNull String url, String body) {
         try {
             return JsonParser.parseString(execPost(url, body));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return null;
         }
     }

@@ -39,7 +39,9 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
 
         // Parse player data into usable Player objects.
         parser.parsePlayerData();
-        Cache<String, SquaremapOnlinePlayer> ops = parser.getOnlinePlayers(); // TODO: Replacing one cache with another. Just use parser caches directly?
+
+        // TODO: Replacing one cache with another. Just use parser caches directly?
+        Cache<String, SquaremapOnlinePlayer> ops = parser.getOnlinePlayers();
 
         // Make sure we're using valid data to populate the cache with.
         if (ops == null) return;

@@ -10,11 +10,13 @@ import com.github.benmanes.caffeine.cache.Cache;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.Set;
 
-// TODO: Remove annotation when the class is fully complete.
+// TODO: Parser can be static if we get rid of caches and just provide
+//       parse methods that return what the getters would anyway.
 @SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapParser {
     @Getter final Cache<String, SquaremapTown> towns = Caffeine.newBuilder().build();
@@ -22,14 +24,20 @@ public class SquaremapParser {
     @Getter final Cache<String, SquaremapResident> residents = Caffeine.newBuilder().build();
     @Getter final Cache<String, SquaremapOnlinePlayer> onlinePlayers = Caffeine.newBuilder().build();
 
+    private final String mapName;
+
+    public SquaremapParser(@NotNull String mapName) {
+        this.mapName = mapName;
+    }
+
     public void parsePlayerData() {
-        JsonArray opData = SquaremapAPI.playerData().getAsJsonArray("players");
-        if (opData.isEmpty()) return;
+        JsonArray ops = SquaremapAPI.playerData(this.mapName).getAsJsonArray("players");
+        if (ops.isEmpty()) return;
 
         // Remove players that may no longer be online.
         onlinePlayers.invalidateAll();
 
-        opData.forEach(op -> {
+        ops.forEach(op -> {
             JsonObject opObj = op.getAsJsonObject();
 
             String name = keyAsStr(opObj, "name");
@@ -52,12 +60,8 @@ public class SquaremapParser {
         });
     }
 
-    public void parseMapData() {
-        parseMapData(true, true, true);
-    }
-
     public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
-        JsonArray data = SquaremapAPI.mapData();
+        JsonArray data = SquaremapAPI.mapData(this.mapName);
         if (data.isEmpty()) return;
 
         // Remove all old entries so caches will always contain fresh data.

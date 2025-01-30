@@ -12,18 +12,30 @@ import static io.github.emcw.utils.GsonUtil.arrAsStream;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public final class SquaremapAPI {
-    private static JsonElement get(String type) {
-        JsonObject endpoint = Endpoints.get().getIfPresent("squaremap");
-        if (endpoint != null) return JSONRequest.sendGet(endpoint.get(type).getAsString());
+    private static JsonElement getEndpointData(String mapName, String endpointKey) {
+        JsonObject mapObj = Endpoints.get().getOrDefault(mapName, null);
+        if (mapObj == null) {
+            throw new NullPointerException("Could not find key in endpoints obj: " + mapName);
+        }
 
-        throw new NullPointerException("Received `null` as endpoint URL.");
+        JsonObject squaremapEndpoints = Endpoints.get().getOrDefault("squaremap", null);
+        if (squaremapEndpoints == null) {
+            throw new NullPointerException("Could not find key in endpoints obj: " + mapName + "/squaremap");
+        }
+
+        String url = keyAsStr(squaremapEndpoints, endpointKey);
+        if (url == null || url.isBlank()) {
+            throw new NullPointerException("Invalid value or missing key in endpoints obj: " + mapName + "/squaremap/" + endpointKey);
+        }
+
+        return JSONRequest.sendGet(url);
     }
 
-    public static JsonObject playerData() {
+    public static JsonObject playerData(String mapName) {
         try {
-            return get("players").getAsJsonObject();
+            return getEndpointData(mapName, "players").getAsJsonObject();
         } catch(Exception e) {
-            System.out.println(
+            System.err.println(
                 "Error fetching Squaremap player data!\n" +
                 "Received response may be incorrectly formatted.\n\n" + e.getMessage()
             );
@@ -32,18 +44,18 @@ public final class SquaremapAPI {
         return new JsonObject();
     }
 
-    public static JsonArray mapData() {
+    public static JsonArray mapData(String mapName) {
         try {
-            JsonArray data = get("map").getAsJsonArray();
-            JsonElement towny = arrAsStream(data)
+            JsonArray data = getEndpointData(mapName, "map").getAsJsonArray();
+            JsonElement markerSet = arrAsStream(data)
                   .map(JsonElement::getAsJsonObject)
                   .filter(el -> Objects.equals(keyAsStr(el, "id"), "towny"))
                   .findFirst()
                   .orElseThrow();
 
-            return towny.getAsJsonObject().get("markers").getAsJsonArray();
+            return markerSet.getAsJsonObject().get("markers").getAsJsonArray();
         } catch (Exception e) {
-            System.out.println(
+            System.err.println(
                 "Error fetching Squaremap map data!\n" +
                 "Received response may be incorrectly formatted.\n\n" + e.getMessage()
             );

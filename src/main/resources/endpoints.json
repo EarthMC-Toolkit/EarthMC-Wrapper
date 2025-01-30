@@ -1,0 +1,13 @@
+{
+  "oapi": {
+    "v3/aurora": "https://api.earthmc.net/v3/aurora"
+  },
+  "aurora": {
+    "squaremap": {
+      "map": "https://map.earthmc.net/tiles/minecraft_overworld/markers.json",
+      "players": "https://map.earthmc.net/tiles/players.json",
+      "tiles_settings": "https://map.earthmc.net/tiles/settings.json",
+      "world_settings": "https://map.earthmc.net/tiles/minecraft_overworld/settings.json"
+    }
+  }
+}

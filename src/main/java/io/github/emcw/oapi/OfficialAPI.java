@@ -8,6 +8,7 @@ import io.github.emcw.KnownMap;
 import io.github.emcw.oapi.v3.types.DiscordReqObj;
 import io.github.emcw.oapi.v3.types.Point2D;
 import io.github.emcw.oapi.v3.types.RequestBodyV3;
+import io.github.emcw.utils.http.Endpoints;
 import io.github.emcw.utils.http.JSONRequest;
 
 import org.jetbrains.annotations.Contract;
@@ -38,6 +39,7 @@ public class OfficialAPI {
 
         @Contract(pure = true)
         public V3(@NotNull KnownMap map) {
+            // TODO: Might want to get this externally instead. See `Endpoints.get()`.
             this.MAP_ENDPOINT = "/v3/" + map.getName();
         }
 
@@ -73,7 +75,6 @@ public class OfficialAPI {
             return res == null ? null : res.getAsJsonArray();
         }
 
-        // Consider restricting this to two values (Point2D).
         public @Nullable JsonArray location(Point2D[] points) {
             JsonElement res = sendRequest("/location", new RequestBodyV3(points));
             return res == null ? null : res.getAsJsonArray();

@@ -17,16 +17,17 @@ import java.util.concurrent.TimeUnit;
 public class Squaremap {
     @Getter final String mapName;
 
-    public Towns Towns = null;
-    public Nations Nations = null;
-    public Players Players = null;
-    public Residents Residents = null;
+    public final Towns Towns;
+    public final Nations Nations;
+    public final Players Players;
+    public final Residents Residents;
     //public GPS GPS = null;
 
-    @Getter final SquaremapParser parser = new SquaremapParser();
+    @Getter final SquaremapParser parser;
 
     Squaremap(KnownMap map, @Nullable CacheOptions mapDataOpts, @Nullable CacheOptions playerDataOpts, boolean prefill) {
         this.mapName = map.getName();
+        parser = new SquaremapParser(this.mapName);
 
         if (mapDataOpts == null) {
             mapDataOpts = new CacheOptions(CacheStrategy.TIME_BASED, 20, TimeUnit.SECONDS);
@@ -36,23 +37,22 @@ public class Squaremap {
             playerDataOpts = new CacheOptions(CacheStrategy.LAZY, 2, TimeUnit.SECONDS);
         }
 
-        init(mapDataOpts, playerDataOpts);
-        if (prefill) prefill();
+        this.Towns = new Towns(this.parser, mapDataOpts);
+        this.Nations = new Nations(this.parser, mapDataOpts);
+        this.Residents = new Residents(this.parser, mapDataOpts);
+        this.Players = new Players(this.parser, this.Residents, playerDataOpts);
+
+        if (prefill) {
+            prefillCaches();
+        }
 
         //GPS = new GPS(this));
     }
 
-    private void init(CacheOptions mapDataOpts, CacheOptions playerDataOpts) {
-        Towns = new Towns(parser, mapDataOpts);
-        Nations = new Nations(parser, mapDataOpts);
-        Residents = new Residents(parser, mapDataOpts);
-        Players = new Players(parser, Residents, playerDataOpts);
-    }
-
-    private void prefill() {
-        Towns.forceUpdateCache();
-        Nations.forceUpdateCache();
-        Residents.forceUpdateCache();
-        Players.forceUpdateCache();
+    private void prefillCaches() {
+        this.Towns.forceUpdateCache();
+        this.Nations.forceUpdateCache();
+        this.Residents.forceUpdateCache();
+        this.Players.forceUpdateCache();
     }
 }

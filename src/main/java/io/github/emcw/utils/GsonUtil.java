@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-@SuppressWarnings("unchecked, unused")
+@SuppressWarnings({"unchecked", "unused"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonUtil {
     @Getter private static final Gson GSON = new GsonBuilder()

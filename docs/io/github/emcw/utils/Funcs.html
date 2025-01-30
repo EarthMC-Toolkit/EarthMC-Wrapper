@@ -84,6 +84,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#strArrHas(java.lang.String%5B%5D,java.lang.String)" tabindex="0">strArrHas(String[], String)</a></li>
 <li><a href="#withinRadius(java.lang.Integer,java.lang.Integer%5B%5D)" tabindex="0">withinRadius(Integer, Integer[])</a></li>
 <li><a href="#withinRadius(java.lang.Integer,java.lang.Integer,java.lang.Integer)" tabindex="0">withinRadius(Integer, Integer, Integer)</a></li>
+<li><a href="#stringToFullUUID(java.lang.String)" tabindex="0">stringToFullUUID(String)</a></li>
 </ol>
 </li>
 </ol>
@@ -184,15 +185,21 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#strArrHas(java.lang.String%5B%5D,java.lang.String)" class="member-name-link">strArrHas</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;arr,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;str)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#withinRadius(java.lang.Integer,java.lang.Integer%5B%5D)" class="member-name-link">withinRadius</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;num,
- <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a> @NotNull []&nbsp;args)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringToFullUUID(java.lang.String)" class="member-name-link">stringToFullUUID</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uuidStr)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Ensures a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link"><code>UUID</code></a> is full (with hyphens) by inserting them at known points in the string.<br><br>
+ If the given string is 36 characters (full uuid), it will use that one without inserting.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#withinRadius(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">withinRadius</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;sourceCoord,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#withinRadius(java.lang.Integer,java.lang.Integer%5B%5D)" class="member-name-link">withinRadius</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;num,
+ <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a> @NotNull []&nbsp;args)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#withinRadius(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">withinRadius</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;sourceCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;targetCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;radius)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -377,6 +384,26 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">withinRadius</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;sourceCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;targetCoord,
  <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;radius)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="stringToFullUUID(java.lang.String)">
+<h3>stringToFullUUID</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a></span>&nbsp;<span class="element-name">stringToFullUUID</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uuidStr)</span>
+                             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></span></div>
+<div class="block">Ensures a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link"><code>UUID</code></a> is full (with hyphens) by inserting them at known points in the string.<br><br>
+ If the given string is 36 characters (full uuid), it will use that one without inserting.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>uuidStr</code> - A trimmed or full UUID in string representation.</dd>
+<dt>Returns:</dt>
+<dd>A new <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link"><code>UUID</code></a> with hyphens inserted if not already.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code></dd>
+</dl>
 </div>
 </section>
 </li>

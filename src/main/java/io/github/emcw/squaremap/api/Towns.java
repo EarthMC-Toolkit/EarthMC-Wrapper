@@ -1,13 +1,13 @@
 package io.github.emcw.squaremap.api;
 
-import com.github.benmanes.caffeine.cache.Cache;
-
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.squaremap.entities.SquaremapTown;
 
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.squaremap.SquaremapParser;
+
+import java.util.Map;
 
 public class Towns extends BaseCache<SquaremapTown> implements ILocatable<SquaremapTown> {
     private final SquaremapParser parser;
@@ -18,17 +18,8 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
     }
 
     @Override
-    protected void updateCache(Boolean force) {
-        if (!force) return;
-
-        // Parse map data into usable Town objects.
+    protected Map<String, SquaremapTown> fetchCacheData() {
         this.parser.parseMapData(true, false, true);
-        Cache<String, SquaremapTown> towns = this.parser.getTowns();
-
-        // Make sure we're using valid data to populate the cache with.
-        if (towns == null) return;
-        if (towns.asMap().isEmpty()) return;
-
-        setCache(towns);
+        return this.parser.getTowns();
     }
 }

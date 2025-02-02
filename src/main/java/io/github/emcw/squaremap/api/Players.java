@@ -1,7 +1,5 @@
 package io.github.emcw.squaremap.api;
 
-import com.github.benmanes.caffeine.cache.Cache;
-
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
 
@@ -33,20 +31,9 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
     }
 
     @Override
-    protected void updateCache(Boolean force) {
-        if (!force) return;
-
-        // Parse player data into usable Player objects.
+    protected Map<String, SquaremapOnlinePlayer> fetchCacheData() {
         this.parser.parsePlayerData();
-
-        // TODO: Replacing one cache with another. Is this redundant?
-        Cache<String, SquaremapOnlinePlayer> ops = this.parser.getOnlinePlayers();
-
-        // Make sure we're using valid data to populate the cache with.
-        if (ops == null) return;
-        if (ops.asMap().isEmpty()) return;
-
-        setCache(ops);
+        return this.parser.getOnlinePlayers();
     }
 
     /**
@@ -61,8 +48,9 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
     public Map<String, SquaremapOnlinePlayer> getByResidency(boolean hasTown) {
         // Dont care abt value, we only need to know if they exist.
         Set<String> residents = this.residents.getAll().keySet();
+        Map<String, SquaremapOnlinePlayer> ops = getAll();
 
-        return getAll().entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
+        return ops.entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
             .filter(opEntry -> residents.contains(opEntry.getKey()) == hasTown) // O(1) lookup. Key is the player's name.
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // This is why I hate Java.
     }

@@ -61,11 +61,10 @@ public class Squaremap {
         this.Residents.setPlayers(this.Players);
     }
 
-    // Essentially calls .updateCache(true) to force update using their respective implementation.
     private void prefillCaches() {
-        this.Towns.forceUpdateCache();
-        this.Nations.forceUpdateCache();
-        this.Residents.forceUpdateCache();
-        this.Players.forceUpdateCache();
+        this.Towns.updateCache();
+        this.Nations.updateCache();
+        this.Residents.updateCache();
+        this.Players.updateCache();
     }
 }

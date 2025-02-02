@@ -1,7 +1,5 @@
 package io.github.emcw.squaremap.api;
 
-import com.github.benmanes.caffeine.cache.Cache;
-
 import io.github.emcw.caching.BaseCache;
 import io.github.emcw.caching.CacheOptions;
 import io.github.emcw.squaremap.entities.SquaremapOnlinePlayer;
@@ -25,18 +23,9 @@ public class Residents extends BaseCache<SquaremapResident> {
     }
 
     @Override
-    protected void updateCache(Boolean force) {
-        if (!force) return;
-
-        // Parse player data into usable Player objects.
+    protected Map<String, SquaremapResident> fetchCacheData() {
         this.parser.parseMapData(false, false, true);
-        Cache<String, SquaremapResident> residents = this.parser.getResidents();
-
-        // Make sure we're using valid data to populate the cache with.
-        if (residents == null) return;
-        if (residents.asMap().isEmpty()) return;
-
-        setCache(residents);
+        return this.parser.getResidents();
     }
 
     public Map<String, SquaremapOnlineResident> getOnline() {

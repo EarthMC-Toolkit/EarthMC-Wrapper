@@ -238,10 +238,6 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a thread-safe view of this cache as a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.<br><br>
  Some subclasses may override this to implement additional behaviour.</div>
 </dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#getAllWithoutTown()" class="member-name-link">getAllWithoutTown()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#getAllWithTown()" class="member-name-link">getAllWithTown()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#getBounds(com.google.gson.JsonArray)" class="member-name-link">getBounds(JsonArray)</a> - Static method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>
 <div class="block">Parses <a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#points"><code>SquaremapMarker.points</code></a> into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
@@ -255,6 +251,14 @@ loadScripts(document, 'script');</script>
    Pair<span class="invalid-tag">invalid input: '&lt;'</span>[500, 7000], [-200, 80]&gt;
  </code></div>
 </dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getByResidency(boolean)" class="member-name-link">getByResidency(boolean)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>
+<div class="block">Similar to <a href="io/github/emcw/caching/BaseCache.html#getAll()"><code>BaseCache.getAll()</code></a>, this method gets all the players but only includes those
+ that match a certain residential status indicated by the <code>hasTown</code> parameter.<br><br>
+
+ <b>NOTE:</b> If the intention is to call this method twice, once for townless and another for towned players,
+ consider using <a href="io/github/emcw/squaremap/api/Players.html#getSorted()"><code>Players.getSorted()</code></a> to avoid doing unnecessary operations when they can be sorted all at once instead.</div>
+</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#getCouncillorNames()" class="member-name-link">getCouncillorNames()</a> - Method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#getMultiple(java.lang.String...)" class="member-name-link">getMultiple(String...)</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
@@ -265,6 +269,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#getNamesFromString(java.lang.String)" class="member-name-link">getNamesFromString(String)</a> - Static method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/api/Players.html#getNearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(SquaremapLocation, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getNearby(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(SquaremapOnlinePlayer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getNearby(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Integer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getNearby(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Integer, Integer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearbyEntities(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearbyEntities(Map&lt;String, T&gt;, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
 <dd>&nbsp;</dd>
@@ -279,6 +289,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/caching/BaseCache.html#getSingle(java.lang.String)" class="member-name-link">getSingle(String)</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>
 <div class="block">Attempts to get a single element from the cache.</div>
+</dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getSorted()" class="member-name-link">getSorted()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>
+<div class="block">Gets online players and sorts them into two seperate maps in a single pass.<br>
+ A new <code>Pair</code> is returned, where the first contains players with a town and the second without.</div>
 </dd>
 <dt><a href="io/github/emcw/EMCWrapper.html#getSquaremap(io.github.emcw.KnownMap)" class="member-name-link">getSquaremap(KnownMap)</a> - Method in class io.github.emcw.<a href="io/github/emcw/EMCWrapper.html" title="class in io.github.emcw">EMCWrapper</a></dt>
 <dd>&nbsp;</dd>
@@ -478,12 +493,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/oapi/OfficialAPI.V3.html#nationsList()" class="member-name-link">nationsList()</a> - Method in class io.github.emcw.oapi.<a href="io/github/emcw/oapi/OfficialAPI.V3.html" title="class in io.github.emcw.oapi">OfficialAPI.V3</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#nationWiki" class="member-name-link">nationWiki</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#nearby(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby(SquaremapOnlinePlayer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby(Integer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby(Integer, Integer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/common/Direction.html#NORTH" class="member-name-link">NORTH</a> - Enum constant in enum class io.github.emcw.common.<a href="io/github/emcw/common/Direction.html" title="enum class in io.github.emcw.common">Direction</a></dt>
 <dd>&nbsp;</dd>

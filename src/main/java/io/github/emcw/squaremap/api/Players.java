@@ -19,14 +19,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocatable<SquaremapOnlinePlayer> {
     private final SquaremapParser parser;
 
     @Setter private Residents residents;
-
-    private Pair<Map<String, SquaremapOnlinePlayer>, Map<String, SquaremapOnlinePlayer>> sortedPlayers;
 
     public Players(@NotNull SquaremapParser parser, CacheOptions options) {
         super(options);
@@ -48,15 +47,31 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         if (ops.asMap().isEmpty()) return;
 
         setCache(ops);
+    }
 
-        this.sortedPlayers = getSorted();
+    /**
+     * Similar to {@link #getAll()}, this method gets all the players but only includes those
+     * that match a certain residential status indicated by the {@code hasTown} parameter.<br><br>
+     *
+     * <b>NOTE:</b> If the intention is to call this method twice, once for townless and another for towned players,
+     * consider using {@link #getSorted()} to avoid doing unnecessary operations when they can be sorted all at once instead.
+     * @param hasTown The residential status to filter by. True for residents, false for townless.
+     * @return The filtered map of online players that pass the hasTown value.
+     */
+    public Map<String, SquaremapOnlinePlayer> getByResidency(boolean hasTown) {
+        // Dont care abt value, we only need to know if they exist.
+        Set<String> residents = this.residents.getAll().keySet();
+
+        return getAll().entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
+            .filter(opEntry -> residents.contains(opEntry.getKey()) == hasTown) // O(1) lookup. Key is the player's name.
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // This is why I hate Java.
     }
 
     /**
      * Gets online players and sorts them into two seperate maps in a single pass.<br>
-     * A new {@link Pair} is returned, where the first contains players with a town and the second without.<br><br>
+     * A new {@link Pair} is returned, where the first contains players with a town and the second without.
      */
-    Pair<Map<String, SquaremapOnlinePlayer>, Map<String, SquaremapOnlinePlayer>> getSorted() {
+    public Pair<Map<String, SquaremapOnlinePlayer>, Map<String, SquaremapOnlinePlayer>> getSorted() {
         Set<String> residentNames = this.residents.getAll().keySet();
         Map<String, SquaremapOnlinePlayer> ops = getAll();
 
@@ -71,27 +86,15 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         return new Pair<>(onlineResidents, townless);
     }
 
-    public Map<String, SquaremapOnlinePlayer> getAllWithTown() {
-        tryUpdateCache();
-        return sortedPlayers.getFirst();
-    }
-
-    // TODO: Investigate why residents are in the output sometimes.
-    //       May need to add safety to updating/getting.
-    public Map<String, SquaremapOnlinePlayer> getAllWithoutTown() {
-        tryUpdateCache();
-        return sortedPlayers.getSecond();
-    }
-
-    public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer radius) {
+    public Map<String, SquaremapOnlinePlayer> getNearby(Integer xCoord, Integer zCoord, Integer radius) {
         return getNearbyEntities(getAll(), xCoord, zCoord, radius);
     }
 
-    public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
+    public Map<String, SquaremapOnlinePlayer> getNearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
         return getNearbyEntities(getAll(), xCoord, zCoord, xRadius, zRadius);
     }
 
-    public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
+    public Map<String, SquaremapOnlinePlayer> getNearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
         SquaremapLocation playerLoc = p.getLocation();
         if (playerLoc.isDefault()) return new HashMap<>();
 
@@ -105,13 +108,4 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         if (!location.valid()) return new HashMap<>();
         return getNearbyEntities(getAll(), location.getX(), location.getZ(), xRadius, zRadius);
     }
-
-//    public Map<String, SquaremapOnlinePlayer> getAllTownless() {
-//        Map<String, SquaremapOnlinePlayer> ops = getAll();
-//        Set<String> residents = getResidents().getAll().keySet(); // Dont care abt value, we only need to know if they exist.
-//
-//        return ops.entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
-//            .filter(opEntry -> !residents.contains(opEntry.getKey())) // O(1) lookup. Key is the player's name.
-//            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // This is why I hate Java.
-//    }
 }

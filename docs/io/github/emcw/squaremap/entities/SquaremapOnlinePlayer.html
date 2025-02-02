@@ -65,6 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
+<li><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer)" tabindex="0">SquaremapOnlinePlayer(SquaremapOnlinePlayer)</a></li>
 <li><a href="#%3Cinit%3E(com.google.gson.JsonObject)" tabindex="0">SquaremapOnlinePlayer(JsonObject)</a></li>
 </ol>
 </li>
@@ -128,7 +129,13 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.google.gson.JsonObject)" class="member-name-link">SquaremapOnlinePlayer</a><wbr>(com.google.gson.JsonObject&nbsp;opInfo)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Use when we need to create a new online player from raw data.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer)" class="member-name-link">SquaremapOnlinePlayer</a><wbr>(<a href="SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a>&nbsp;op)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Use when a class extends this class and other data needs to be merged.</div>
+</div>
 </div>
 </section>
 </li>
@@ -177,7 +184,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <code><a href="../../interfaces/IGsonSerializable.html#asString()">asString</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.emcw.interfaces.ILocatable">Methods inherited from interface&nbsp;io.github.emcw.interfaces.<a href="../../interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></h3>
-<code><a href="../../interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)">getNearby</a>, <a href="../../interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)">getNearby</a></code></div>
+<code><a href="../../interfaces/ILocatable.html#getNearbyEntities(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)">getNearbyEntities</a>, <a href="../../interfaces/ILocatable.html#getNearbyEntities(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)">getNearbyEntities</a></code></div>
 </section>
 </li>
 </ul>
@@ -190,10 +197,29 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="&lt;init&gt;(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer)">
+<h3>SquaremapOnlinePlayer</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapOnlinePlayer</span><wbr><span class="parameters">(<a href="SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a>&nbsp;op)</span></div>
+<div class="block">Use when a class extends this class and other data needs to be merged.
+ For example, we call this in <a href="SquaremapOnlineResident.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapOnlineResident</code></a> since it extends us.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>op</code> - The existing online player.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="&lt;init&gt;(com.google.gson.JsonObject)">
 <h3>SquaremapOnlinePlayer</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapOnlinePlayer</span><wbr><span class="parameters">(com.google.gson.JsonObject&nbsp;opInfo)</span></div>
+<div class="block">Use when we need to create a new online player from raw data.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>opInfo</code> - The JSON data containing info about an online player.</dd>
+</dl>
 </div>
 </section>
 </li>

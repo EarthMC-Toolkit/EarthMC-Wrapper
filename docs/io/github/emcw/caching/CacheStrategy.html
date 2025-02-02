@@ -97,7 +97,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public enum </span><span class="element-name type-name-label">CacheStrategy</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;<a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a>&gt;</span></div>
 <div class="block">Specifies the caching strategy to use.<b></b>
- <p><b>Items: </b> <a href="#LAZY"><code>LAZY</code></a>, <a href="#TIME_BASED"><code>TIME_BASED</code></a></div>
+ <p><b>Types: </b> <a href="#LAZY"><code>LAZY</code></a>, <a href="#TIME_BASED"><code>TIME_BASED</code></a></div>
 </div>
 </section>
 <section class="summary">
@@ -121,11 +121,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code><a href="#LAZY" class="member-name-link">LAZY</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Only update on next call (expiry should be set)</div>
+<div class="block">Only update on next call if expired (expiry should be set).</div>
 </div>
 <div class="col-first odd-row-color"><code><a href="#TIME_BASED" class="member-name-link">TIME_BASED</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Always update at an interval (expiry not needed)</div>
+<div class="block">Always update at an interval (expiry not needed).</div>
 </div>
 </div>
 </section>
@@ -177,7 +177,7 @@ the order they are declared.</div>
 <h3>LAZY</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a></span>&nbsp;<span class="element-name">LAZY</span></div>
-<div class="block">Only update on next call (expiry should be set)</div>
+<div class="block">Only update on next call if expired (expiry should be set).</div>
 </div>
 </section>
 </li>
@@ -186,7 +186,7 @@ the order they are declared.</div>
 <h3>TIME_BASED</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a></span>&nbsp;<span class="element-name">TIME_BASED</span></div>
-<div class="block">Always update at an interval (expiry not needed)</div>
+<div class="block">Always update at an interval (expiry not needed).</div>
 </div>
 </section>
 </li>

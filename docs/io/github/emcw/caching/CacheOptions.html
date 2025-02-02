@@ -95,9 +95,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.caching.CacheStrategy,long,java.util.concurrent.TimeUnit)" class="member-name-link">CacheOptions</a><wbr>(<a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a>&nbsp;strategy,
- long&nbsp;expireAfterWrite,
+ long&nbsp;duration,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new options instance that will be passed when building a cache.<br><br>
+ If <code>strategy</code> is <a href="CacheStrategy.html#TIME_BASED"><code>CacheStrategy.TIME_BASED</code></a>, the cache will automatically update after the duration,
+ otherwise it must be <a href="CacheStrategy.html#LAZY"><code>CacheStrategy.LAZY</code></a> and will be emptied until</div>
+</div>
 </div>
 </section>
 </li>
@@ -124,9 +128,18 @@ loadScripts(document, 'script');</script>
 <h3>CacheOptions</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CacheOptions</span><wbr><span class="parameters">(<a href="CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a>&nbsp;strategy,
- long&nbsp;expireAfterWrite,
+ long&nbsp;duration,
  @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+<div class="block">Creates a new options instance that will be passed when building a cache.<br><br>
+ If <code>strategy</code> is <a href="CacheStrategy.html#TIME_BASED"><code>CacheStrategy.TIME_BASED</code></a>, the cache will automatically update after the duration,
+ otherwise it must be <a href="CacheStrategy.html#LAZY"><code>CacheStrategy.LAZY</code></a> and will be emptied until</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>strategy</code> - The strategy for the cache to use when updating.</dd>
+<dd><code>duration</code> - Amount of time until strategy-dependenant logic happens.</dd>
+<dd><code>unit</code> - Time unit to base duration on. Min, sec, ms etc.</dd>
+</dl>
 </div>
 </section>
 </li>

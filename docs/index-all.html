@@ -87,27 +87,34 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/caching/BaseCache.html#%3Cinit%3E(io.github.emcw.caching.CacheOptions)" class="member-name-link">BaseCache(CacheOptions)</a> - Constructor for class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>
 <div class="block">Abstract class acting as a parent to other cache classes and holds a reference to a Caffeine cache.<br>
- It provides the fundamental methods (get, single <span class="invalid-tag">invalid input: '&amp;'</span> all) that children automatically inherit.</div>
+ It provides the fundamental methods (getAll, getSingle <span class="invalid-tag">invalid input: '&amp;'</span> getMultiple) that children automatically inherit.<br><br>
+
+ It also initializes the scheduler which updates or expires data based on the
+ <a href="io/github/emcw/caching/CacheStrategy.html" title="enum class in io.github.emcw.caching"><code>CacheStrategy</code></a> of the given <code>options</code>.</div>
 </dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#board" class="member-name-link">board</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#bounds" class="member-name-link">bounds</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#buildCache()" class="member-name-link">buildCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>
-<div class="block">Creates the <a href="io/github/emcw/caching/BaseCache.html#cache"><code>BaseCache.cache</code></a>, with some pre-setup according to <a href="io/github/emcw/caching/BaseCache.html#options"><code>BaseCache.options</code></a>.</div>
-</dd>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
 <dt><a href="io/github/emcw/caching/BaseCache.html#cache" class="member-name-link">cache</a> - Variable in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#cacheIsEmpty()" class="member-name-link">cacheIsEmpty()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/caching/BaseCache.html#cacheExpired()" class="member-name-link">cacheExpired()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
+<dd>
+<div class="block">Should only be true in these cases:<br><br>
+ - The cache was built with a lazy strategy.<br>
+ - We have not made any calls that try to update the cache after it expired.</div>
+</dd>
 <dt><a href="io/github/emcw/caching/CacheOptions.html" class="type-name-link" title="class in io.github.emcw.caching">CacheOptions</a> - Class in <a href="io/github/emcw/caching/package-summary.html">io.github.emcw.caching</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/CacheOptions.html#%3Cinit%3E(io.github.emcw.caching.CacheStrategy,long,java.util.concurrent.TimeUnit)" class="member-name-link">CacheOptions(CacheStrategy, long, TimeUnit)</a> - Constructor for class io.github.emcw.caching.<a href="io/github/emcw/caching/CacheOptions.html" title="class in io.github.emcw.caching">CacheOptions</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new options instance that will be passed when building a cache.<br><br>
+ If <code>strategy</code> is <a href="io/github/emcw/caching/CacheStrategy.html#TIME_BASED"><code>CacheStrategy.TIME_BASED</code></a>, the cache will automatically update after the duration,
+ otherwise it must be <a href="io/github/emcw/caching/CacheStrategy.html#LAZY"><code>CacheStrategy.LAZY</code></a> and will be emptied until</div>
+</dd>
 <dt><a href="io/github/emcw/caching/CacheStrategy.html" class="type-name-link" title="enum class in io.github.emcw.caching">CacheStrategy</a> - Enum Class in <a href="io/github/emcw/caching/package-summary.html">io.github.emcw.caching</a></dt>
 <dd>
 <div class="block">Specifies the caching strategy to use.<b></b></div>
@@ -115,12 +122,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/utils/Funcs.html#calcArea(int%5B%5D,int%5B%5D)" class="member-name-link">calcArea(int[], int[])</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" title="class in io.github.emcw.utils">Funcs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/Funcs.html#calcArea(int%5B%5D,int%5B%5D,int,int...)" class="member-name-link">calcArea(int[], int[], int, int...)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" title="class in io.github.emcw.utils">Funcs</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#clearCache()" class="member-name-link">clearCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>
-<div class="block">Invalidates all cache entries that are not being loaded, effectively clearing it.</div>
-</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#clearCacheIfLazy()" class="member-name-link">clearCacheIfLazy()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/Funcs.html#collectAsMap(java.util.stream.Stream)" class="member-name-link">collectAsMap(Stream&lt;Map.Entry&lt;String, T&gt;&gt;)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/Funcs.html" title="class in io.github.emcw.utils">Funcs</a></dt>
 <dd>&nbsp;</dd>
@@ -192,6 +193,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/common/Entity.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">Entity(String, String)</a> - Constructor for class io.github.emcw.common.<a href="io/github/emcw/common/Entity.html" title="class in io.github.emcw.common">Entity</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/common/Entity.html#%3Cinit%3E(java.util.UUID,java.lang.String)" class="member-name-link">Entity(UUID, String)</a> - Constructor for class io.github.emcw.common.<a href="io/github/emcw/common/Entity.html" title="class in io.github.emcw.common">Entity</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html" title="class in io.github.emcw.oapi.v3.types">DiscordReqObj</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -216,7 +219,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#flattenJsonArr(com.google.gson.JsonArray,int)" class="member-name-link">flattenJsonArr(JsonArray, int)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#forceUpdateCache()" class="member-name-link">forceUpdateCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Always updates the cache, regardless of whether it has expired.</div>
+</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#founded" class="member-name-link">founded</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/Funcs.html" class="type-name-link" title="class in io.github.emcw.utils">Funcs</a> - Class in <a href="io/github/emcw/utils/package-summary.html">io.github.emcw.utils</a></dt>
@@ -233,6 +238,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a thread-safe view of this cache as a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.<br><br>
  Some subclasses may override this to implement additional behaviour.</div>
 </dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getAllWithoutTown()" class="member-name-link">getAllWithoutTown()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getAllWithTown()" class="member-name-link">getAllWithTown()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#getBounds(com.google.gson.JsonArray)" class="member-name-link">getBounds(JsonArray)</a> - Static method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>
 <div class="block">Parses <a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#points"><code>SquaremapMarker.points</code></a> into two seperate arrays, which we call bounds for the sake of simplicity.<br><br>
@@ -250,25 +259,27 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#getMultiple(java.lang.String...)" class="member-name-link">getMultiple(String...)</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>
-<div class="block">Returns a new list containing only the values of the specified keys by calling `getAll()`,
- filtering out any that aren't in <code>keys</code> and getting the values of those left as a list.</div>
+<div class="block">Returns a new list containing only the values of the specified keys by calling <a href="io/github/emcw/caching/BaseCache.html#getAll()"><code>BaseCache.getAll()</code></a> and
+ filtering out any that aren't in <code>keys</code>, then getting the values of those left as a list.</div>
 </dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#getNamesFromString(java.lang.String)" class="member-name-link">getNamesFromString(String)</a> - Static method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Map&lt;String, T&gt;, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#getNearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(SquaremapLocation, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearby(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby(Map&lt;String, T&gt;, Integer, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
+<dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearbyEntities(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearbyEntities(Map&lt;String, T&gt;, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/interfaces/ILocatable.html#getNearbyEntities(java.util.Map,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearbyEntities(Map&lt;String, T&gt;, Integer, Integer, Integer, Integer)</a> - Method in interface io.github.emcw.interfaces.<a href="io/github/emcw/interfaces/ILocatable.html" title="interface in io.github.emcw.interfaces">ILocatable</a></dt>
 <dd>
 <div class="block">Returns a new map of entities that are within the specified x and z radii given the coordinates.</div>
 </dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#getOnlinePlayer(java.lang.String)" class="member-name-link">getOnlinePlayer(String)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>
-<div class="block">Equivalent to <code>Players.all().getOrDefault("PlayerName", null)</code>.</div>
-</dd>
+<dt><a href="io/github/emcw/squaremap/api/Residents.html#getOnline()" class="member-name-link">getOnline()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Residents.html" title="class in io.github.emcw.squaremap.api">Residents</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#getResidentNames()" class="member-name-link">getResidentNames()</a> - Method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#getSingle(java.lang.String)" class="member-name-link">getSingle(String)</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Attempts to get a single element from the cache.</div>
+</dd>
 <dt><a href="io/github/emcw/EMCWrapper.html#getSquaremap(io.github.emcw.KnownMap)" class="member-name-link">getSquaremap(KnownMap)</a> - Method in class io.github.emcw.<a href="io/github/emcw/EMCWrapper.html" title="class in io.github.emcw">EMCWrapper</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#getType(java.lang.Class)" class="member-name-link">getType(Class&lt;T&gt;)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
@@ -405,7 +416,7 @@ loadScripts(document, 'script');</script>
 <dl class="index">
 <dt><a href="io/github/emcw/caching/CacheStrategy.html#LAZY" class="member-name-link">LAZY</a> - Enum constant in enum class io.github.emcw.caching.<a href="io/github/emcw/caching/CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a></dt>
 <dd>
-<div class="block">Only update on next call (expiry should be set)</div>
+<div class="block">Only update on next call if expired (expiry should be set).</div>
 </dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#location" class="member-name-link">location</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
@@ -468,8 +479,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#nationWiki" class="member-name-link">nationWiki</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#nearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby(SquaremapLocation, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/api/Players.html#nearby(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby(SquaremapOnlinePlayer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/api/Players.html#nearby(java.lang.Integer,java.lang.Integer,java.lang.Integer)" class="member-name-link">nearby(Integer, Integer, Integer)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
@@ -524,7 +533,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/Squaremap.html#Players" class="member-name-link">Players</a> - Variable in class io.github.emcw.<a href="io/github/emcw/Squaremap.html" title="class in io.github.emcw">Squaremap</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#%3Cinit%3E(io.github.emcw.squaremap.SquaremapParser,io.github.emcw.squaremap.api.Residents,io.github.emcw.caching.CacheOptions)" class="member-name-link">Players(SquaremapParser, Residents, CacheOptions)</a> - Constructor for class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#%3Cinit%3E(io.github.emcw.squaremap.SquaremapParser,io.github.emcw.caching.CacheOptions)" class="member-name-link">Players(SquaremapParser, CacheOptions)</a> - Constructor for class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/oapi/OfficialAPI.V3.html#playersList()" class="member-name-link">playersList()</a> - Method in class io.github.emcw.oapi.<a href="io/github/emcw/oapi/OfficialAPI.V3.html" title="class in io.github.emcw.oapi">OfficialAPI.V3</a></dt>
 <dd>&nbsp;</dd>
@@ -655,10 +664,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a> - Class in <a href="io/github/emcw/squaremap/entities/package-summary.html">io.github.emcw.squaremap.entities</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html#%3Cinit%3E(com.google.gson.JsonObject)" class="member-name-link">SquaremapOnlinePlayer(JsonObject)</a> - Constructor for class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Use when we need to create a new online player from raw data.</div>
+</dd>
+<dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer)" class="member-name-link">SquaremapOnlinePlayer(SquaremapOnlinePlayer)</a> - Constructor for class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a></dt>
+<dd>
+<div class="block">Use when a class extends this class and other data needs to be merged.</div>
+</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlineResident.html" class="type-name-link" title="class in io.github.emcw.squaremap.entities">SquaremapOnlineResident</a> - Class in <a href="io/github/emcw/squaremap/entities/package-summary.html">io.github.emcw.squaremap.entities</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlineResident.html#%3Cinit%3E(com.google.gson.JsonObject,io.github.emcw.squaremap.entities.SquaremapResident)" class="member-name-link">SquaremapOnlineResident(JsonObject, SquaremapResident)</a> - Constructor for class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlineResident.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlineResident</a></dt>
+<dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlineResident.html#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer,io.github.emcw.squaremap.entities.SquaremapResident)" class="member-name-link">SquaremapOnlineResident(SquaremapOnlinePlayer, SquaremapResident)</a> - Constructor for class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlineResident.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlineResident</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/SquaremapParser.html" class="type-name-link" title="class in io.github.emcw.squaremap">SquaremapParser</a> - Class in <a href="io/github/emcw/squaremap/package-summary.html">io.github.emcw.squaremap</a></dt>
 <dd>&nbsp;</dd>
@@ -699,7 +714,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/emcw/caching/CacheStrategy.html#TIME_BASED" class="member-name-link">TIME_BASED</a> - Enum constant in enum class io.github.emcw.caching.<a href="io/github/emcw/caching/CacheStrategy.html" title="enum class in io.github.emcw.caching">CacheStrategy</a></dt>
 <dd>
-<div class="block">Always update at an interval (expiry not needed)</div>
+<div class="block">Always update at an interval (expiry not needed).</div>
 </dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#toList(com.google.gson.JsonElement)" class="member-name-link">toList(JsonElement)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
 <dd>
@@ -715,8 +730,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#townless()" class="member-name-link">townless()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#townName" class="member-name-link">townName</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/oapi/OfficialAPI.V3.html#towns(java.lang.String%5B%5D)" class="member-name-link">towns(String[])</a> - Method in class io.github.emcw.oapi.<a href="io/github/emcw/oapi/OfficialAPI.V3.html" title="class in io.github.emcw.oapi">OfficialAPI.V3</a></dt>
@@ -732,7 +745,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#townWiki" class="member-name-link">townWiki</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/caching/BaseCache.html#tryUpdateCache()" class="member-name-link">tryUpdateCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Will try to update the cache if it is "expired", which should only be the case
+ for strategies that update the cache on the next call after expiry, aka lazy.</div>
+</dd>
 <dt><a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html#type()" class="member-name-link">type()</a> - Method in record class io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html" title="class in io.github.emcw.oapi.v3.types">DiscordReqObj</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>type</code> record component.</div>

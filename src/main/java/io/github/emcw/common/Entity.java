@@ -10,14 +10,15 @@ import java.util.UUID;
 
 @SuppressWarnings("LombokGetterMayBeUsed")
 public class Entity implements IGsonSerializable {
-    @Getter @Nullable
-    protected final UUID uuid;
+    @Getter @Nullable protected final UUID uuid;
+    @Getter @Nullable protected final String name;
 
-    @Getter @Nullable
-    protected final String name;
+    public Entity(@Nullable UUID uuid, @Nullable String name) {
+        this.uuid = uuid;
+        this.name = name;
+    }
 
     public Entity(@Nullable String uuid, @Nullable String name) {
-        this.uuid = uuid == null ? null : Funcs.stringToFullUUID(uuid);
-        this.name = name;
+        this(uuid == null ? null : Funcs.stringToFullUUID(uuid), name);
     }
 }

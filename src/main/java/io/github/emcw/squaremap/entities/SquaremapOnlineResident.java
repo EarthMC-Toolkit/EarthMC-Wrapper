@@ -1,16 +1,18 @@
 package io.github.emcw.squaremap.entities;
 
 import io.github.emcw.interfaces.IGsonSerializable;
-import com.google.gson.JsonObject;
 
 import lombok.Getter;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapOnlineResident extends SquaremapOnlinePlayer implements IGsonSerializable {
-    @Getter private final String town, nation, rank;
+    @Getter private String town;
+    @Getter private String nation;
+    @Getter private String rank;
 
-    public SquaremapOnlineResident(JsonObject opInfo, SquaremapResident res) {
-        super(opInfo);
+    public SquaremapOnlineResident(SquaremapOnlinePlayer op, SquaremapResident res) {
+        super(op);
+
         this.town = res.getTown();
         this.nation = res.getNation();
         this.rank = res.getRank();

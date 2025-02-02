@@ -30,23 +30,35 @@ public class Squaremap {
         parser = new SquaremapParser(this.mapName);
 
         if (mapDataOpts == null) {
+            // Always update after 20s.
             mapDataOpts = new CacheOptions(CacheStrategy.TIME_BASED, 20, TimeUnit.SECONDS);
         }
 
         if (playerDataOpts == null) {
+            // Expire after 2 seconds, then update on next call.
             playerDataOpts = new CacheOptions(CacheStrategy.LAZY, 2, TimeUnit.SECONDS);
         }
 
+        // It is recommended to keep them in this order as this is most natural according to how data is parsed.
         this.Towns = new Towns(this.parser, mapDataOpts);
         this.Nations = new Nations(this.parser, mapDataOpts);
         this.Residents = new Residents(this.parser, mapDataOpts);
-        this.Players = new Players(this.parser, this.Residents, playerDataOpts);
+        this.Players = new Players(this.parser, playerDataOpts);
+
+        initDependencies();
 
         if (prefill) {
             prefillCaches();
         }
 
-        //GPS = new GPS(this));
+        //GPS = new GPS());
+    }
+
+    void initDependencies() {
+        // TODO: Circular reference? Maybe combine these into just "Players" or redesign EMCW entirely.
+        //       Although this is Java - it's GC doesn't rely on ref counting and can handle this just fine.
+        this.Players.setResidents(this.Residents);
+        this.Residents.setPlayers(this.Players);
     }
 
     // Essentially calls .updateCache(true) to force update using their respective implementation.

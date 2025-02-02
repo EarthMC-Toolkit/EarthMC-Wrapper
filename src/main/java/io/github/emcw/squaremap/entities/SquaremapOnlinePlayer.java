@@ -10,20 +10,37 @@ import lombok.Getter;
 
 import static io.github.emcw.utils.GsonUtil.*;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapOnlinePlayer extends Entity implements ILocatable<SquaremapOnlinePlayer>, IGsonSerializable {
     @Getter private final String displayName;
-    @Getter private final SquaremapLocation location;
-    @Getter private final Integer yaw;
     @Getter private final String world;
+    @Getter private final Integer yaw;
+    @Getter private final SquaremapLocation location;
 
+    /**
+     * Use when a class extends this class and other data needs to be merged.
+     * For example, we call this in {@link SquaremapOnlineResident} since it extends us.
+     * @param op The existing online player.
+     */
+    public SquaremapOnlinePlayer(SquaremapOnlinePlayer op) {
+        super(op.getUuid(), op.getName());
+
+        this.displayName = op.getDisplayName();
+        this.world = op.getWorld();
+        this.yaw = op.getYaw();
+        this.location = op.getLocation();
+    }
+
+    /**
+     * Use when we need to create a new online player from raw data.
+     * @param opInfo The JSON data containing info about an online player.
+     */
     public SquaremapOnlinePlayer(JsonObject opInfo) {
         super(keyAsStr(opInfo, "uuid"), keyAsStr(opInfo, "name"));
 
         this.displayName = keyAsStr(opInfo, "displayName");
         this.world = keyAsStr(opInfo, "world");
         this.yaw = keyAsInt(opInfo, "yaw");
-
         this.location = new SquaremapLocation(keyAsInt(opInfo, "x"), keyAsInt(opInfo, "z"));
     }
 

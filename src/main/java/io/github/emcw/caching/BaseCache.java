@@ -1,7 +1,6 @@
 package io.github.emcw.caching;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 
 import lombok.AccessLevel;
 import lombok.Setter;
@@ -22,37 +21,51 @@ public abstract class BaseCache<V> {
     @Setter(AccessLevel.PROTECTED) protected Cache<String, V> cache;
     protected final CacheOptions options;
 
-    final Caffeine<Object, Object> builder = Caffeine.newBuilder();
-    final Integer CONCURRENCY = Runtime.getRuntime().availableProcessors();
-
-    ScheduledExecutorService scheduler = null; // Calls the updater at a fixed rate.
+    final int CONCURRENCY = Runtime.getRuntime().availableProcessors();
 
     /**
-    * Abstract class acting as a parent to other cache classes and holds a reference to a Caffeine cache.<br>
-    * It provides the fundamental methods (get, single & all) that children automatically inherit.
-    *
-    * @param cacheOptions The options that this cache will be setup with.
-    * @see  io.github.emcw.caching.CacheOptions
-    */
+     * Responsible for updating or expiring the cache at a fixed rate.
+     * @see #initCacheScheduler() initCacheScheduler
+     */
+    ScheduledExecutorService scheduler = null;
+
+    /**
+     * Abstract class acting as a parent to other cache classes and holds a reference to a Caffeine cache.<br>
+     * It provides the fundamental methods (getAll, getSingle & getMultiple) that children automatically inherit.<br><br>
+     *
+     * It also initializes the scheduler which updates or expires data based on the
+     * {@link CacheStrategy} of the given {@code options}.
+     * @param cacheOptions The options that this cache will be setup with.
+     * @see  io.github.emcw.caching.CacheOptions
+     */
     public BaseCache(CacheOptions cacheOptions) {
         options = cacheOptions;
+        initCacheScheduler();
     }
 
     /**
-     * Creates the {@link #cache}, with some pre-setup according to {@link #options}.
+     * Creates the {@link #cache} after initializing a new scheduler that behaves
+     * differently according to the strategy in {@link #options}.
      * <br><br>
-     * If the strategy is {@link CacheStrategy#LAZY}, we simply set the expiry after write and build.
+     * If the strategy is {@link CacheStrategy#LAZY}, we simply set the cache back to null to "expire" it.
      * <br><br>
-     * If the strategy is {@link CacheStrategy#TIME_BASED} we initialize a scheduler to update instead.
+     * If the strategy is {@link CacheStrategy#TIME_BASED}, the cache is always updated with fresh data.
      */
-    protected void buildCache() {
+    void initCacheScheduler() {
+        // Initialize a scheduler that will cache update method we specified.
+        scheduler = Executors.newScheduledThreadPool(CONCURRENCY);
+
         if (options.strategy == CacheStrategy.LAZY) {
-            builder.expireAfterWrite(options.expiry, options.unit);
+            scheduler.scheduleAtFixedRate(() -> {
+                //if (!cacheExpired()) return;
+
+                System.out.println("Expiring cache.");
+                setCache(null);
+            }, options.expiry, options.expiry, options.unit);
         } else {
-            // Initialize a scheduler that will cache update method we specified.
-            scheduler = Executors.newScheduledThreadPool(CONCURRENCY);
             scheduler.scheduleAtFixedRate(() -> {
                 try {
+                    System.out.println("Updating cache.");
                     forceUpdateCache();
                 }
                 catch (Exception e) {
@@ -60,10 +73,15 @@ public abstract class BaseCache<V> {
                 }
             }, options.expiry, options.expiry, options.unit);
         }
-
-        setCache(builder.build());
     }
 
+    /**
+     * Attempts to get a single element from the cache.
+     * Returns {@code null} if no such element exists with the given key.
+     *
+     * <br><br>
+     * Some subclasses may override this to implement additional behaviour.
+     */
     @Nullable
     public V getSingle(String key) {
         tryUpdateCache();
@@ -71,10 +89,10 @@ public abstract class BaseCache<V> {
     }
 
     /**
-     * Returns a new list containing only the values of the specified keys by calling `getAll()`,
-     * filtering out any that aren't in {@code keys} and getting the values of those left as a list.
+     * Returns a new list containing only the values of the specified keys by calling {@link #getAll} and
+     * filtering out any that aren't in {@code keys}, then getting the values of those left as a list.
      * <br><br>
-     * For a small amount of keys, calling `getSingle` for each one may be quicker than filtering.
+     * For a small amount of keys, calling {@link #getSingle} for each one may be quicker than filtering.
      *
      * <br><br>
      * Some subclasses may override this to implement additional behaviour.
@@ -98,40 +116,38 @@ public abstract class BaseCache<V> {
         return cache.asMap();
     }
 
+    /**
+     * Should only be true in these cases:<br><br>
+     * - The cache was built with a lazy strategy.<br>
+     * - We have not made any calls that try to update the cache after it expired.
+     * @return true if cache is null (expired).
+     */
+    public boolean cacheExpired() {
+        return cache == null;
+    }
+
 //    /**
-//     * Gets all elements from this cache where null keys are not permitted and are case-insensitive.<br>
+//     * Sets the cache back to {@code null} if the caching strategy (see {@link BaseCache#options}) is not
+//     * {@link CacheStrategy#TIME_BASED}. Therefore it is {@link CacheStrategy#LAZY} or some sort of hybrid that relies on expiry.
 //     */
-//    private @NotNull Map<String, V> cacheAsCaseInsensitiveMap() {
-//        Map<String, V> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-//        map.putAll(cache.asMap());
-//
-//        return map;
+//    protected void expireCacheIfLazy() {
+//        // The scheduler should take care of updating in this case.
+//        if (options.strategy.equals(CacheStrategy.TIME_BASED)) return;
+//        setCache(null);
 //    }
 
-    public boolean cacheIsEmpty() {
-        return cache == null || cache.asMap().isEmpty();
+    /**
+     * Will try to update the cache if it is "expired", which should only be the case
+     * for strategies that update the cache on the next call after expiry, aka lazy.
+     */
+    public void tryUpdateCache() {
+        updateCache(cacheExpired());
     }
 
     /**
-     * Invalidates all cache entries that are not being loaded, effectively clearing it.
+     * Always updates the cache, regardless of whether it has expired.
+     * This is used for time based strategies that demand an update every interval.
      */
-    protected void clearCache() {
-        cache.invalidateAll();
-    }
-
-    // NOTE: Clearing might be redundant if we always do setCache in updateCache anyway.
-    //       This method would only matter if we were *putting* data, not overwriting.
-    protected void clearCacheIfLazy() {
-        boolean lazy = options.strategy.equals(CacheStrategy.LAZY);
-        if (!lazy) return;
-
-        clearCache();
-    }
-
-    public void tryUpdateCache() {
-        updateCache(false);
-    }
-
     public void forceUpdateCache() {
         updateCache(true);
     }

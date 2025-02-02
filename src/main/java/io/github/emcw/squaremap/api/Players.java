@@ -11,32 +11,31 @@ import io.github.emcw.squaremap.entities.SquaremapLocation;
 import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.squaremap.entities.SquaremapOnlinePlayer;
 
+import kotlin.Pair;
+
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocatable<SquaremapOnlinePlayer> {
-    SquaremapParser parser;
-    Residents residents;
+    private final SquaremapParser parser;
 
-    public Players(@NotNull SquaremapParser parser, Residents residents, CacheOptions options) {
+    @Setter private Residents residents;
+
+    private Pair<Map<String, SquaremapOnlinePlayer>, Map<String, SquaremapOnlinePlayer>> sortedPlayers;
+
+    public Players(@NotNull SquaremapParser parser, CacheOptions options) {
         super(options);
-
         this.parser = parser;
-        this.residents = residents;
-
-        buildCache();
     }
 
     @Override
     protected void updateCache(Boolean force) {
-        // We aren't forcing an update, and not expired.
-        if (!cacheIsEmpty() && !force) return;
+        if (!force) return;
 
         // Parse player data into usable Player objects.
         this.parser.parsePlayerData();
@@ -49,46 +48,70 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
         if (ops.asMap().isEmpty()) return;
 
         setCache(ops);
+
+        this.sortedPlayers = getSorted();
+    }
+
+    /**
+     * Gets online players and sorts them into two seperate maps in a single pass.<br>
+     * A new {@link Pair} is returned, where the first contains players with a town and the second without.<br><br>
+     */
+    Pair<Map<String, SquaremapOnlinePlayer>, Map<String, SquaremapOnlinePlayer>> getSorted() {
+        Set<String> residentNames = this.residents.getAll().keySet();
+        Map<String, SquaremapOnlinePlayer> ops = getAll();
+
+        Map<String, SquaremapOnlinePlayer> townless = new HashMap<>();
+        Map<String, SquaremapOnlinePlayer> onlineResidents = new HashMap<>();
+
+        ops.forEach((opName, op) -> {
+            boolean isResident = residentNames.contains(opName);
+            (isResident ? onlineResidents : townless).put(opName, op);
+        });
+
+        return new Pair<>(onlineResidents, townless);
+    }
+
+    public Map<String, SquaremapOnlinePlayer> getAllWithTown() {
+        tryUpdateCache();
+        return sortedPlayers.getFirst();
+    }
+
+    // TODO: Investigate why residents are in the output sometimes.
+    //       May need to add safety to updating/getting.
+    public Map<String, SquaremapOnlinePlayer> getAllWithoutTown() {
+        tryUpdateCache();
+        return sortedPlayers.getSecond();
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer radius) {
-        return getNearby(getAll(), xCoord, zCoord, radius);
+        return getNearbyEntities(getAll(), xCoord, zCoord, radius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(Integer xCoord, Integer zCoord, Integer xRadius, Integer zRadius) {
-        return getNearby(getAll(), xCoord, zCoord, xRadius, zRadius);
+        return getNearbyEntities(getAll(), xCoord, zCoord, xRadius, zRadius);
     }
 
     public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
         SquaremapLocation playerLoc = p.getLocation();
         if (playerLoc.isDefault()) return new HashMap<>();
 
-        Map<String, SquaremapOnlinePlayer> nearby = getNearby(getAll(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
+        Map<String, SquaremapOnlinePlayer> nearby = getNearbyEntities(getAll(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
         nearby.remove(p.getName());
 
         return nearby;
     }
 
-    public Map<String, SquaremapOnlinePlayer> nearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
+    public Map<String, SquaremapOnlinePlayer> getNearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
         if (!location.valid()) return new HashMap<>();
-        return getNearby(getAll(), location.getX(), location.getZ(), xRadius, zRadius);
+        return getNearbyEntities(getAll(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 
-    public Map<String, SquaremapOnlinePlayer> townless() {
-        Map<String, SquaremapOnlinePlayer> ops = getAll();
-        Set<String> residents = this.residents.getAll().keySet(); // Dont care abt value, we only need to know if they exist.
-
-        // Single pass over entrySet is preferred in this case since we need both key and value.
-        return ops.entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
-            .filter(opEntry -> residents.contains(opEntry.getKey())) // O(1) lookup. Key is the player's name.
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // This is why I hate Java.
-    }
-
-    /**
-     * Equivalent to {@code Players.all().getOrDefault("PlayerName", null)}.
-     */
-    @Nullable
-    public SquaremapOnlinePlayer getOnlinePlayer(String playerName) {
-        return getAll().getOrDefault(playerName, null);
-    }
+//    public Map<String, SquaremapOnlinePlayer> getAllTownless() {
+//        Map<String, SquaremapOnlinePlayer> ops = getAll();
+//        Set<String> residents = getResidents().getAll().keySet(); // Dont care abt value, we only need to know if they exist.
+//
+//        return ops.entrySet().stream() // Amt of online players will almost always be too little to warrant parallelism.
+//            .filter(opEntry -> !residents.contains(opEntry.getKey())) // O(1) lookup. Key is the player's name.
+//            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); // This is why I hate Java.
+//    }
 }

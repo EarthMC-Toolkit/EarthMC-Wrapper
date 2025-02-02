@@ -11,23 +11,21 @@ public class CacheOptions {
 
     final CacheStrategy strategy;
 
-//    public CacheOptions(CacheStrategy strategy) {
-//        this.strategy = strategy;
-//    }
-//
-//    public CacheOptions(long expireAfterWrite, @NotNull TimeUnit unit) {
-//        this.expiry = expireAfterWrite;
-//        this.unit = unit;
-//    }
-
-    public CacheOptions(CacheStrategy strategy, long expireAfterWrite, @NotNull TimeUnit unit) {
+    /**
+     * Creates a new options instance that will be passed when building a cache.<br><br>
+     * If {@code strategy} is {@link CacheStrategy#TIME_BASED}, the cache will automatically update after the duration,
+     * otherwise it must be {@link CacheStrategy#LAZY} and will be emptied until
+     * @param strategy The strategy for the cache to use when updating.
+     * @param duration Amount of time until strategy-dependenant logic happens.
+     * @param unit Time unit to base duration on. Min, sec, ms etc.
+     */
+    public CacheOptions(CacheStrategy strategy, long duration, @NotNull TimeUnit unit) {
         this.strategy = strategy;
-        this.expiry = expireAfterWrite;
+        this.expiry = duration;
         this.unit = unit;
     }
 
-    @SuppressWarnings("unused")
-    Duration expiryAsDuration(long time, @NotNull TimeUnit unit) {
-        return Duration.of(time, unit.toChronoUnit());
+    Duration expiryDuration() {
+        return Duration.of(this.expiry, this.unit.toChronoUnit());
     }
 }

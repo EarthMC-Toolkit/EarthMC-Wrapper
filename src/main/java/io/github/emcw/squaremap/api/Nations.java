@@ -10,18 +10,16 @@ import io.github.emcw.squaremap.entities.SquaremapNation;
 import io.github.emcw.interfaces.ILocatable;
 
 public class Nations extends BaseCache<SquaremapNation> implements ILocatable<SquaremapNation> {
-    SquaremapParser parser;
+    private final SquaremapParser parser;
 
     public Nations(SquaremapParser parser, CacheOptions options) {
         super(options);
         this.parser = parser;
-
-        buildCache();
     }
 
     @Override
     protected void updateCache(Boolean force) {
-        if (!cacheIsEmpty() && !force) return;
+        if (!force) return;
 
         // Parse map data into usable Nation objects.
         this.parser.parseMapData(true, true, false);

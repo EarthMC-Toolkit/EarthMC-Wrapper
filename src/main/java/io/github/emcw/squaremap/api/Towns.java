@@ -10,18 +10,16 @@ import io.github.emcw.interfaces.ILocatable;
 import io.github.emcw.squaremap.SquaremapParser;
 
 public class Towns extends BaseCache<SquaremapTown> implements ILocatable<SquaremapTown> {
-    SquaremapParser parser;
+    private final SquaremapParser parser;
 
     public Towns(SquaremapParser parser, CacheOptions options) {
         super(options);
         this.parser = parser;
-
-        buildCache();
     }
 
     @Override
     protected void updateCache(Boolean force) {
-        if (!cacheIsEmpty() && !force) return;
+        if (!force) return;
 
         // Parse map data into usable Town objects.
         this.parser.parseMapData(true, false, true);

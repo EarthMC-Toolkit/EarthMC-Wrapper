@@ -21,8 +21,8 @@ public interface ILocatable<T> {
     Integer[] INT_ARRAY_X = new Integer[2];
     Integer[] INT_ARRAY_Z = new Integer[2];
 
-    default Map<String, T> getNearby(Map<String, T> map, Integer xCoord, Integer zCoord, Integer radius) {
-        return getNearby(map, xCoord, zCoord, radius, radius);
+    default Map<String, T> getNearbyEntities(Map<String, T> map, Integer xCoord, Integer zCoord, Integer radius) {
+        return getNearbyEntities(map, xCoord, zCoord, radius, radius);
     }
 
     /**
@@ -38,7 +38,7 @@ public interface ILocatable<T> {
      * @param zRad The radius to check within on the z-axis. (Up/Down)
      * @return A new map of entities where each entry key is its name, and the value is itself.
      */
-    default Map<String, T> getNearby(Map<String, T> map, Integer xPos, Integer zPos, Integer xRad, Integer zRad) {
+    default Map<String, T> getNearbyEntities(Map<String, T> map, Integer xPos, Integer zPos, Integer xRad, Integer zRad) {
         INT_ARRAY_X[0] = xPos;
         INT_ARRAY_X[1] = xRad;
 

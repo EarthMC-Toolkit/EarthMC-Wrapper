@@ -63,7 +63,7 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
             Map<String, SquaremapOnlinePlayer> townless = auroraMap.Players.getByResidency(false);
             System.out.println(townless.keySet());
 
-            Map<String, SquaremapOnlineResident onlineResidents = auroraMap.Residents.getOnline();
+            Map<String, SquaremapOnlineResident> onlineResidents = auroraMap.Residents.getOnline();
             System.out.println(residents.get("Owen3H").getLocation());
         }
     }

@@ -45,12 +45,6 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
 
 - ### Import and initialize.
     ```java
-    import io.github.emcw.Squaremap;
-    import io.github.emcw.EMCWrapper;
-    import io.github.emcw.KnownMap;
-    
-    import java.util.Map;
-
     public class Main {
         static final EMCWrapper emcw = new EMCWrapper()
             .registerSquaremap(KnownMap.AURORA);
@@ -63,11 +57,14 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
             System.out.println(auroraAPI.serverInfo());
 
             // Use data from the map
-            Map<String, Town> all = auroraMap.Towns.getAll();
+            Map<String, SquaremapTown> all = auroraMap.Towns.getAll();
             System.out.println(all.size());
 
             Map<String, SquaremapOnlinePlayer> townless = auroraMap.Players.getByResidency(false);
             System.out.println(townless.keySet());
+
+            Map<String, SquaremapOnlineResident onlineResidents = auroraMap.Residents.getOnline();
+            System.out.println(residents.get("Owen3H").getLocation());
         }
     }
     ```

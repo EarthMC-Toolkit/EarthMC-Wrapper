@@ -5,13 +5,12 @@ import static io.github.emcw.utils.GsonUtil.*;
 
 import lombok.Getter;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.Cache;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,10 +18,10 @@ import java.util.Set;
 //       parse methods that return what the getters would anyway.
 @SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapParser {
-    @Getter final Cache<String, SquaremapTown> towns = Caffeine.newBuilder().build();
-    @Getter final Cache<String, SquaremapNation> nations = Caffeine.newBuilder().build();
-    @Getter final Cache<String, SquaremapResident> residents = Caffeine.newBuilder().build();
-    @Getter final Cache<String, SquaremapOnlinePlayer> onlinePlayers = Caffeine.newBuilder().build();
+    @Getter final Map<String, SquaremapTown> towns = new HashMap<>();
+    @Getter final Map<String, SquaremapNation> nations = new HashMap<>();
+    @Getter final Map<String, SquaremapResident> residents = new HashMap<>();
+    @Getter final Map<String, SquaremapOnlinePlayer> onlinePlayers = new HashMap<>();
 
     private final String mapName;
 
@@ -35,7 +34,7 @@ public class SquaremapParser {
         if (ops.isEmpty()) return;
 
         // Remove players that may no longer be online.
-        onlinePlayers.invalidateAll();
+        onlinePlayers.clear();
 
         ops.forEach(op -> {
             JsonObject opObj = op.getAsJsonObject();
@@ -56,7 +55,7 @@ public class SquaremapParser {
 
             // We don't use UUID as the key since it's uncertain if it will always exist.
             // It's also easier for clients to search for names directly, i.e. `Players.get("Owen3H")`.
-            onlinePlayers.asMap().put(name, new SquaremapOnlinePlayer(opInfo));
+            onlinePlayers.put(name, new SquaremapOnlinePlayer(opInfo));
         });
     }
 
@@ -68,9 +67,9 @@ public class SquaremapParser {
         }
 
         // Remove all old entries so caches will always contain fresh data.
-        if (parseTowns) towns.invalidateAll();
-        if (parseNations) nations.invalidateAll();
-        if (parseResidents) residents.invalidateAll();
+        if (parseTowns) towns.clear();
+        if (parseNations) nations.clear();
+        if (parseResidents) residents.clear();
 
         //#region Process the marker and use it to parse town, nation and residents in same pass.
         data.forEach(markerEl -> {
@@ -110,19 +109,19 @@ public class SquaremapParser {
 
     void parseResidents(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {
         residentNames.forEach(resName ->
-            residents.asMap().putIfAbsent(resName, new SquaremapResident(resName, marker, councillorNames.contains(resName)))
+            residents.putIfAbsent(resName, new SquaremapResident(resName, marker, councillorNames.contains(resName)))
         );
     }
 
     void parseTown(SquaremapMarker marker) {
         if (marker.townName == null) return;
-        towns.asMap().putIfAbsent(marker.townName, new SquaremapTown(marker));
+        towns.putIfAbsent(marker.townName, new SquaremapTown(marker));
     }
 
     void parseNation(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {
         if (marker.nationName == null) return;
 
-        nations.asMap().compute(marker.nationName, (key, cachedNation) -> {
+        nations.compute(marker.nationName, (key, cachedNation) -> {
             // Try get existing cached nation, or create one if it doesn't exist.
             SquaremapNation nation = cachedNation != null ? cachedNation : new SquaremapNation(marker.nationName);
             nation.updateInfo(marker, residentNames, councillorNames); // Always merge marker data

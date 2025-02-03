@@ -39,7 +39,7 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
 
     dependencies {
       // NOTE: This may not be up-to-date! Make sure to replace this version with the latest.
-      api 'io.github.emcw:emc-wrapper:0.12.0'
+      api 'io.github.emcw:emc-wrapper:1.0.0'
     }
     ```
 
@@ -52,18 +52,22 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
     import java.util.Map;
 
     public class Main {
-        static final EMCWrapper emcw = new EMCWrapper(KnownMap.AURORA);
-        static final EMCMap auroraMap = emcw.getMap(KnownMap.AURORA);
+        static final EMCWrapper emcw = new EMCWrapper()
+            .registerSquaremap(KnownMap.AURORA);
 
-        static OfficialAPI.V3 auroraOAPI = new OfficialAPI.V3(KnownMap.AURORA);
+        static final Squaremap auroraMap = emcw.getSquaremap(KnownMap.AURORA);
+        static final OfficialAPI.V3 auroraAPI = new OfficialAPI.V3(KnownMap.AURORA);
     
         public static void main(String[] args) {
-            // Call the map
-            Map<String, Town> all = auroraMap.Towns.all();
+            // Use data from the Official API.
+            System.out.println(auroraAPI.serverInfo());
+
+            // Use data from the map
+            Map<String, Town> all = auroraMap.Towns.getAll();
             System.out.println(all.size());
 
-            // Call the Official API
-            System.out.println(auroraOAPI.serverInfo());
+            Map<String, SquaremapOnlinePlayer> townless = auroraMap.Players.getByResidency(false);
+            System.out.println(townless.keySet());
         }
     }
     ```
@@ -86,7 +90,7 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
 > // Usage
 > public class Test {
 >     public static void main(String[] args) {
->         Nation exampleNation = Aurora.Nations.single("nationName");
+>         SquaremapNation exampleNation = Aurora.Nations.getSingle("nationName");
 >
 >         // Here we can see Lombok in use.
 >         String leader = exampleNation.leader; // Does not work
@@ -98,9 +102,9 @@ EMCW is built to be intuitive and optimized as it takes advantage of the followi
 
 ### Map Classes
 - All map classes inherit the following methods:
-  - `.all()` - Retrieve the entire map of entities.
-  - `.single("name")` - Retrieve a single entity by its name.
-  - `.get("name", "anotherName")` - Returns a map of entities by inputting their names.
+  - `.getAll()` - Retrieve the entire map of entities.
+  - `.getSingle("name")` - Retrieve a single entity by its name.
+  - `.getMultiple("name", "anotherName")` - Returns a list of entities by inputting their names.
 
 <details>
   <summary><b>Towns</b></summary>

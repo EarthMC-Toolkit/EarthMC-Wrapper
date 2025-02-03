@@ -57,27 +57,27 @@ public class SquaremapOnlinePlayer extends Entity implements ILocatable<Squarema
      * If this player is visible on the map.
      * @return true/false if {@link #world} is "earth" and player is not under a block.
      */
-    public boolean visible() {
+    public boolean isInOverworld() {
         return this.world.equals("minecraft_overworld");
     }
 
-    /**
-     * Essentially the opposite of {@link #visible}.
-     * <p><b>NOTE:</b>
-     * This returns true for players under a tree, in the nether etc.
-     * @return true/false if {@link #world} is NOT "earth" and {@link #location} is 0, 64, 0.
-     */
-    public boolean hidden() {
-        return locationIsDefault() && !visible();
-    }
-
-    /**
-     * Whether this player is located at the default map location.
-     * @return true/false if {@link #location} is 0, 0
-     */
-    public boolean locationIsDefault() {
-        return this.location.x == 0 && this.location.z == 0;
-    }
+//    /**
+//     * Essentially the opposite of {@link #visible}.
+//     * <p><b>NOTE:</b>
+//     * This returns true for players under a tree, in the nether etc.
+//     * @return true/false if {@link #world} is NOT "earth" and {@link #location} is 0, 64, 0.
+//     */
+//    public boolean hidden() {
+//        return locationIsDefault() && !visible();
+//    }
+//
+//    /**
+//     * Whether this player is located at the default map location.
+//     * @return true/false if {@link #location} is 0, 0
+//     */
+//    public boolean locationIsDefault() {
+//        return this.location.x == 0 && this.location.z == 0;
+//    }
 
     public Direction facingDirection() throws IllegalArgumentException {
         // Normalize the yaw to a value between 0 and 360 degrees

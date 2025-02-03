@@ -52,7 +52,7 @@ public interface ILocatable<T> {
         SquaremapLocation loc = null;
 
         if (val instanceof SquaremapOnlinePlayer player) {
-            if (!player.visible()) return false;
+            if (!player.isInOverworld()) return false;
             loc = player.getLocation();
         }
         else if (val instanceof SquaremapTown town) loc = town.getLocation();

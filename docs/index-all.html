@@ -99,13 +99,9 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
-<dt><a href="io/github/emcw/caching/BaseCache.html#cache" class="member-name-link">cache</a> - Variable in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#cacheExpired()" class="member-name-link">cacheExpired()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
+<dt><a href="io/github/emcw/caching/BaseCache.html#cacheIsEmpty()" class="member-name-link">cacheIsEmpty()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
 <dd>
-<div class="block">Should only be true in these cases:<br><br>
- - The cache was built with a lazy strategy.<br>
- - We have not made any calls that try to update the cache after it expired.</div>
+<div class="block">Reports whether the cache contains no entries.</div>
 </dd>
 <dt><a href="io/github/emcw/caching/CacheOptions.html" class="type-name-link" title="class in io.github.emcw.caching">CacheOptions</a> - Class in <a href="io/github/emcw/caching/package-summary.html">io.github.emcw.caching</a></dt>
 <dd>&nbsp;</dd>
@@ -210,6 +206,16 @@ loadScripts(document, 'script');</script>
 <dl class="index">
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html#facingDirection()" class="member-name-link">facingDirection()</a> - Method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/caching/BaseCache.html#fetchCacheData()" class="member-name-link">fetchCacheData()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Nations.html#fetchCacheData()" class="member-name-link">fetchCacheData()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Nations.html" title="class in io.github.emcw.squaremap.api">Nations</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Players.html#fetchCacheData()" class="member-name-link">fetchCacheData()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Residents.html#fetchCacheData()" class="member-name-link">fetchCacheData()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Residents.html" title="class in io.github.emcw.squaremap.api">Residents</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/squaremap/api/Towns.html#fetchCacheData()" class="member-name-link">fetchCacheData()</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Towns.html" title="class in io.github.emcw.squaremap.api">Towns</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#fillColor" class="member-name-link">fillColor</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapTown.Flags.html#%3Cinit%3E(boolean,boolean)" class="member-name-link">Flags(boolean, boolean)</a> - Constructor for class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapTown.Flags.html" title="class in io.github.emcw.squaremap.entities">SquaremapTown.Flags</a></dt>
@@ -218,10 +224,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/GsonUtil.html#flattenJsonArr(com.google.gson.JsonArray,int)" class="member-name-link">flattenJsonArr(JsonArray, int)</a> - Static method in class io.github.emcw.utils.<a href="io/github/emcw/utils/GsonUtil.html" title="class in io.github.emcw.utils">GsonUtil</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#forceUpdateCache()" class="member-name-link">forceUpdateCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>
-<div class="block">Always updates the cache, regardless of whether it has expired.</div>
-</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#founded" class="member-name-link">founded</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/utils/Funcs.html" class="type-name-link" title="class in io.github.emcw.utils">Funcs</a> - Class in <a href="io/github/emcw/utils/package-summary.html">io.github.emcw.utils</a></dt>
@@ -515,8 +517,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Simple class for interacting with the 3rd version of the API.<br></div>
 </dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#options" class="member-name-link">options</a> - Variable in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
@@ -753,11 +753,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapMarker.html#townWiki" class="member-name-link">townWiki</a> - Variable in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/caching/BaseCache.html#tryUpdateCache()" class="member-name-link">tryUpdateCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>
-<div class="block">Will try to update the cache if it is "expired", which should only be the case
- for strategies that update the cache on the next call after expiry, aka lazy.</div>
-</dd>
 <dt><a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html#type()" class="member-name-link">type()</a> - Method in record class io.github.emcw.oapi.v3.types.<a href="io/github/emcw/oapi/v3/types/DiscordReqObj.html" title="class in io.github.emcw.oapi.v3.types">DiscordReqObj</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>type</code> record component.</div>
@@ -765,16 +760,13 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:U">U</h2>
 <dl class="index">
-<dt><a href="io/github/emcw/caching/BaseCache.html#updateCache(java.lang.Boolean)" class="member-name-link">updateCache(Boolean)</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Nations.html#updateCache(java.lang.Boolean)" class="member-name-link">updateCache(Boolean)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Nations.html" title="class in io.github.emcw.squaremap.api">Nations</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Players.html#updateCache(java.lang.Boolean)" class="member-name-link">updateCache(Boolean)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Players.html" title="class in io.github.emcw.squaremap.api">Players</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Residents.html#updateCache(java.lang.Boolean)" class="member-name-link">updateCache(Boolean)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Residents.html" title="class in io.github.emcw.squaremap.api">Residents</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/emcw/squaremap/api/Towns.html#updateCache(java.lang.Boolean)" class="member-name-link">updateCache(Boolean)</a> - Method in class io.github.emcw.squaremap.api.<a href="io/github/emcw/squaremap/api/Towns.html" title="class in io.github.emcw.squaremap.api">Towns</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="io/github/emcw/caching/BaseCache.html#updateCache()" class="member-name-link">updateCache()</a> - Method in class io.github.emcw.caching.<a href="io/github/emcw/caching/BaseCache.html" title="class in io.github.emcw.caching">BaseCache</a></dt>
+<dd>
+<div class="block">Always updates the cache, regardless of whether it has expired.<br><br>
+
+ If this cache is <a href="io/github/emcw/caching/CacheStrategy.html#TIME_BASED"><code>TIME_BASED</code></a>, this method is called
+ automatically at the interval defined in <code>BaseCache.options</code> which was set when it was built.</div>
+</dd>
 <dt><a href="io/github/emcw/squaremap/entities/SquaremapNation.html#updateInfo(io.github.emcw.squaremap.entities.SquaremapMarker,java.util.Set,java.util.Set)" class="member-name-link">updateInfo(SquaremapMarker, Set&lt;String&gt;, Set&lt;String&gt;)</a> - Method in class io.github.emcw.squaremap.entities.<a href="io/github/emcw/squaremap/entities/SquaremapNation.html" title="class in io.github.emcw.squaremap.entities">SquaremapNation</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/emcw/common/Entity.html#uuid" class="member-name-link">uuid</a> - Variable in class io.github.emcw.common.<a href="io/github/emcw/common/Entity.html" title="class in io.github.emcw.common">Entity</a></dt>

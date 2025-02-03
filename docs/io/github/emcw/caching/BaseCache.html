@@ -60,15 +60,8 @@ loadScripts(document, 'script');</script>
 <button class="hide-sidebar"><span>Hide sidebar&nbsp;</span>&#10094;</button><button class="show-sidebar">&#10095;<span>&nbsp;Show sidebar</span></button>
 <ol class="toc-list">
 <li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#field-summary" tabindex="0">Field Summary</a></li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
-<li><a href="#field-detail" tabindex="0">Field Details</a>
-<ol class="toc-list">
-<li><a href="#cache" tabindex="0">cache</a></li>
-<li><a href="#options" tabindex="0">options</a></li>
-</ol>
-</li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(io.github.emcw.caching.CacheOptions)" tabindex="0">BaseCache(CacheOptions)</a></li>
@@ -76,13 +69,12 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#getSingle(java.lang.String)" tabindex="0">getSingle(String)</a></li>
-<li><a href="#getMultiple(java.lang.String...)" tabindex="0">getMultiple(String...)</a></li>
 <li><a href="#getAll()" tabindex="0">getAll()</a></li>
-<li><a href="#cacheExpired()" tabindex="0">cacheExpired()</a></li>
-<li><a href="#tryUpdateCache()" tabindex="0">tryUpdateCache()</a></li>
-<li><a href="#forceUpdateCache()" tabindex="0">forceUpdateCache()</a></li>
-<li><a href="#updateCache(java.lang.Boolean)" tabindex="0">updateCache(Boolean)</a></li>
+<li><a href="#getMultiple(java.lang.String...)" tabindex="0">getMultiple(String...)</a></li>
+<li><a href="#getSingle(java.lang.String)" tabindex="0">getSingle(String)</a></li>
+<li><a href="#cacheIsEmpty()" tabindex="0">cacheIsEmpty()</a></li>
+<li><a href="#updateCache()" tabindex="0">updateCache()</a></li>
+<li><a href="#fetchCacheData()" tabindex="0">fetchCacheData()</a></li>
 </ol>
 </li>
 </ol>
@@ -108,24 +100,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- =========== FIELD SUMMARY =========== -->
-<li>
-<section class="field-summary" id="field-summary">
-<h2>Field Summary</h2>
-<div class="caption"><span>Fields</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Field</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected com.github.benmanes.caffeine.cache.Cache<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#cache" class="member-name-link">cache</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="CacheOptions.html" title="class in io.github.emcw.caching">CacheOptions</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#options" class="member-name-link">options</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-</div>
-</section>
-</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -157,17 +131,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cacheExpired()" class="member-name-link">cacheExpired</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cacheIsEmpty()" class="member-name-link">cacheIsEmpty</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Should only be true in these cases:<br><br>
- - The cache was built with a lazy strategy.<br>
- - We have not made any calls that try to update the cache after it expired.</div>
+<div class="block">Reports whether the cache contains no entries.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forceUpdateCache()" class="member-name-link">forceUpdateCache</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Always updates the cache, regardless of whether it has expired.</div>
-</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#fetchCacheData()" class="member-name-link">fetchCacheData</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAll()" class="member-name-link">getAll</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -186,14 +156,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Attempts to get a single element from the cache.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tryUpdateCache()" class="member-name-link">tryUpdateCache</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCache()" class="member-name-link">updateCache</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Will try to update the cache if it is "expired", which should only be the case
- for strategies that update the cache on the next call after expiry, aka lazy.</div>
+<div class="block">Always updates the cache, regardless of whether it has expired.<br><br>
+
+ If this cache is <a href="CacheStrategy.html#TIME_BASED"><code>TIME_BASED</code></a>, this method is called
+ automatically at the interval defined in <code>options</code> which was set when it was built.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateCache(java.lang.Boolean)" class="member-name-link">updateCache</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;force)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -206,30 +175,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ============ FIELD DETAIL =========== -->
-<li>
-<section class="field-details" id="field-detail">
-<h2>Field Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="cache">
-<h3>cache</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">com.github.benmanes.caffeine.cache.Cache&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</span>&nbsp;<span class="element-name">cache</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="options">
-<h3>options</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="CacheOptions.html" title="class in io.github.emcw.caching">CacheOptions</a></span>&nbsp;<span class="element-name">options</span></div>
-</div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -267,15 +212,11 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getSingle(java.lang.String)">
-<h3>getSingle</h3>
+<section class="detail" id="getAll()">
+<h3>getAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseCache.html" title="type parameter in BaseCache">V</a></span>&nbsp;<span class="element-name">getSingle</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</span></div>
-<div class="block">Attempts to get a single element from the cache.
- Returns <code>null</code> if no such element exists with the given key.
-
- <br><br>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</span>&nbsp;<span class="element-name">getAll</span>()</div>
+<div class="block">Returns a thread-safe view of this cache as a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.<br><br>
  Some subclasses may override this to implement additional behaviour.</div>
 </div>
 </section>
@@ -296,55 +237,57 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getAll()">
-<h3>getAll</h3>
+<section class="detail" id="getSingle(java.lang.String)">
+<h3>getSingle</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</span>&nbsp;<span class="element-name">getAll</span>()</div>
-<div class="block">Returns a thread-safe view of this cache as a <a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.<br><br>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="BaseCache.html" title="type parameter in BaseCache">V</a></span>&nbsp;<span class="element-name">getSingle</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</span></div>
+<div class="block">Attempts to get a single element from the cache.
+ Returns <code>null</code> if no such element exists with the given key.
+
+ <br><br>
  Some subclasses may override this to implement additional behaviour.</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="cacheExpired()">
-<h3>cacheExpired</h3>
+<section class="detail" id="cacheIsEmpty()">
+<h3>cacheIsEmpty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">cacheExpired</span>()</div>
-<div class="block">Should only be true in these cases:<br><br>
- - The cache was built with a lazy strategy.<br>
- - We have not made any calls that try to update the cache after it expired.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">cacheIsEmpty</span>()</div>
+<div class="block">Reports whether the cache contains no entries.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>true if cache is null (expired).</dd>
+<dd><code>true</code> if the underlying map contains no key-value mappings</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="tryUpdateCache()">
-<h3>tryUpdateCache</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">tryUpdateCache</span>()</div>
-<div class="block">Will try to update the cache if it is "expired", which should only be the case
- for strategies that update the cache on the next call after expiry, aka lazy.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="forceUpdateCache()">
-<h3>forceUpdateCache</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">forceUpdateCache</span>()</div>
-<div class="block">Always updates the cache, regardless of whether it has expired.
- This is used for time based strategies that demand an update every interval.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="updateCache(java.lang.Boolean)">
+<section class="detail" id="updateCache()">
 <h3>updateCache</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateCache</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;force)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateCache</span>()</div>
+<div class="block">Always updates the cache, regardless of whether it has expired.<br><br>
+
+ If this cache is <a href="CacheStrategy.html#TIME_BASED"><code>TIME_BASED</code></a>, this method is called
+ automatically at the interval defined in <code>options</code> which was set when it was built.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="#%3Cinit%3E(io.github.emcw.caching.CacheOptions)"><code>BaseCache(CacheOptions)</code></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="fetchCacheData()">
+<h3>fetchCacheData</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="BaseCache.html" title="type parameter in BaseCache">V</a>&gt;</span>&nbsp;<span class="element-name">fetchCacheData</span>()</div>
 </div>
 </section>
 </li>

@@ -59,10 +59,6 @@ public class SquaremapTown implements IGsonSerializable {
         }
     }
 
-//    public Map<String, Resident> onlineResidents() {
-//
-//    }
-
     public boolean isNationless() {
         return this.nation == null || this.nation.isEmpty();
     }

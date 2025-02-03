@@ -10,14 +10,16 @@ import java.util.Set;
 @SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapNation implements IGsonSerializable {
     @Getter String name;
-    @Getter SquaremapCapital capital; // See getCapital()
+    @Getter String leader; // King
+    @Getter String wiki;
+
+    @Getter int area;
 
     @Getter Set<String> towns = new HashSet<>();
     @Getter Set<String> residents = new HashSet<>();
     @Getter Set<String> councillors = new HashSet<>();
-    @Getter String leader; // King
-    @Getter int area;
-    @Getter String wiki;
+
+    @Getter SquaremapCapital capital; // See getCapital()
 
     /**
      * Creates a new Nation whose info should be subsequently set with {@link #updateInfo(SquaremapMarker, Set, Set)}.<br><br>
@@ -29,16 +31,15 @@ public class SquaremapNation implements IGsonSerializable {
         this.name = nationName;
     }
 
-    // Add up area, determine capital (name, x, z) plus leader and wiki from said capital.
     public void updateInfo(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {
-        if (marker.townName != null) {
-            this.towns.add(marker.townName);
-        }
+        this.area += marker.area;
 
         this.residents.addAll(residentNames);
         this.councillors.addAll(councillorNames);
 
-        this.area += marker.area;
+        if (marker.townName != null) {
+            this.towns.add(marker.townName);
+        }
 
         if (marker.isCapital) {
             this.capital = new SquaremapCapital(marker);
@@ -47,25 +48,8 @@ public class SquaremapNation implements IGsonSerializable {
         }
     }
 
-//    private void setFields(JsonObject obj) {
-//        name = keyAsStr(obj, "name");
-//
-//        leader = keyAsStr(obj, "king");
-//        area = keyAsInt(obj, "area");
-//        capital = new SquaremapCapital(obj.getAsJsonObject("capital"));
-//        //towns = Funcs.removeListDuplicates(toList(keyAsArr(obj, "towns")));
-//
-//        String[] residentArr = keyAsStr(obj, "residents").split(", ");
-//        residents = Set.of(residentArr);
-//    }
-
-    // Technically possible for this to throw, but shouldn't since the mapName was set given a KnownMap.
-//    Squaremap currentMap() throws IllegalArgumentException {
-//        KnownMap map = KnownMap.valueOf(mapName);
-//        return instance().getSquaremap(map);
-//    }
-
-//    // TODO: Finish invitableTowns
+      // TODO: Finish invitableTowns - maybe refactor into `Towns.invitableFromNation(SquaremapNation)`
+      //       to avoid the stinky currentMap() call since we can just do getAll there.
 //    public Map<String, SquaremapTown> invitableTowns() {
 //        Stream<SquaremapTown> towns = streamEntries(currentMap().Towns.all()).map(entry -> {
 //            SquaremapTown town = entry.getValue();

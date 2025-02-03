@@ -54,7 +54,7 @@ public class SquaremapOnlinePlayer extends Entity implements ILocatable<Squarema
     }
 
     /**
-     * If this player is visible on the Dynmap.
+     * If this player is visible on the map.
      * @return true/false if {@link #world} is "earth" and player is not under a block.
      */
     public boolean visible() {

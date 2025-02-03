@@ -67,18 +67,15 @@ public abstract class BaseCache<V> {
 
         if (options.strategy == CacheStrategy.LAZY) {
             runnable = () -> {
-//                if (cacheExpired) {
-//                    System.out.println("Cant expire cache, already expired.");
-//                    return;
-//                }
+                if (cacheExpired) return;
 
-                System.out.println("Marking cache as expired.");
+                //System.out.println("[EMCW - Scheduler] Marking cache as expired.");
                 cacheExpired = true;
             };
         } else {
             runnable = () -> {
                 try {
-                    System.out.println("Updating cache with fresh data.");
+                    //System.out.println("[EMCW - Scheduler] Updating cache with fresh data.");
                     updateCache();
                 }
                 catch (Exception e) {
@@ -148,6 +145,8 @@ public abstract class BaseCache<V> {
 
         cacheExpired = false;
         updateCache();
+
+        //System.out.println("[EMCW] Updated expired cache..");
     }
 
     /**

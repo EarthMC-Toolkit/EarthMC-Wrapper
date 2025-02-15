@@ -132,7 +132,9 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 </div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapOnlinePlayer)" class="member-name-link">SquaremapOnlinePlayer</a><wbr>(<a href="SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a>&nbsp;op)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Use when a class extends this class and other data needs to be merged.</div>
+<div class="block">Copy constructor.<br><br>
+
+ Use when a class extends this class and other data needs to be merged.</div>
 </div>
 </div>
 </section>
@@ -189,8 +191,10 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
 <h3>SquaremapOnlinePlayer</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapOnlinePlayer</span><wbr><span class="parameters">(<a href="SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a>&nbsp;op)</span></div>
-<div class="block">Use when a class extends this class and other data needs to be merged.
- For example, we call this in <a href="SquaremapOnlineResident.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapOnlineResident</code></a> since it extends us.</div>
+<div class="block">Copy constructor.<br><br>
+
+ Use when a class extends this class and other data needs to be merged.
+ For example, <a href="SquaremapOnlineResident.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapOnlineResident</code></a> calls super (this constructor) then merges <a href="SquaremapResident.html" title="class in io.github.emcw.squaremap.entities"><code>SquaremapResident</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>op</code> - The existing online player.</dd>

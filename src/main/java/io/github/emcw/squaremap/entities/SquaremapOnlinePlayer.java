@@ -18,8 +18,10 @@ public class SquaremapOnlinePlayer extends Entity implements ILocatable<Squarema
     @Getter private final SquaremapLocation location;
 
     /**
+     * Copy constructor.<br><br>
+     *
      * Use when a class extends this class and other data needs to be merged.
-     * For example, we call this in {@link SquaremapOnlineResident} since it extends us.
+     * For example, {@link SquaremapOnlineResident} calls super (this constructor) then merges {@link SquaremapResident}.
      * @param op The existing online player.
      */
     public SquaremapOnlinePlayer(SquaremapOnlinePlayer op) {

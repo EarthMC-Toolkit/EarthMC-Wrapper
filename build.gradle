@@ -76,7 +76,7 @@ jar {
 publishing {
     java {
         tasks.withType(Javadoc).configureEach {
-            failOnError false
+            failOnError = false
 
             options.addBooleanOption('Xdoclint:none', true)
             options.addStringOption('encoding', 'UTF-8')

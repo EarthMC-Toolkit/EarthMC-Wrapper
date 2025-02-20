@@ -78,7 +78,7 @@ publishing {
         tasks.withType(Javadoc).configureEach {
             failOnError false
 
-            options.addStringOption('Xdoclint:none', '-quiet')
+            options.addBooleanOption('Xdoclint:none', true)
             options.addStringOption('encoding', 'UTF-8')
             options.addStringOption('charSet', 'UTF-8')
         }
@@ -92,7 +92,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/earthmc-toolkit/earthmc-wrapper")
             credentials {
                 username = project.USERNAME
-                password = System.getenv("GITHUB_TOKEN")
+                password = System.getenv("GITHUB_PUBLISH_TOKEN")
             }
         }
     }
@@ -101,10 +101,8 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = findProperty('maven_group')
             artifactId = findProperty('lib_name')
-
             version = findProperty('wrapper_version')
 
-            //noinspection GroovyAssignabilityCheck
             from components.java
         }
     }

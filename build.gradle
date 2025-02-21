@@ -54,19 +54,33 @@ dependencies {
     //#endregion
 }
 
+// TODO: Could maybe do this in each JavaCompile task instead?
 compileJava {
     options.compilerArgs.add("-Xlint:unchecked")
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(jvm_version.toInteger())
+        languageVersion = JavaLanguageVersion.of(source_jvm_version.toInteger())
         vendor = JvmVendorSpec.AZUL
     }
 
     withSourcesJar()
     //withJavadocJar()
 }
+
+//#region Task Configuration.
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release = target_jvm_version.toInteger()
+}
+
+tasks.withType(Test).configureEach {
+    javaLauncher.set(project.javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(target_jvm_version.toInteger())
+    })
+}
+//#endregion
 
 jar {
     // Will include every single runtime dependency
@@ -81,6 +95,8 @@ publishing {
     java {
         tasks.withType(Javadoc).configureEach {
             failOnError = false
+
+            options.addStringOption("-release", target_jvm_version)
 
             options.addBooleanOption('Xdoclint:none', true)
             options.addStringOption('encoding', 'UTF-8')

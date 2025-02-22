@@ -149,7 +149,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
  that match a certain residential status indicated by the <code>hasTown</code> parameter.<br><br>
 
  <b>NOTE:</b> If the intention is to call this method twice, once for townless and another for towned players,
- consider using <a href="#getSorted()"><code>getSorted()</code></a> to avoid doing unnecessary operations when they can be sorted all at once instead.</div>
+ consider using <a href="#getSorted()"><code>getSorted()</code></a> instead to sort them in a single forEach pass and avoid unnecessary operations.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../entities/SquaremapOnlinePlayer.html" title="class in io.github.emcw.squaremap.entities">SquaremapOnlinePlayer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNearby(io.github.emcw.squaremap.entities.SquaremapLocation,java.lang.Integer,java.lang.Integer)" class="member-name-link">getNearby</a><wbr>(@NotNull <a href="../entities/SquaremapLocation.html" title="class in io.github.emcw.squaremap.entities">SquaremapLocation</a>&nbsp;location,
@@ -240,7 +240,7 @@ implements <a href="../../interfaces/ILocatable.html" title="interface in io.git
  that match a certain residential status indicated by the <code>hasTown</code> parameter.<br><br>
 
  <b>NOTE:</b> If the intention is to call this method twice, once for townless and another for towned players,
- consider using <a href="#getSorted()"><code>getSorted()</code></a> to avoid doing unnecessary operations when they can be sorted all at once instead.</div>
+ consider using <a href="#getSorted()"><code>getSorted()</code></a> instead to sort them in a single forEach pass and avoid unnecessary operations.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>hasTown</code> - The residential status to filter by. True for residents, false for townless.</dd>

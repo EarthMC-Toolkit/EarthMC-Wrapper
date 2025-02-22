@@ -41,7 +41,7 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
      * that match a certain residential status indicated by the {@code hasTown} parameter.<br><br>
      *
      * <b>NOTE:</b> If the intention is to call this method twice, once for townless and another for towned players,
-     * consider using {@link #getSorted()} to avoid doing unnecessary operations when they can be sorted all at once instead.
+     * consider using {@link #getSorted()} instead to sort them in a single forEach pass and avoid unnecessary operations.
      * @param hasTown The residential status to filter by. True for residents, false for townless.
      * @return The filtered map of online players that pass the hasTown value.
      */

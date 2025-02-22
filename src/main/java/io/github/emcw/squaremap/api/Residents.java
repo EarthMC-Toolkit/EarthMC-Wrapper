@@ -24,7 +24,13 @@ public class Residents extends BaseCache<SquaremapResident> {
 
     @Override
     protected Map<String, SquaremapResident> fetchCacheData() {
-        this.parser.parseMapData(false, false, true);
+        try {
+            this.parser.parseMapData(false, false, true);
+        } catch (Exception e) {
+            System.err.println("[EMCW - Residents] Error fetching data too cache:\n  " + e.getMessage());
+            return null;
+        }
+
         return this.parser.getResidents();
     }
 

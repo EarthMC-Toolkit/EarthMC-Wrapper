@@ -17,7 +17,7 @@ public class SquaremapTown implements IGsonSerializable {
     @Getter String name, nation, mayor, wiki;
     @Getter Integer area;
     @Getter SquaremapLocation location;
-    @Getter Set<SquaremapResident> residents;
+    @Getter Set<String> residents;
     @Getter Flags flags;
     @Getter Color fill, outline;
 
@@ -38,6 +38,8 @@ public class SquaremapTown implements IGsonSerializable {
 
         this.fill = getColour(marker.fillColor);
         this.outline = getColour(marker.color);
+
+        this.residents = marker.getResidentNames();
     }
 
     public static class Flags {

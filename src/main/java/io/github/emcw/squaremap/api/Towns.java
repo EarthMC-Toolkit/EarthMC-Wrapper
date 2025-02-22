@@ -19,7 +19,13 @@ public class Towns extends BaseCache<SquaremapTown> implements ILocatable<Square
 
     @Override
     protected Map<String, SquaremapTown> fetchCacheData() {
-        this.parser.parseMapData(true, false, true);
+        try {
+            this.parser.parseMapData(true, false, true);
+        } catch (Exception e) {
+            System.err.println("[EMCW - Towns] Error fetching cache data:\n  " + e.getMessage());
+            return null;
+        }
+
         return this.parser.getTowns();
     }
 }

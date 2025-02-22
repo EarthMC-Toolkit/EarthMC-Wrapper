@@ -12,7 +12,7 @@ import static io.github.emcw.utils.GsonUtil.arrAsStream;
 import static io.github.emcw.utils.GsonUtil.keyAsStr;
 
 public final class SquaremapAPI {
-    private static JsonElement getEndpointData(String mapName, String endpointKey) {
+    private static JsonElement getDataFromEndpoint(String mapName, String endpointKey) {
         JsonObject mapObj = Endpoints.get().getOrDefault(mapName, null);
         if (mapObj == null) {
             throw new NullPointerException("Could not find key in endpoints obj: " + mapName);
@@ -33,7 +33,7 @@ public final class SquaremapAPI {
 
     public static JsonObject playerData(String mapName) {
         try {
-            return getEndpointData(mapName, "players").getAsJsonObject();
+            return getDataFromEndpoint(mapName, "players").getAsJsonObject();
         } catch(Exception e) {
             System.err.println(
                 "Error fetching Squaremap player data!\n" +
@@ -46,7 +46,7 @@ public final class SquaremapAPI {
 
     public static JsonArray mapData(String mapName) {
         try {
-            JsonArray data = getEndpointData(mapName, "map").getAsJsonArray();
+            JsonArray data = getDataFromEndpoint(mapName, "map").getAsJsonArray();
             JsonElement markerSet = arrAsStream(data)
                   .map(JsonElement::getAsJsonObject)
                   .filter(el -> Objects.equals(keyAsStr(el, "id"), "towny"))

@@ -20,7 +20,13 @@ public class Nations extends BaseCache<SquaremapNation> implements ILocatable<Sq
 
     @Override
     protected Map<String, SquaremapNation> fetchCacheData() {
-        this.parser.parseMapData(true, true, false);
+        try {
+            this.parser.parseMapData(true, true, false);
+        } catch (Exception e) {
+            System.err.println("[EMCW - Nations] Error fetching cache data:\n  " + e.getMessage());
+            return null;
+        }
+
         return this.parser.getNations();
     }
 }

@@ -59,11 +59,10 @@ public class SquaremapParser {
         });
     }
 
-    public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) {
+    public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) throws Exception {
         JsonArray data = SquaremapAPI.mapData(this.mapName);
         if (data.isEmpty()) {
-            System.err.println("Cannot parse map data! Received empty array.");
-            return;
+            throw new Exception("Cannot parse map data! Received empty array.");
         }
 
         // Remove all old entries so caches will always contain fresh data.
@@ -83,11 +82,6 @@ public class SquaremapParser {
             SquaremapMarker marker = new SquaremapMarker(markerObj);
 
             // TODO: Maybe return here if `marker.townName` is null?
-
-            // TODO: TEMPORARY TESTING - REMOVE WHEN FINISHED.
-//            if (marker.nationName.equals("Poland") && marker.isCapital) {
-//                System.out.println(serialize(marker));
-//            }
 
             Set<String> residentNames = marker.getResidentNames();
             Set<String> councillorNames = marker.getCouncillorNames();

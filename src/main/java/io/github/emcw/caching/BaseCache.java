@@ -79,7 +79,8 @@ public abstract class BaseCache<V> {
                     updateCache();
                 }
                 catch (Exception e) {
-                    System.err.println("Error updating the cache!\n" + e.getMessage());
+                    System.err.println("[EMCW - Scheduler] Error updating the cache!");
+                    e.printStackTrace();
                 }
             };
         }

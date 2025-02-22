@@ -79,6 +79,7 @@ public class SquaremapMarker {
         fillColor = keyAsStr(rawMarkerObj, "fillColor");
 
         mayor = keyAsStr(popup, "mayor");
+
         residents = keyAsStr(popup, "residents");
         councillors = keyAsStr(popup, "councillors");
         founded = keyAsStr(popup, "founded");
@@ -143,10 +144,14 @@ public class SquaremapMarker {
     // Extracts town name, nation name and board.
     // We can also tell if it's a capital via the brackets content unlike the popup.
     public static JsonObject parseTooltip(String tooltipStr) {
-        Document doc = Jsoup.parse(tooltipStr);
+        Pattern pattern = Pattern.compile("<b>(.*?)</b>");
+        Matcher matcher = pattern.matcher(tooltipStr);
 
         // Town name is between the first set of <b></b>
-        String townName = doc.select("b").text();
+        // We don't use JSoup here because stupid names like "<eculon>" are stripped since they get recognized as tags.
+        String townName = matcher.find() ? matcher.group(1) : null;
+
+        Document doc = Jsoup.parse(tooltipStr);
 
         // Nation name is in the brackets, after the member/capital prefix.
         String divContent = doc.select("div").text();

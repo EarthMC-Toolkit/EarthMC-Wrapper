@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("SameParameterValue")
 public class Endpoints {
     static final String ENDPOINTS_URL =
         "https://raw.githubusercontent.com/EarthMC-Toolkit/EarthMC-Wrapper/" +
@@ -33,7 +34,8 @@ public class Endpoints {
         return endpoints;
     }
 
-    private static @Nullable JsonObject fetchEndpoints() {
+    @Nullable
+    private static JsonObject fetchEndpoints() {
         // Try get endpoints from external source first.
         JsonElement el = JSONRequest.sendGet(ENDPOINTS_URL);
         if (el != null) return el.getAsJsonObject();
@@ -42,7 +44,7 @@ public class Endpoints {
         return readJsonFromResource("endpoints.json");
     }
 
-    @SuppressWarnings("SameParameterValue")
+    @Nullable
     private static JsonObject readJsonFromResource(String resourcePath) {
         // Another reason I fucking despise Java.
         InputStream is = Endpoints.class.getClassLoader().getResourceAsStream(resourcePath);

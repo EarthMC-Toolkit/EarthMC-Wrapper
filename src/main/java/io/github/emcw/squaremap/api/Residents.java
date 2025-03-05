@@ -27,7 +27,7 @@ public class Residents extends BaseCache<SquaremapResident> {
         try {
             this.parser.parseMapData(false, false, true);
         } catch (Exception e) {
-            System.err.println("[EMCW - Residents] Error fetching data too cache:\n  " + e.getMessage());
+            System.err.println("[EMCW - Residents] Error fetching data to cache:\n  " + e.getMessage());
             return null;
         }
 

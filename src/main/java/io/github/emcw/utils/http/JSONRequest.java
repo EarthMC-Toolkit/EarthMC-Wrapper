@@ -25,16 +25,13 @@ public class JSONRequest {
         .callTimeout(10, TimeUnit.SECONDS)
         .connectionPool(new ConnectionPool(16, 3, TimeUnit.MINUTES))
         .addInterceptor(BrotliInterceptor.INSTANCE)
-        .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
+        .protocols(List.of(Protocol.HTTP_1_1))
         .build();
-
-    static final String MOCK_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-        "Chrome/131.0.0.0 Safari/537.36 OPR/116.0.0.0 (Edition std-1)";
 
     public static final MediaType contentType = MediaType.parse("application/json; charset=utf-8");
     //static final List<Integer> CODES = List.of(new Integer[]{ 200, 203, 304 });
 
+    @SuppressWarnings("unused")
     @Contract("_, -> new")
     public static @NotNull CompletableFuture<JsonElement> sendGetAsync(String url) {
         return CompletableFuture.supplyAsync(() -> sendGet(url)).exceptionally(cause -> {
@@ -43,6 +40,7 @@ public class JSONRequest {
         });
     }
 
+    @SuppressWarnings("unused")
     @Contract("_, _, -> new")
     public static @NotNull CompletableFuture<JsonElement> sendPostAsync(String url, String body) {
         return CompletableFuture.supplyAsync(() -> sendPost(url, body)).exceptionally(cause -> {
@@ -75,7 +73,7 @@ public class JSONRequest {
     static @NotNull String execGet(String url) throws APIException {
         try {
             okhttp3.Request req = builder.url(url)
-                .addHeader("User-Agent", MOCK_AGENT)
+                .get()
                 .build();
 
             okhttp3.Response response = client.newCall(req).execute();
@@ -92,7 +90,6 @@ public class JSONRequest {
     static @NotNull String execPost(String url, String body) throws APIException {
         try {
             okhttp3.Request req = builder.url(url)
-                .addHeader("User-Agent", MOCK_AGENT)
                 .post(RequestBody.create(body, contentType))
                 .build();
 
@@ -107,15 +104,14 @@ public class JSONRequest {
         }
     }
 
-    static String parseBody(@NotNull Response response) throws APIException, IOException {
-        int statusCode = response.code();
-        if (!response.isSuccessful()) {
-            throw new APIException(response.request().url(), statusCode);
+    static @NotNull String parseBody(@NotNull Response res) throws APIException, IOException {
+        if (!res.isSuccessful()) {
+            throw new APIException(res.request().url(), res.code(), res.message());
         }
 
-        try (ResponseBody resBody = response.body()) {
-            if (resBody == null) throw new APIException("Could not parse null response body.");
-            return resBody.string();
+        try (ResponseBody body = res.body()) {
+            if (body == null) throw new APIException("Could not parse null response body.");
+            return body.string();
         }
     }
 }

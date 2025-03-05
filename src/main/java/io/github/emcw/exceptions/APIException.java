@@ -25,6 +25,10 @@ public class APIException extends Exception {
         this.message = msg;
     }
 
+    public APIException(okhttp3.Response res) {
+        this(res.request().url(), res.code(), res.message());
+    }
+
     public String asString() {
         StringBuilder sb = new StringBuilder("API Error:\n");
 

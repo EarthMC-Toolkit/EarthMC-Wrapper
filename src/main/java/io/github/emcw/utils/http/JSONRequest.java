@@ -25,7 +25,7 @@ public class JSONRequest {
         .callTimeout(10, TimeUnit.SECONDS)
         .connectionPool(new ConnectionPool(16, 3, TimeUnit.MINUTES))
         .addInterceptor(BrotliInterceptor.INSTANCE)
-        .protocols(List.of(Protocol.HTTP_1_1))
+        .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
         .build();
 
     public static final MediaType contentType = MediaType.parse("application/json; charset=utf-8");
@@ -106,7 +106,7 @@ public class JSONRequest {
 
     static @NotNull String parseBody(@NotNull Response res) throws APIException, IOException {
         if (!res.isSuccessful()) {
-            throw new APIException(res.request().url(), res.code(), res.message());
+            throw new APIException(res);
         }
 
         try (ResponseBody body = res.body()) {

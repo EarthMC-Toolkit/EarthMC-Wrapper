@@ -18,6 +18,10 @@ import java.util.Set;
 //       parse methods that return what the getters would anyway.
 @SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
 public class SquaremapParser {
+    // Last write timestamp, data object.
+    private JsonArray mapData = null;
+    private Long mapDataLastWrite = null;
+
     @Getter final Map<String, SquaremapTown> towns = new HashMap<>();
     @Getter final Map<String, SquaremapNation> nations = new HashMap<>();
     @Getter final Map<String, SquaremapResident> residents = new HashMap<>();
@@ -60,10 +64,7 @@ public class SquaremapParser {
     }
 
     public void parseMapData(Boolean parseTowns, Boolean parseNations, Boolean parseResidents) throws Exception {
-        JsonArray data = SquaremapAPI.mapData(this.mapName);
-        if (data.isEmpty()) {
-            throw new Exception("Cannot parse map data! Received empty array.");
-        }
+        JsonArray data = getOrFetchMapData();
 
         // Remove all old entries so caches will always contain fresh data.
         if (parseTowns) towns.clear();
@@ -122,5 +123,32 @@ public class SquaremapParser {
 
             return nation;
         });
+    }
+
+    public synchronized JsonArray getOrFetchMapData() throws Exception {
+        // No map data stored already or it became stale (>5s since last write).
+        if (mapData == null || isMapDataStale(5)) {
+            mapData = SquaremapAPI.mapData(this.mapName);
+            if (mapData.isEmpty()) {
+                throw new Exception("Cannot parse map data! Received empty array.");
+            }
+
+            // Update with fresh data and update last write time
+            mapDataLastWrite = System.currentTimeMillis();
+
+            //System.out.println("Data fetched, last write is now: " + mapDataLastWrite);
+        }
+
+        return mapData;
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    boolean isMapDataStale(int secUntilStale) {
+        if (mapDataLastWrite == null) {
+            return true; // No timestamp exists, consider it stale.
+        }
+
+        long elapsed = System.currentTimeMillis() - mapDataLastWrite;
+        return elapsed > secUntilStale * 1000L;
     }
 }

@@ -28,7 +28,8 @@ public final class SquaremapAPI {
             throw new NullPointerException("Invalid value or missing key in endpoints obj: " + mapName + "/squaremap/" + endpointKey);
         }
 
-        return JSONRequest.sendGet(url);
+        var fut = JSONRequest.sendGetAsync(url);
+        return fut.join();
     }
 
     public static JsonObject playerData(String mapName) {

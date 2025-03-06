@@ -133,7 +133,7 @@ public class SquaremapParser {
                 throw new Exception("Cannot parse map data! Received empty array.");
             }
 
-            // Update with fresh data and update last write time
+            // Update with fresh data and update last write time.
             mapDataLastWrite = System.currentTimeMillis();
 
             //System.out.println("Data fetched, last write is now: " + mapDataLastWrite);

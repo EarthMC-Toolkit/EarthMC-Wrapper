@@ -18,8 +18,8 @@ import static io.github.emcw.utils.GsonUtil.streamEntries;
  *  Must be specified so the correct locations are returned when checking nearby.
  */
 public interface ILocatable<T> {
-    Integer[] INT_ARRAY_X = new Integer[2];
-    Integer[] INT_ARRAY_Z = new Integer[2];
+    int[] INT_ARRAY_X = new int[2];
+    int[] INT_ARRAY_Z = new int[2];
 
     default Map<String, T> getNearbyEntities(Map<String, T> map, Integer xCoord, Integer zCoord, Integer radius) {
         return getNearbyEntities(map, xCoord, zCoord, radius, radius);
@@ -58,13 +58,11 @@ public interface ILocatable<T> {
         else if (val instanceof SquaremapTown town) loc = town.getLocation();
         else if (val instanceof SquaremapNation nation) loc = nation.getCapital().getLocation();
 
-        return loc != null && !loc.isDefault() && isNearby(loc);
+        return loc != null && !loc.isValidPoint() && isNearby(loc);
     }
 
-    private boolean isNearby(SquaremapLocation location) {
-        if (location == null) return false;
-
-        int x = location.getX(), z = location.getZ();
-        return withinRadius(x, INT_ARRAY_X) && withinRadius(z, INT_ARRAY_Z);
+    private boolean isNearby(SquaremapLocation loc) {
+        if (loc == null || loc.isValidPoint()) return false;
+        return withinRadius(loc.getX(), INT_ARRAY_X) && withinRadius(loc.getZ(), INT_ARRAY_Z);
     }
 }

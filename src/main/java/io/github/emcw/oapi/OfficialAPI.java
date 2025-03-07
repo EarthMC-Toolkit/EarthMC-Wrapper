@@ -6,9 +6,8 @@ import com.google.gson.JsonObject;
 
 import io.github.emcw.KnownMap;
 import io.github.emcw.oapi.v3.types.DiscordReqObj;
-import io.github.emcw.oapi.v3.types.Point2D;
+import io.github.emcw.common.Point2D;
 import io.github.emcw.oapi.v3.types.RequestBodyV3;
-import io.github.emcw.utils.http.Endpoints;
 import io.github.emcw.utils.http.JSONRequest;
 
 import org.jetbrains.annotations.Contract;

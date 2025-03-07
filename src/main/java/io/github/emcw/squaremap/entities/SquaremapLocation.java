@@ -5,11 +5,10 @@ import lombok.Getter;
 import io.github.emcw.interfaces.IGsonSerializable;
 import static io.github.emcw.utils.Funcs.midrange;
 
+@Getter
 @SuppressWarnings("unused")
 public class SquaremapLocation implements IGsonSerializable {
-    @Getter final Integer x;
-    @Getter final Integer y;
-    @Getter final Integer z;
+    private final Integer x, y, z;
 
     /**
      * A point in 2D space.
@@ -36,25 +35,25 @@ public class SquaremapLocation implements IGsonSerializable {
 
     /**
      * Check if this location is properly initialized.<br><br>
-     * Shorthand for {@code x != null && z != null.}
+     * Shorthand for {@code x != null && z != null}.
      */
-    public boolean valid() {
+    public boolean isValidPoint() {
         return x != null && z != null;
     }
 
     /**
-     * Whether this location points to the map center.<br><br>
-     * Shorthand for {@code x == 0 && z == 0.}
+     * Whether this location points to the center of the map.<br><br>
+     * Shorthand for {@code x == 0 && z == 0}.
      */
-    public boolean isDefault() {
+    public boolean isMapCenter() {
         return x == 0 && z == 0;
     }
 
     // TODO: Try to use capital X and Z, with midrange as fallback.
     public static SquaremapLocation of(int[] xArr, int[] zArr) {
-        Integer x = midrange(xArr);
-        Integer z = midrange(zArr);
+        int midX = midrange(xArr);
+        int midZ = midrange(zArr);
 
-        return new SquaremapLocation(x, z);
+        return new SquaremapLocation(midX, midZ);
     }
 }

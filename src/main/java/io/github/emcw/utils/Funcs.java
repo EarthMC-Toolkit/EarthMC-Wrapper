@@ -1,5 +1,6 @@
 package io.github.emcw.utils;
 
+import io.github.emcw.common.Point2D;
 import io.github.emcw.squaremap.entities.SquaremapLocation;
 
 import lombok.AccessLevel;
@@ -67,15 +68,62 @@ public class Funcs {
         return Math.round(stats.getMax() + stats.getMin() / 2f);
     }
 
-    public static int euclidean(int x1, int x2, int z1, int z2) {
-        return (int) Math.hypot(x1 - x2, z1 - z2);
+    /**
+     * Calculates the distance between two instances of {@link Point2D} using Euclidean geometry.
+     * Note that the order of parameters here does not matter, the distance will be the same.
+     * <br><br>
+     *
+     * See the underlying euclidean method for further info.
+     * @see #euclidean(int, int, int, int)
+     */
+    public static double euclidean(@NotNull Point2D loc1, @NotNull Point2D loc2) {
+        return euclidean(
+            loc1.getX(), loc1.getZ(),
+            loc2.getX(), loc2.getZ()
+        );
     }
 
-    public static @NotNull Integer manhattan(@NotNull SquaremapLocation loc1, @NotNull SquaremapLocation loc2) {
-        return manhattan(loc1.getX(), loc2.getX(), loc1.getZ(), loc2.getZ());
+    /**
+     * Calculates the straight-line distance between two locations, ignoring any obstacles or other factors.
+     * This allows for diagonal paths that may not be viable in reality, the result is best only in theory.
+     * <br><br>
+     * In Minecraft, this method is preferred in many cases over Manhattan distance. You can visit
+     * <a href="https://minecraft.wiki/w/Distance">here</a> to look at examples of when to use one over the other.
+     * @param x1 The X coordinate (left/right) of the first location.
+     * @param z1 The Z coordinate (up/down) of the first location.
+     * @param x2 The position on the X axis (left/right) of the second location.
+     * @param z2 The position on the Z axis (up/down) of the second location.
+     * @return The distance as a highly precise number.
+     */
+    public static double euclidean(int x1, int x2, int z1, int z2) {
+        return Math.hypot(x1 - x2, z1 - z2);
     }
 
-    public static @NotNull Integer manhattan(int x1, int x2, int z1, int z2) {
+    /**
+     * Calculates the distance between two instances of {@link Point2D} using Taxi-cab geometry.
+     * See the underlying manhattan method for further info.
+     * @see #manhattan(int, int, int, int)
+     */
+    public static int manhattan(@NotNull Point2D loc1, @NotNull Point2D loc2) {
+        return manhattan(
+            loc1.getX(), loc1.getZ(),
+            loc2.getX(), loc2.getZ()
+        );
+    }
+
+    /**
+     * Calculates the Manhattan (sometimes referred to as "taxi-cab") distance between two locations, which is the sum of the
+     * absolute differences of their X and Z coordinates.
+     * <br><br>
+     * This method only considers horizontal and vertical movements, not diagonal.
+     * This is usually the method to use when we want the result in blocks and precision is not required.
+     * @param x1 The position on the X axis (left/right) of the first location.
+     * @param z1 The position on the Z axis (up/down) of the first location.
+     * @param x2 The position on the X axis (left/right) of the second location.
+     * @param z2 The position on the Z axis (up/down) of the second location.
+     * @see <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Taxicab Geometry</a>
+     */
+    public static int manhattan(int x1, int z1, int x2, int z2) {
         return Math.abs(x1 - x2) + Math.abs(z1 - z2);
     }
 
@@ -98,8 +146,10 @@ public class Funcs {
     }
 
     @Contract(pure = true)
-    public static boolean withinRadius(Integer num, Integer @NotNull [] args) {
-        Integer input = args[0], radius = args[1];
+    public static boolean withinRadius(int num, int[] args) {
+        int input = args[0];
+        int radius = args[1];
+
         return (num <= input+radius) && (num >= input-radius);
     }
 
@@ -126,7 +176,7 @@ public class Funcs {
             builder.insert(16, "-");
             builder.insert(12, "-");
             builder.insert(8, "-");
-        } catch (StringIndexOutOfBoundsException e){
+        } catch (StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException();
         }
 

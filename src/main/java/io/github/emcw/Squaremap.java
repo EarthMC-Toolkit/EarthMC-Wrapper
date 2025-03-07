@@ -40,7 +40,7 @@ public class Squaremap {
         }
 
         // It is recommended to keep them in this order as this is most natural according to how data is parsed.
-        this.Towns = new Towns(this.parser, mapDataOpts);
+        this.Towns = new Towns(map, this.parser, mapDataOpts);
         this.Nations = new Nations(this.parser, mapDataOpts);
         this.Residents = new Residents(this.parser, mapDataOpts);
         this.Players = new Players(this.parser, playerDataOpts);

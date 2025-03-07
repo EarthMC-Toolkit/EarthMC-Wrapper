@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class Residents extends BaseCache<SquaremapResident> {
     private final SquaremapParser parser;
 

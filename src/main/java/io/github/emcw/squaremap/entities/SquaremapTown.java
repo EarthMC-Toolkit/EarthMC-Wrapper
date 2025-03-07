@@ -1,6 +1,10 @@
 package io.github.emcw.squaremap.entities;
 
+import io.github.emcw.common.Point2D;
 import io.github.emcw.interfaces.IGsonSerializable;
+
+import static io.github.emcw.utils.Funcs.euclidean;
+import static io.github.emcw.utils.Funcs.manhattan;
 import static io.github.emcw.utils.GsonUtil.*;
 
 import com.google.gson.JsonObject;
@@ -77,4 +81,18 @@ public class SquaremapTown implements IGsonSerializable {
     private static @NotNull String defaultColour(String nationName) {
         return nationName.equals("No Nation") ? "#89C500" : "#3FB4FF";
     }
+
+//    public double distanceFrom(Point2D loc) throws NullPointerException {
+//        SquaremapLocation townLoc = getLocation();
+//        if (!townLoc.isValidPoint()) {
+//            throw new NullPointerException(String.format(
+//                "Error getting distance from %s. Town location is invalid:\n%s",
+//                getName(), townLoc.asString()
+//            ));
+//        }
+//
+//        // Safe to create point as we know the town loc is valid.
+//        Point2D townPoint = new Point2D(townLoc.getX(), townLoc.getZ());
+//        return euclidean(loc, townPoint);
+//    }
 }

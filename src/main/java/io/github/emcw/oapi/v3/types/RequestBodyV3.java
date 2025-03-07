@@ -3,6 +3,7 @@ package io.github.emcw.oapi.v3.types;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.emcw.common.Point2D;
 import io.github.emcw.utils.GsonUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,8 +30,8 @@ public class RequestBodyV3 {
         JsonArray query = new JsonArray();
         for (Point2D point : points) {
             JsonArray ints = new JsonArray();
-            ints.add(point.X);
-            ints.add(point.Z);
+            ints.add(point.getX());
+            ints.add(point.getZ());
             query.add(ints);
         }
 

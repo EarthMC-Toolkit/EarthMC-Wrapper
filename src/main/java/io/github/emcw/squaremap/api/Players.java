@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
 public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocatable<SquaremapOnlinePlayer> {
     private final SquaremapParser parser;
 
@@ -45,6 +44,7 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
      * @param hasTown The residential status to filter by. True for residents, false for townless.
      * @return The filtered map of online players that pass the hasTown value.
      */
+    @SuppressWarnings("unused")
     public Map<String, SquaremapOnlinePlayer> getByResidency(boolean hasTown) {
         // Dont care abt value, we only need to know if they exist.
         Set<String> residents = this.residents.getAll().keySet();
@@ -59,6 +59,7 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
      * Gets online players and sorts them into two seperate maps in a single pass.<br>
      * A new {@link Pair} is returned, where the first contains players with a town and the second without.
      */
+    @SuppressWarnings("unused")
     public Pair<Map<String, SquaremapOnlinePlayer>, Map<String, SquaremapOnlinePlayer>> getSorted() {
         Set<String> residentNames = this.residents.getAll().keySet();
         Map<String, SquaremapOnlinePlayer> ops = getAll();
@@ -84,7 +85,7 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
 
     public Map<String, SquaremapOnlinePlayer> getNearby(@NotNull SquaremapOnlinePlayer p, Integer xRadius, Integer zRadius) {
         SquaremapLocation playerLoc = p.getLocation();
-        if (playerLoc.isDefault()) return new HashMap<>();
+        if (playerLoc.isMapCenter()) return new HashMap<>();
 
         Map<String, SquaremapOnlinePlayer> nearby = getNearbyEntities(getAll(), playerLoc.getX(), playerLoc.getZ(), xRadius, zRadius);
         nearby.remove(p.getName());
@@ -93,7 +94,7 @@ public class Players extends BaseCache<SquaremapOnlinePlayer> implements ILocata
     }
 
     public Map<String, SquaremapOnlinePlayer> getNearby(@NotNull SquaremapLocation location, Integer xRadius, Integer zRadius) {
-        if (!location.valid()) return new HashMap<>();
+        if (!location.isValidPoint()) return new HashMap<>();
         return getNearbyEntities(getAll(), location.getX(), location.getZ(), xRadius, zRadius);
     }
 }

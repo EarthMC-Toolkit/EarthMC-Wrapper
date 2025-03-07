@@ -48,30 +48,6 @@ public class SquaremapNation implements IGsonSerializable {
         }
     }
 
-      // TODO: Finish invitableTowns - maybe refactor into `Towns.invitableFromNation(SquaremapNation)`
-      //       to avoid the stinky currentMap() call since we can just do getAll there.
-//    public Map<String, SquaremapTown> invitableTowns() {
-//        Stream<SquaremapTown> towns = streamEntries(currentMap().Towns.all()).map(entry -> {
-//            SquaremapTown town = entry.getValue();
-//            if (town.nation == null) {
-//                SquaremapLocation townLoc = town.getLocation();
-//                SquaremapLocation capitalLoc = getCapital().getLocation();
-//
-//                // In range, return the town
-//                int inviteRange = map == KnownMap.AURORA ? 3500 : 3000;
-//                if (manhattan(capitalLoc, townLoc) < inviteRange) {
-//                    return town;
-//                }
-//            }
-//
-//            return null;
-//        });
-//
-//        return towns.filter(Objects::nonNull).collect(
-//            Collectors.toMap(SquaremapTown::getName, Function.identity())
-//        );
-//    }
-
 //    /**
 //     * Helper method to reduce mapping over {@link #residents} for names.
 //     * @return The names of residents in this nation.

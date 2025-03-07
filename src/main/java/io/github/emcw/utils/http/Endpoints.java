@@ -37,7 +37,7 @@ public class Endpoints {
     @Nullable
     private static JsonObject fetchEndpoints() {
         // Try get endpoints from external source first.
-        JsonElement el = JSONRequest.sendGet(ENDPOINTS_URL);
+        JsonElement el = JSONRequest.ASYNC.sendGet(ENDPOINTS_URL);
         if (el != null) return el.getAsJsonObject();
 
         // Fall back to built-in json file instead. Could be null if err occurs.

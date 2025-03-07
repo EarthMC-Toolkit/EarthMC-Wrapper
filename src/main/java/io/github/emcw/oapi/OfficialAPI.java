@@ -51,7 +51,7 @@ public class OfficialAPI {
          * @return The received response as a base element. See {@link JsonElement}.
          */
         public @Nullable JsonElement sendRequest(String endpoint) {
-            return JSONRequest.sendGet(formattedUrl(MAP_ENDPOINT + endpoint));
+            return JSONRequest.ASYNC.sendGet(formattedUrl(MAP_ENDPOINT + endpoint));
         }
 
         /**
@@ -61,7 +61,7 @@ public class OfficialAPI {
          * @return The received response as a base element. See {@link JsonElement}.
          */
         public JsonElement sendRequest(String endpoint, @NotNull RequestBodyV3 body) {
-            return JSONRequest.sendPost(formattedUrl(MAP_ENDPOINT + endpoint), body.asString());
+            return JSONRequest.ASYNC.sendPost(formattedUrl(MAP_ENDPOINT + endpoint), body.asString());
         }
 
         public @Nullable JsonObject serverInfo() {

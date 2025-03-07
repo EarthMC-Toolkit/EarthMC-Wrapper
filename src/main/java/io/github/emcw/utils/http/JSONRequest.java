@@ -8,19 +8,15 @@ import com.google.gson.JsonParser;
 import okhttp3.*;
 import okhttp3.brotli.BrotliInterceptor;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.List;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeUnit;
 
 public class JSONRequest {
-    static final okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     private static final OkHttpClient client = new OkHttpClient.Builder()
         .callTimeout(10, TimeUnit.SECONDS)
         .connectionPool(new ConnectionPool(16, 3, TimeUnit.MINUTES))
@@ -28,28 +24,40 @@ public class JSONRequest {
         .protocols(List.of(Protocol.HTTP_2, Protocol.HTTP_1_1))
         .build();
 
+    static final okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     public static final MediaType contentType = MediaType.parse("application/json; charset=utf-8");
-    //static final List<Integer> CODES = List.of(new Integer[]{ 200, 203, 304 });
 
-    @SuppressWarnings("unused")
-    @Contract("_, -> new")
-    public static @NotNull CompletableFuture<JsonElement> sendGetAsync(String url) {
-        return CompletableFuture.supplyAsync(() -> sendGet(url)).exceptionally(cause -> {
-            //System.err.println("Exception occurred!\n" + ex.getMessage());
-            throw new CompletionException(cause);
-        });
+    public static class ASYNC {
+        public static JsonElement sendGet(String url) {
+            okhttp3.Request req = builder.url(url).build();
+            return trySendAndParse(req);
+        }
+
+        public static JsonElement sendPost(String url, String body) {
+            okhttp3.Request req = builder.url(url)
+                .post(RequestBody.create(body, contentType))
+                .build();
+
+            return trySendAndParse(req);
+        }
+
+        public static JsonElement trySendAndParse(okhttp3.Request req) {
+            OkHttpCallback cbFut = new OkHttpCallback();
+            client.newCall(req).enqueue(cbFut);
+
+            try {
+                okhttp3.Response res = cbFut.join();
+                return JsonParser.parseString(parseBody(res));
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                return null;
+            }
+        }
     }
 
-    @SuppressWarnings("unused")
-    @Contract("_, _, -> new")
-    public static @NotNull CompletableFuture<JsonElement> sendPostAsync(String url, String body) {
-        return CompletableFuture.supplyAsync(() -> sendPost(url, body)).exceptionally(cause -> {
-            //System.err.println("Exception occurred!\n" + ex.getMessage());
-            throw new CompletionException(cause);
-        });
-    }
-
-    // Send GET request and get a JSON response back.
+    /**
+     * Send GET request and get a JSON response back (synchronous).
+     */
     public static @Nullable JsonElement sendGet(@NotNull String url) {
         try {
             String res = execGet(url);
@@ -60,7 +68,9 @@ public class JSONRequest {
         }
     }
 
-    // Send POST request with JSON body and get a JSON response back.
+    /**
+     * Send POST request with JSON body and get a JSON response back (synchronous).
+     */
     public static @Nullable JsonElement sendPost(@NotNull String url, String body) {
         try {
             return JsonParser.parseString(execPost(url, body));

@@ -30,8 +30,7 @@ public final class SquaremapAPI {
 
         //System.out.println("Fetching data from: " + url);
 
-        var fut = JSONRequest.sendGetAsync(url);
-        return fut.join();
+        return JSONRequest.ASYNC.sendGet(url);
     }
 
     public static JsonObject playerData(String mapName) {

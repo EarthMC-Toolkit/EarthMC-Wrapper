@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.List;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class JSONRequest {
@@ -27,6 +28,7 @@ public class JSONRequest {
     static final okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
     public static final MediaType contentType = MediaType.parse("application/json; charset=utf-8");
 
+    @SuppressWarnings("unused")
     public static class ASYNC {
         public static JsonElement sendGet(String url) {
             okhttp3.Request req = builder.url(url).build();
@@ -55,25 +57,32 @@ public class JSONRequest {
         }
     }
 
-    /**
-     * Send GET request and get a JSON response back (synchronous).
-     */
+    /** Send GET request and get a JSON response back. */
     public static @Nullable JsonElement sendGet(@NotNull String url) {
         try {
-            String res = execGet(url);
-            return JsonParser.parseString(res);
+            return CompletableFuture.supplyAsync(() -> {
+                try {
+                    return JsonParser.parseString(execGet(url));
+                } catch (APIException e) {
+                    throw new RuntimeException(e);
+                }
+            }).join();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
         }
     }
 
-    /**
-     * Send POST request with JSON body and get a JSON response back (synchronous).
-     */
+    /** Send POST request with a body and get a JSON response back. */
     public static @Nullable JsonElement sendPost(@NotNull String url, String body) {
         try {
-            return JsonParser.parseString(execPost(url, body));
+            return CompletableFuture.supplyAsync(() -> {
+                try {
+                    return JsonParser.parseString(execPost(url, body));
+                } catch (APIException e) {
+                    throw new RuntimeException(e);
+                }
+            }).join();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;

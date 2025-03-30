@@ -5,7 +5,9 @@ import io.github.emcw.interfaces.IGsonSerializable;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
@@ -16,9 +18,9 @@ public class SquaremapNation implements IGsonSerializable {
 
     @Getter int area;
 
-    @Getter Set<String> towns = new HashSet<>();
-    @Getter Set<String> residents = new HashSet<>();
-    @Getter Set<String> councillors = new HashSet<>();
+    @Getter List<String> towns = new ArrayList<>();
+    @Getter List<String> residents = new ArrayList<>();
+    @Getter List<String> councillors = new ArrayList<>();
 
     @Getter @Nullable
     SquaremapCapital capital = null; // See getCapital()

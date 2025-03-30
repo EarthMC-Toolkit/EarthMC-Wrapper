@@ -2,10 +2,11 @@ package io.github.emcw;
 
 import lombok.Getter;
 
+@Getter
 public enum KnownMap {
     AURORA("aurora");
 
-    @Getter private final String name;
+    private final String name;
 
     KnownMap(String name) {
         this.name = name;

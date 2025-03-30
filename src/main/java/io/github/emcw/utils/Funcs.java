@@ -1,7 +1,6 @@
 package io.github.emcw.utils;
 
 import io.github.emcw.common.Point2D;
-import io.github.emcw.squaremap.entities.SquaremapLocation;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,18 +16,6 @@ import java.util.stream.Stream;
 @SuppressWarnings("unused")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Funcs {
-//    public static <T> @NotNull Map<String, T> listToMap(@NotNull List<BaseEntity<T>> list) {
-//        ConcurrentHashMap<String, T> map = new ConcurrentHashMap<>();
-//        list.parallelStream().forEach(el -> map.put(el.getName(), el.getParent()));
-//
-//        return map;
-//    }
-
-//    @Contract("_ -> new")
-//    public static <K, V> @NotNull List<V> mapToList(@NotNull Map<K, V> map) {
-//        return new ArrayList<>(map.values());
-//    }
-
     public static <T> Map<String, T> collectAsMap(@NotNull Stream<Map.Entry<String, T>> stream) {
         return stream.filter(Objects::nonNull).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }

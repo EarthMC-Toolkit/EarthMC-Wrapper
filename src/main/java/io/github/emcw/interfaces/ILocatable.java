@@ -31,21 +31,21 @@ public interface ILocatable<T> {
      * <p><b>Important notes: </b></p>
      * <p>Filtering is performed in parallel and is not guaranteed to be thread-safe.
      * In addition, the resulting map will be collected with any nulls removed.
-     * @param map The map of entities to be checked against. Usually online players, but accepts a mix of Player, Resident, Town or Nation.
+     * @param entities The map of entities to be checked against. Usually online players, but accepts a mix of Player, Resident, Town or Nation.
      * @param xPos The x coordinate.
      * @param zPos The z coordinate.
      * @param xRad The radius to check within on the x-axis. (Left/Right)
      * @param zRad The radius to check within on the z-axis. (Up/Down)
      * @return A new map of entities where each entry key is its name, and the value is itself.
      */
-    default Map<String, T> getNearbyEntities(Map<String, T> map, Integer xPos, Integer zPos, Integer xRad, Integer zRad) {
+    default Map<String, T> getNearbyEntities(Map<String, T> entities, Integer xPos, Integer zPos, Integer xRad, Integer zRad) {
         INT_ARRAY_X[0] = xPos;
         INT_ARRAY_X[1] = xRad;
 
         INT_ARRAY_Z[0] = zPos;
         INT_ARRAY_Z[1] = zRad;
 
-        return collectAsMap(streamEntries(map).filter(entry -> checkNearby(entry.getValue())));
+        return collectAsMap(streamEntries(entities).filter(e -> checkNearby(e.getValue())));
     }
 
     private boolean checkNearby(T val) {
@@ -58,11 +58,11 @@ public interface ILocatable<T> {
         else if (val instanceof SquaremapTown town) loc = town.getLocation();
         else if (val instanceof SquaremapNation nation) loc = nation.getCapital().getLocation();
 
-        return loc != null && !loc.isValidPoint() && isNearby(loc);
+        return isNearby(loc);
     }
 
     private boolean isNearby(SquaremapLocation loc) {
-        if (loc == null || loc.isValidPoint()) return false;
+        if (loc == null || !loc.isValidPoint()) return false;
         return withinRadius(loc.getX(), INT_ARRAY_X) && withinRadius(loc.getZ(), INT_ARRAY_Z);
     }
 }

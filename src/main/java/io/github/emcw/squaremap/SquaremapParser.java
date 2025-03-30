@@ -16,7 +16,7 @@ import java.util.Set;
 
 // TODO: Parser can be static if we get rid of caches and just provide
 //       parse methods that return what the getters would anyway.
-@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
+@SuppressWarnings({"unused"})
 public class SquaremapParser {
     // Last write timestamp, data object.
     private JsonArray mapData = null;
@@ -88,7 +88,7 @@ public class SquaremapParser {
             Set<String> councillorNames = marker.getCouncillorNames();
 
             if (parseTowns) {
-                parseTown(marker);
+                parseTown(marker, residentNames, councillorNames);
             }
 
             if (parseNations) {
@@ -108,9 +108,9 @@ public class SquaremapParser {
         );
     }
 
-    void parseTown(SquaremapMarker marker) {
+    void parseTown(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {
         if (marker.townName == null) return;
-        towns.putIfAbsent(marker.townName, new SquaremapTown(marker));
+        towns.putIfAbsent(marker.townName, new SquaremapTown(marker, residentNames, councillorNames));
     }
 
     void parseNation(SquaremapMarker marker, Set<String> residentNames, Set<String> councillorNames) {

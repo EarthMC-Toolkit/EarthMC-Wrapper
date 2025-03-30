@@ -3,6 +3,7 @@ package io.github.emcw.squaremap.entities;
 import io.github.emcw.interfaces.IGsonSerializable;
 
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,8 @@ public class SquaremapNation implements IGsonSerializable {
     @Getter Set<String> residents = new HashSet<>();
     @Getter Set<String> councillors = new HashSet<>();
 
-    @Getter SquaremapCapital capital; // See getCapital()
+    @Getter @Nullable
+    SquaremapCapital capital = null; // See getCapital()
 
     /**
      * Creates a new Nation whose info should be subsequently set with {@link #updateInfo(SquaremapMarker, Set, Set)}.<br><br>

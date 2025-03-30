@@ -193,6 +193,7 @@ public class GsonUtil {
         return isNull(key) ? null : key.getAsDouble();
     }
 
+    // Get directly as array, or add to a new array if member is not already one.
     public static JsonArray keyAsArr(JsonObject obj, String key) {
         JsonArray arr = new JsonArray();
 

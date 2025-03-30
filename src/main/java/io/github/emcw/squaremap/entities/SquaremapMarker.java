@@ -12,9 +12,7 @@ import org.jsoup.nodes.Document;
 
 import org.jsoup.nodes.Element;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -60,37 +58,44 @@ public class SquaremapMarker {
         JsonObject popup = parsePopup(keyAsStr(rawMarkerObj, "popup"));
         JsonObject tooltip = parseTooltip(keyAsStr(rawMarkerObj, "tooltip"));
 
-        townName = keyAsStr(tooltip, "townName");
-        nationName = keyAsStr(tooltip, "nationName");
-        board = keyAsStr(tooltip, "board");
+        this.townName = keyAsStr(tooltip, "townName");
+        this.nationName = keyAsStr(tooltip, "nationName");
+        this.board = keyAsStr(tooltip, "board");
 
-        points = keyAsArr(rawMarkerObj, "points");
+        JsonArray points = keyAsArr(rawMarkerObj, "points");
+        this.points = flattenJsonArr(points, 2);
 
         // Not sure how exactly points work yet and if we should even flatten them, but oh well.
-        bounds = getBounds(flattenJsonArr(points, 2));
+        this.bounds = getBounds(this.points);
 
         int[] xBounds = bounds.getFirst();
         int[] zBounds = bounds.getSecond();
 
-        location = SquaremapLocation.of(xBounds, zBounds);
-        area = Funcs.calcArea(xBounds, zBounds);
+        this.location = SquaremapLocation.of(xBounds, zBounds);
+        if (Objects.equals(this.townName, "Crete")) {
+            //System.out.println("xBounds: " + Arrays.toString(xBounds));
+            //System.out.println("zBounds: " + Arrays.toString(zBounds));
+            System.out.println(this.location.asString());
+        }
 
-        color = keyAsStr(rawMarkerObj, "color");
-        fillColor = keyAsStr(rawMarkerObj, "fillColor");
+        this.area = Funcs.calcArea(xBounds, zBounds);
 
-        mayor = keyAsStr(popup, "mayor");
+        this.color = keyAsStr(rawMarkerObj, "color");
+        this.fillColor = keyAsStr(rawMarkerObj, "fillColor");
 
-        residents = keyAsStr(popup, "residents");
-        councillors = keyAsStr(popup, "councillors");
-        founded = keyAsStr(popup, "founded");
-        townWiki = keyAsStr(popup, "townWiki");
-        nationWiki = keyAsStr(popup, "nationWiki");
+        this.mayor = keyAsStr(popup, "mayor");
 
-        isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
+        this.residents = keyAsStr(popup, "residents");
+        this.councillors = keyAsStr(popup, "councillors");
+        this.founded = keyAsStr(popup, "founded");
+        this.townWiki = keyAsStr(popup, "townWiki");
+        this.nationWiki = keyAsStr(popup, "nationWiki");
+
+        this.isCapital = Boolean.TRUE.equals(keyAsBool(tooltip, "capital"));
 
         // Flags
-        PVP = Boolean.TRUE.equals(keyAsBool(popup, "pvp"));
-        PUBLIC = Boolean.TRUE.equals(keyAsBool(popup, "public"));
+        this.PVP = Boolean.TRUE.equals(keyAsBool(popup, "pvp"));
+        this.PUBLIC = Boolean.TRUE.equals(keyAsBool(popup, "public"));
     }
 
     /**
@@ -112,7 +117,7 @@ public class SquaremapMarker {
         int[] xPoints = new int[size];
         int[] zPoints = new int[size];
 
-        IntStream.range(0, size).parallel().forEach(i -> {
+        IntStream.range(0, size).forEach(i -> {
             JsonObject point = points.get(i).getAsJsonObject();
 
             Double x = keyAsDouble(point, "x");

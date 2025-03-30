@@ -2,48 +2,71 @@ package io.github.emcw.squaremap.entities;
 
 import io.github.emcw.common.Point2D;
 import io.github.emcw.interfaces.IGsonSerializable;
-
-import static io.github.emcw.utils.Funcs.euclidean;
-import static io.github.emcw.utils.Funcs.manhattan;
 import static io.github.emcw.utils.GsonUtil.*;
 
 import com.google.gson.JsonObject;
 
-import java.awt.*;
-import java.util.Set;
-
+import kotlin.Pair;
 import lombok.Getter;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "LombokGetterMayBeUsed"})
+import java.awt.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+@Getter
+@SuppressWarnings({"unused"})
 public class SquaremapTown implements IGsonSerializable {
-    @Getter String name, nation, mayor, wiki;
-    @Getter Integer area;
-    @Getter SquaremapLocation location;
-    @Getter Set<String> residents;
-    @Getter Flags flags;
-    @Getter Color fill, outline;
+    String name, nation, mayor, wiki, board;
+    String foundedDate;
+
+    Integer area;
+    SquaremapLocation location;
+    List<Point2D> points;
+    Pair<int[], int[]> bounds;
+
+    List<String> residents;
+    List<String> councillors;
+
+    Flags flags;
+    Color fill, outline;
 
     /**
      * Takes a basic parsed marker and parses it further to create a full object representative
      * of a Town on a Squaremap map, with some helper methods attached.
      */
-    public SquaremapTown(SquaremapMarker marker) {
+    public SquaremapTown(SquaremapMarker marker, Set<String> residents, Set<String> councillors) {
         this.name = marker.townName;
         this.nation = marker.nationName;
         this.mayor = marker.mayor;
         this.wiki = marker.townWiki;
+        this.board = marker.board;
 
         this.location = marker.location;
         this.area = marker.area;
+
+        this.points = marker.points.asList().stream()
+            .map(el -> new Point2D(keyAsInt(el.getAsJsonObject(), "x"), keyAsInt(el.getAsJsonObject(), "x")))
+            .toList();
+
+        this.bounds = marker.bounds;
 
         this.flags = new Flags(marker.PUBLIC, marker.PVP);
 
         this.fill = getColour(marker.fillColor);
         this.outline = getColour(marker.color);
 
-        this.residents = marker.getResidentNames();
+        this.residents = residents.stream().toList();
+        this.councillors = councillors.stream().toList();
+
+        this.foundedDate = marker.founded;
     }
 
     public static class Flags {
@@ -67,6 +90,13 @@ public class SquaremapTown implements IGsonSerializable {
 
     public boolean isNationless() {
         return this.nation == null || this.nation.isEmpty();
+    }
+
+    public long getFoundedTimestamp() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
+        Date date = sdf.parse(this.foundedDate);
+
+        return date.getTime();
     }
 
     Color getColour(String hex) {

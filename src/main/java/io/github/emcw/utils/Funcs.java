@@ -65,7 +65,7 @@ public class Funcs {
      */
     public static int midrange(int[] ints) {
         IntSummaryStatistics stats = IntStream.of(ints).summaryStatistics();
-        return Math.round(stats.getMax() + stats.getMin() / 2f);
+        return Math.round((stats.getMax() + stats.getMin()) / 2f);
     }
 
     /**

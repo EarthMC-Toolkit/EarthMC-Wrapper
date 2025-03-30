@@ -65,12 +65,13 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapMarker)" tabindex="0">SquaremapTown(SquaremapMarker)</a></li>
+<li><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapMarker,java.util.Set,java.util.Set)" tabindex="0">SquaremapTown(SquaremapMarker, Set, Set)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#isNationless()" tabindex="0">isNationless()</a></li>
+<li><a href="#getFoundedTimestamp()" tabindex="0">getFoundedTimestamp()</a></li>
 </ol>
 </li>
 </ol>
@@ -120,7 +121,9 @@ implements <a href="../../interfaces/IGsonSerializable.html" title="interface in
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapMarker)" class="member-name-link">SquaremapTown</a><wbr>(<a href="SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a>&nbsp;marker)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.emcw.squaremap.entities.SquaremapMarker,java.util.Set,java.util.Set)" class="member-name-link">SquaremapTown</a><wbr>(<a href="SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a>&nbsp;marker,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;residents,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;councillors)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Takes a basic parsed marker and parses it further to create a full object representative
  of a Town on a Squaremap map, with some helper methods attached.</div>
@@ -139,9 +142,12 @@ implements <a href="../../interfaces/IGsonSerializable.html" title="interface in
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNationless()" class="member-name-link">isNationless</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFoundedTimestamp()" class="member-name-link">getFoundedTimestamp</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNationless()" class="member-name-link">isNationless</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -163,10 +169,12 @@ implements <a href="../../interfaces/IGsonSerializable.html" title="interface in
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.github.emcw.squaremap.entities.SquaremapMarker)">
+<section class="detail" id="&lt;init&gt;(io.github.emcw.squaremap.entities.SquaremapMarker,java.util.Set,java.util.Set)">
 <h3>SquaremapTown</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapTown</span><wbr><span class="parameters">(<a href="SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a>&nbsp;marker)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SquaremapTown</span><wbr><span class="parameters">(<a href="SquaremapMarker.html" title="class in io.github.emcw.squaremap.entities">SquaremapMarker</a>&nbsp;marker,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;residents,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;councillors)</span></div>
 <div class="block">Takes a basic parsed marker and parses it further to create a full object representative
  of a Town on a Squaremap map, with some helper methods attached.</div>
 </div>
@@ -185,6 +193,19 @@ implements <a href="../../interfaces/IGsonSerializable.html" title="interface in
 <h3>isNationless</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isNationless</span>()</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getFoundedTimestamp()">
+<h3>getFoundedTimestamp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">getFoundedTimestamp</span>()
+                         throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/text/ParseException.html" title="class or interface in java.text" class="external-link">ParseException</a></span></div>
+<dl class="notes">
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/text/ParseException.html" title="class or interface in java.text" class="external-link">ParseException</a></code></dd>
+</dl>
 </div>
 </section>
 </li>

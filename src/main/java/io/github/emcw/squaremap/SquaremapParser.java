@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // TODO: Parser can be static if we get rid of caches and just provide
 //       parse methods that return what the getters would anyway.
@@ -85,7 +86,9 @@ public class SquaremapParser {
             // TODO: Maybe return here if `marker.townName` is null?
 
             Set<String> residentNames = marker.getResidentNames();
-            Set<String> councillorNames = marker.getCouncillorNames();
+            Set<String> councillorNames = marker.getCouncillorNames()
+                .stream().filter(s -> !s.equals("None"))
+                .collect(Collectors.toSet());
 
             if (parseTowns) {
                 parseTown(marker, residentNames, councillorNames);

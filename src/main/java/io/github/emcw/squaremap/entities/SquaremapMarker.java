@@ -72,12 +72,6 @@ public class SquaremapMarker {
         int[] zBounds = bounds.getSecond();
 
         this.location = SquaremapLocation.of(xBounds, zBounds);
-        if (Objects.equals(this.townName, "Crete")) {
-            //System.out.println("xBounds: " + Arrays.toString(xBounds));
-            //System.out.println("zBounds: " + Arrays.toString(zBounds));
-            System.out.println(this.location.asString());
-        }
-
         this.area = Funcs.calcArea(xBounds, zBounds);
 
         this.color = keyAsStr(rawMarkerObj, "color");
@@ -130,18 +124,15 @@ public class SquaremapMarker {
         return new Pair<>(xPoints, zPoints);
     }
 
-    @Nullable
     public static Set<String> getNamesFromString(String names) {
-        if (names == null || names.isEmpty()) return null;
+        if (names == null || names.isEmpty()) return Set.of();
         return Set.of(names.split(", "));
     }
 
-    @Nullable
     public Set<String> getResidentNames() {
         return getNamesFromString(this.residents);
     }
 
-    @Nullable
     public Set<String> getCouncillorNames() {
         return getNamesFromString(this.councillors);
     }
